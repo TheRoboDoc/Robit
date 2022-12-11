@@ -10,7 +10,7 @@ namespace Robit
         [SlashCommand("Ping", "Pings the bot, if the bot is working correctly it responds with \"pong\"")]
         public async Task Ping(InteractionContext ctx)
         {
-            await ctx.CreateResponseAsync("pong");
+            await ctx.CreateResponseAsync($"Pong {ctx.Client.Ping}ms");
         }
 
         [SlashCommand("Join", "Makes the bot join the voice channel you are at")]
