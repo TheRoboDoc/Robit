@@ -1,17 +1,35 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.Lavalink;
+using DSharpPlus.Net;
 using DSharpPlus.SlashCommands;
+using System.ComponentModel;
+using System.Drawing;
 
 namespace Robit
 {
     internal class SlashCommands : ApplicationCommandModule
     {
-        [SlashCommand("Ping", "Pings the bot, if the bot is working correctly it responds with \"pong\"")]
-        public async Task Ping(InteractionContext ctx)
+        #region Technical
+        [SlashCommand("Ping", "Pings the bot, the bot responds with the ping time in milliseconds")]
+        public async Task Ping(InteractionContext ctx, [Option("Times", "Amount of times the bot should be pinged (Max 3)")][DefaultValue(1)][Maximum(3)] double times = 1)
         {
             await ctx.CreateResponseAsync($"Pong {ctx.Client.Ping}ms");
+            times--;
+
+            for (int i = 0; times > i; times--)
+            {
+                DiscordFollowupMessageBuilder followUp = new DiscordFollowupMessageBuilder()
+                {
+                    Content = $"Pong {ctx.Client.Ping}ms"
+                };
+
+                await ctx.FollowUpAsync(followUp);
+            }
         }
+        #endregion
+
+        #region Voice
 
         [SlashCommand("Join", "Makes the bot join the voice channel you are at")]
         public async Task Join(InteractionContext ctx)
@@ -72,7 +90,7 @@ namespace Robit
         }
 
         [SlashCommand("Play", "Plays a given music track")]
-        public async Task Play(InteractionContext ctx, [Option("Search", "A search term or a direct link")]string search)
+        public async Task Play(InteractionContext ctx, [Option("Search", "A search term or a direct link")] string search)
         {
             if (string.IsNullOrWhiteSpace(search) || string.IsNullOrEmpty(search))
             {
@@ -105,26 +123,23 @@ namespace Robit
                 return;
             }
 
-            LavalinkLoadResult loadResult = await node.Rest.GetTracksAsync(search);
+            bool linkSearch = Uri.TryCreate(search, UriKind.Absolute, out Uri searchUri);
 
-            if (loadResult.LoadResultType == LavalinkLoadResultType.LoadFailed
-                || loadResult.LoadResultType == LavalinkLoadResultType.NoMatches)
+            LavalinkLoadResult loadResult;
+
+            if (linkSearch)
             {
-                Uri.TryCreate(search, UriKind.RelativeOrAbsolute, out Uri uri);
-                loadResult = await node.Rest.GetTracksAsync(uri);
-
-                if (loadResult.LoadResultType == LavalinkLoadResultType.LoadFailed
-                || loadResult.LoadResultType == LavalinkLoadResultType.NoMatches)
+                loadResult = await node.Rest.GetTracksAsync(searchUri);
+            }
+            else
+            {
+                try
                 {
-                    //await ctx.CreateResponseAsync($"Track search failed for {search}.");
-
-                    DiscordFollowupMessageBuilder follwoUpMessage = new DiscordFollowupMessageBuilder()
-                    {
-                        Content = $"Track search failed for {search}."
-                    };
-
-                    await ctx.FollowUpAsync(follwoUpMessage);
-                    return;
+                    loadResult = await node.Rest.GetTracksAsync(search);
+                }
+                catch
+                {
+                    loadResult = await node.Rest.GetTracksAsync($"ytsearch:{search}");
                 }
             }
 
@@ -169,5 +184,35 @@ namespace Robit
 
             await conn.PauseAsync();
         }
+        #endregion
+
+        #region Interaction
+        [SlashCommand("Intro", "Bot introduction")]
+        public async Task Intro(InteractionContext ctx)
+        {
+            DiscordEmbedBuilder embed = new DiscordEmbedBuilder()
+            {
+                Author = new DiscordEmbedBuilder.EmbedAuthor()
+                {
+                    IconUrl = ctx.Client.CurrentUser.AvatarUrl.ToString(),
+                    Name = $"{ctx.Client.CurrentUser.Username}#{ctx.Client.CurrentUser.Discriminator}"
+                },
+
+                Color = DiscordColor.Purple,
+
+                Description =
+                $"Hi I'm {ctx.Client.CurrentUser.Mention} nice meeting you\n" +
+                $"I'm currently but a baby and because of that limited in my abilites. " +
+                $"At the moment my main ability is to play music in a voice chat. You can try that if you want. " +
+                $"Just type a '/' (yep I work with slash commands :3)",
+
+                Timestamp = DateTimeOffset.Now,
+
+                Title = "IT'S ME!!!",
+            };
+
+            await ctx.CreateResponseAsync(embed);
+        }
+        #endregion
     }
 }

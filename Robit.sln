@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robit", "Robit\Robit.csproj", "{CE0C162D-8F51-4729-A3B4-5DA28C902D7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Robit", "Robit\Robit.csproj", "{CE0C162D-8F51-4729-A3B4-5DA28C902D7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CE0C162D-8F51-4729-A3B4-5DA28C902D7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE0C162D-8F51-4729-A3B4-5DA28C902D7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE0C162D-8F51-4729-A3B4-5DA28C902D7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE0C162D-8F51-4729-A3B4-5DA28C902D7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE0C162D-8F51-4729-A3B4-5DA28C902D7B}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{CE0C162D-8F51-4729-A3B4-5DA28C902D7B}.Debug|Any CPU.Build.0 = Debug|x64
+		{CE0C162D-8F51-4729-A3B4-5DA28C902D7B}.Release|Any CPU.ActiveCfg = Release|x64
+		{CE0C162D-8F51-4729-A3B4-5DA28C902D7B}.Release|Any CPU.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

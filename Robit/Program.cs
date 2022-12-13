@@ -6,8 +6,8 @@ using DSharpPlus.Net;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using System.Diagnostics;
+using DSharpPlus.Entities;
 
 namespace Robit
 {
@@ -46,7 +46,7 @@ namespace Robit
 
             Process.Start(lavaLinkStartInfo); //Starts LavaLink and then waits 5 seconds so it has time to start
 
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
 
             //Bot config stuff, token, intents etc.
             DiscordConfiguration config = new DiscordConfiguration()
@@ -60,7 +60,7 @@ namespace Robit
                 DiscordIntents.GuildVoiceStates,
 
                 MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Information,
-                LogTimestampFormat = "dd.mm.yyyy hh:mm:ss"
+                LogTimestampFormat = "dd.mm.yyyy hh:mm:ss",                
             };
 
             botClient = new DiscordClient(config);
@@ -84,8 +84,8 @@ namespace Robit
             SlashCommandsExtension slashCommands = botClient.UseSlashCommands();
 
             commands.RegisterCommands<Commands>();
-
             slashCommands.RegisterCommands<SlashCommands>();
+
             commands.SetHelpFormatter<CustomHelpFormatter>();
 
             ConnectionEndpoint endpoint = new ConnectionEndpoint
@@ -115,19 +115,62 @@ namespace Robit
 
             botClient.MessageCreated += MessageCreated;
 
+            
+            DiscordActivity activity;
+            UserStatus userStatus;
+
+            if (Debugger.IsAttached)
+            {
+                activity = new DiscordActivity()
+                {
+                    ActivityType = ActivityType.Playing,
+                    Name = "Debug Mode",
+                };
+
+                userStatus = UserStatus.DoNotDisturb;
+            }
+            else
+            {
+                activity = new DiscordActivity()
+                {
+                    ActivityType = ActivityType.Playing,
+                    Name = "Vibing",
+                };
+
+                userStatus = UserStatus.Online;
+            }
+            
+
+            await botClient.UpdateStatusAsync(activity, userStatus, DateTimeOffset.Now);
+
+            Process.GetProcesses().FirstOrDefault().Exited += ProcessExit;
+
             await Task.Delay(-1);
+        }
+
+        private static void ProcessExit(object? sender, EventArgs e)
+        {
+            try
+            {
+                Process.GetProcesses("java.exe").First().Kill();
+                Process.GetProcesses("powershell.exe").First().Kill();
+            }
+            catch
+            {
+                botClient.Logger.LogWarning("Failed to close LavaLink");
+            }
         }
 
         private static async Task MessageCreated(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
         {
-            if (messageArgs.Author.IsBot) return;
+            if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
 
             string message = messageArgs.Message.Content.ToLower();
 
             if (message.Contains("hi"))
             {
 
-                if(message.Contains("robit") || messageArgs.MentionedUsers.First() == botClient.CurrentUser)
+                if(message.Contains("robit") || messageArgs.MentionedUsers.FirstOrDefault() == botClient.CurrentUser)
                 {
                     await messageArgs.Message.RespondAsync($"Hi {messageArgs.Author.Mention}, nice meeting you");
                 }
@@ -153,7 +196,7 @@ namespace Robit
             });
 
             if(Process.GetProcessesByName("powershell.exe") != null &&
-                Process.GetProcessesByName("java") != null)
+                Process.GetProcessesByName("java.exe") != null)
             {
                 botClient.Logger.LogInformation("LavaLink started successfully");
             }
@@ -162,5 +205,7 @@ namespace Robit
                 botClient.Logger.LogCritical("Failed to start LavaLink");
             }
         }
+
+        
     }
 }
