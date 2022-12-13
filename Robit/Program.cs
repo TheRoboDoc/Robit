@@ -8,6 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using DSharpPlus.Entities;
+using OpenAI.GPT3.Managers;
+using OpenAI.GPT3.Interfaces;
+using OpenAI.GPT3;
+using OpenAI.GPT3.ObjectModels.RequestModels;
+using OpenAI.GPT3.ObjectModels;
+using OpenAI.GPT3.ObjectModels.ResponseModels;
 
 namespace Robit
 {
@@ -19,6 +25,8 @@ namespace Robit
         }
 
         public static DiscordClient botClient;
+
+        public  static OpenAIService openAiService;
 
         /// <summary>
         /// Defines start information for Lavalink
@@ -37,6 +45,15 @@ namespace Robit
         /// <returns>Nothing</returns>
         static async Task MainAsync()
         {
+            StreamReader reader1 = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\OpenAIToken.txt");
+
+            openAiService = new OpenAIService(new OpenAiOptions()
+            {
+                ApiKey = reader1.ReadToEnd()
+            });
+
+            reader1.Close();
+
             //Storing the token as a seperate file seemed like a good idea
             StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\token.txt");
 
@@ -44,7 +61,7 @@ namespace Robit
 
             reader.Close();
 
-            Process.Start(lavaLinkStartInfo); //Starts LavaLink and then waits 5 seconds so it has time to start
+            Process.Start(lavaLinkStartInfo); //Starts LavaLink and then waits 10 seconds so it has time to start
 
             Thread.Sleep(10000);
 
@@ -58,9 +75,9 @@ namespace Robit
                 DiscordIntents.Guilds |
                 DiscordIntents.GuildMessages |
                 DiscordIntents.GuildVoiceStates,
+                MinimumLogLevel = LogLevel.Information,
 
-                MinimumLogLevel = Microsoft.Extensions.Logging.LogLevel.Information,
-                LogTimestampFormat = "dd.mm.yyyy hh:mm:ss",                
+                LogTimestampFormat = "dd.mm.yyyy hh:mm:ss"           
             };
 
             botClient = new DiscordClient(config);
@@ -165,15 +182,86 @@ namespace Robit
         {
             if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
 
-            string message = messageArgs.Message.Content.ToLower();
+            string[] keyTerms = { "elf", "elves", "furry", "furries", "miku" };
+            double index = double.NaN;
 
-            if (message.Contains("hi"))
+            string messageLower = messageArgs.Message.Content.ToLower();
+
+            foreach(string keyTerm in keyTerms)
             {
-
-                if(message.Contains("robit") || messageArgs.MentionedUsers.FirstOrDefault() == botClient.CurrentUser)
+                if (messageLower.Contains(keyTerm))
                 {
-                    await messageArgs.Message.RespondAsync($"Hi {messageArgs.Author.Mention}, nice meeting you");
+                    index = Array.IndexOf(keyTerms, keyTerm);
+                    break;
                 }
+            }
+
+            switch (index)
+            {
+                //Elf
+                case 0:
+                case 1:
+                    await messageArgs.Message.RespondAsync(@"https://cdn.discordapp.com/attachments/884936240321929280/1051151859013931078/344171626528768012.jpg");
+                    break;
+                //Furry
+                case 2:
+                case 3:
+                    await messageArgs.Message.RespondAsync(@"https://cdn.discordapp.com/attachments/884936240321929280/1051316162383851581/324047254149267459.png");
+                    break;
+                //Miku
+                case 4:
+                    await messageArgs.Message.RespondAsync(@"https://pbs.twimg.com/media/E3KD4WpUUAAlciY?format=jpg&name=4096x4096");
+                    break;
+            }
+
+            int mentiones = 0;
+
+            foreach(var mentionedUser in messageArgs.MentionedUsers)
+            {
+                if (mentionedUser == botClient.CurrentUser) mentiones++;
+            }
+
+            if (mentiones == 0) return;
+
+            CompletionCreateResponse completionResult = await openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
+            {
+                Prompt = "Robit is a simple Discord Bot made by RoboDoc that can play music and answer simple questions.\n" +
+                "He isn't very sophisticated and cannot have full blown conversations.\n" +
+                "Just simple replies to questions. Those replies have maximum lengh of 100 characters\n\n" +
+                $"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Message.Content}\n" +
+                $"Robit:",
+                MaxTokens = 30,
+                Temperature = 0.3F,
+                TopP = 0.3F,
+                PresencePenalty = 0,
+                FrequencyPenalty = 0.5F
+            }, Models.TextDavinciV3);
+
+            if (completionResult.Successful)
+            {
+                var reply = await messageArgs.Message.RespondAsync("Thinking");
+
+                string messageReply = reply.Content;
+
+                for(int i = 0; i <= 2; i++)
+                {
+                    messageReply += ".";
+                    await reply.ModifyAsync(messageReply);
+                    Thread.Sleep(500);
+                }
+
+                await reply.DeleteAsync();
+
+                await messageArgs.Channel.SendMessageAsync(completionResult.Choices[0].Text);
+                botClient.Logger.LogInformation(completionResult.Choices[0].Text);
+            }
+            else
+            {
+                if (completionResult.Error == null)
+                {
+                    throw new Exception("Unknown Error");
+                }
+                botClient.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
             }
         }
 

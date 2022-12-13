@@ -204,14 +204,21 @@ namespace Robit
                 $"Hi I'm {ctx.Client.CurrentUser.Mention} nice meeting you\n" +
                 $"I'm currently but a baby and because of that limited in my abilites. " +
                 $"At the moment my main ability is to play music in a voice chat. You can try that if you want. " +
-                $"Just type a '/' (yep I work with slash commands :3)",
+                $"Just type a '/' (yep I work with slash commands :3)" +
+                $"I also answer simple questions, just \"@\" me in the question and I will try my best, I promise",
 
                 Timestamp = DateTimeOffset.Now,
 
                 Title = "IT'S ME!!!",
-            };
+            }.AddField("GitHub", @"https://github.com/TheRoboDoc/Robit");
 
             await ctx.CreateResponseAsync(embed);
+        }
+
+        [SlashCommand("Github", "Posts a link to Robit's GitHub repo")]
+        public async Task GitHub(InteractionContext ctx)
+        {
+            await ctx.CreateResponseAsync("https://github.com/TheRoboDoc/Robit");
         }
         #endregion
     }
