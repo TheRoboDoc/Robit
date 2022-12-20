@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /Robit/token.txt
 /Robit/OpenAIToken.txt
+/Robit/debugToken.txt
