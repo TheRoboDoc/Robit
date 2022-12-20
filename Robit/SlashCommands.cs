@@ -1,10 +1,9 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.Lavalink;
-using DSharpPlus.Net;
 using DSharpPlus.SlashCommands;
 using System.ComponentModel;
-using System.Drawing;
+using System.Text.Json;
 
 namespace Robit
 {
@@ -89,6 +88,8 @@ namespace Robit
             await ctx.CreateResponseAsync($"Left {channel.Name}!");
         }
 
+
+
         [SlashCommand("Play", "Plays a given music track")]
         public async Task Play(InteractionContext ctx, [Option("Search", "A search term or a direct link")] string search)
         {
@@ -143,18 +144,88 @@ namespace Robit
                 }
             }
 
-            LavalinkTrack track = loadResult.Tracks.First();
+            List<LavalinkTrack> tracks = new List<LavalinkTrack>();
 
-            await conn.PlayAsync(track);
-
-            //await ctx.CreateResponseAsync($"Now playing {track.Title}!");
-
-            DiscordFollowupMessageBuilder follwoUpMessage2 = new DiscordFollowupMessageBuilder()
+            if(loadResult.LoadResultType == LavalinkLoadResultType.PlaylistLoaded)
             {
-                Content = $"Now playing {track.Title}!"
+                tracks = loadResult.Tracks.ToList();
+            }
+            else
+            {
+                tracks.Add(loadResult.Tracks.First());
+            }
+
+            string fileName = $@"{AppDomain.CurrentDomain.BaseDirectory}\{conn.Channel}tracks.json";
+
+            FileInfo fileInfo = new FileInfo(fileName);
+
+            if (!fileInfo.Exists)
+            {
+                fileInfo.Create().Dispose();
+            }
+
+            string jsonString = File.ReadAllText(fileName);
+
+            if (!string.IsNullOrEmpty(jsonString))
+            {
+                List<LavalinkTrack> previousTracks = JsonSerializer.Deserialize<List<LavalinkTrack>>(jsonString);
+
+                foreach (LavalinkTrack previousTrack in previousTracks)
+                {
+                    tracks.Add(previousTrack);
+                }
+            }
+
+            using FileStream fileStream = File.Open(fileName, FileMode.Open);
+
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                WriteIndented = true
             };
 
-            await ctx.FollowUpAsync(follwoUpMessage2);
+            await JsonSerializer.SerializeAsync(fileStream, tracks, options);
+            await fileStream.DisposeAsync();
+
+            if(conn.CurrentState.CurrentTrack == null)
+            {
+                conn.PlaybackFinished += async (sender, e) =>
+                {
+                    int index = tracks.IndexOf(e.Track);
+
+                    if(index < 0)
+                    {
+                        index = 0;
+                    }
+
+                    try
+                    {
+                        await conn.PlayAsync(tracks[index + 1]);
+                    }
+                    catch
+                    {
+                        DiscordFollowupMessageBuilder follwoUpMessage2 = new DiscordFollowupMessageBuilder()
+                        {
+                            Content = "Playback complete"
+                        };
+
+                        await ctx.FollowUpAsync(follwoUpMessage2);
+
+                        File.Delete(fileName);
+                    }
+                };
+
+                conn.PlaybackStarted += async (sender, e) =>
+                {
+                    DiscordFollowupMessageBuilder follwoUpMessage2 = new DiscordFollowupMessageBuilder()
+                    {
+                        Content = $"Now playing {e.Track.Title}"
+                    };
+
+                    await ctx.FollowUpAsync(follwoUpMessage2);
+                };
+
+                await conn.PlayAsync(tracks.First());
+            }
         }
 
         [SlashCommand("Pause", "Pauses the currently playing song")]
@@ -183,6 +254,34 @@ namespace Robit
             }
 
             await conn.PauseAsync();
+        }
+
+        [SlashCommand("Continue", "Continues the playback")]
+        public async Task Continue(InteractionContext ctx)
+        {
+            if (ctx.Member.VoiceState == null || ctx.Member.VoiceState.Channel == null)
+            {
+                await ctx.CreateResponseAsync("You are not in a voice channel.");
+                return;
+            }
+
+            LavalinkExtension laval = ctx.Client.GetLavalink();
+            LavalinkNodeConnection node = laval.ConnectedNodes.Values.First();
+            LavalinkGuildConnection conn = node.GetGuildConnection(ctx.Member.VoiceState.Guild);
+
+            if (conn == null)
+            {
+                await ctx.CreateResponseAsync("Lavalink is not connected.");
+                return;
+            }
+
+            if (conn.CurrentState.CurrentTrack == null)
+            {
+                await ctx.CreateResponseAsync("There are no tracks loaded.");
+                return;
+            }
+
+            await conn.ResumeAsync();
         }
         #endregion
 

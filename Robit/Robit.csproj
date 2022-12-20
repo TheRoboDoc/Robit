@@ -48,6 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="debugToken.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Lavalink.jar">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

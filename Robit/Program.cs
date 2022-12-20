@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using DSharpPlus.Entities;
 using OpenAI.GPT3.Managers;
-using OpenAI.GPT3.Interfaces;
 using OpenAI.GPT3;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels;
@@ -45,6 +44,7 @@ namespace Robit
         /// <returns>Nothing</returns>
         static async Task MainAsync()
         {
+            #region OpenAI Client setup
             StreamReader reader1 = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\OpenAIToken.txt");
 
             openAiService = new OpenAIService(new OpenAiOptions()
@@ -53,17 +53,34 @@ namespace Robit
             });
 
             reader1.Close();
+            #endregion
+
+            #region Discord Client setup
+            string tokenFileLocation;
+
+            LogLevel logLevel;
+
+            if (DebugStatus())
+            {
+                tokenFileLocation = AppDomain.CurrentDomain.BaseDirectory + @"\debugToken.txt";
+                logLevel = LogLevel.Debug;
+            }
+            else
+            {
+                tokenFileLocation = AppDomain.CurrentDomain.BaseDirectory + @"\token.txt";
+                logLevel = LogLevel.Information;
+            }
 
             //Storing the token as a seperate file seemed like a good idea
-            StreamReader reader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\token.txt");
+            StreamReader reader = new StreamReader(tokenFileLocation);
 
             string token = reader.ReadToEnd();
 
             reader.Close();
 
-            Process.Start(lavaLinkStartInfo); //Starts LavaLink and then waits 10 seconds so it has time to start
+            int lavalinkProcessIdProcess = Process.Start(lavaLinkStartInfo).Id; //Starts LavaLink and then waits 10 seconds so it has time to start
 
-            Thread.Sleep(10000);
+            
 
             //Bot config stuff, token, intents etc.
             DiscordConfiguration config = new DiscordConfiguration()
@@ -75,16 +92,19 @@ namespace Robit
                 DiscordIntents.Guilds |
                 DiscordIntents.GuildMessages |
                 DiscordIntents.GuildVoiceStates,
-                MinimumLogLevel = LogLevel.Information,
+                MinimumLogLevel = logLevel,
 
-                LogTimestampFormat = "dd.mm.yyyy hh:mm:ss"           
+                LogTimestampFormat = "dd.MM.yyyy HH:mm:ss (zzz)"           
             };
 
             botClient = new DiscordClient(config);
+            #endregion
 
+            //Probably redundant
             ServiceProvider services = new ServiceCollection()
                 .BuildServiceProvider();
 
+            #region Command setup
             CommandsNextConfiguration commandConfig = new CommandsNextConfiguration()
             {
                 StringPrefixes = new string[] { "§" },
@@ -104,7 +124,9 @@ namespace Robit
             slashCommands.RegisterCommands<SlashCommands>();
 
             commands.SetHelpFormatter<CustomHelpFormatter>();
+            #endregion
 
+            #region Lavalink setup
             ConnectionEndpoint endpoint = new ConnectionEndpoint
             {
                 Hostname = "127.0.0.1",
@@ -118,78 +140,120 @@ namespace Robit
                 SocketEndpoint = endpoint
             };
 
+            LavalinkExtension lavalink = botClient.UseLavalink();
+            #endregion
+
             botClient.Ready += BotClient_Ready;
 
-            LavalinkExtension lavalink = botClient.UseLavalink();
-
+            //Connecting the discord client
             await botClient.ConnectAsync();
+
             botClient.Logger.LogInformation("Connected");
             botClient.Logger.LogInformation("Connetinng to local LavaLink server...");
+
+            Thread.Sleep(10000); //Waiting for LavaLink to be fully ready
+
+            //Connecting to the running LavaLink instance
             await lavalink.ConnectAsync(lavalinkConfig);
             botClient.Logger.LogInformation("LavaLink connected");
+            botClient.Logger.LogInformation("Bot is now operational");
 
             lavalink.NodeDisconnected += Lavalink_NodeDisconnected;
 
-            botClient.MessageCreated += MessageCreated;
+            botClient.MessageCreated += Response;
+            botClient.MessageCreated += AIResponse;
 
-            
-            DiscordActivity activity;
-            UserStatus userStatus;
-
-            if (Debugger.IsAttached)
+            //This doesn't work, why???
+            Process.GetCurrentProcess().Exited += (s, e) =>
             {
+                try
+                {
+                    Process.GetProcessById(lavalinkProcessIdProcess).Kill();
+                }
+                catch
+                {
+                    botClient.Logger.LogWarning("Failed to close LavaLink");
+                }
+            };
+
+            //The bot has a tendency to lose it's current activity if it gets disconnected
+            //This is why we periodically (on every heartbeat) set it to the correct one
+            botClient.Heartbeated += async (client, e) =>
+            {
+                DiscordActivity activity;
+                string activityText = "Vibing";
+
+                //If the activity is already what we want it to be then we do nothing
+                if (client.CurrentUser.Presence.Activity.Name == activityText) return;
+
                 activity = new DiscordActivity()
                 {
                     ActivityType = ActivityType.Playing,
-                    Name = "Debug Mode",
+                    Name = activityText
                 };
 
-                userStatus = UserStatus.DoNotDisturb;
-            }
-            else
-            {
-                activity = new DiscordActivity()
-                {
-                    ActivityType = ActivityType.Playing,
-                    Name = "Vibing",
-                };
+                await client.UpdateStatusAsync(activity, UserStatus.Online, DateTimeOffset.Now);
 
-                userStatus = UserStatus.Online;
-            }
-            
+                botClient.Logger.LogInformation("Had to set activity");
+            };
 
-            await botClient.UpdateStatusAsync(activity, userStatus, DateTimeOffset.Now);
-
-            Process.GetProcesses().FirstOrDefault().Exited += ProcessExit;
-
+            //Prevents the task from ending
             await Task.Delay(-1);
         }
 
-        private static void ProcessExit(object? sender, EventArgs e)
+        /// <summary>
+        /// Checks if the bot is running in a debug enviroment
+        /// </summary>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item><c>True</c>: In debug</item>
+        /// <item><c>False</c>: Not in debug</item>
+        /// </list>
+        /// </returns>
+        private static bool DebugStatus()
         {
-            try
+            bool debugState;
+
+            if(Debugger.IsAttached)
             {
-                Process.GetProcesses("java.exe").First().Kill();
-                Process.GetProcesses("powershell.exe").First().Kill();
+                debugState = true;
             }
-            catch
+            else
             {
-                botClient.Logger.LogWarning("Failed to close LavaLink");
+                debugState = false;
             }
+
+            return debugState;
         }
 
-        private static async Task MessageCreated(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
+        /// <summary>
+        /// Responses to messages that contain certain key terms
+        /// </summary>
+        /// <param name="sender">Discord client that triggerd this task</param>
+        /// <param name="messageArgs">Message creation event arguemnts</param>
+        private static async Task Response(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
         {
             if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
 
-            string[] keyTerms = { "elf", "elves", "furry", "furries", "miku" };
+            string[] keyTerms = 
+            { 
+                "elf", 
+                "elves", 
+                "furry", 
+                "furries", 
+                "miku",
+                "same"
+            };
+
             double index = double.NaN;
 
             string messageLower = messageArgs.Message.Content.ToLower();
 
+            string[] wordsInMessage = messageLower.Split(' ');
+
             foreach(string keyTerm in keyTerms)
             {
-                if (messageLower.Contains(keyTerm))
+                if (wordsInMessage.Contains(keyTerm))
                 {
                     index = Array.IndexOf(keyTerms, keyTerm);
                     break;
@@ -212,66 +276,97 @@ namespace Robit
                 case 4:
                     await messageArgs.Message.RespondAsync(@"https://pbs.twimg.com/media/E3KD4WpUUAAlciY?format=jpg&name=4096x4096");
                     break;
-            }
-
-            int mentiones = 0;
-
-            foreach(var mentionedUser in messageArgs.MentionedUsers)
-            {
-                if (mentionedUser == botClient.CurrentUser) mentiones++;
-            }
-
-            if (mentiones == 0) return;
-
-            CompletionCreateResponse completionResult = await openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
-            {
-                Prompt = "Robit is a simple Discord Bot made by RoboDoc that can play music and answer simple questions.\n" +
-                "He isn't very sophisticated and cannot have full blown conversations.\n" +
-                "Just simple replies to questions. Those replies have maximum lengh of 100 characters\n\n" +
-                $"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Message.Content}\n" +
-                $"Robit:",
-                MaxTokens = 30,
-                Temperature = 0.3F,
-                TopP = 0.3F,
-                PresencePenalty = 0,
-                FrequencyPenalty = 0.5F
-            }, Models.TextDavinciV3);
-
-            if (completionResult.Successful)
-            {
-                var reply = await messageArgs.Message.RespondAsync("Thinking");
-
-                string messageReply = reply.Content;
-
-                for(int i = 0; i <= 2; i++)
-                {
-                    messageReply += ".";
-                    await reply.ModifyAsync(messageReply);
-                    Thread.Sleep(500);
-                }
-
-                await reply.DeleteAsync();
-
-                await messageArgs.Channel.SendMessageAsync(completionResult.Choices[0].Text);
-                botClient.Logger.LogInformation(completionResult.Choices[0].Text);
-            }
-            else
-            {
-                if (completionResult.Error == null)
-                {
-                    throw new Exception("Unknown Error");
-                }
-                botClient.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
+                //Same
+                case 5:
+                    await messageArgs.Message.RespondAsync(@":shark:");
+                    break;
             }
         }
 
-        private static Task BotClient_Ready(DiscordClient sender, DSharpPlus.EventArgs.ReadyEventArgs e)
+        /// <summary>
+        /// AI responses when prompted
+        /// </summary>
+        /// <param name="sender">Discord client that triggered this task</param>
+        /// <param name="messageArgs">Message creation event arguments</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private static Task AIResponse(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
         {
-            botClient.Logger.LogInformation("Ready");
+            //Run as a task because otherwise get a warning that event handler for Message created took too long
+            _ = Task.Run(async () =>
+            {
+                uint mentiones = 0;
+
+                foreach (var mentionedUser in messageArgs.MentionedUsers)
+                { 
+                    if (mentionedUser == botClient.CurrentUser) mentiones++;
+                }
+
+                if (mentiones == 0) return;
+
+                var reply = await messageArgs.Message.RespondAsync("Thinking");
+
+                CompletionCreateResponse completionResult = await openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
+                {
+                    Prompt = "Robit is a simple Discord Bot made by RoboDoc that can play music and answer simple questions.\n" +
+                    "He isn't very sophisticated and cannot have full blown conversations.\n" +
+                    "Just simple replies to questions. Those replies have maximum lengh of 100 characters\n\n" +
+                    $"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Message.Content}\n" +
+                    $"Robit:",
+                    MaxTokens = 30,
+                    Temperature = 0.3F,
+                    TopP = 0.3F,
+                    PresencePenalty = 0,
+                    FrequencyPenalty = 0.5F
+                }, Models.TextDavinciV3);
+
+                if (completionResult.Successful)
+                {
+                    string messageReply = reply.Content;
+
+                    for (int i = 0; i <= 2; i++)
+                    {
+                        messageReply += ".";
+                        await reply.ModifyAsync(messageReply);
+                        Thread.Sleep(500);
+                    }
+
+                    await reply.DeleteAsync();
+
+                    await messageArgs.Channel.SendMessageAsync(completionResult.Choices[0].Text);
+                    botClient.Logger.LogInformation(completionResult.Choices[0].Text);
+                }
+                else
+                {
+                    if (completionResult.Error == null)
+                    {
+                        throw new Exception("Unknown Error");
+                    }
+                    botClient.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
+                }
+            });
 
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// What happens once the client is ready
+        /// </summary>
+        /// <param name="sender">Client that triggered this task</param>
+        /// <param name="e">Ready event arguments arguments</param>
+        /// <returns>The completed task</returns>
+        private static Task BotClient_Ready(DiscordClient sender, DSharpPlus.EventArgs.ReadyEventArgs e)
+        {
+            botClient.Logger.LogInformation("Client is ready");
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// What happens when LavaLink node disconnects
+        /// </summary>
+        /// <param name="sender">Node connection that triggered this task</param>
+        /// <param name="e">Disconnection arguments</param>
         private static async Task Lavalink_NodeDisconnected(LavalinkNodeConnection sender, NodeDisconnectedEventArgs e)
         {
 
@@ -293,7 +388,5 @@ namespace Robit
                 botClient.Logger.LogCritical("Failed to start LavaLink");
             }
         }
-
-        
     }
 }
