@@ -43,7 +43,7 @@
 
   <ItemGroup>
     <Content Include="application.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -52,7 +52,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Lavalink.jar">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="OpenAIToken.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

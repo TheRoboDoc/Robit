@@ -1,8 +1,5 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using DSharpPlus.Lavalink;
-using DSharpPlus.Lavalink.EventArgs;
-using DSharpPlus.Net;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,6 +10,7 @@ using OpenAI.GPT3;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
+using static Robit.Commands;
 
 namespace Robit
 {
@@ -26,17 +24,6 @@ namespace Robit
         public static DiscordClient botClient;
 
         public  static OpenAIService openAiService;
-
-        /// <summary>
-        /// Defines start information for Lavalink
-        /// </summary>
-        public static ProcessStartInfo lavaLinkStartInfo = new ProcessStartInfo
-        {
-            FileName = "powershell.exe",
-            Arguments = $@"cd {AppDomain.CurrentDomain.BaseDirectory}; java -jar Lavalink.jar",
-            CreateNoWindow = false,
-            UseShellExecute = true
-        };
 
         /// <summary>
         /// Main Thread
@@ -77,10 +64,6 @@ namespace Robit
             string token = reader.ReadToEnd();
 
             reader.Close();
-
-            int lavalinkProcessIdProcess = Process.Start(lavaLinkStartInfo).Id; //Starts LavaLink and then waits 10 seconds so it has time to start
-
-            
 
             //Bot config stuff, token, intents etc.
             DiscordConfiguration config = new DiscordConfiguration()
@@ -126,55 +109,16 @@ namespace Robit
             commands.SetHelpFormatter<CustomHelpFormatter>();
             #endregion
 
-            #region Lavalink setup
-            ConnectionEndpoint endpoint = new ConnectionEndpoint
-            {
-                Hostname = "127.0.0.1",
-                Port = 2333
-            };
-
-            LavalinkConfiguration lavalinkConfig = new LavalinkConfiguration
-            {
-                Password = "youshallnotpass",
-                RestEndpoint = endpoint,
-                SocketEndpoint = endpoint
-            };
-
-            LavalinkExtension lavalink = botClient.UseLavalink();
-            #endregion
-
             botClient.Ready += BotClient_Ready;
 
             //Connecting the discord client
             await botClient.ConnectAsync();
 
             botClient.Logger.LogInformation("Connected");
-            botClient.Logger.LogInformation("Connetinng to local LavaLink server...");
-
-            Thread.Sleep(10000); //Waiting for LavaLink to be fully ready
-
-            //Connecting to the running LavaLink instance
-            await lavalink.ConnectAsync(lavalinkConfig);
-            botClient.Logger.LogInformation("LavaLink connected");
             botClient.Logger.LogInformation("Bot is now operational");
-
-            lavalink.NodeDisconnected += Lavalink_NodeDisconnected;
 
             botClient.MessageCreated += Response;
             botClient.MessageCreated += AIResponse;
-
-            //This doesn't work, why???
-            Process.GetCurrentProcess().Exited += (s, e) =>
-            {
-                try
-                {
-                    Process.GetProcessById(lavalinkProcessIdProcess).Kill();
-                }
-                catch
-                {
-                    botClient.Logger.LogWarning("Failed to close LavaLink");
-                }
-            };
 
             //The bot has a tendency to lose it's current activity if it gets disconnected
             //This is why we periodically (on every heartbeat) set it to the correct one
@@ -233,6 +177,7 @@ namespace Robit
         /// <param name="messageArgs">Message creation event arguemnts</param>
         private static async Task Response(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
         {
+            //This should be made into a command in the future. Where server owner/admins can add responses
             if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
 
             string[] keyTerms = 
@@ -289,55 +234,105 @@ namespace Robit
         /// <param name="sender">Discord client that triggered this task</param>
         /// <param name="messageArgs">Message creation event arguments</param>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="Exception">AI module response fail</exception>
         private static Task AIResponse(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
         {
-            //Run as a task because otherwise get a warning that event handler for Message created took too long
-            _ = Task.Run(async () =>
-            {
-                uint mentiones = 0;
+            if (messageArgs.Author.IsBot) return Task.CompletedTask;
 
-                foreach (var mentionedUser in messageArgs.MentionedUsers)
+            //Run as a task because otherwise get a warning that event handler for Message created took too long
+            Task response = Task.Run(async () =>
+            {
+                bool botMentioned = false;
+
+                foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
                 { 
-                    if (mentionedUser == botClient.CurrentUser) mentiones++;
+                    if (mentionedUser == botClient.CurrentUser)
+                    {
+                        botMentioned = true;
+                        break;
+                    }
                 }
 
-                if (mentiones == 0) return;
+                if (!botMentioned) return;
 
-                var reply = await messageArgs.Message.RespondAsync("Thinking");
+                //Required to cancel the task "thinking"
+                //Needed as it is an infinite loop
+                CancellationTokenSource thinkingCancelTokenSource = new CancellationTokenSource();
+                CancellationToken thinkingCancelToken = thinkingCancelTokenSource.Token;
 
+                DiscordMessage reply = await messageArgs.Message.RespondAsync("Thinking");
+
+                //Task that handles animation of "Thinking..." display
+                Task thinking = Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        if (thinkingCancelToken.IsCancellationRequested)
+                        {
+                            return Task.CompletedTask;
+                        }
+
+                        await reply.ModifyAsync("Thinking");
+                        string messageReply = reply.Content;
+
+                        for (int i = 0; i <= 2; i++)
+                        {
+                            if (thinkingCancelToken.IsCancellationRequested)
+                            {
+                                return Task.CompletedTask;
+                            }
+
+                            messageReply += ".";
+                            await reply.ModifyAsync(messageReply);
+                            Thread.Sleep(500);
+                        }
+                    }
+
+                }, thinkingCancelToken);
+
+                //AI propmt
                 CompletionCreateResponse completionResult = await openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
                 {
-                    Prompt = "Robit is a simple Discord Bot made by RoboDoc that can play music and answer simple questions.\n" +
+                    Prompt = 
+                    $"{messageArgs.Guild.CurrentMember.DisplayName} is a friendly discord bot that tries to answer user questions to the best of his abilities\n" +
+                    "He is very passionate, but understands that he cannot answer every questions and tries to avoid " +
+                    "answering directly to sensetive topics." +
                     "He isn't very sophisticated and cannot have full blown conversations.\n" +
-                    "Just simple replies to questions. Those replies have maximum lengh of 100 characters\n\n" +
+                    "His responses are generated using OpenAI Davinci V3 text AI model" +
+                    "Just simple replies to questions. Those replies have maximum lengh of 100 characters.\n\n" +
                     $"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Message.Content}\n" +
-                    $"Robit:",
-                    MaxTokens = 30,
+                    $"{messageArgs.Guild.CurrentMember.DisplayName}:",
+                    MaxTokens = 60,
                     Temperature = 0.3F,
                     TopP = 0.3F,
                     PresencePenalty = 0,
                     FrequencyPenalty = 0.5F
                 }, Models.TextDavinciV3);
 
+                //If we get a proper result from OpenAI
                 if (completionResult.Successful)
                 {
-                    string messageReply = reply.Content;
+                    thinkingCancelTokenSource.Cancel();
 
-                    for (int i = 0; i <= 2; i++)
+                    await reply.ModifyAsync(completionResult.Choices[0].Text);
+
+                    //Log the AI interaction only if we are in debug mode
+                    if (DebugStatus())
                     {
-                        messageReply += ".";
-                        await reply.ModifyAsync(messageReply);
-                        Thread.Sleep(500);
+                        botClient.Logger.LogDebug($"Message: {messageArgs.Message.Content}");
+                        botClient.Logger.LogDebug($"Reply: {completionResult.Choices[0].Text}");
                     }
 
-                    await reply.DeleteAsync();
-
-                    await messageArgs.Channel.SendMessageAsync(completionResult.Choices[0].Text);
-                    botClient.Logger.LogInformation(completionResult.Choices[0].Text);
+                    //Double checks as message modify might not actually do it some times
+                    if(reply.Content != completionResult.Choices[0].Text)
+                    {
+                        await reply.ModifyAsync(completionResult.Choices[0].Text);
+                    }
                 }
                 else
                 {
+                    thinkingCancelTokenSource.Cancel();
+
                     if (completionResult.Error == null)
                     {
                         throw new Exception("Unknown Error");
@@ -360,33 +355,6 @@ namespace Robit
             botClient.Logger.LogInformation("Client is ready");
 
             return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// What happens when LavaLink node disconnects
-        /// </summary>
-        /// <param name="sender">Node connection that triggered this task</param>
-        /// <param name="e">Disconnection arguments</param>
-        private static async Task Lavalink_NodeDisconnected(LavalinkNodeConnection sender, NodeDisconnectedEventArgs e)
-        {
-
-            botClient.Logger.LogCritical("LavaLink disconnected");
-            await Task.Run(() =>
-            {
-                Process.Start(lavaLinkStartInfo);
-                botClient.Logger.LogInformation("Attempting to start LavaLink...");
-                Thread.Sleep(5000);
-            });
-
-            if(Process.GetProcessesByName("powershell.exe") != null &&
-                Process.GetProcessesByName("java.exe") != null)
-            {
-                botClient.Logger.LogInformation("LavaLink started successfully");
-            }
-            else
-            {
-                botClient.Logger.LogCritical("Failed to start LavaLink");
-            }
         }
     }
 }
