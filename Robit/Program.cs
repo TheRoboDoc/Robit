@@ -72,9 +72,9 @@ namespace Robit
                 TokenType = TokenType.Bot,
 
                 Intents =
+                DiscordIntents.MessageContents |
                 DiscordIntents.Guilds |
-                DiscordIntents.GuildMessages |
-                DiscordIntents.GuildVoiceStates,
+                DiscordIntents.GuildMessages,
                 MinimumLogLevel = logLevel,
 
                 LogTimestampFormat = "dd.MM.yyyy HH:mm:ss (zzz)"           
@@ -108,6 +108,11 @@ namespace Robit
 
             commands.SetHelpFormatter<CustomHelpFormatter>();
             #endregion
+
+            if (!FileManager.ResponseManager.DirCheck().Result)
+            {
+                botClient.Logger.LogInformation("Had to create Data directory");
+            }
 
             botClient.Ready += BotClient_Ready;
 
@@ -171,7 +176,7 @@ namespace Robit
         }
 
         /// <summary>
-        /// Responses to messages that contain certain key terms
+        /// Responses to messages that contain trigger content as defined by response interactions for a guild
         /// </summary>
         /// <param name="sender">Discord client that triggerd this task</param>
         /// <param name="messageArgs">Message creation event arguemnts</param>
@@ -180,51 +185,68 @@ namespace Robit
             //This should be made into a command in the future. Where server owner/admins can add responses
             if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
 
-            string[] keyTerms = 
-            { 
-                "elf", 
-                "elves", 
-                "furry", 
-                "furries", 
-                "miku",
-                "same"
-            };
+            List<FileManager.ResponseManager.ResponseEntry> responseEntries = new List<FileManager.ResponseManager.ResponseEntry>();
 
-            double index = double.NaN;
+            responseEntries = FileManager.ResponseManager.ReadEntries(messageArgs.Guild.Id.ToString());
 
             string messageLower = messageArgs.Message.Content.ToLower();
 
+            #region Special characters that are removed
+            messageLower = messageLower.Replace("+", " ");
+            messageLower = messageLower.Replace("`", " ");
+            messageLower = messageLower.Replace("¨", " ");
+            messageLower = messageLower.Replace("\'", " ");
+            messageLower = messageLower.Replace(",", " ");
+            messageLower = messageLower.Replace(".", " ");
+            messageLower = messageLower.Replace("-", " ");
+            messageLower = messageLower.Replace("!", "" );
+            messageLower = messageLower.Replace("\"", " ");
+            messageLower = messageLower.Replace("#", " ");
+            messageLower = messageLower.Replace("¤", " ");
+            messageLower = messageLower.Replace("%", " " );
+            messageLower = messageLower.Replace("&", " ");
+            messageLower = messageLower.Replace("/", " ");   
+            messageLower = messageLower.Replace("(", " ");
+            messageLower = messageLower.Replace(")", " ");
+            messageLower = messageLower.Replace("=", " ");
+            messageLower = messageLower.Replace("?", " ");
+            messageLower = messageLower.Replace("´", " ");
+            messageLower = messageLower.Replace("^", " ");
+            messageLower = messageLower.Replace("*", " ");
+            messageLower = messageLower.Replace(";", " ");
+            messageLower = messageLower.Replace(":", " ");
+            messageLower = messageLower.Replace("_", " ");
+            messageLower = messageLower.Replace("§", " ");
+            messageLower = messageLower.Replace("½", " ");
+            messageLower = messageLower.Replace("@", " ");
+            messageLower = messageLower.Replace("£", " ");
+            messageLower = messageLower.Replace("$", " ");
+            messageLower = messageLower.Replace("€", " ");
+            messageLower = messageLower.Replace("{", " ");
+            messageLower = messageLower.Replace("[", " ");
+            messageLower = messageLower.Replace("]", " ");
+            messageLower = messageLower.Replace("}", " ");
+            messageLower = messageLower.Replace("\\", " ");
+            messageLower = messageLower.Replace("~", " ");
+            #endregion
+
+            if (Debugger.IsAttached)
+            {
+                await messageArgs.Message.RespondAsync(messageLower);
+            }
+            
             string[] wordsInMessage = messageLower.Split(' ');
 
-            foreach(string keyTerm in keyTerms)
+            foreach (string word in wordsInMessage)
             {
-                if (wordsInMessage.Contains(keyTerm))
+                foreach(FileManager.ResponseManager.ResponseEntry responseEntry in responseEntries)
                 {
-                    index = Array.IndexOf(keyTerms, keyTerm);
-                    break;
+                    if(word == responseEntry.content.ToLower())
+                    {
+                        await messageArgs.Message.RespondAsync(responseEntry.response);
+                        break;
+                    }
                 }
-            }
-
-            switch (index)
-            {
-                //Elf
-                case 0:
-                case 1:
-                    await messageArgs.Message.RespondAsync(@"https://cdn.discordapp.com/attachments/884936240321929280/1051151859013931078/344171626528768012.jpg");
-                    break;
-                //Furry
-                case 2:
-                case 3:
-                    await messageArgs.Message.RespondAsync(@"https://cdn.discordapp.com/attachments/884936240321929280/1051316162383851581/324047254149267459.png");
-                    break;
-                //Miku
-                case 4:
-                    await messageArgs.Message.RespondAsync(@"https://pbs.twimg.com/media/E3KD4WpUUAAlciY?format=jpg&name=4096x4096");
-                    break;
-                //Same
-                case 5:
-                    await messageArgs.Message.RespondAsync(@":shark:");
-                    break;
             }
         }
 
@@ -284,7 +306,7 @@ namespace Robit
 
                             messageReply += ".";
                             await reply.ModifyAsync(messageReply);
-                            Thread.Sleep(500);
+                            Thread.Sleep(750);
                         }
                     }
 

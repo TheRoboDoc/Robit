@@ -28,26 +28,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="application.yml" />
+    <PackageReference Include="Betalgo.OpenAI.GPT3" Version="6.6.3" />
+    <PackageReference Include="DSharpPlus" Version="4.3.0" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.3.0" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="4.3.0" />
+    <PackageReference Include="DSharpPlus.Lavalink" Version="4.3.0" />
+    <PackageReference Include="DSharpPlus.SlashCommands" Version="4.3.0" />
+    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Betalgo.OpenAI.GPT3" Version="6.6.0" />
-    <PackageReference Include="DSharpPlus" Version="4.2.0" />
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.2.0" />
-    <PackageReference Include="DSharpPlus.Interactivity" Version="4.2.0" />
-    <PackageReference Include="DSharpPlus.Lavalink" Version="4.2.0" />
-    <PackageReference Include="DSharpPlus.SlashCommands" Version="4.2.0" />
-    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="application.yml">
+    <None Update="application.yml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
+    </None>
     <None Update="debugToken.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
