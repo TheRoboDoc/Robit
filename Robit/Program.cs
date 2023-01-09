@@ -32,7 +32,7 @@ namespace Robit
         static async Task MainAsync()
         {
             #region OpenAI Client setup
-            StreamReader reader1 = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"\OpenAIToken.txt");
+            StreamReader reader1 = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"/OpenAIToken.txt");
 
             openAiService = new OpenAIService(new OpenAiOptions()
             {
@@ -49,12 +49,12 @@ namespace Robit
 
             if (DebugStatus())
             {
-                tokenFileLocation = AppDomain.CurrentDomain.BaseDirectory + @"\debugToken.txt";
+                tokenFileLocation = AppDomain.CurrentDomain.BaseDirectory + @"/debugToken.txt";
                 logLevel = LogLevel.Debug;
             }
             else
             {
-                tokenFileLocation = AppDomain.CurrentDomain.BaseDirectory + @"\token.txt";
+                tokenFileLocation = AppDomain.CurrentDomain.BaseDirectory + @"/token.txt";
                 logLevel = LogLevel.Information;
             }
 
