@@ -50,7 +50,7 @@ namespace Robit
             }
             else
             {
-                token = Tokens.debugToken;
+                token = Tokens.token;
                 logLevel = LogLevel.Information;
             }
 
