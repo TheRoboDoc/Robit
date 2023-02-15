@@ -10,20 +10,22 @@ using OpenAI.GPT3;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
-using static Robit.Commands;
+using static Robit.Command.Commands;
+using Robit.Command;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Robit
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             MainAsync().GetAwaiter().GetResult();
         }
 
-        public static DiscordClient botClient;
+        public static DiscordClient? botClient;
 
-        public  static OpenAIService openAiService;
+        public static OpenAIService? openAiService;
 
         /// <summary>
         /// Main Thread
@@ -31,39 +33,26 @@ namespace Robit
         /// <returns>Nothing</returns>
         static async Task MainAsync()
         {
-            #region OpenAI Client setup
-            StreamReader reader1 = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + @"/OpenAIToken.txt");
-
             openAiService = new OpenAIService(new OpenAiOptions()
             {
-                ApiKey = reader1.ReadToEnd()
+                ApiKey = Tokens.OpenAIToken
             });
 
-            reader1.Close();
-            #endregion
-
             #region Discord Client setup
-            string tokenFileLocation;
-
             LogLevel logLevel;
+
+            string token;
 
             if (DebugStatus())
             {
-                tokenFileLocation = AppDomain.CurrentDomain.BaseDirectory + @"/debugToken.txt";
+                token = Tokens.debugToken;
                 logLevel = LogLevel.Debug;
             }
             else
             {
-                tokenFileLocation = AppDomain.CurrentDomain.BaseDirectory + @"/token.txt";
+                token = Tokens.debugToken;
                 logLevel = LogLevel.Information;
             }
-
-            //Storing the token as a seperate file seemed like a good idea
-            StreamReader reader = new StreamReader(tokenFileLocation);
-
-            string token = reader.ReadToEnd();
-
-            reader.Close();
 
             //Bot config stuff, token, intents etc.
             DiscordConfiguration config = new DiscordConfiguration()
@@ -74,6 +63,8 @@ namespace Robit
                 Intents =
                 DiscordIntents.MessageContents |
                 DiscordIntents.Guilds |
+                DiscordIntents.GuildVoiceStates |
+                DiscordIntents.GuildPresences |
                 DiscordIntents.GuildMessages,
                 MinimumLogLevel = logLevel,
 
@@ -109,9 +100,20 @@ namespace Robit
             commands.SetHelpFormatter<CustomHelpFormatter>();
             #endregion
 
-            if (!FileManager.ResponseManager.DirCheck().Result)
+            List<string> dirsMissing = FileManager.DirCheck().Result.ToList();
+
+            if (dirsMissing.Count != 0)
             {
-                botClient.Logger.LogInformation("Had to create Data directory");
+                string message = "Missing following directories:\n";
+
+                foreach(string dirMissing in dirsMissing)
+                {
+                    string dirMissingText = char.ToUpper(dirMissing[0]) + dirMissing.Substring(1);
+
+                    message += $"\t\t\t\t\t\t\t{dirMissingText}\n";
+                }
+
+                botClient.Logger.LogWarning(message);
             }
 
             botClient.Ready += BotClient_Ready;
@@ -229,11 +231,6 @@ namespace Robit
             messageLower = messageLower.Replace("\\", " ");
             messageLower = messageLower.Replace("~", " ");
             #endregion
-
-            if (Debugger.IsAttached)
-            {
-                await messageArgs.Message.RespondAsync(messageLower);
-            }
             
             string[] wordsInMessage = messageLower.Split(' ');
 
@@ -268,7 +265,7 @@ namespace Robit
 
                 foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
                 { 
-                    if (mentionedUser == botClient.CurrentUser)
+                    if (mentionedUser == botClient?.CurrentUser)
                     {
                         botMentioned = true;
                         break;
@@ -341,8 +338,8 @@ namespace Robit
                     //Log the AI interaction only if we are in debug mode
                     if (DebugStatus())
                     {
-                        botClient.Logger.LogDebug($"Message: {messageArgs.Message.Content}");
-                        botClient.Logger.LogDebug($"Reply: {completionResult.Choices[0].Text}");
+                        botClient?.Logger.LogDebug($"Message: {messageArgs.Message.Content}");
+                        botClient?.Logger.LogDebug($"Reply: {completionResult.Choices[0].Text}");
                     }
 
                     //Double checks as message modify might not actually do it some times
@@ -357,9 +354,9 @@ namespace Robit
 
                     if (completionResult.Error == null)
                     {
-                        throw new Exception("Unknown Error");
+                        throw new Exception("OpenAI text generation failed");
                     }
-                    botClient.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
+                    botClient?.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
                 }
             });
 
@@ -374,7 +371,7 @@ namespace Robit
         /// <returns>The completed task</returns>
         private static Task BotClient_Ready(DiscordClient sender, DSharpPlus.EventArgs.ReadyEventArgs e)
         {
-            botClient.Logger.LogInformation("Client is ready");
+            botClient?.Logger.LogInformation("Client is ready");
 
             return Task.CompletedTask;
         }

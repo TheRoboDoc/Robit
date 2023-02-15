@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using Robit.Converter;
+using System.Net;
+using System.Text.Json;
 
 namespace Robit
 {
@@ -7,6 +9,117 @@ namespace Robit
     /// </summary>
     public static class FileManager
     {
+        /// <summary>
+        /// Paths to directories that the bot uses to store different kinds of data
+        /// </summary>
+        public readonly struct Paths
+        {
+            public static readonly string basePath = AppDomain.CurrentDomain.BaseDirectory;
+            public static readonly string dataPath = $@"{basePath}/ResponseData";
+            public static readonly string tempMediaPath = $@"{basePath}TempMedia";
+        }
+
+        /// <summary>
+        /// Checks that the directory exists
+        /// </summary>
+        /// <returns>
+        /// A list of all directories created
+        /// </returns>
+        public static async Task<List<string>> DirCheck()
+        {
+            List<string> list = new List<string>();
+
+            await Task.Run(() =>
+            {
+                Paths paths = new Paths();
+
+                foreach(var field in typeof(Paths).GetFields())
+                {
+                    string? path = field.GetValue(paths)?.ToString();
+
+                    if (string.IsNullOrEmpty(path))
+                    {
+                        continue;
+                    }
+
+                    DirectoryInfo directoryInfo = new DirectoryInfo(path);
+
+                    if (!directoryInfo.Exists)
+                    {
+                        directoryInfo.Create();
+                        list.Add(field.Name);
+                    }
+                }
+            });
+
+            return list;
+        }
+
+        public static class MediaManager
+        {
+            public static string IDToPath(string channelID)
+            {
+                return $@"{Paths.tempMediaPath}/{channelID}";
+            }
+
+            public static async Task SaveFile(string url, string channelID , string format)
+            {
+                WebClient client = new WebClient();
+
+                string path = IDToPath(channelID);
+
+                DirectoryInfo directory = new DirectoryInfo(path);
+
+                await Task.Run(() =>
+                {
+                    if(!directory.Exists)
+                    {
+                        directory.Create();
+                    }
+
+                    client.DownloadFile(new Uri(url), $"{path}/download.{format}");
+
+                    Thread.Sleep(2000);
+                });
+
+                
+            }
+
+            public static async Task Convert(string channelID, string formatFrom, string formatTo)
+            {
+                string path = IDToPath(channelID);
+
+                await Task.Run(() =>
+                {
+                    FfmpegConvert.Convert(path, formatFrom, formatTo);
+                });
+            }
+
+            public static async Task ClearChannelTempFolder(string channelID)
+            {
+                string path = IDToPath(channelID);
+
+                await Task.Run(() =>
+                {
+                    DirectoryInfo directoryInfo = new DirectoryInfo(path);
+
+                    List<FileInfo> files = directoryInfo.GetFiles().ToList();
+
+                    foreach (FileInfo file in files)
+                    {
+                        try
+                        {
+                            file.Delete();
+                        }
+                        catch 
+                        {
+                            
+                        }
+                    }
+                });
+            }
+        }
+
         /// <summary>
         /// Class for managment of response files
         /// </summary>
@@ -24,49 +137,13 @@ namespace Robit
             }
 
             /// <summary>
-            /// Folder path to the "ResponseData" folder
-            /// </summary>
-            private static readonly string dataPath = $@"{AppDomain.CurrentDomain.BaseDirectory}/ResponseData";
-
-            /// <summary>
-            /// Checks that the data directory for storing the responses exists
-            /// </summary>
-            /// <returns>
-            /// <list type="table">
-            /// <item>True: Directory exists</item>
-            /// <item>False: Directory doesn't exist</item>
-            /// </list>
-            /// </returns>
-            public static async Task<bool> DirCheck()
-            {
-                bool dirExists = false;
-
-                await Task.Run(() =>
-                {
-                    DirectoryInfo directoryInfo = new DirectoryInfo(dataPath);
-
-                    if (!directoryInfo.Exists)
-                    {
-                        directoryInfo.Create();
-                        dirExists = false;
-                    }
-                    else
-                    {
-                        dirExists = true;
-                    }
-                });
-
-                return dirExists;
-            }
-
-            /// <summary>
             /// Converts a guild ID into that guild's responses json file path
             /// </summary>
             /// <param name="guildID">ID to convert</param>
             /// <returns>Path to that guilds responses json file</returns>
             private static string IDToPath(string guildID)
             {
-                return $@"{dataPath}/{guildID}.json";
+                return $@"{Paths.dataPath}/{guildID}.json";
             }
 
             /// <summary>
@@ -82,7 +159,7 @@ namespace Robit
             /// <item>False: Modification failed</item>
             /// </list>
             /// </returns>
-            public static bool ModifyEntry(string entryName, string content, string response, string guildID)
+            public static async Task<bool> ModifyEntry(string entryName, string content, string response, string guildID)
             {
                 List<ResponseEntry> responseEntries = new List<ResponseEntry>();
 
@@ -94,29 +171,36 @@ namespace Robit
 
                 bool found = false;
 
-                foreach(ResponseEntry responseEntry in responseEntries)
+                await Task.Run(() =>
                 {
-                    if(responseEntry.reactName.ToLower() == entryName.ToLower())
+                    foreach (ResponseEntry responseEntry in responseEntries)
                     {
-                        responseEntryToModify = responseEntry;
-                        found = true;
-                        break;
+                        if (responseEntry.reactName.ToLower() == entryName.ToLower())
+                        {
+                            responseEntryToModify = responseEntry;
+                            found = true;
+                            break;
+                        }
                     }
-                }
+                });
 
-                if(!found) { return false; }
+                if (!found) { return false; }
 
-                ResponseEntry modifiedResponseEntry = new ResponseEntry()
+                await Task.Run(() =>
                 {
-                    reactName = entryName,
-                    content = content,
-                    response = response
-                };
+                    ResponseEntry modifiedResponseEntry = new ResponseEntry()
+                    {
+                        reactName = entryName,
+                        content = content,
+                        response = response
+                    };
 
-                responseEntries.Remove(responseEntryToModify);
-                responseEntries.Add(modifiedResponseEntry);
+                    responseEntries.Remove(responseEntryToModify);
+                    responseEntries.Add(modifiedResponseEntry);
 
-                OverwriteEntries(responseEntries, guildID);
+                    OverwriteEntries(responseEntries, guildID);
+                });
+                    
 
                 return true;
             }

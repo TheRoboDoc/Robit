@@ -4,7 +4,7 @@ using DSharpPlus.CommandsNext.Converters;
 using DSharpPlus.CommandsNext.Entities;
 using DSharpPlus.Entities;
 
-namespace Robit
+namespace Robit.Command
 {
     public class Commands : BaseCommandModule
     {
@@ -38,7 +38,7 @@ namespace Robit
 
             public override CommandHelpMessage Build()
             {
-                EmbedBuilder.Description = 
+                EmbedBuilder.Description =
                     $"{context.Client.CurrentUser.Username}'s prefix commands are for debug purposes only. " +
                     $"You should use slash (\"/\") commands instead.";
                 EmbedBuilder.Color = DiscordColor.Purple;
