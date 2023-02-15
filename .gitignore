@@ -366,3 +366,11 @@ FodyWeavers.xsd
 /Robit/debugToken.txt
 /Robit/application.yml
 /Robit/Lavalink.jar
+/Robit/Tokens/debugToken.txt
+/Robit/Tokens/token.txt
+/Robit/Tokens/OpenAIToken.txt
+/Robit/LavaLink/Lavalink.jar
+/Robit/LavaLink/application.yml
+/Robit/Resource1.resx
+/Robit/Tokens.resx
+/Robit/Tokens.Designer.cs
