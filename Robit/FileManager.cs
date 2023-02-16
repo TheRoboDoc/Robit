@@ -55,13 +55,27 @@ namespace Robit
             return list;
         }
 
+        /// <summary>
+        /// A set of methods to manage media files
+        /// </summary>
         public static class MediaManager
         {
+            /// <summary>
+            /// Converts a channel ID to a folder path in the TempMedia folder
+            /// </summary>
+            /// <param name="channelID">Channel ID to convert</param>
+            /// <returns>A path to the corresponding channel</returns>
             public static string IDToPath(string channelID)
             {
                 return $@"{Paths.tempMediaPath}/{channelID}";
             }
 
+            /// <summary>
+            /// Downloads and saves a file from a given link to <i>"Channel ID"</i> folder
+            /// </summary>
+            /// <param name="url">The link to the file</param>
+            /// <param name="channelID">Channel ID</param>
+            /// <param name="format">The format of the file</param>
             public static async Task SaveFile(string url, string channelID , string format)
             {
                 WebClient client = new WebClient();
@@ -81,10 +95,14 @@ namespace Robit
 
                     Thread.Sleep(2000);
                 });
-
-                
             }
 
+            /// <summary>
+            /// Converts a downloaded file from the <i>"Channel ID"</i> folder from one format to another
+            /// </summary>
+            /// <param name="channelID">Channel ID</param>
+            /// <param name="formatFrom">Original format of the file</param>
+            /// <param name="formatTo">The desired format of the file</param>
             public static async Task Convert(string channelID, string formatFrom, string formatTo)
             {
                 string path = IDToPath(channelID);
@@ -95,6 +113,10 @@ namespace Robit
                 });
             }
 
+            /// <summary>
+            /// Clears the <i>"Channel ID"</i> folder
+            /// </summary>
+            /// <param name="channelID">Channel ID</param>
             public static async Task ClearChannelTempFolder(string channelID)
             {
                 string path = IDToPath(channelID);
