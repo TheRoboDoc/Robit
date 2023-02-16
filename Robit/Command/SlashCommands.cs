@@ -375,7 +375,6 @@ namespace Robit.Command
 
             string responseText = $"{ctx.Member.Mention} ";
 
-            //766478619513585675
 
             if (completionResult.Successful)
             {
