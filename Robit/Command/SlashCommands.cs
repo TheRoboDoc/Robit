@@ -373,11 +373,13 @@ namespace Robit.Command
                 FrequencyPenalty = 0.5F
             }, Models.TextDavinciV3);
 
-            string responseText = $"{ctx.Member.Mention}";
+            string responseText = $"{ctx.Member.Mention} ";
+
+            //766478619513585675
 
             if (completionResult.Successful)
             {
-                responseText = completionResult.Choices[0].Text;
+                responseText += completionResult.Choices[0].Text;
             }
             else
             {
@@ -390,9 +392,9 @@ namespace Robit.Command
 
             DiscordWebhookBuilder builder2 = new DiscordWebhookBuilder();
 
-            builder.AddMention(UserMention.All);
-            builder.WithContent(responseText);
-            builder.AddFile(fileStream);
+            builder2.AddMention(UserMention.All);
+            builder2.WithContent(responseText);
+            builder2.AddFile(fileStream);
 
             await ctx.EditResponseAsync(builder2);
 

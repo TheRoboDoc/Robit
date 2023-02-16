@@ -129,14 +129,7 @@ namespace Robit
 
                     foreach (FileInfo file in files)
                     {
-                        try
-                        {
-                            file.Delete();
-                        }
-                        catch 
-                        {
-                            
-                        }
+                        file.Delete();
                     }
                 });
             }
