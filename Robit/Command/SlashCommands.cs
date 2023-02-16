@@ -21,8 +21,8 @@ namespace Robit.Command
         double times = 1,
 
         [Option("Visible", "Is the ping visible to others")]
-        [DefaultValue(true)]
-        bool visible = true)
+        [DefaultValue(false)]
+        bool visible = false)
         {
             await ctx.CreateResponseAsync($"Pong {ctx.Client.Ping}ms", !visible);
             times--;
@@ -112,13 +112,20 @@ namespace Robit.Command
             public async Task Add(InteractionContext ctx,
 
             [Option("Name", "Name of the response interaction")]
+            [MaximumLength(50)] 
             string name,
 
-            [Option("Content", "The content of the message to respond to")]
+            [Option("Trigger", "The trigger of the message to respond to")]
+            [MaximumLength(50)]
             string content,
 
             [Option("Response", "The response to the message")]
-            string response)
+            [MaximumLength(150)]
+            string response,
+            
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
             {
                 FileManager.ResponseManager.ResponseEntry responseEntry = new FileManager.ResponseManager.ResponseEntry()
                 {
@@ -134,14 +141,14 @@ namespace Robit.Command
                 {
                     if (entry.reactName.ToLower() == responseEntry.reactName.ToLower())
                     {
-                        await ctx.CreateResponseAsync("A response with a same name already exists");
+                        await ctx.CreateResponseAsync("A response with a same name already exists", !visible);
                         return;
                     }
                 }
 
                 FileManager.ResponseManager.WriteEntry(responseEntry, ctx.Guild.Id.ToString());
 
-                await ctx.CreateResponseAsync($@"Added new response with trigger '{content}' and response '{response}'");
+                await ctx.CreateResponseAsync($@"Added new response with trigger '{content}' and response '{response}'", !visible);
             }
 
 
@@ -149,15 +156,19 @@ namespace Robit.Command
             public async Task Remove(InteractionContext ctx,
 
             [Option("Name", "Name of the response interaction to delete")]
-            string name)
+            string name,
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visibile = false)
             {
                 if (FileManager.ResponseManager.RemoveEntry(name, ctx.Guild.Id.ToString()))
                 {
-                    await ctx.CreateResponseAsync($@"Entry with a name {name} has been removed");
+                    await ctx.CreateResponseAsync($@"Entry with a name {name} has been removed", !visibile);
                 }
                 else
                 {
-                    await ctx.CreateResponseAsync($@"Couldn't find a response with a name {name}");
+                    await ctx.CreateResponseAsync($@"Couldn't find a response with a name {name}", !visibile);
                 }
             }
 
@@ -168,11 +179,17 @@ namespace Robit.Command
             [Option("Name", "Name of the response interaction to modify")]
             string name,
 
-            [Option("Content", "New content for the interaction")]
+            [Option("Trigger", "New trigger for the interaction")]
+            [MaximumLength(50)]
             string content,
 
             [Option("Response", "New response for the interaction")]
-            string response)
+            [MaximumLength(150)]
+            string response,
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
             {
                 if (FileManager.ResponseManager.ModifyEntry(name, content, response, ctx.Guild.Id.ToString()).Result)
                 {
@@ -180,18 +197,21 @@ namespace Robit.Command
                         (
                             $@"Entry with a name '{name}' has been modified, " +
                             $@"it now responds to messages that contain '{content}' " +
-                            $@"with '{response}'"
+                            $@"with '{response}'", !visible
                         );
                 }
                 else
                 {
-                    await ctx.CreateResponseAsync($@"Couldn't find response interaction with a name {name}");
+                    await ctx.CreateResponseAsync($@"Couldn't find response interaction with a name {name}", !visible);
                 }
             }
 
 
             [SlashCommand("List", "List all the response interactions")]
-            public async Task List(InteractionContext ctx)
+            public async Task List(InteractionContext ctx, 
+                [Option("Visible", "Sets the commands visibility", true)]
+                [DefaultValue(false)]
+                bool visible = false)
             {
                 List<FileManager.ResponseManager.ResponseEntry> responseEntries = new List<FileManager.ResponseManager.ResponseEntry>();
 
@@ -214,23 +234,29 @@ namespace Robit.Command
                     }
                 });
 
-                await ctx.CreateResponseAsync(discordEmbedBuilder);
+                await ctx.CreateResponseAsync(discordEmbedBuilder, !visible);
             }
 
             [SlashCommand("Wipe", "Wipe all of the response interactions")]
             [SlashCommandPermissions(Permissions.Administrator)]
-            public async Task Wipe(InteractionContext ctx)
+            public async Task Wipe(InteractionContext ctx,
+                [Option("visible", "Sets the visibility", true)]
+                [DefaultValue(false)]
+                bool visible = false)
             {
                 List<FileManager.ResponseManager.ResponseEntry> responseEntries = new List<FileManager.ResponseManager.ResponseEntry>();
 
                 FileManager.ResponseManager.OverwriteEntries(responseEntries, ctx.Guild.Id.ToString());
 
-                await ctx.CreateResponseAsync("All response interactions have been overwritten");
+                await ctx.CreateResponseAsync("All response interactions have been overwritten", !visible);
             }
         }
         #endregion
 
         #region Media Convert
+        /// <summary>
+        /// List of available file formats
+        /// </summary>
         public enum FileFormats
         {
             mp4,
@@ -247,7 +273,8 @@ namespace Robit.Command
         [SlashCommand("Convert", "Converts a given file from one format to another")]
         public async Task Convert(InteractionContext ctx, 
             [Option("Media_file", "Media file to convert from")]DiscordAttachment attachment,
-            [Option("Format", "Format to convert to")]FileFormats fileFormat)
+            [Option("Format", "Format to convert to")]FileFormats fileFormat,
+            [Option("Visible", "Sets the visibility", true)][DefaultValue(false)]bool visible = false)
         {
             string[] mediaType = attachment.MediaType.Split('/');
 
@@ -256,13 +283,13 @@ namespace Robit.Command
 
             if(type != "image" && type != "video")
             {
-                await ctx.CreateResponseAsync($"The given file format is '{type}' and not an image or an video", true);
+                await ctx.CreateResponseAsync($"The given file format is '{type}' and not an image or an video", !visible);
                 return;
             }
 
             if(format == fileFormat.GetName())
             {
-                await ctx.CreateResponseAsync($"You tried to convert an '{format}' into an '{fileFormat.GetName()}'", true);
+                await ctx.CreateResponseAsync($"You tried to convert an '{format}' into an '{fileFormat.GetName()}'", !visible);
                 return;
             }
 
@@ -275,7 +302,7 @@ namespace Robit.Command
                     case "wepb":
                     case "tiff":
                         await ctx.CreateResponseAsync($"You tried to convert a video into an image. " +
-                            $"{ctx.Guild.CurrentMember.DisplayName} doesn't support turning video into image sequences", true);
+                            $"{ctx.Guild.CurrentMember.DisplayName} doesn't support turning video into image sequences", !visible);
                         return;
                 }
             }
@@ -287,25 +314,25 @@ namespace Robit.Command
                     case "mov":
                     case "mkv":
                     case "webm":
-                        await ctx.CreateResponseAsync($"You tried to convert an image into a video", true);
+                        await ctx.CreateResponseAsync($"You tried to convert an image into a video", !visible);
                         return;
                 }
             }
 
             if(attachment.FileSize > 8388608)
             {
-                await ctx.CreateResponseAsync($"Sorry but the file size was above 8 Mb ({attachment.FileSize / 1048576} Mb)", true);
+                await ctx.CreateResponseAsync($"Sorry but the file size was above 8 Mb ({attachment.FileSize / 1048576} Mb)", !visible);
                 return;
             }
 
             if(type == "video" && fileFormat == FileFormats.gif)
             {
                 await ctx.CreateResponseAsync("Creating gifs from video is an experemental feature, the bot might get stuck\n" +
-                    "Processing...", true);
+                    "Processing...", !visible);
             }
             else
             {
-                await ctx.CreateResponseAsync("Processing...", true);
+                await ctx.CreateResponseAsync("Processing...", !visible);
             }
 
             FileManager.MediaManager.SaveFile(attachment.Url, ctx.Channel.Id.ToString(), format).Wait();
@@ -316,9 +343,13 @@ namespace Robit.Command
 
             FileInfo fileInfo = new FileInfo(path);
 
+            DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+
             if(fileInfo.Length > 8388608)
             {
-                await ctx.CreateResponseAsync($"Sorry but the resulting file was above 8 Mb ({attachment.FileSize / 1048576} Mb)", true);
+                builder.WithContent($"Sorry but the resulting file was above 8 Mb");
+
+                await ctx.EditResponseAsync(builder);
                 return;
             }
 
@@ -346,7 +377,7 @@ namespace Robit.Command
 
             if (completionResult.Successful)
             {
-                responseText += completionResult.Choices[0].Text;
+                responseText = completionResult.Choices[0].Text;
             }
             else
             {
@@ -357,13 +388,13 @@ namespace Robit.Command
                 ctx.Client.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
             }
 
-            DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+            DiscordWebhookBuilder builder2 = new DiscordWebhookBuilder();
 
             builder.AddMention(UserMention.All);
             builder.WithContent(responseText);
             builder.AddFile(fileStream);
 
-            await ctx.EditResponseAsync(builder);
+            await ctx.EditResponseAsync(builder2);
 
             fileStream.Close();
 
@@ -423,6 +454,73 @@ namespace Robit.Command
             responseBuilder.WithContent(content);
 
             await ctx.CreateResponseAsync(responseBuilder);
+        }
+        #endregion
+
+        #region AI Interactions
+        [SlashCommand("Prompt", "Prompt the bot")]
+        public async Task Prompt(InteractionContext ctx, 
+            [Option("AI_prompt", "The AI text prompt")]
+            [MaximumLength(690)] 
+            string prompt,
+            
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
+        {
+            await ctx.CreateResponseAsync("Thinking...", !visible);
+
+            Tuple<bool, string?> check = WordFilter.WordFilter.Check(prompt);
+
+            if(check.Item1)
+            {
+                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+
+                builder.WithContent($"Prompt contained '{check.Item2}', which is a blacklisted word/topic");
+
+                await ctx.EditResponseAsync(builder);
+                return;
+            }
+
+            CompletionCreateResponse completionResult = await Program.openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
+            {
+                Prompt =
+                $"{ctx.Guild.CurrentMember.DisplayName} is a friendly discord bot that tries to answer user questions to the best of his abilities\n" +
+                 "He is very passionate, but understands that he cannot answer every questions and tries to avoid " +
+                 "answering directly to sensetive topics." +
+                 "He isn't very sophisticated and cannot have full blown conversations.\n" +
+                 "His responses are generated using OpenAI Davinci V3 text AI model\n\n" +
+                $"{ctx.Member.Mention}: {prompt}\n" +
+                $"{ctx.Guild.CurrentMember.DisplayName}: ",
+                MaxTokens = 690,
+                Temperature = 0.3F,
+                TopP = 0.3F,
+                PresencePenalty = 0,
+                FrequencyPenalty = 0.5F
+            }, Models.TextDavinciV3);
+
+            
+            if (completionResult.Successful)
+            {
+                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+
+                builder.WithContent(completionResult.Choices[0].Text);
+
+                await ctx.EditResponseAsync(builder);
+            }
+            else
+            {
+                if (completionResult.Error == null)
+                {
+                    throw new Exception("OpenAI text generation failed");
+                }
+                ctx.Client.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
+
+                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+                builder.WithContent("OpenAI text generation failed");
+
+                await ctx.EditResponseAsync(builder);
+            }
         }
         #endregion
 

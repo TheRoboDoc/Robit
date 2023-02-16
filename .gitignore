@@ -374,3 +374,5 @@ FodyWeavers.xsd
 /Robit/Resource1.resx
 /Robit/Tokens.resx
 /Robit/Tokens.Designer.cs
+/Robit/WordFilter/blacklist.resx
+/Robit/Resources/blacklist.txt

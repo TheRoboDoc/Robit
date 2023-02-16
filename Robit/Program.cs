@@ -12,7 +12,6 @@ using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
 using static Robit.Command.Commands;
 using Robit.Command;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Robit
 {
@@ -273,6 +272,14 @@ namespace Robit
                 }
 
                 if (!botMentioned) return;
+
+                Tuple<bool, string?> filter = WordFilter.WordFilter.Check(messageArgs.Message.ToString());
+
+                if(filter.Item1)
+                {
+                    await messageArgs.Message.RespondAsync("Message contained blacklisted word/topic");
+                    return;
+                }
 
                 //Required to cancel the task "thinking"
                 //Needed as it is an infinite loop

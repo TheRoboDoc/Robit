@@ -45,12 +45,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Tokens.resx</DependentUpon>
     </Compile>
+    <Compile Update="WordFilter\blacklist.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BLACKLIST.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Tokens.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Tokens.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="WordFilter\BLACKLIST.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>blacklist.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
