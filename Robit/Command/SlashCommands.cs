@@ -276,6 +276,8 @@ namespace Robit.Command
             [Option("Format", "Format to convert to")]FileFormats fileFormat,
             [Option("Visible", "Sets the visibility", true)][DefaultValue(false)]bool visible = false)
         {
+            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Channel.Id.ToString());
+
             string[] mediaType = attachment.MediaType.Split('/');
 
             string type = mediaType[0];
