@@ -12,6 +12,7 @@ using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
 using static Robit.Command.Commands;
 using Robit.Command;
+using Robit.WordFilter;
 
 namespace Robit
 {
@@ -192,44 +193,7 @@ namespace Robit
 
             string messageLower = messageArgs.Message.Content.ToLower();
 
-            #region Special characters that are removed
-            messageLower = messageLower.Replace("+", " ");
-            messageLower = messageLower.Replace("`", " ");
-            messageLower = messageLower.Replace("¨", " ");
-            messageLower = messageLower.Replace("\'", " ");
-            messageLower = messageLower.Replace(",", " ");
-            messageLower = messageLower.Replace(".", " ");
-            messageLower = messageLower.Replace("-", " ");
-            messageLower = messageLower.Replace("!", "" );
-            messageLower = messageLower.Replace("\"", " ");
-            messageLower = messageLower.Replace("#", " ");
-            messageLower = messageLower.Replace("¤", " ");
-            messageLower = messageLower.Replace("%", " " );
-            messageLower = messageLower.Replace("&", " ");
-            messageLower = messageLower.Replace("/", " ");   
-            messageLower = messageLower.Replace("(", " ");
-            messageLower = messageLower.Replace(")", " ");
-            messageLower = messageLower.Replace("=", " ");
-            messageLower = messageLower.Replace("?", " ");
-            messageLower = messageLower.Replace("´", " ");
-            messageLower = messageLower.Replace("^", " ");
-            messageLower = messageLower.Replace("*", " ");
-            messageLower = messageLower.Replace(";", " ");
-            messageLower = messageLower.Replace(":", " ");
-            messageLower = messageLower.Replace("_", " ");
-            messageLower = messageLower.Replace("§", " ");
-            messageLower = messageLower.Replace("½", " ");
-            messageLower = messageLower.Replace("@", " ");
-            messageLower = messageLower.Replace("£", " ");
-            messageLower = messageLower.Replace("$", " ");
-            messageLower = messageLower.Replace("€", " ");
-            messageLower = messageLower.Replace("{", " ");
-            messageLower = messageLower.Replace("[", " ");
-            messageLower = messageLower.Replace("]", " ");
-            messageLower = messageLower.Replace("}", " ");
-            messageLower = messageLower.Replace("\\", " ");
-            messageLower = messageLower.Replace("~", " ");
-            #endregion
+            messageLower = WordFilter.WordFilter.SpecialCharacterRemoval(messageLower);
             
             string[] wordsInMessage = messageLower.Split(' ');
 
@@ -240,7 +204,7 @@ namespace Robit
                     if(word == responseEntry.content.ToLower())
                     {
                         await messageArgs.Message.RespondAsync(responseEntry.response);
-                        break;
+                        return;
                     }
                 }
             }

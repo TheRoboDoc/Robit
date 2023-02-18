@@ -26,15 +26,62 @@ namespace Robit.WordFilter
                 return Tuple.Create(false, (string?) null);
             }
 
-            foreach(string badWord in badWords) 
-            { 
-                if(sentence.Contains(badWord.ToLower()))
+            string[] wordsInSentence = sentence.Split(' ');
+
+            foreach (string word in wordsInSentence)
+            {
+                foreach (string badWord in badWords)
                 {
-                    return Tuple.Create(true, (string?)badWord);
+                    if (badWord == word.ToLower())
+                    {
+                        return Tuple.Create(true, (string?)word);
+                    }
                 }
             }
 
             return Tuple.Create(false, (string?) null);
+        }
+
+        public static string SpecialCharacterRemoval(string aString)
+        {
+            aString = aString.Replace("+", " ");
+            aString = aString.Replace("`", " ");
+            aString = aString.Replace("¨", " ");
+            aString = aString.Replace("\'", " ");
+            aString = aString.Replace(",", " ");
+            aString = aString.Replace(".", " ");
+            aString = aString.Replace("-", " ");
+            aString = aString.Replace("!", "");
+            aString = aString.Replace("\"", " ");
+            aString = aString.Replace("#", " ");
+            aString = aString.Replace("¤", " ");
+            aString = aString.Replace("%", " ");
+            aString = aString.Replace("&", " ");
+            aString = aString.Replace("/", " ");
+            aString = aString.Replace("(", " ");
+            aString = aString.Replace(")", " ");
+            aString = aString.Replace("=", " ");
+            aString = aString.Replace("?", " ");
+            aString = aString.Replace("´", " ");
+            aString = aString.Replace("^", " ");
+            aString = aString.Replace("*", " ");
+            aString = aString.Replace(";", " ");
+            aString = aString.Replace(":", " ");
+            aString = aString.Replace("_", " ");
+            aString = aString.Replace("§", " ");
+            aString = aString.Replace("½", " ");
+            aString = aString.Replace("@", " ");
+            aString = aString.Replace("£", " ");
+            aString = aString.Replace("$", " ");
+            aString = aString.Replace("€", " ");
+            aString = aString.Replace("{", " ");
+            aString = aString.Replace("[", " ");
+            aString = aString.Replace("]", " ");
+            aString = aString.Replace("}", " ");
+            aString = aString.Replace("\\", " ");
+            aString = aString.Replace("~", " ");
+
+            return aString;
         }
     }
 }
