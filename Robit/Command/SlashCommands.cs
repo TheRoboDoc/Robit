@@ -21,8 +21,8 @@ namespace Robit.Command
         double times = 1,
 
         [Option("Visible", "Is the ping visible to others")]
-        [DefaultValue(false)]
-        bool visible = false)
+        [DefaultValue(true)]
+        bool visible = true)
         {
             await ctx.CreateResponseAsync($"Pong {ctx.Client.Ping}ms", !visible);
             times--;
@@ -141,7 +141,7 @@ namespace Robit.Command
                 {
                     if (entry.reactName.ToLower() == responseEntry.reactName.ToLower())
                     {
-                        await ctx.CreateResponseAsync("A response with a same name already exists", !visible);
+                        await ctx.CreateResponseAsync("A response with a same name already exists", true);
                         return;
                     }
                 }
@@ -168,7 +168,7 @@ namespace Robit.Command
                 }
                 else
                 {
-                    await ctx.CreateResponseAsync($@"Couldn't find a response with a name {name}", !visibile);
+                    await ctx.CreateResponseAsync($@"Couldn't find a response with a name {name}", true);
                 }
             }
 
@@ -202,7 +202,7 @@ namespace Robit.Command
                 }
                 else
                 {
-                    await ctx.CreateResponseAsync($@"Couldn't find response interaction with a name {name}", !visible);
+                    await ctx.CreateResponseAsync($@"Couldn't find response interaction with a name {name}", true);
                 }
             }
 
@@ -283,13 +283,13 @@ namespace Robit.Command
 
             if(type != "image" && type != "video")
             {
-                await ctx.CreateResponseAsync($"The given file format is '{type}' and not an image or an video", !visible);
+                await ctx.CreateResponseAsync($"The given file format is '{type}' and not an image or an video", true);
                 return;
             }
 
             if(format == fileFormat.GetName())
             {
-                await ctx.CreateResponseAsync($"You tried to convert an '{format}' into an '{fileFormat.GetName()}'", !visible);
+                await ctx.CreateResponseAsync($"You tried to convert an '{format}' into an '{fileFormat.GetName()}'", true);
                 return;
             }
 
@@ -302,7 +302,7 @@ namespace Robit.Command
                     case "wepb":
                     case "tiff":
                         await ctx.CreateResponseAsync($"You tried to convert a video into an image. " +
-                            $"{ctx.Guild.CurrentMember.DisplayName} doesn't support turning video into image sequences", !visible);
+                            $"{ctx.Guild.CurrentMember.DisplayName} doesn't support turning video into image sequences", true);
                         return;
                 }
             }
@@ -314,14 +314,14 @@ namespace Robit.Command
                     case "mov":
                     case "mkv":
                     case "webm":
-                        await ctx.CreateResponseAsync($"You tried to convert an image into a video", !visible);
+                        await ctx.CreateResponseAsync($"You tried to convert an image into a video", true);
                         return;
                 }
             }
 
             if(attachment.FileSize > 8388608)
             {
-                await ctx.CreateResponseAsync($"Sorry but the file size was above 8 Mb ({attachment.FileSize / 1048576} Mb)", !visible);
+                await ctx.CreateResponseAsync($"Sorry but the file size was above 8 Mb ({attachment.FileSize / 1048576} Mb)", true);
                 return;
             }
 
@@ -466,22 +466,18 @@ namespace Robit.Command
             string prompt,
             
             [Option("Visible", "Sets the visibility", true)]
-            [DefaultValue(false)]
-            bool visible = false)
+            [DefaultValue(true)]
+            bool visible = true)
         {
-            await ctx.CreateResponseAsync("Thinking...", !visible);
-
             Tuple<bool, string?> check = WordFilter.WordFilter.Check(prompt);
 
             if(check.Item1)
             {
-                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
-
-                builder.WithContent($"Prompt contained '{check.Item2}', which is a blacklisted word/topic");
-
-                await ctx.EditResponseAsync(builder);
+                await ctx.CreateResponseAsync($"Prompt contained '{check.Item2}', which is a blacklisted word/topic", true);
                 return;
             }
+
+            await ctx.CreateResponseAsync("Thinking...", !visible);
 
             CompletionCreateResponse completionResult = await Program.openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
             {
