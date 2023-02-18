@@ -26,6 +26,7 @@ namespace Robit.WordFilter
                 return Tuple.Create(false, (string?) null);
             }
 
+            //A duplicate of what Response Task does
             string[] wordsInSentence = sentence.Split(' ');
 
             foreach (string word in wordsInSentence)
@@ -42,8 +43,14 @@ namespace Robit.WordFilter
             return Tuple.Create(false, (string?) null);
         }
 
+        /// <summary>
+        /// Removes bunch of special characters from a given string (if any are found)
+        /// </summary>
+        /// <param name="aString">String to clear of special characters</param>
+        /// <returns>A string with removed special characters</returns>
         public static string SpecialCharacterRemoval(string aString)
         {
+            //There's a better way, but this works for now
             aString = aString.Replace("+", " ");
             aString = aString.Replace("`", " ");
             aString = aString.Replace("¨", " ");

@@ -78,7 +78,7 @@ namespace Robit
             /// <param name="format">The format of the file</param>
             public static async Task SaveFile(string url, string channelID , string format)
             {
-                WebClient client = new WebClient();
+                WebClient client = new WebClient(); //Needs to be replaced with HttpClient at somepoint
 
                 string path = IDToPath(channelID);
 
@@ -93,7 +93,7 @@ namespace Robit
 
                     client.DownloadFile(new Uri(url), $"{path}/download.{format}");
 
-                    Thread.Sleep(2000);
+                    Thread.Sleep(2000); //Things don't work properly if this is removed
                 });
             }
 
