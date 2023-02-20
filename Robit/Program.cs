@@ -13,6 +13,7 @@ using OpenAI.GPT3.ObjectModels.ResponseModels;
 using static Robit.Command.Commands;
 using Robit.Command;
 using Robit.WordFilter;
+using DSharpPlus.EventArgs;
 
 namespace Robit
 {
@@ -126,6 +127,7 @@ namespace Robit
 
             botClient.MessageCreated += Response;
             botClient.MessageCreated += AIResponse;
+            botClient.MessageCreated += DiscordNoobFailsafe;
 
             //The bot has a tendency to lose it's current activity if it gets disconnected
             //This is why we periodically (on every heartbeat) set it to the correct one
@@ -178,13 +180,64 @@ namespace Robit
         }
 
         /// <summary>
+        /// A failsafe for when a user tries to execute a slash command but sends it as a plain message instead.
+        /// Deletes the failed command message and after 10 seconds deletes the warning message.
+        /// </summary>
+        /// <param name="sender">Discord client that triggerd this task</param>
+        /// <param name="messageArgs">Message creation event arguemnts</param>
+        /// <returns></returns>
+        private static async Task DiscordNoobFailsafe (DiscordClient sender, MessageCreateEventArgs messageArgs)
+        {
+            if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
+
+            if (messageArgs.Message.Content.ToString().First() != '/') return;
+
+            SlashCommandsExtension slashCommandsExtension = botClient.GetSlashCommands();
+
+            var slashCommandsList = slashCommandsExtension.RegisteredCommands;
+            List<DiscordApplicationCommand>globalCommands = 
+                slashCommandsList.Where(x => x.Key == null).SelectMany(x => x.Value).ToList();
+
+            List<string> commands = new List<string>();
+
+            foreach(DiscordApplicationCommand globalCommand in globalCommands)
+            {
+                commands.Add(globalCommand.Name);
+            }
+
+            DiscordMessage? message = null;
+
+            foreach (string command in commands)
+            {
+                if(messageArgs.Message.ToString().Contains(command))
+                {
+                    await messageArgs.Message.DeleteAsync();
+
+                    message = await messageArgs.Message.RespondAsync
+                        ($"{messageArgs.Author.Mention} you tried running a {command} command, but instead send it as a plain message. " +
+                        $"That doesn't look very nice for you. So I took the liberty to delete it");
+
+                    break;
+                }
+            }
+
+            Task deletion = Task.Run(async () =>
+            {
+                if (message != null)
+                {
+                    await Task.Delay(10000);
+                    await message.DeleteAsync();
+                }
+            });
+        }
+
+        /// <summary>
         /// Responses to messages that contain trigger content as defined by response interactions for a guild
         /// </summary>
         /// <param name="sender">Discord client that triggerd this task</param>
         /// <param name="messageArgs">Message creation event arguemnts</param>
         private static async Task Response(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
         {
-            //This should be made into a command in the future. Where server owner/admins can add responses
             if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
 
             List<FileManager.ResponseManager.ResponseEntry> responseEntries = new List<FileManager.ResponseManager.ResponseEntry>();
