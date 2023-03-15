@@ -28,7 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Betalgo.OpenAI.GPT3" Version="6.6.7" />
+    <PackageReference Include="Betalgo.OpenAI.GPT3" Version="6.7.3" />
     <PackageReference Include="DSharpPlus" Version="4.3.0" />
     <PackageReference Include="DSharpPlus.CommandsNext" Version="4.3.0" />
     <PackageReference Include="DSharpPlus.Interactivity" Version="4.3.0" />
@@ -36,7 +36,7 @@
     <PackageReference Include="DSharpPlus.SlashCommands" Version="4.3.0" />
     <PackageReference Include="DSharpPlus.VoiceNext" Version="4.3.0" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-    <PackageReference Include="Xabe.FFmpeg" Version="5.2.5" />
+    <PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,6 +69,9 @@
     </None>
     <None Update="LavaLink\Lavalink.jar">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\RobitThink.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Tokens\debugToken.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

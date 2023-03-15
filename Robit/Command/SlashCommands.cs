@@ -327,15 +327,7 @@ namespace Robit.Command
                 return;
             }
 
-            if(type == "video" && fileFormat == FileFormats.gif)
-            {
-                await ctx.CreateResponseAsync("Creating gifs from video is an experemental feature, the bot might get stuck\n" +
-                    "Processing...", !visible);
-            }
-            else
-            {
-                await ctx.CreateResponseAsync("Processing...", !visible);
-            }
+            await Program.ThinkingAnimationInteractionResponse(ctx);
 
             FileManager.MediaManager.SaveFile(attachment.Url, ctx.Channel.Id.ToString(), format).Wait();
 
@@ -479,7 +471,7 @@ namespace Robit.Command
                 return;
             }
 
-            await ctx.CreateResponseAsync("Thinking...", !visible);
+            await Program.ThinkingAnimationInteractionResponse(ctx);
 
             CompletionCreateResponse completionResult = await Program.openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
             {

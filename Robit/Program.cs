@@ -12,8 +12,10 @@ using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
 using static Robit.Command.Commands;
 using Robit.Command;
-using Robit.WordFilter;
 using DSharpPlus.EventArgs;
+using System.Reflection;
+using System.IO;
+using System.IO.Pipes;
 
 namespace Robit
 {
@@ -185,12 +187,11 @@ namespace Robit
         /// </summary>
         /// <param name="sender">Discord client that triggerd this task</param>
         /// <param name="messageArgs">Message creation event arguemnts</param>
-        /// <returns></returns>
         private static async Task DiscordNoobFailsafe (DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
             if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
 
-            if (messageArgs.Message.Content.ToString().First() != '/') return;
+            if (messageArgs.Message.Content.First() != '/') return;
 
             SlashCommandsExtension slashCommandsExtension = botClient.GetSlashCommands();
 
@@ -209,7 +210,7 @@ namespace Robit
 
             foreach (string command in commands)
             {
-                if(messageArgs.Message.ToString().Contains(command))
+                if(messageArgs.Message.Content.Contains(command))
                 {
                     await messageArgs.Message.DeleteAsync();
 
@@ -221,7 +222,7 @@ namespace Robit
                 }
             }
 
-            Task deletion = Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 if (message != null)
                 {
@@ -232,13 +233,42 @@ namespace Robit
         }
 
         /// <summary>
+        /// Checks if the bot was mentioned in a message
+        /// </summary>
+        /// <param name="messageArgs">Arguments of the message to check</param>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item><c>True</c>: Mentioned</item>
+        /// <item><c>False</c>: Not mentioned</item>
+        /// </list>
+        /// </returns>
+        private static async Task<bool> CheckBotMention(MessageCreateEventArgs messageArgs)
+        {
+            bool botMentioned = false;
+
+            await Task.Run(() =>
+            {
+                foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
+                {
+                    if (mentionedUser == botClient?.CurrentUser)
+                    {
+                        botMentioned = true;
+                        break;
+                    }
+                }
+            });
+
+            return botMentioned;
+        }
+
+        /// <summary>
         /// Responses to messages that contain trigger content as defined by response interactions for a guild
         /// </summary>
         /// <param name="sender">Discord client that triggerd this task</param>
         /// <param name="messageArgs">Message creation event arguemnts</param>
-        private static async Task Response(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
+        private static async Task Response(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
-            if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
+            if (messageArgs.Author.IsBot || messageArgs.Equals(null) || CheckBotMention(messageArgs).Result) return;
 
             List<FileManager.ResponseManager.ResponseEntry> responseEntries = new List<FileManager.ResponseManager.ResponseEntry>();
 
@@ -263,34 +293,62 @@ namespace Robit
             }
         }
 
+        public static async Task ThinkingAnimationInteractionEdit(InteractionContext ctx)
+        {
+            FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitThink.gif");
+
+            await Task.Run(() =>
+            {
+                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+
+                builder.AddFile(fileStream);
+
+                ctx.EditResponseAsync(builder);
+            });
+        }
+
+        public static async Task ThinkingAnimationInteractionResponse(InteractionContext ctx)
+        {
+            DiscordInteractionResponseBuilder builder = new DiscordInteractionResponseBuilder();
+
+            FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitThink.gif");
+
+            await Task.Run(() =>
+            {
+                builder.AddFile(fileStream);
+
+                ctx.CreateResponseAsync(builder);
+            });
+        }
+
+        public static async Task<DiscordMessageBuilder> MessageThinkingAnimation()
+        {
+            DiscordMessageBuilder builder = new DiscordMessageBuilder();
+
+            FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitThink.gif");
+
+            builder.AddFile(fileStream);
+
+            return builder;
+        }
+
         /// <summary>
         /// AI responses when prompted
         /// </summary>
         /// <param name="sender">Discord client that triggered this task</param>
         /// <param name="messageArgs">Message creation event arguments</param>
-        /// <returns></returns>
+        /// <returns>Completed task</returns>
         /// <exception cref="Exception">AI module response fail</exception>
-        private static Task AIResponse(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
+        private static Task AIResponse(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
             if (messageArgs.Author.IsBot) return Task.CompletedTask;
 
             //Run as a task because otherwise get a warning that event handler for Message created took too long
             Task response = Task.Run(async () =>
             {
-                bool botMentioned = false;
+                if (!CheckBotMention(messageArgs).Result) return;
 
-                foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
-                { 
-                    if (mentionedUser == botClient?.CurrentUser)
-                    {
-                        botMentioned = true;
-                        break;
-                    }
-                }
-
-                if (!botMentioned) return;
-
-                Tuple<bool, string?> filter = WordFilter.WordFilter.Check(messageArgs.Message.ToString());
+                Tuple<bool, string?> filter = WordFilter.WordFilter.Check(messageArgs.Message.Content);
 
                 if(filter.Item1)
                 {
@@ -298,40 +356,7 @@ namespace Robit
                     return;
                 }
 
-                //Required to cancel the task "thinking"
-                //Needed as it is an infinite loop
-                CancellationTokenSource thinkingCancelTokenSource = new CancellationTokenSource();
-                CancellationToken thinkingCancelToken = thinkingCancelTokenSource.Token;
-
-                DiscordMessage reply = await messageArgs.Message.RespondAsync("Thinking");
-
-                //Task that handles animation of "Thinking..." display
-                Task thinking = Task.Run(async () =>
-                {
-                    while (true)
-                    {
-                        if (thinkingCancelToken.IsCancellationRequested)
-                        {
-                            return Task.CompletedTask;
-                        }
-
-                        await reply.ModifyAsync("Thinking");
-                        string messageReply = reply.Content;
-
-                        for (int i = 0; i <= 2; i++)
-                        {
-                            if (thinkingCancelToken.IsCancellationRequested)
-                            {
-                                return Task.CompletedTask;
-                            }
-
-                            messageReply += ".";
-                            await reply.ModifyAsync(messageReply);
-                            Thread.Sleep(750);
-                        }
-                    }
-
-                }, thinkingCancelToken);
+                DiscordMessage reply = await messageArgs.Message.RespondAsync(MessageThinkingAnimation().Result);
 
                 //AI propmt
                 CompletionCreateResponse completionResult = await openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
@@ -355,8 +380,6 @@ namespace Robit
                 //If we get a proper result from OpenAI
                 if (completionResult.Successful)
                 {
-                    thinkingCancelTokenSource.Cancel();
-
                     await reply.ModifyAsync(completionResult.Choices[0].Text);
 
                     //Log the AI interaction only if we are in debug mode
@@ -374,8 +397,6 @@ namespace Robit
                 }
                 else
                 {
-                    thinkingCancelTokenSource.Cancel();
-
                     if (completionResult.Error == null)
                     {
                         throw new Exception("OpenAI text generation failed");
