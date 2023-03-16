@@ -327,7 +327,7 @@ namespace Robit.Command
                 return;
             }
 
-            await Program.ThinkingAnimationInteractionResponse(ctx);
+            await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif");
 
             FileManager.MediaManager.SaveFile(attachment.Url, ctx.Channel.Id.ToString(), format).Wait();
 
@@ -368,7 +368,6 @@ namespace Robit.Command
             }, Models.TextDavinciV3);
 
             string responseText = $"{ctx.Member.Mention} ";
-
 
             if (completionResult.Successful)
             {
@@ -471,7 +470,7 @@ namespace Robit.Command
                 return;
             }
 
-            await Program.ThinkingAnimationInteractionResponse(ctx);
+            await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif");
 
             CompletionCreateResponse completionResult = await Program.openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
             {

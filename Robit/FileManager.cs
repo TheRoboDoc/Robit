@@ -17,6 +17,7 @@ namespace Robit
             public static readonly string basePath = AppDomain.CurrentDomain.BaseDirectory;
             public static readonly string dataPath = $@"{basePath}/ResponseData";
             public static readonly string tempMediaPath = $@"{basePath}TempMedia";
+            public static readonly string resources = $@"{basePath}/Resources";
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace Robit
 
                     client.DownloadFile(new Uri(url), $"{path}/download.{format}");
 
-                    Thread.Sleep(2000); //Things don't work properly if this is removed
+                    Task.Delay(2000); //Things don't work properly if this is removed
                 });
             }
 
@@ -124,6 +125,11 @@ namespace Robit
                 await Task.Run(() =>
                 {
                     DirectoryInfo directoryInfo = new DirectoryInfo(path);
+
+                    if (!directoryInfo.Exists)
+                    {
+                        directoryInfo.Create();
+                    }
 
                     List<FileInfo> files = directoryInfo.GetFiles().ToList();
 

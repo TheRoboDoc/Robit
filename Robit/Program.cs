@@ -293,41 +293,30 @@ namespace Robit
             }
         }
 
-        public static async Task ThinkingAnimationInteractionEdit(InteractionContext ctx)
-        {
-            FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitThink.gif");
-
-            await Task.Run(() =>
-            {
-                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
-
-                builder.AddFile(fileStream);
-
-                ctx.EditResponseAsync(builder);
-            });
-        }
-
-        public static async Task ThinkingAnimationInteractionResponse(InteractionContext ctx)
-        {
-            DiscordInteractionResponseBuilder builder = new DiscordInteractionResponseBuilder();
-
-            FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitThink.gif");
-
-            await Task.Run(() =>
-            {
-                builder.AddFile(fileStream);
-
-                ctx.CreateResponseAsync(builder);
-            });
-        }
-
         public static async Task<DiscordMessageBuilder> MessageThinkingAnimation()
         {
             DiscordMessageBuilder builder = new DiscordMessageBuilder();
 
-            FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitThink.gif");
+            await Task.Run(() =>
+            {
+                FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitThink.gif");
 
-            builder.AddFile(fileStream);
+                builder.AddFile(fileStream);
+            });
+
+            return builder;
+        }
+
+        public static async Task<DiscordInteractionResponseBuilder> InteractionThinkiningAnimation()
+        {
+            DiscordInteractionResponseBuilder builder = new DiscordInteractionResponseBuilder();
+
+            await Task.Run(() =>
+            {
+                FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitThink.gif");
+
+                builder.AddFile(fileStream);
+            });
 
             return builder;
         }
@@ -377,22 +366,18 @@ namespace Robit
                     FrequencyPenalty = 0.5F
                 }, Models.TextDavinciV3);
 
+                await reply.DeleteAsync();
+
                 //If we get a proper result from OpenAI
                 if (completionResult.Successful)
                 {
-                    await reply.ModifyAsync(completionResult.Choices[0].Text);
+                    await messageArgs.Message.RespondAsync(completionResult.Choices[0].Text);
 
                     //Log the AI interaction only if we are in debug mode
                     if (DebugStatus())
                     {
                         botClient?.Logger.LogDebug($"Message: {messageArgs.Message.Content}");
                         botClient?.Logger.LogDebug($"Reply: {completionResult.Choices[0].Text}");
-                    }
-
-                    //Double checks as message modify might not actually do it some times
-                    if(reply.Content != completionResult.Choices[0].Text)
-                    {
-                        await reply.ModifyAsync(completionResult.Choices[0].Text);
                     }
                 }
                 else
@@ -402,6 +387,8 @@ namespace Robit
                         throw new Exception("OpenAI text generation failed");
                     }
                     botClient?.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
+
+                    await messageArgs.Message.RespondAsync("AI text generation failed");
                 }
             });
 
