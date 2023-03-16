@@ -1,21 +1,18 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Entities;
+using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using DSharpPlus.Entities;
-using OpenAI.GPT3.Managers;
 using OpenAI.GPT3;
-using OpenAI.GPT3.ObjectModels.RequestModels;
+using OpenAI.GPT3.Managers;
 using OpenAI.GPT3.ObjectModels;
+using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
-using static Robit.Command.Commands;
 using Robit.Command;
-using DSharpPlus.EventArgs;
-using System.Reflection;
-using System.IO;
-using System.IO.Pipes;
+using System.Diagnostics;
+using static Robit.Command.Commands;
 
 namespace Robit
 {
@@ -71,7 +68,7 @@ namespace Robit
                 DiscordIntents.GuildMessages,
                 MinimumLogLevel = logLevel,
 
-                LogTimestampFormat = "dd.MM.yyyy HH:mm:ss (zzz)"           
+                LogTimestampFormat = "dd.MM.yyyy HH:mm:ss (zzz)"
             };
 
             botClient = new DiscordClient(config);
@@ -109,7 +106,7 @@ namespace Robit
             {
                 string message = "Missing following directories:\n";
 
-                foreach(string dirMissing in dirsMissing)
+                foreach (string dirMissing in dirsMissing)
                 {
                     string dirMissingText = char.ToUpper(dirMissing[0]) + dirMissing.Substring(1);
 
@@ -169,7 +166,7 @@ namespace Robit
         {
             bool debugState;
 
-            if(Debugger.IsAttached)
+            if (Debugger.IsAttached)
             {
                 debugState = true;
             }
@@ -187,7 +184,7 @@ namespace Robit
         /// </summary>
         /// <param name="sender">Discord client that triggerd this task</param>
         /// <param name="messageArgs">Message creation event arguemnts</param>
-        private static async Task DiscordNoobFailsafe (DiscordClient sender, MessageCreateEventArgs messageArgs)
+        private static async Task DiscordNoobFailsafe(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
             if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
 
@@ -196,12 +193,12 @@ namespace Robit
             SlashCommandsExtension slashCommandsExtension = botClient.GetSlashCommands();
 
             var slashCommandsList = slashCommandsExtension.RegisteredCommands;
-            List<DiscordApplicationCommand>globalCommands = 
+            List<DiscordApplicationCommand> globalCommands =
                 slashCommandsList.Where(x => x.Key == null).SelectMany(x => x.Value).ToList();
 
             List<string> commands = new List<string>();
 
-            foreach(DiscordApplicationCommand globalCommand in globalCommands)
+            foreach (DiscordApplicationCommand globalCommand in globalCommands)
             {
                 commands.Add(globalCommand.Name);
             }
@@ -210,7 +207,7 @@ namespace Robit
 
             foreach (string command in commands)
             {
-                if(messageArgs.Message.Content.Contains(command))
+                if (messageArgs.Message.Content.Contains(command))
                 {
                     await messageArgs.Message.DeleteAsync();
 
@@ -277,14 +274,14 @@ namespace Robit
             string messageLower = messageArgs.Message.Content.ToLower();
 
             messageLower = WordFilter.WordFilter.SpecialCharacterRemoval(messageLower);
-            
+
             string[] wordsInMessage = messageLower.Split(' ');
 
             foreach (string word in wordsInMessage)
             {
-                foreach(FileManager.ResponseManager.ResponseEntry responseEntry in responseEntries)
+                foreach (FileManager.ResponseManager.ResponseEntry responseEntry in responseEntries)
                 {
-                    if(word == responseEntry.content.ToLower())
+                    if (word == responseEntry.content.ToLower())
                     {
                         await messageArgs.Message.RespondAsync(responseEntry.response);
                         return;
@@ -339,7 +336,7 @@ namespace Robit
 
                 Tuple<bool, string?> filter = WordFilter.WordFilter.Check(messageArgs.Message.Content);
 
-                if(filter.Item1)
+                if (filter.Item1)
                 {
                     await messageArgs.Message.RespondAsync("Message contained blacklisted word/topic");
                     return;
@@ -350,7 +347,7 @@ namespace Robit
                 //AI propmt
                 CompletionCreateResponse completionResult = await openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
                 {
-                    Prompt = 
+                    Prompt =
                     $"{messageArgs.Guild.CurrentMember.DisplayName} is a friendly discord bot that tries to answer user questions to the best of his abilities\n" +
                     "He is very passionate, but understands that he cannot answer every questions and tries to avoid " +
                     "answering directly to sensetive topics." +

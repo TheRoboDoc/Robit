@@ -2,9 +2,9 @@
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
+using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
-using OpenAI.GPT3.ObjectModels;
 using System.ComponentModel;
 
 namespace Robit.Command
@@ -112,7 +112,7 @@ namespace Robit.Command
             public async Task Add(InteractionContext ctx,
 
             [Option("Name", "Name of the response interaction")]
-            [MaximumLength(50)] 
+            [MaximumLength(50)]
             string name,
 
             [Option("Trigger", "The trigger of the message to respond to")]
@@ -122,7 +122,7 @@ namespace Robit.Command
             [Option("Response", "The response to the message")]
             [MaximumLength(150)]
             string response,
-            
+
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(false)]
             bool visible = false)
@@ -208,7 +208,7 @@ namespace Robit.Command
 
 
             [SlashCommand("List", "List all the response interactions")]
-            public async Task List(InteractionContext ctx, 
+            public async Task List(InteractionContext ctx,
                 [Option("Visible", "Sets the commands visibility", true)]
                 [DefaultValue(false)]
                 bool visible = false)
@@ -271,10 +271,10 @@ namespace Robit.Command
         }
 
         [SlashCommand("Convert", "Converts a given file from one format to another")]
-        public async Task Convert(InteractionContext ctx, 
-            [Option("Media_file", "Media file to convert from")]DiscordAttachment attachment,
-            [Option("Format", "Format to convert to")]FileFormats fileFormat,
-            [Option("Visible", "Sets the visibility", true)][DefaultValue(false)]bool visible = false)
+        public async Task Convert(InteractionContext ctx,
+            [Option("Media_file", "Media file to convert from")] DiscordAttachment attachment,
+            [Option("Format", "Format to convert to")] FileFormats fileFormat,
+            [Option("Visible", "Sets the visibility", true)][DefaultValue(false)] bool visible = false)
         {
             await FileManager.MediaManager.ClearChannelTempFolder(ctx.Channel.Id.ToString());
 
@@ -283,21 +283,21 @@ namespace Robit.Command
             string type = mediaType[0];
             string format = mediaType[1];
 
-            if(type != "image" && type != "video")
+            if (type != "image" && type != "video")
             {
                 await ctx.CreateResponseAsync($"The given file format is '{type}' and not an image or an video", true);
                 return;
             }
 
-            if(format == fileFormat.GetName())
+            if (format == fileFormat.GetName())
             {
                 await ctx.CreateResponseAsync($"You tried to convert an '{format}' into an '{fileFormat.GetName()}'", true);
                 return;
             }
 
-            if(type == "video")
+            if (type == "video")
             {
-                switch(fileFormat.GetName())
+                switch (fileFormat.GetName())
                 {
                     case "jpg":
                     case "png":
@@ -308,9 +308,9 @@ namespace Robit.Command
                         return;
                 }
             }
-            else if(type == "image")
+            else if (type == "image")
             {
-                switch(fileFormat.GetName())
+                switch (fileFormat.GetName())
                 {
                     case "mp4":
                     case "mov":
@@ -321,7 +321,7 @@ namespace Robit.Command
                 }
             }
 
-            if(attachment.FileSize > 8388608)
+            if (attachment.FileSize > 8388608)
             {
                 await ctx.CreateResponseAsync($"Sorry but the file size was above 8 Mb ({attachment.FileSize / 1048576} Mb)", true);
                 return;
@@ -339,7 +339,7 @@ namespace Robit.Command
 
             DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
 
-            if(fileInfo.Length > 8388608)
+            if (fileInfo.Length > 8388608)
             {
                 builder.WithContent($"Sorry but the resulting file was above 8 Mb");
 
@@ -349,7 +349,7 @@ namespace Robit.Command
 
             FileStream fileStream = File.OpenRead(path);
 
-            CompletionCreateResponse completionResult = await Program.openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
+            CompletionCreateResponse? completionResult = await Program.openAiService?.Completions.CreateCompletion(new CompletionCreateRequest()
             {
                 Prompt =
                 $"{ctx.Guild.CurrentMember.DisplayName} is a friendly discord bot that tries to answer user questions to the best of his abilities\n" +
@@ -401,7 +401,7 @@ namespace Robit.Command
         public async Task TagVoice(InteractionContext ctx,
             [Option("Message", "Message to ping people in current voice chat with")]
             [DefaultValue("")]
-            string message = "", 
+            string message = "",
             [Option("Attachment", "File attachment to the ping message")]
             [DefaultValue(null)]
             DiscordAttachment? attachment = null)
@@ -414,7 +414,7 @@ namespace Robit.Command
 
             DiscordChannel voiceChannel = ctx.Member.VoiceState.Channel;
 
-            if(message == "" && attachment == null)
+            if (message == "" && attachment == null)
             {
                 await ctx.CreateResponseAsync("Message and attachment cannot both be empty", true);
                 return;
@@ -424,7 +424,7 @@ namespace Robit.Command
 
             foreach (DiscordMember user in voiceChannel.Users)
             {
-                if(!user.IsBot && user != ctx.Member)
+                if (!user.IsBot && user != ctx.Member)
                 {
                     content += $"{user.Mention} ";
                 }
@@ -437,11 +437,11 @@ namespace Robit.Command
                 content += $"\n{message}";
             }
 
-            if(attachment != null)
+            if (attachment != null)
             {
                 content += $"\n{attachment.Url}";
             }
-            
+
             DiscordInteractionResponseBuilder responseBuilder = new DiscordInteractionResponseBuilder();
 
             responseBuilder.AddMention(UserMention.All);
@@ -453,18 +453,18 @@ namespace Robit.Command
 
         #region AI Interactions
         [SlashCommand("Prompt", "Prompt the bot")]
-        public async Task Prompt(InteractionContext ctx, 
+        public async Task Prompt(InteractionContext ctx,
             [Option("AI_prompt", "The AI text prompt")]
-            [MaximumLength(690)] 
+            [MaximumLength(690)]
             string prompt,
-            
+
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(true)]
             bool visible = true)
         {
             Tuple<bool, string?> check = WordFilter.WordFilter.Check(prompt);
 
-            if(check.Item1)
+            if (check.Item1)
             {
                 await ctx.CreateResponseAsync($"Prompt contained '{check.Item2}', which is a blacklisted word/topic", true);
                 return;
@@ -489,7 +489,7 @@ namespace Robit.Command
                 FrequencyPenalty = 0.5F
             }, Models.TextDavinciV3);
 
-            
+
             if (completionResult.Successful)
             {
                 DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
