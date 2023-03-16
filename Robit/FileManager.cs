@@ -17,6 +17,7 @@ namespace Robit
             public static readonly string basePath = AppDomain.CurrentDomain.BaseDirectory;
             public static readonly string dataPath = $@"{basePath}/ResponseData";
             public static readonly string tempMediaPath = $@"{basePath}TempMedia";
+            public static readonly string resources = $@"{basePath}/Resources";
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace Robit
             {
                 Paths paths = new Paths();
 
-                foreach(var field in typeof(Paths).GetFields())
+                foreach (var field in typeof(Paths).GetFields())
                 {
                     string? path = field.GetValue(paths)?.ToString();
 
@@ -76,7 +77,7 @@ namespace Robit
             /// <param name="url">The link to the file</param>
             /// <param name="channelID">Channel ID</param>
             /// <param name="format">The format of the file</param>
-            public static async Task SaveFile(string url, string channelID , string format)
+            public static async Task SaveFile(string url, string channelID, string format)
             {
                 WebClient client = new WebClient(); //Needs to be replaced with HttpClient at somepoint
 
@@ -86,14 +87,14 @@ namespace Robit
 
                 await Task.Run(() =>
                 {
-                    if(!directory.Exists)
+                    if (!directory.Exists)
                     {
                         directory.Create();
                     }
 
                     client.DownloadFile(new Uri(url), $"{path}/download.{format}");
 
-                    Thread.Sleep(2000); //Things don't work properly if this is removed
+                    Task.Delay(2000); //Things don't work properly if this is removed
                 });
             }
 
@@ -124,6 +125,11 @@ namespace Robit
                 await Task.Run(() =>
                 {
                     DirectoryInfo directoryInfo = new DirectoryInfo(path);
+
+                    if (!directoryInfo.Exists)
+                    {
+                        directoryInfo.Create();
+                    }
 
                     List<FileInfo> files = directoryInfo.GetFiles().ToList();
 
@@ -215,7 +221,7 @@ namespace Robit
 
                     OverwriteEntries(responseEntries, guildID);
                 });
-                    
+
 
                 return true;
             }
@@ -239,22 +245,22 @@ namespace Robit
 
                 responseEntries = ReadEntries(guildID);
 
-                foreach(ResponseEntry responseEntry in responseEntries)
+                foreach (ResponseEntry responseEntry in responseEntries)
                 {
-                    if(responseEntry.reactName.ToLower() == entryName.ToLower())
+                    if (responseEntry.reactName.ToLower() == entryName.ToLower())
                     {
                         responseEntryToRemove = responseEntry;
                         break;
                     }
                 }
 
-                if(!responseEntries.Remove(responseEntryToRemove))
+                if (!responseEntries.Remove(responseEntryToRemove))
                 {
                     return false;
                 }
-                
+
                 OverwriteEntries(responseEntries, guildID);
-                
+
                 return true;
             }
 
@@ -290,7 +296,7 @@ namespace Robit
             /// <returns><c>ResponseEntry</c> list</returns>
             public static List<ResponseEntry> ReadEntries(string guildID)
             {
-                List<ResponseEntry> responseEntries = new List<ResponseEntry>();
+                List<ResponseEntry>? responseEntries = new List<ResponseEntry>();
 
                 string path = IDToPath(guildID);
 
@@ -305,12 +311,16 @@ namespace Robit
                 {
                     responseEntries = JsonSerializer.Deserialize<List<ResponseEntry>>(jsonString);
                 }
+                else
+                {
+                    throw new NullReferenceException("List of response entries is null");
+                }
 
                 return responseEntries;
             }
 
             /// <summary>
-            /// Adds an <c>ResponseEntry</c> to a guild's <c>ResponseEntry</c> list
+            /// Adds an <c>ResponseEntr0y</c> to a guild's <c>ResponseEntry</c> list
             /// </summary>
             /// <param name="responseEntry"><c>ResponseEntry to add</c></param>
             /// <param name="guildID">ID of the guild</param>
@@ -360,7 +370,7 @@ namespace Robit
             {
                 FileInfo fileInfo = new FileInfo(fileDir);
 
-                if(!fileInfo.Exists)
+                if (!fileInfo.Exists)
                 {
                     return false;
                 }

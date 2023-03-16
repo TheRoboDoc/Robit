@@ -21,9 +21,9 @@ namespace Robit.WordFilter
 
             List<string>? badWords = JsonSerializer.Deserialize<List<string>>(BLACKLIST.blacklist);
 
-            if(badWords == null)
+            if (badWords == null)
             {
-                return Tuple.Create(false, (string?) null);
+                return Tuple.Create(false, (string?)null);
             }
 
             //A duplicate of what Response Task does
@@ -40,7 +40,7 @@ namespace Robit.WordFilter
                 }
             }
 
-            return Tuple.Create(false, (string?) null);
+            return Tuple.Create(false, (string?)null);
         }
 
         /// <summary>

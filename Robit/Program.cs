@@ -1,18 +1,18 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Entities;
+using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using DSharpPlus.Entities;
-using OpenAI.GPT3.Managers;
 using OpenAI.GPT3;
-using OpenAI.GPT3.ObjectModels.RequestModels;
+using OpenAI.GPT3.Managers;
 using OpenAI.GPT3.ObjectModels;
+using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
-using static Robit.Command.Commands;
 using Robit.Command;
-using Robit.WordFilter;
+using System.Diagnostics;
+using static Robit.Command.Commands;
 
 namespace Robit
 {
@@ -68,7 +68,7 @@ namespace Robit
                 DiscordIntents.GuildMessages,
                 MinimumLogLevel = logLevel,
 
-                LogTimestampFormat = "dd.MM.yyyy HH:mm:ss (zzz)"           
+                LogTimestampFormat = "dd.MM.yyyy HH:mm:ss (zzz)"
             };
 
             botClient = new DiscordClient(config);
@@ -106,7 +106,7 @@ namespace Robit
             {
                 string message = "Missing following directories:\n";
 
-                foreach(string dirMissing in dirsMissing)
+                foreach (string dirMissing in dirsMissing)
                 {
                     string dirMissingText = char.ToUpper(dirMissing[0]) + dirMissing.Substring(1);
 
@@ -126,6 +126,7 @@ namespace Robit
 
             botClient.MessageCreated += Response;
             botClient.MessageCreated += AIResponse;
+            botClient.MessageCreated += DiscordNoobFailsafe;
 
             //The bot has a tendency to lose it's current activity if it gets disconnected
             //This is why we periodically (on every heartbeat) set it to the correct one
@@ -165,7 +166,7 @@ namespace Robit
         {
             bool debugState;
 
-            if(Debugger.IsAttached)
+            if (Debugger.IsAttached)
             {
                 debugState = true;
             }
@@ -178,14 +179,93 @@ namespace Robit
         }
 
         /// <summary>
+        /// A failsafe for when a user tries to execute a slash command but sends it as a plain message instead.
+        /// Deletes the failed command message and after 10 seconds deletes the warning message.
+        /// </summary>
+        /// <param name="sender">Discord client that triggerd this task</param>
+        /// <param name="messageArgs">Message creation event arguemnts</param>
+        private static async Task DiscordNoobFailsafe(DiscordClient sender, MessageCreateEventArgs messageArgs)
+        {
+            if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
+
+            if (messageArgs.Message.Content.First() != '/') return;
+
+            SlashCommandsExtension slashCommandsExtension = botClient.GetSlashCommands();
+
+            var slashCommandsList = slashCommandsExtension.RegisteredCommands;
+            List<DiscordApplicationCommand> globalCommands =
+                slashCommandsList.Where(x => x.Key == null).SelectMany(x => x.Value).ToList();
+
+            List<string> commands = new List<string>();
+
+            foreach (DiscordApplicationCommand globalCommand in globalCommands)
+            {
+                commands.Add(globalCommand.Name);
+            }
+
+            DiscordMessage? message = null;
+
+            foreach (string command in commands)
+            {
+                if (messageArgs.Message.Content.Contains(command))
+                {
+                    await messageArgs.Message.DeleteAsync();
+
+                    message = await messageArgs.Message.RespondAsync
+                        ($"{messageArgs.Author.Mention} you tried running a {command} command, but instead send it as a plain message. " +
+                        $"That doesn't look very nice for you. So I took the liberty to delete it");
+
+                    break;
+                }
+            }
+
+            _ = Task.Run(async () =>
+            {
+                if (message != null)
+                {
+                    await Task.Delay(10000);
+                    await message.DeleteAsync();
+                }
+            });
+        }
+
+        /// <summary>
+        /// Checks if the bot was mentioned in a message
+        /// </summary>
+        /// <param name="messageArgs">Arguments of the message to check</param>
+        /// <returns>
+        /// <list type="bullet">
+        /// <item><c>True</c>: Mentioned</item>
+        /// <item><c>False</c>: Not mentioned</item>
+        /// </list>
+        /// </returns>
+        private static async Task<bool> CheckBotMention(MessageCreateEventArgs messageArgs)
+        {
+            bool botMentioned = false;
+
+            await Task.Run(() =>
+            {
+                foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
+                {
+                    if (mentionedUser == botClient?.CurrentUser)
+                    {
+                        botMentioned = true;
+                        break;
+                    }
+                }
+            });
+
+            return botMentioned;
+        }
+
+        /// <summary>
         /// Responses to messages that contain trigger content as defined by response interactions for a guild
         /// </summary>
         /// <param name="sender">Discord client that triggerd this task</param>
         /// <param name="messageArgs">Message creation event arguemnts</param>
-        private static async Task Response(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
+        private static async Task Response(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
-            //This should be made into a command in the future. Where server owner/admins can add responses
-            if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
+            if (messageArgs.Author.IsBot || messageArgs.Equals(null) || CheckBotMention(messageArgs).Result) return;
 
             List<FileManager.ResponseManager.ResponseEntry> responseEntries = new List<FileManager.ResponseManager.ResponseEntry>();
 
@@ -194,14 +274,14 @@ namespace Robit
             string messageLower = messageArgs.Message.Content.ToLower();
 
             messageLower = WordFilter.WordFilter.SpecialCharacterRemoval(messageLower);
-            
+
             string[] wordsInMessage = messageLower.Split(' ');
 
             foreach (string word in wordsInMessage)
             {
-                foreach(FileManager.ResponseManager.ResponseEntry responseEntry in responseEntries)
+                foreach (FileManager.ResponseManager.ResponseEntry responseEntry in responseEntries)
                 {
-                    if(word == responseEntry.content.ToLower())
+                    if (word == responseEntry.content.ToLower())
                     {
                         await messageArgs.Message.RespondAsync(responseEntry.response);
                         return;
@@ -210,80 +290,64 @@ namespace Robit
             }
         }
 
+        public static async Task<DiscordMessageBuilder> MessageThinkingAnimation()
+        {
+            DiscordMessageBuilder builder = new DiscordMessageBuilder();
+
+            await Task.Run(() =>
+            {
+                FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitThink.gif");
+
+                builder.AddFile(fileStream);
+            });
+
+            return builder;
+        }
+
+        public static async Task<DiscordInteractionResponseBuilder> InteractionThinkiningAnimation()
+        {
+            DiscordInteractionResponseBuilder builder = new DiscordInteractionResponseBuilder();
+
+            await Task.Run(() =>
+            {
+                FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitThink.gif");
+
+                builder.AddFile(fileStream);
+            });
+
+            return builder;
+        }
+
         /// <summary>
         /// AI responses when prompted
         /// </summary>
         /// <param name="sender">Discord client that triggered this task</param>
         /// <param name="messageArgs">Message creation event arguments</param>
-        /// <returns></returns>
+        /// <returns>Completed task</returns>
         /// <exception cref="Exception">AI module response fail</exception>
-        private static Task AIResponse(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs messageArgs)
+        private static Task AIResponse(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
             if (messageArgs.Author.IsBot) return Task.CompletedTask;
 
             //Run as a task because otherwise get a warning that event handler for Message created took too long
             Task response = Task.Run(async () =>
             {
-                bool botMentioned = false;
+                if (!CheckBotMention(messageArgs).Result) return;
 
-                foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
-                { 
-                    if (mentionedUser == botClient?.CurrentUser)
-                    {
-                        botMentioned = true;
-                        break;
-                    }
-                }
+                Tuple<bool, string?> filter = WordFilter.WordFilter.Check(messageArgs.Message.Content);
 
-                if (!botMentioned) return;
-
-                Tuple<bool, string?> filter = WordFilter.WordFilter.Check(messageArgs.Message.ToString());
-
-                if(filter.Item1)
+                if (filter.Item1)
                 {
                     await messageArgs.Message.RespondAsync("Message contained blacklisted word/topic");
                     return;
                 }
 
-                //Required to cancel the task "thinking"
-                //Needed as it is an infinite loop
-                CancellationTokenSource thinkingCancelTokenSource = new CancellationTokenSource();
-                CancellationToken thinkingCancelToken = thinkingCancelTokenSource.Token;
-
-                DiscordMessage reply = await messageArgs.Message.RespondAsync("Thinking");
-
-                //Task that handles animation of "Thinking..." display
-                Task thinking = Task.Run(async () =>
-                {
-                    while (true)
-                    {
-                        if (thinkingCancelToken.IsCancellationRequested)
-                        {
-                            return Task.CompletedTask;
-                        }
-
-                        await reply.ModifyAsync("Thinking");
-                        string messageReply = reply.Content;
-
-                        for (int i = 0; i <= 2; i++)
-                        {
-                            if (thinkingCancelToken.IsCancellationRequested)
-                            {
-                                return Task.CompletedTask;
-                            }
-
-                            messageReply += ".";
-                            await reply.ModifyAsync(messageReply);
-                            Thread.Sleep(750);
-                        }
-                    }
-
-                }, thinkingCancelToken);
+                DiscordMessage reply = await messageArgs.Message.RespondAsync(MessageThinkingAnimation().Result);
 
                 //AI propmt
                 CompletionCreateResponse completionResult = await openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
                 {
-                    Prompt = 
+                    Prompt =
                     $"{messageArgs.Guild.CurrentMember.DisplayName} is a friendly discord bot that tries to answer user questions to the best of his abilities\n" +
                     "He is very passionate, but understands that he cannot answer every questions and tries to avoid " +
                     "answering directly to sensetive topics." +
@@ -299,12 +363,12 @@ namespace Robit
                     FrequencyPenalty = 0.5F
                 }, Models.TextDavinciV3);
 
+                await reply.DeleteAsync();
+
                 //If we get a proper result from OpenAI
                 if (completionResult.Successful)
                 {
-                    thinkingCancelTokenSource.Cancel();
-
-                    await reply.ModifyAsync(completionResult.Choices[0].Text);
+                    await messageArgs.Message.RespondAsync(completionResult.Choices[0].Text);
 
                     //Log the AI interaction only if we are in debug mode
                     if (DebugStatus())
@@ -312,22 +376,16 @@ namespace Robit
                         botClient?.Logger.LogDebug($"Message: {messageArgs.Message.Content}");
                         botClient?.Logger.LogDebug($"Reply: {completionResult.Choices[0].Text}");
                     }
-
-                    //Double checks as message modify might not actually do it some times
-                    if(reply.Content != completionResult.Choices[0].Text)
-                    {
-                        await reply.ModifyAsync(completionResult.Choices[0].Text);
-                    }
                 }
                 else
                 {
-                    thinkingCancelTokenSource.Cancel();
-
                     if (completionResult.Error == null)
                     {
                         throw new Exception("OpenAI text generation failed");
                     }
                     botClient?.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
+
+                    await messageArgs.Message.RespondAsync("AI text generation failed");
                 }
             });
 
