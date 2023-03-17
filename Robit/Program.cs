@@ -219,6 +219,7 @@ namespace Robit
                 }
             }
 
+            // Delets message
             _ = Task.Run(async () =>
             {
                 if (message != null)
@@ -290,6 +291,10 @@ namespace Robit
             }
         }
 
+        /// <summary>
+        /// Builds a discord message with the RobitThink.gif animation
+        /// </summary>
+        /// <returns>DiscordMessageBuilder</returns>
         public static async Task<DiscordMessageBuilder> MessageThinkingAnimation()
         {
             DiscordMessageBuilder builder = new DiscordMessageBuilder();
@@ -304,6 +309,10 @@ namespace Robit
             return builder;
         }
 
+        /// <summary>
+        /// Builds a discord interaction response with the RobitThink.gif animation
+        /// </summary>
+        /// <returns>DiscordInteractionResponseBuilder</returns>
         public static async Task<DiscordInteractionResponseBuilder> InteractionThinkiningAnimation()
         {
             DiscordInteractionResponseBuilder builder = new DiscordInteractionResponseBuilder();
@@ -344,37 +353,40 @@ namespace Robit
 
                 DiscordMessage reply = await messageArgs.Message.RespondAsync(MessageThinkingAnimation().Result);
 
-                //AI propmt
-                CompletionCreateResponse completionResult = await openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
+                ChatCompletionCreateResponse completionResult = await openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
                 {
-                    Prompt =
-                    $"{messageArgs.Guild.CurrentMember.DisplayName} is a friendly discord bot that tries to answer user questions to the best of his abilities\n" +
-                    "He is very passionate, but understands that he cannot answer every questions and tries to avoid " +
-                    "answering directly to sensetive topics." +
-                    "He isn't very sophisticated and cannot have full blown conversations.\n" +
-                    "His responses are generated using OpenAI Davinci V3 text AI model" +
-                    "Just simple replies to questions. Those replies have maximum lengh of 100 characters.\n\n" +
-                    $"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Message.Content}\n" +
-                    $"{messageArgs.Guild.CurrentMember.DisplayName}:",
-                    MaxTokens = 60,
-                    Temperature = 0.3F,
-                    TopP = 0.3F,
-                    PresencePenalty = 0,
-                    FrequencyPenalty = 0.5F
-                }, Models.TextDavinciV3);
+                    Messages = new List<ChatMessage>
+                    {
+                        ChatMessage.FromSystem
+                        (
+                            $"You are {messageArgs.Guild.CurrentMember.DisplayName}. {messageArgs.Guild.CurrentMember.DisplayName} is a friendly " +
+                            $"discord bot that tries to answer user questions to the best of his abilities. " +
+                            "He is very passionate, but understands that he cannot answer every questions and tries to avoid " +
+                            "answering directly to sensetive topics. " +
+                            "He isn't very sophisticated and cannot have full blown conversations. " +
+                            "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
+                            "Just simple replies to questions. Those replies have maximum lengh of 100 characters. " +
+                            "If you want to mentioning user. Don't use their tag. For example TestUser#1234 would be just TestUser."
+                        ),
+                        ChatMessage.FromUser("TestUser#1234: test"),
+                        ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),
+                        ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Message.Content}")
+                    },
+                    Model = Models.ChatGpt3_5Turbo
+                });
 
                 await reply.DeleteAsync();
 
                 //If we get a proper result from OpenAI
                 if (completionResult.Successful)
                 {
-                    await messageArgs.Message.RespondAsync(completionResult.Choices[0].Text);
+                    await messageArgs.Message.RespondAsync(completionResult.Choices.First().Message.Content);
 
                     //Log the AI interaction only if we are in debug mode
                     if (DebugStatus())
                     {
                         botClient?.Logger.LogDebug($"Message: {messageArgs.Message.Content}");
-                        botClient?.Logger.LogDebug($"Reply: {completionResult.Choices[0].Text}");
+                        botClient?.Logger.LogDebug($"Reply: {completionResult.Choices.First().Message.Content}");
                     }
                 }
                 else

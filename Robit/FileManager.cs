@@ -362,8 +362,8 @@ namespace Robit
             /// <param name="fileDir">File location</param>
             /// <returns>
             /// <list type="table">
-            /// <item>True: File exists</item>
-            /// <item>False: File doesn't exist</item>
+            /// <item><c>True</c>: File exists</item>
+            /// <item><c>False</c>: File doesn't exist</item>
             /// </list>
             /// </returns>
             private static bool FileExists(string fileDir)
