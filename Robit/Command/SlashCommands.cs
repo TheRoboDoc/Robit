@@ -2,7 +2,6 @@
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
-using OpenAI.GPT3.Managers;
 using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
@@ -490,7 +489,7 @@ namespace Robit.Command
                 {
                     DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
 
-                    builder.WithContent(string.Join("\n", imageResult.Results.Select(r => r.Url)));
+                    builder.WithContent($"Prompt: {prompt}\n{string.Join("\n", imageResult.Results.Select(r => r.Url))}");
 
                     await ctx.EditResponseAsync(builder);
                 }
@@ -541,10 +540,13 @@ namespace Robit.Command
                             "answering directly to sensetive topics. " +
                             "He isn't very sophisticated and cannot have full blown conversations. " +
                             "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
-                            "If you want to mentioning user. Don't use their tag. For example TestUser#1234 would be just TestUser"
+                            "If you want to mentioning user. Don't use their tag. For example TestUser#1234 would be just TestUser. " +
+                            $"{ctx.Guild.CurrentMember.Mention} is another way to address you by users."
                         ),
                         ChatMessage.FromUser("TestUser#1234: test"),
                         ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),
+                        ChatMessage.FromUser($"TestUser#1234: {ctx.Guild.CurrentMember.Mention} test"),
+                        ChatMessage.FromAssistant($"This is a test message from ping message"),
                         ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: {prompt}")
                     },
                     Model = Models.ChatGpt3_5Turbo
