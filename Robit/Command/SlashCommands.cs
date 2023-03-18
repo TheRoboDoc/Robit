@@ -540,13 +540,13 @@ namespace Robit.Command
                             "answering directly to sensetive topics. " +
                             "He isn't very sophisticated and cannot have full blown conversations. " +
                             "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
-                            "If you want to mentioning user. Don't use their tag. For example TestUser#1234 would be just TestUser. " +
+                            $"If you want to mentioning user. Don't use their tag. For example {ctx.Member.DisplayName}#{ctx.Member.Discriminator} would be just {ctx.Member.DisplayName}. " +
                             $"{ctx.Guild.CurrentMember.Mention} is another way to address you by users."
                         ),
-                        ChatMessage.FromUser("TestUser#1234: test"),
+                        ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: test"),
                         ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),
-                        ChatMessage.FromUser($"TestUser#1234: {ctx.Guild.CurrentMember.Mention} test"),
-                        ChatMessage.FromAssistant($"This is a test message from ping message"),
+                        ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: {ctx.Guild.CurrentMember.Mention} test"),
+                        ChatMessage.FromAssistant($"This is a test message from ping message, everything seems to be working fine"),
                         ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: {prompt}")
                     },
                     Model = Models.ChatGpt3_5Turbo

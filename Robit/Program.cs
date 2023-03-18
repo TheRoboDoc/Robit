@@ -378,7 +378,9 @@ namespace Robit
                             "He isn't very sophisticated and cannot have full blown conversations. " +
                             "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
                             "Just simple replies to questions. Those replies have maximum lengh of 100 characters. " +
-                            "If you want to mentioning user. Don't use their tag. For example TestUser#1234 would be just TestUser. " +
+                            $"If you want to mentioning user. Don't use their tag. For example " +
+                            $"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator} would be just " +
+                            $"{messageArgs.Author.Username}. " +
                             $"{messageArgs.Guild.CurrentMember.Mention} is another way to address you by users."
                         ),
                         ChatMessage.FromUser("TestUser#1234: test"),
