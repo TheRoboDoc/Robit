@@ -84,8 +84,9 @@ namespace Robit.Command
 
                 Description =
                 $"Hi I'm {ctx.Client.CurrentUser.Mention}. Check out what commands I have via " +
-                $"slash command menu. I can respond to messages I'm pinged in, using OpenAI Davinci Text V3. " +
-                $"Make sure to mention me and not my role as I will ignore those mentiones",
+                $"slash command menu and /commands. I can responde in short form to messages I'm mentioned in and give out " +
+                $"longer responses via /prompt text. Other things that I can do are image generation, automatic responses " +
+                $"to messages with certain triggers, and media file convertion (mov to mp4, png to jpg etc.)",
 
                 Timestamp = DateTimeOffset.Now,
 
@@ -330,6 +331,22 @@ namespace Robit.Command
 
             await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif");
 
+            bool timeout = true;
+
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(60000);
+
+                if (timeout)
+                {
+                    DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+
+                    builder.WithContent("https://cdn.discordapp.com/attachments/1051011721755623495/1086753687008976926/RobitTimeout.png");
+
+                    await ctx.EditResponseAsync(builder);
+                }
+            });
+
             FileManager.MediaManager.SaveFile(attachment.Url, ctx.Channel.Id.ToString(), format).Wait();
 
             await FileManager.MediaManager.Convert(ctx.Channel.Id.ToString(), format, fileFormat.GetName());
@@ -342,6 +359,8 @@ namespace Robit.Command
 
             if (fileInfo.Length > 8388608)
             {
+                timeout = false;
+
                 builder.WithContent($"Sorry but the resulting file was above 8 Mb");
 
                 await ctx.EditResponseAsync(builder);
@@ -392,6 +411,8 @@ namespace Robit.Command
             await ctx.EditResponseAsync(builder2);
 
             fileStream.Close();
+
+            timeout = false;
 
             await FileManager.MediaManager.ClearChannelTempFolder(ctx.Channel.Id.ToString());
         }
@@ -476,6 +497,22 @@ namespace Robit.Command
 
                 await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif", !visible);
 
+                bool timeout = true;
+
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(10000);
+
+                    if (timeout)
+                    {
+                        DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+
+                        builder.WithContent("https://cdn.discordapp.com/attachments/1051011721755623495/1086753687008976926/RobitTimeout.png");
+
+                        await ctx.EditResponseAsync(builder);
+                    }
+                });
+
                 ImageCreateResponse imageResult = await Program.openAiService.CreateImage(new ImageCreateRequest
                 {
                     Prompt = prompt,
@@ -487,6 +524,8 @@ namespace Robit.Command
 
                 if (imageResult.Successful)
                 {
+                    timeout = false;
+
                     DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
 
                     builder.WithContent($"Prompt: {prompt}\n{string.Join("\n", imageResult.Results.Select(r => r.Url))}");
@@ -495,14 +534,27 @@ namespace Robit.Command
                 }
                 else
                 {
+                    timeout = false;
+
                     if (imageResult.Error == null)
                     {
                         throw new Exception("Image generation error");
                     }
 
+                    ctx.Client.Logger.LogError($"{imageResult.Error.Code}: {imageResult.Error.Code}");
+
                     DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
 
-                    builder.WithContent("Image generation error");
+                    if (imageResult.Error.Message.Contains
+                        ("Your request was rejected as a result of our safety system. " +
+                        "Your prompt may contain text that is not allowed by our safety system."))
+                    {
+                        builder.WithContent("Your prompt may contain text that is not allowed OpenAI safety system.");
+                    }
+                    else
+                    {
+                        builder.WithContent("Image generation error");
+                    }
 
                     await ctx.EditResponseAsync(builder);
                 }
@@ -528,6 +580,22 @@ namespace Robit.Command
 
                 await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif", !visible);
 
+                bool timeout = true;
+
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(10000);
+
+                    if (timeout)
+                    {
+                        DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+
+                        builder.WithContent("https://cdn.discordapp.com/attachments/1051011721755623495/1086753687008976926/RobitTimeout.png");
+
+                        await ctx.EditResponseAsync(builder);
+                    }
+                });
+
                 ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
                 {
                     Messages = new List<ChatMessage>
@@ -540,13 +608,14 @@ namespace Robit.Command
                             "answering directly to sensetive topics. " +
                             "He isn't very sophisticated and cannot have full blown conversations. " +
                             "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
-                            "If you want to mentioning user. Don't use their tag. For example TestUser#1234 would be just TestUser. " +
+                            $"If you want to mentioning user. Don't use their tag. For example " +
+                            $"{ctx.Member.DisplayName}#{ctx.Member.Discriminator} would be just {ctx.Member.DisplayName}. " +
                             $"{ctx.Guild.CurrentMember.Mention} is another way to address you by users."
                         ),
-                        ChatMessage.FromUser("TestUser#1234: test"),
+                        ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: test"),
                         ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),
-                        ChatMessage.FromUser($"TestUser#1234: {ctx.Guild.CurrentMember.Mention} test"),
-                        ChatMessage.FromAssistant($"This is a test message from ping message"),
+                        ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: {ctx.Guild.CurrentMember.Mention} test"),
+                        ChatMessage.FromAssistant("This is a test message from ping message, everything seems to be working fine"),
                         ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: {prompt}")
                     },
                     Model = Models.ChatGpt3_5Turbo
@@ -555,6 +624,8 @@ namespace Robit.Command
 
                 if (completionResult.Successful)
                 {
+                    timeout = false;
+
                     DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
 
                     builder.WithContent($"Prompt: {prompt}\n\n{completionResult.Choices.First().Message.Content}");
@@ -563,10 +634,13 @@ namespace Robit.Command
                 }
                 else
                 {
+                    timeout = false;
+
                     if (completionResult.Error == null)
                     {
                         throw new Exception("OpenAI text generation failed");
                     }
+
                     ctx.Client.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
 
                     DiscordWebhookBuilder builder = new DiscordWebhookBuilder();

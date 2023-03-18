@@ -162,7 +162,7 @@ namespace Robit
         /// <item><c>False</c>: Not in debug</item>
         /// </list>
         /// </returns>
-        private static bool DebugStatus()
+        public static bool DebugStatus()
         {
             bool debugState;
 
@@ -339,6 +339,20 @@ namespace Robit
             return builder;
         }
 
+        public static async Task<DiscordMessageBuilder> TimedOut()
+        {
+            DiscordMessageBuilder builder = new DiscordMessageBuilder();
+
+            await Task.Run(() =>
+            {
+                FileStream fileStream = File.OpenRead($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/RobitTimeout.png");
+
+                builder.AddFile(fileStream);
+            });
+
+            return builder;
+        }
+
         /// <summary>
         /// AI responses when prompted
         /// </summary>
@@ -365,6 +379,18 @@ namespace Robit
 
                 DiscordMessage reply = await messageArgs.Message.RespondAsync(MessageThinkingAnimation().Result);
 
+                bool timeout = true;
+
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(10000);
+
+                    if (timeout)
+                    {
+                        reply = await messageArgs.Message.RespondAsync(TimedOut().Result);
+                    }
+                });
+
                 ChatCompletionCreateResponse completionResult = await openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
                 {
                     Messages = new List<ChatMessage>
@@ -378,13 +404,15 @@ namespace Robit
                             "He isn't very sophisticated and cannot have full blown conversations. " +
                             "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
                             "Just simple replies to questions. Those replies have maximum lengh of 100 characters. " +
-                            "If you want to mentioning user. Don't use their tag. For example TestUser#1234 would be just TestUser. " +
+                            $"If you want to mention a user. Don't use their tag. For example " +
+                            $"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator} would be just " +
+                            $"{messageArgs.Author.Username}. " +
                             $"{messageArgs.Guild.CurrentMember.Mention} is another way to address you by users."
                         ),
-                        ChatMessage.FromUser("TestUser#1234: test"),
+                        ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: test"),
                         ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),
-                        ChatMessage.FromUser($"TestUser#1234: {messageArgs.Guild.CurrentMember.Mention} test"),
-                        ChatMessage.FromAssistant($"This is a test message from ping message"),
+                        ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Guild.CurrentMember.Mention} test"),
+                        ChatMessage.FromAssistant("This is a test message from ping message, everything seems to be working fine"),
                         ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Message.Content}")
                     },
                     Model = Models.ChatGpt3_5Turbo
@@ -395,6 +423,8 @@ namespace Robit
                 //If we get a proper result from OpenAI
                 if (completionResult.Successful)
                 {
+                    timeout = false;
+
                     await messageArgs.Message.RespondAsync(completionResult.Choices.First().Message.Content);
 
                     //Log the AI interaction only if we are in debug mode
@@ -406,6 +436,8 @@ namespace Robit
                 }
                 else
                 {
+                    timeout = false;
+
                     if (completionResult.Error == null)
                     {
                         throw new Exception("OpenAI text generation failed");
