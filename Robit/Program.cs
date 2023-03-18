@@ -188,7 +188,17 @@ namespace Robit
         {
             if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return;
 
-            if (messageArgs.Message.Content.First() != '/') return;
+            try
+            {
+                if (messageArgs.Message.Content.First() != '/') return;
+            }
+            catch
+            {
+                if (DebugStatus())
+                {
+                    botClient?.Logger.LogInformation("The message was empty");
+                }
+            }
 
             SlashCommandsExtension slashCommandsExtension = botClient.GetSlashCommands();
 
@@ -266,6 +276,8 @@ namespace Robit
         /// <param name="messageArgs">Message creation event arguemnts</param>
         private static async Task Response(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
+            if (messageArgs.Message.Content == null) return;
+
             if (messageArgs.Author.IsBot || messageArgs.Equals(null) || CheckBotMention(messageArgs).Result) return;
 
             List<FileManager.ResponseManager.ResponseEntry> responseEntries = new List<FileManager.ResponseManager.ResponseEntry>();
@@ -366,10 +378,13 @@ namespace Robit
                             "He isn't very sophisticated and cannot have full blown conversations. " +
                             "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
                             "Just simple replies to questions. Those replies have maximum lengh of 100 characters. " +
-                            "If you want to mentioning user. Don't use their tag. For example TestUser#1234 would be just TestUser."
+                            "If you want to mentioning user. Don't use their tag. For example TestUser#1234 would be just TestUser. " +
+                            $"{messageArgs.Guild.CurrentMember.Mention} is another way to address you by users."
                         ),
                         ChatMessage.FromUser("TestUser#1234: test"),
                         ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),
+                        ChatMessage.FromUser($"TestUser#1234: {messageArgs.Guild.CurrentMember.Mention} test"),
+                        ChatMessage.FromAssistant($"This is a test message from ping message"),
                         ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Message.Content}")
                     },
                     Model = Models.ChatGpt3_5Turbo
