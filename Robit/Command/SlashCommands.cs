@@ -489,7 +489,7 @@ namespace Robit.Command
                 {
                     DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
 
-                    builder.WithContent(string.Join("\n", imageResult.Results.Select(r => r.Url)));
+                    builder.WithContent($"Prompt: {prompt}\n{string.Join("\n", imageResult.Results.Select(r => r.Url))}");
 
                     await ctx.EditResponseAsync(builder);
                 }
