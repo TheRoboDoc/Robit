@@ -540,7 +540,8 @@ namespace Robit.Command
                             "answering directly to sensetive topics. " +
                             "He isn't very sophisticated and cannot have full blown conversations. " +
                             "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
-                            $"If you want to mentioning user. Don't use their tag. For example {ctx.Member.DisplayName}#{ctx.Member.Discriminator} would be just {ctx.Member.DisplayName}. " +
+                            $"If you want to mentioning user. Don't use their tag. For example " +
+                            $"{ctx.Member.DisplayName}#{ctx.Member.Discriminator} would be just {ctx.Member.DisplayName}. " +
                             $"{ctx.Guild.CurrentMember.Mention} is another way to address you by users."
                         ),
                         ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: test"),
