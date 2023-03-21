@@ -1,4 +1,5 @@
-﻿using DSharpPlus;
+﻿using DeepAI;
+using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
@@ -27,12 +28,16 @@ namespace Robit
 
         public static OpenAIService? openAiService;
 
+        public static DeepAI_API? deepAIService;
+
         /// <summary>
         /// Main Thread
         /// </summary>
         /// <returns>Nothing</returns>
         static async Task MainAsync()
         {
+            deepAIService = new DeepAI_API(apiKey: Tokens.deepAIToken);
+
             openAiService = new OpenAIService(new OpenAiOptions()
             {
                 ApiKey = Tokens.OpenAIToken

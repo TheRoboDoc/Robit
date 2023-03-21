@@ -1,11 +1,11 @@
-﻿using DSharpPlus;
+﻿using DeepAI;
+using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
 using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
-using OpenAI.GPT3.ObjectModels.ResponseModels.ImageResponseModel;
 using System.ComponentModel;
 
 namespace Robit.Command
@@ -487,6 +487,8 @@ namespace Robit.Command
                 [DefaultValue(true)]
                 bool visible = true)
             {
+                await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
+
                 Tuple<bool, string?> check = WordFilter.WordFilter.Check(prompt);
 
                 if (check.Item1)
@@ -501,7 +503,7 @@ namespace Robit.Command
 
                 _ = Task.Run(async () =>
                 {
-                    await Task.Delay(10000);
+                    await Task.Delay(60000);
 
                     if (timeout)
                     {
@@ -513,51 +515,30 @@ namespace Robit.Command
                     }
                 });
 
-                ImageCreateResponse imageResult = await Program.openAiService.CreateImage(new ImageCreateRequest
+                StandardApiResponse? deepAIResponse = Program.deepAIService?.callStandardApi("text2img", new
                 {
-                    Prompt = prompt,
-                    N = 1,
-                    Size = StaticValues.ImageStatics.Size.Size256,
-                    ResponseFormat = StaticValues.ImageStatics.ResponseFormat.Url,
-                    User = $"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}"
+                    text = prompt,
+                    grid_size = "1"
                 });
 
-                if (imageResult.Successful)
-                {
-                    timeout = false;
+                await FileManager.MediaManager.SaveFile(deepAIResponse.output_url, ctx.Interaction.Id.ToString(), "png");
 
-                    DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+                string path = $"{FileManager.MediaManager.IDToPath(ctx.Interaction.Id.ToString())}/download.png";
 
-                    builder.WithContent($"Prompt: {prompt}\n{string.Join("\n", imageResult.Results.Select(r => r.Url))}");
+                FileStream fileStream = File.OpenRead(path);
 
-                    await ctx.EditResponseAsync(builder);
-                }
-                else
-                {
-                    timeout = false;
+                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
 
-                    if (imageResult.Error == null)
-                    {
-                        throw new Exception("Image generation error");
-                    }
+                builder.WithContent($"Prompt: {prompt}");
+                builder.AddFile(fileStream);
 
-                    ctx.Client.Logger.LogError($"{imageResult.Error.Code}: {imageResult.Error.Code}");
+                await ctx.EditResponseAsync(builder);
 
-                    DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+                timeout = false;
 
-                    if (imageResult.Error.Message.Contains
-                        ("Your request was rejected as a result of our safety system. " +
-                        "Your prompt may contain text that is not allowed by our safety system."))
-                    {
-                        builder.WithContent("Your prompt may contain text that is not allowed by OpenAI safety system.");
-                    }
-                    else
-                    {
-                        builder.WithContent("Image generation error");
-                    }
+                fileStream.Close();
 
-                    await ctx.EditResponseAsync(builder);
-                }
+                await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
             }
 
             [SlashCommand("Text", "Prompt the bot for a text response")]
