@@ -1,11 +1,11 @@
-﻿using DSharpPlus;
+﻿using DeepAI;
+using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
 using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
-using OpenAI.GPT3.ObjectModels.ResponseModels.ImageResponseModel;
 using System.ComponentModel;
 
 namespace Robit.Command
@@ -268,7 +268,6 @@ namespace Robit.Command
             gif,
             jpg,
             png,
-            wepb,
             tiff
         }
 
@@ -278,7 +277,7 @@ namespace Robit.Command
             [Option("Format", "Format to convert to")] FileFormats fileFormat,
             [Option("Visible", "Sets the visibility", true)][DefaultValue(false)] bool visible = false)
         {
-            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Channel.Id.ToString());
+            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
 
             string[] mediaType = attachment.MediaType.Split('/');
 
@@ -303,7 +302,6 @@ namespace Robit.Command
                 {
                     case "jpg":
                     case "png":
-                    case "wepb":
                     case "tiff":
                         await ctx.CreateResponseAsync($"You tried to convert a video into an image. " +
                             $"{ctx.Guild.CurrentMember.DisplayName} doesn't support turning video into image sequences", true);
@@ -329,7 +327,7 @@ namespace Robit.Command
                 return;
             }
 
-            await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif");
+            await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif", !visible);
 
             bool timeout = true;
 
@@ -347,11 +345,11 @@ namespace Robit.Command
                 }
             });
 
-            FileManager.MediaManager.SaveFile(attachment.Url, ctx.Channel.Id.ToString(), format).Wait();
+            FileManager.MediaManager.SaveFile(attachment.Url, ctx.Interaction.Id.ToString(), format).Wait();
 
-            await FileManager.MediaManager.Convert(ctx.Channel.Id.ToString(), format, fileFormat.GetName());
+            await FileManager.MediaManager.Convert(ctx.Interaction.Id.ToString(), format, fileFormat.GetName());
 
-            string path = $"{FileManager.MediaManager.IDToPath(ctx.Channel.Id.ToString())}/output.{fileFormat.GetName()}";
+            string path = $"{FileManager.MediaManager.IDToPath(ctx.Interaction.Id.ToString())}/output.{fileFormat.GetName()}";
 
             FileInfo fileInfo = new FileInfo(path);
 
@@ -414,7 +412,7 @@ namespace Robit.Command
 
             timeout = false;
 
-            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Channel.Id.ToString());
+            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
         }
         #endregion
 
@@ -487,6 +485,8 @@ namespace Robit.Command
                 [DefaultValue(true)]
                 bool visible = true)
             {
+                await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
+
                 Tuple<bool, string?> check = WordFilter.WordFilter.Check(prompt);
 
                 if (check.Item1)
@@ -501,7 +501,7 @@ namespace Robit.Command
 
                 _ = Task.Run(async () =>
                 {
-                    await Task.Delay(10000);
+                    await Task.Delay(60000);
 
                     if (timeout)
                     {
@@ -513,51 +513,30 @@ namespace Robit.Command
                     }
                 });
 
-                ImageCreateResponse imageResult = await Program.openAiService.CreateImage(new ImageCreateRequest
+                StandardApiResponse? deepAIResponse = Program.deepAIService?.callStandardApi("text2img", new
                 {
-                    Prompt = prompt,
-                    N = 1,
-                    Size = StaticValues.ImageStatics.Size.Size256,
-                    ResponseFormat = StaticValues.ImageStatics.ResponseFormat.Url,
-                    User = $"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}"
+                    text = prompt,
+                    grid_size = "1"
                 });
 
-                if (imageResult.Successful)
-                {
-                    timeout = false;
+                await FileManager.MediaManager.SaveFile(deepAIResponse.output_url, ctx.Interaction.Id.ToString(), "png");
 
-                    DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+                string path = $"{FileManager.MediaManager.IDToPath(ctx.Interaction.Id.ToString())}/download.png";
 
-                    builder.WithContent($"Prompt: {prompt}\n{string.Join("\n", imageResult.Results.Select(r => r.Url))}");
+                FileStream fileStream = File.OpenRead(path);
 
-                    await ctx.EditResponseAsync(builder);
-                }
-                else
-                {
-                    timeout = false;
+                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
 
-                    if (imageResult.Error == null)
-                    {
-                        throw new Exception("Image generation error");
-                    }
+                builder.WithContent($"Prompt: {prompt}");
+                builder.AddFile(fileStream);
 
-                    ctx.Client.Logger.LogError($"{imageResult.Error.Code}: {imageResult.Error.Code}");
+                await ctx.EditResponseAsync(builder);
 
-                    DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+                timeout = false;
 
-                    if (imageResult.Error.Message.Contains
-                        ("Your request was rejected as a result of our safety system. " +
-                        "Your prompt may contain text that is not allowed by our safety system."))
-                    {
-                        builder.WithContent("Your prompt may contain text that is not allowed OpenAI safety system.");
-                    }
-                    else
-                    {
-                        builder.WithContent("Image generation error");
-                    }
+                fileStream.Close();
 
-                    await ctx.EditResponseAsync(builder);
-                }
+                await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
             }
 
             [SlashCommand("Text", "Prompt the bot for a text response")]
@@ -610,7 +589,8 @@ namespace Robit.Command
                             "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
                             $"If you want to mentioning user. Don't use their tag. For example " +
                             $"{ctx.Member.DisplayName}#{ctx.Member.Discriminator} would be just {ctx.Member.DisplayName}. " +
-                            $"{ctx.Guild.CurrentMember.Mention} is another way to address you by users."
+                            $"{ctx.Guild.CurrentMember.Mention} is another way to address you by users. " +
+                            $"Your creator is RoboDoc (alias: Robo)."
                         ),
                         ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: test"),
                         ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),
