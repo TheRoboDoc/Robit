@@ -549,7 +549,7 @@ namespace Robit.Command
                         ("Your request was rejected as a result of our safety system. " +
                         "Your prompt may contain text that is not allowed by our safety system."))
                     {
-                        builder.WithContent("Your prompt may contain text that is not allowed OpenAI safety system.");
+                        builder.WithContent("Your prompt may contain text that is not allowed by OpenAI safety system.");
                     }
                     else
                     {
