@@ -327,7 +327,7 @@ namespace Robit.Command
                 return;
             }
 
-            await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif");
+            await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif", !visible);
 
             bool timeout = true;
 
