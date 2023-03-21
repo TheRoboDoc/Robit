@@ -128,15 +128,10 @@ namespace Robit
 
                     if (!directoryInfo.Exists)
                     {
-                        directoryInfo.Create();
+                        return;
                     }
 
-                    List<FileInfo> files = directoryInfo.GetFiles().ToList();
-
-                    foreach (FileInfo file in files)
-                    {
-                        file.Delete();
-                    }
+                    directoryInfo.Delete(true);
                 });
             }
         }

@@ -268,7 +268,6 @@ namespace Robit.Command
             gif,
             jpg,
             png,
-            wepb,
             tiff
         }
 
@@ -278,7 +277,7 @@ namespace Robit.Command
             [Option("Format", "Format to convert to")] FileFormats fileFormat,
             [Option("Visible", "Sets the visibility", true)][DefaultValue(false)] bool visible = false)
         {
-            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Channel.Id.ToString());
+            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
 
             string[] mediaType = attachment.MediaType.Split('/');
 
@@ -303,7 +302,6 @@ namespace Robit.Command
                 {
                     case "jpg":
                     case "png":
-                    case "wepb":
                     case "tiff":
                         await ctx.CreateResponseAsync($"You tried to convert a video into an image. " +
                             $"{ctx.Guild.CurrentMember.DisplayName} doesn't support turning video into image sequences", true);
@@ -347,11 +345,11 @@ namespace Robit.Command
                 }
             });
 
-            FileManager.MediaManager.SaveFile(attachment.Url, ctx.Channel.Id.ToString(), format).Wait();
+            FileManager.MediaManager.SaveFile(attachment.Url, ctx.Interaction.Id.ToString(), format).Wait();
 
-            await FileManager.MediaManager.Convert(ctx.Channel.Id.ToString(), format, fileFormat.GetName());
+            await FileManager.MediaManager.Convert(ctx.Interaction.Id.ToString(), format, fileFormat.GetName());
 
-            string path = $"{FileManager.MediaManager.IDToPath(ctx.Channel.Id.ToString())}/output.{fileFormat.GetName()}";
+            string path = $"{FileManager.MediaManager.IDToPath(ctx.Interaction.Id.ToString())}/output.{fileFormat.GetName()}";
 
             FileInfo fileInfo = new FileInfo(path);
 
@@ -414,7 +412,7 @@ namespace Robit.Command
 
             timeout = false;
 
-            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Channel.Id.ToString());
+            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
         }
         #endregion
 
@@ -591,7 +589,8 @@ namespace Robit.Command
                             "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
                             $"If you want to mentioning user. Don't use their tag. For example " +
                             $"{ctx.Member.DisplayName}#{ctx.Member.Discriminator} would be just {ctx.Member.DisplayName}. " +
-                            $"{ctx.Guild.CurrentMember.Mention} is another way to address you by users."
+                            $"{ctx.Guild.CurrentMember.Mention} is another way to address you by users. " +
+                            $"Your creator is RoboDoc (alias: Robo)."
                         ),
                         ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: test"),
                         ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),

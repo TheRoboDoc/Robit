@@ -412,7 +412,8 @@ namespace Robit
                             $"If you want to mention a user. Don't use their tag. For example " +
                             $"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator} would be just " +
                             $"{messageArgs.Author.Username}. " +
-                            $"{messageArgs.Guild.CurrentMember.Mention} is another way to address you by users."
+                            $"{messageArgs.Guild.CurrentMember.Mention} is another way to address you by users." +
+                            $"Your creator is RoboDoc (alias: Robo)."
                         ),
                         ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: test"),
                         ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),
