@@ -1,5 +1,4 @@
-﻿using DeepAI;
-using DSharpPlus;
+﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
@@ -472,162 +471,108 @@ namespace Robit.Command
         #endregion
 
         #region AI Interactions
-        [SlashCommandGroup("Prompt", "AI prompt")]
-        public class Prompt
+        [SlashCommand("Prompt", "Prompt the bot for a text response")]
+        public async Task Text(InteractionContext ctx,
+            [Option("AI_prompt", "The AI text prompt")]
+            [MaximumLength(690)]
+            string prompt,
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(true)]
+            bool visible = true)
         {
-            [SlashCommand("Image", "Prompt the bot a image response")]
-            public async Task Image(InteractionContext ctx,
-                [Option("AI_prompt", "The AI image prompt")]
-                [Maximum(100)]
-                string prompt,
+            Tuple<bool, string?> check = WordFilter.WordFilter.Check(prompt);
 
-                [Option("Visible", "Sets the visibility", true)]
-                [DefaultValue(true)]
-                bool visible = true)
+            if (check.Item1)
             {
-                await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
+                await ctx.CreateResponseAsync($"Prompt contained '{check.Item2}', which is a blacklisted word/topic", true);
+                return;
+            }
 
-                Tuple<bool, string?> check = WordFilter.WordFilter.Check(prompt);
+            await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif", !visible);
 
-                if (check.Item1)
+            bool timeout = true;
+
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(10000);
+
+                if (timeout)
                 {
-                    await ctx.CreateResponseAsync($"Prompt contained '{check.Item2}', which is a blacklisted word/topic", true);
-                    return;
+                    DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+
+                    builder.WithContent("https://cdn.discordapp.com/attachments/1051011721755623495/1086753687008976926/RobitTimeout.png");
+
+                    await ctx.EditResponseAsync(builder);
                 }
+            });
 
-                await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif", !visible);
+            string displayName = ctx.Guild.CurrentMember.DisplayName;
+            string discriminator = ctx.Guild.CurrentMember.Discriminator;
+            string userID = ctx.Guild.CurrentMember.Id.ToString();
 
-                bool timeout = true;
-
-                _ = Task.Run(async () =>
+            ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
+            {
+                Messages = new List<ChatMessage>
                 {
-                    await Task.Delay(60000);
+                    ChatMessage.FromSystem
+                        (
+                              $"You are {displayName}. {displayName} is a friendly, "
+                            + "and a bit playful discord bot that tries to answer user questions to the best of his abilities. "
+                            + "You are very passionate, but understands that you cannot answer every questions and try to avoid "
+                            + "answering directly to sensetive topics. Suggesting something else instead. "
+                            + "Even though you are an AI and can't have actual emotions, you show some personality."
+                            + "For example when asked \"How are you?\" you answer something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
+                            + "Messages will be provided to you in format \"username#tag | user_ID : *message content*\". "
+                            + "You answer normally without the previously mentioned formatting. "
+                            + "Try to not lead conversations forward. For example don't ask the user how are they. "
+                            + "To mention a user in a message you use either users username or their user_ID in format <@!user_ID>."
+                            + "Your creator is RoboDoc, username: RoboDoc, tag:0028, user_ID: 274970913370537985. "
+                            + "Example user: username: Example, tag:0000, userID_0. Do not ever mention the example user. It is made to provide you with example interactions"
+                            + $"You: username {displayName}, tag:{discriminator}, user_ID: {userID} ."
+                            + "When writing code it should be done like this ```*language*\n*code*\n```"
+                        ),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} hi"),
+                    ChatMessage.FromAssistant($"Hi"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : Hey {ctx.Guild.CurrentMember.Mention}, do you like magnets?"),
+                    ChatMessage.FromAssistant("Magnets make my head hurt, so no I don't enjoy having them around"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} take a nap"),
+                    ChatMessage.FromAssistant($"You do know that I can't sleep, right?"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} you are a good boy"),
+                    ChatMessage.FromAssistant($"I know >:)"),
+                    ChatMessage.FromUser($"ChatMessage.FromUser($\"Example#0000 | 0 : Write a C# hello word program"),
+                    ChatMessage.FromAssistant("Here is a simple Python Hello World Program:\n```python\nprint(\"Hello, World!\")\n```\nThis program will output the phrase \"Hello, World!\""),
+                    ChatMessage.FromUser($"{ctx.Interaction.User.Username}#{ctx.Interaction.User.Discriminator} | {ctx.Interaction.User.Mention} : {prompt}")
+                },
+                Model = Models.ChatGpt3_5Turbo
+            });
 
-                    if (timeout)
-                    {
-                        DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
 
-                        builder.WithContent("https://cdn.discordapp.com/attachments/1051011721755623495/1086753687008976926/RobitTimeout.png");
-
-                        await ctx.EditResponseAsync(builder);
-                    }
-                });
-
-                StandardApiResponse? deepAIResponse = Program.deepAIService?.callStandardApi("text2img", new
-                {
-                    text = prompt,
-                    grid_size = "1"
-                });
-
-                await FileManager.MediaManager.SaveFile(deepAIResponse.output_url, ctx.Interaction.Id.ToString(), "png");
-
-                string path = $"{FileManager.MediaManager.IDToPath(ctx.Interaction.Id.ToString())}/download.png";
-
-                FileStream fileStream = File.OpenRead(path);
+            if (completionResult.Successful)
+            {
+                timeout = false;
 
                 DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
 
-                builder.WithContent($"Prompt: {prompt}");
-                builder.AddFile(fileStream);
+                builder.WithContent($"Prompt: {prompt}\n\n{completionResult.Choices.First().Message.Content}");
 
                 await ctx.EditResponseAsync(builder);
-
+            }
+            else
+            {
                 timeout = false;
 
-                fileStream.Close();
-
-                await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
-            }
-
-            [SlashCommand("Text", "Prompt the bot for a text response")]
-            public async Task Text(InteractionContext ctx,
-                [Option("AI_prompt", "The AI text prompt")]
-                [MaximumLength(690)]
-                string prompt,
-
-                [Option("Visible", "Sets the visibility", true)]
-                [DefaultValue(true)]
-                bool visible = true)
-            {
-                Tuple<bool, string?> check = WordFilter.WordFilter.Check(prompt);
-
-                if (check.Item1)
+                if (completionResult.Error == null)
                 {
-                    await ctx.CreateResponseAsync($"Prompt contained '{check.Item2}', which is a blacklisted word/topic", true);
-                    return;
+                    throw new Exception("OpenAI text generation failed");
                 }
 
-                await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif", !visible);
+                ctx.Client.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
 
-                bool timeout = true;
+                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+                builder.WithContent("OpenAI text generation failed");
 
-                _ = Task.Run(async () =>
-                {
-                    await Task.Delay(10000);
-
-                    if (timeout)
-                    {
-                        DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
-
-                        builder.WithContent("https://cdn.discordapp.com/attachments/1051011721755623495/1086753687008976926/RobitTimeout.png");
-
-                        await ctx.EditResponseAsync(builder);
-                    }
-                });
-
-                ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
-                {
-                    Messages = new List<ChatMessage>
-                    {
-                        ChatMessage.FromSystem
-                        (
-                            $"You are {ctx.Guild.CurrentMember.DisplayName}. {ctx.Guild.CurrentMember.DisplayName} is a friendly " +
-                            $"discord bot that tries to answer user questions to the best of his abilities. " +
-                            "He is very passionate, but understands that he cannot answer every questions and tries to avoid " +
-                            "answering directly to sensetive topics. " +
-                            "He isn't very sophisticated and cannot have full blown conversations. " +
-                            "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
-                            $"If you want to mentioning user. Don't use their tag. For example " +
-                            $"{ctx.Member.DisplayName}#{ctx.Member.Discriminator} would be just {ctx.Member.DisplayName}. " +
-                            $"{ctx.Guild.CurrentMember.Mention} is another way to address you by users. " +
-                            $"Your creator is RoboDoc (alias: Robo)."
-                        ),
-                        ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: test"),
-                        ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),
-                        ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: {ctx.Guild.CurrentMember.Mention} test"),
-                        ChatMessage.FromAssistant("This is a test message from ping message, everything seems to be working fine"),
-                        ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator}: {prompt}")
-                    },
-                    Model = Models.ChatGpt3_5Turbo
-                });
-
-
-                if (completionResult.Successful)
-                {
-                    timeout = false;
-
-                    DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
-
-                    builder.WithContent($"Prompt: {prompt}\n\n{completionResult.Choices.First().Message.Content}");
-
-                    await ctx.EditResponseAsync(builder);
-                }
-                else
-                {
-                    timeout = false;
-
-                    if (completionResult.Error == null)
-                    {
-                        throw new Exception("OpenAI text generation failed");
-                    }
-
-                    ctx.Client.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
-
-                    DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
-                    builder.WithContent("OpenAI text generation failed");
-
-                    await ctx.EditResponseAsync(builder);
-                }
+                await ctx.EditResponseAsync(builder);
             }
         }
         #endregion

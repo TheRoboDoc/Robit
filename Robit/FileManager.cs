@@ -16,7 +16,7 @@ namespace Robit
         {
             public static readonly string basePath = AppDomain.CurrentDomain.BaseDirectory;
             public static readonly string dataPath = $@"{basePath}/ResponseData";
-            public static readonly string tempMediaPath = $@"{basePath}TempMedia";
+            public static readonly string tempMediaPath = $@"{basePath}/TempMedia";
             public static readonly string resources = $@"{basePath}/Resources";
         }
 

@@ -1,5 +1,4 @@
-﻿using DeepAI;
-using DSharpPlus;
+﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
@@ -28,16 +27,12 @@ namespace Robit
 
         public static OpenAIService? openAiService;
 
-        public static DeepAI_API? deepAIService;
-
         /// <summary>
         /// Main Thread
         /// </summary>
         /// <returns>Nothing</returns>
         static async Task MainAsync()
         {
-            deepAIService = new DeepAI_API(apiKey: Tokens.deepAIToken);
-
             openAiService = new OpenAIService(new OpenAiOptions()
             {
                 ApiKey = Tokens.OpenAIToken
@@ -71,9 +66,10 @@ namespace Robit
                 DiscordIntents.GuildVoiceStates |
                 DiscordIntents.GuildPresences |
                 DiscordIntents.GuildMessages,
+
                 MinimumLogLevel = logLevel,
 
-                LogTimestampFormat = "dd.MM.yyyy HH:mm:ss (zzz)"
+                LogTimestampFormat = "dd.MM.yyyy HH:mm:ss (zzz)",
             };
 
             botClient = new DiscordClient(config);
@@ -396,31 +392,66 @@ namespace Robit
                     }
                 });
 
+                string displayName = messageArgs.Guild.CurrentMember.DisplayName;
+                string discriminator = messageArgs.Guild.CurrentMember.Discriminator;
+                string userID = messageArgs.Guild.CurrentMember.Id.ToString();
+
+                List<ChatMessage> messages = new List<ChatMessage>()
+                {
+                    ChatMessage.FromSystem
+                        (
+                              $"You are {displayName}. {displayName} is a friendly, "
+                            + "and a bit playful discord bot that tries to answer user questions to the best of his abilities. "
+                            + "You are very passionate, but understands that you cannot answer every questions and try to avoid "
+                            + "answering directly to sensetive topics. Suggesting something else instead. "
+                            + "Your replies have maximum lengh of 100 characters. "
+                            + "Even though you are an AI and can't have actual emotions, you show some personality."
+                            + "For example when asked \"How are you?\" you answer something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
+                            + "Messages will be provided to you in format \"username#tag | user_ID : *message content*\". "
+                            + "You answer normally without the previously mentioned formatting. "
+                            + "Try to not lead conversations forward. For example don't ask the user how are they. "
+                            + "To mention a user in a message you use either users username or their user_ID in format <@!user_ID>."
+                            + "Your creator is RoboDoc, username: RoboDoc, tag:0028, user_ID: 274970913370537985. "
+                            + "Example user: username: Example, tag:0000, userID_0. Do not ever mention the example user. It is made to provide you with example interactions"
+                            + $"You: username {displayName}, tag:{discriminator}, user_ID: {userID}"
+                        ),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
+                    ChatMessage.FromAssistant($"Hi"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : Hey {messageArgs.Guild.CurrentMember.Mention}, do you like magnets?"),
+                    ChatMessage.FromAssistant("Magnets make my head hurt, so no I don't enjoy having them around"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} take a nap"),
+                    ChatMessage.FromAssistant($"You do know that I can't sleep, right?"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} you are a good boy"),
+                    ChatMessage.FromAssistant($"I know >:)")
+                };
+
+                if (messageArgs.Message.MessageType == MessageType.Reply)
+                {
+                    var robitOriginalMessage = messageArgs.Message.Reference;
+                    var userOriginalMessage = messageArgs.Message.Reference.Message.Reference;
+
+                    if(DebugStatus())
+                    {
+                        botClient?.Logger.LogDebug($"Message: {userOriginalMessage.Message.Content}");
+                        botClient?.Logger.LogDebug($"Reply: {robitOriginalMessage.Message.Content}");
+                    }
+
+                    do
+                    {
+                        if (string.IsNullOrEmpty(userOriginalMessage.Message.Content)) break;
+
+                        if (string.IsNullOrEmpty(robitOriginalMessage.Message.Content)) break;
+
+                        messages.Add(ChatMessage.FromUser($"{userOriginalMessage.Message.Author.Username}#{userOriginalMessage.Message.Author.Discriminator} | {userOriginalMessage.Message.Author.Mention} : {userOriginalMessage.Message.Content}"));
+                        messages.Add(ChatMessage.FromAssistant($"{robitOriginalMessage.Message.Content}"));
+                    } while (false);
+                }
+
+                messages.Add(ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator} | {messageArgs.Author.Mention} : {messageArgs.Message.Content}"));
+
                 ChatCompletionCreateResponse completionResult = await openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
                 {
-                    Messages = new List<ChatMessage>
-                    {
-                        ChatMessage.FromSystem
-                        (
-                            $"You are {messageArgs.Guild.CurrentMember.DisplayName}. {messageArgs.Guild.CurrentMember.DisplayName} is a friendly " +
-                            $"discord bot that tries to answer user questions to the best of his abilities. " +
-                            "He is very passionate, but understands that he cannot answer every questions and tries to avoid " +
-                            "answering directly to sensetive topics. " +
-                            "He isn't very sophisticated and cannot have full blown conversations. " +
-                            "His responses are generated using OpenAI ChatGPT 3.5 Turbo. " +
-                            "Just simple replies to questions. Those replies have maximum lengh of 100 characters. " +
-                            $"If you want to mention a user. Don't use their tag. For example " +
-                            $"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator} would be just " +
-                            $"{messageArgs.Author.Username}. " +
-                            $"{messageArgs.Guild.CurrentMember.Mention} is another way to address you by users." +
-                            $"Your creator is RoboDoc (alias: Robo)."
-                        ),
-                        ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: test"),
-                        ChatMessage.FromAssistant("This is a test message, everything seems to be working fine"),
-                        ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Guild.CurrentMember.Mention} test"),
-                        ChatMessage.FromAssistant("This is a test message from ping message, everything seems to be working fine"),
-                        ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator}: {messageArgs.Message.Content}")
-                    },
+                    Messages = messages,
                     Model = Models.ChatGpt3_5Turbo
                 });
 

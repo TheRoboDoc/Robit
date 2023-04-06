@@ -28,14 +28,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Betalgo.OpenAI.GPT3" Version="6.8.1" />
-    <PackageReference Include="DeepAI.Client" Version="1.3.0" />
-    <PackageReference Include="DSharpPlus" Version="4.3.0" />
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.3.0" />
-    <PackageReference Include="DSharpPlus.Interactivity" Version="4.3.0" />
-    <PackageReference Include="DSharpPlus.Lavalink" Version="4.3.0" />
-    <PackageReference Include="DSharpPlus.SlashCommands" Version="4.3.0" />
-    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.3.0" />
+    <PackageReference Include="Betalgo.OpenAI.GPT3" Version="6.8.3" />
+    <PackageReference Include="DSharpPlus" Version="4.4.0" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.4.0" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="4.4.0" />
+    <PackageReference Include="DSharpPlus.Lavalink" Version="4.4.0" />
+    <PackageReference Include="DSharpPlus.SlashCommands" Version="4.4.0" />
+    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.4.0" />
     <PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
   </ItemGroup>
 
@@ -71,6 +70,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Resources\RobitThink.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\RobitTimeout.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Tokens\debugToken.txt">
