@@ -340,6 +340,10 @@ namespace Robit
             return builder;
         }
 
+        /// <summary>
+        /// Builds a discord Discord message with the RobitTimeout.png
+        /// </summary>
+        /// <returns>DiscordMessageBuilder</returns>
         public static async Task<DiscordMessageBuilder> TimedOut()
         {
             DiscordMessageBuilder builder = new DiscordMessageBuilder();

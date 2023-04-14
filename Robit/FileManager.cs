@@ -1,5 +1,6 @@
 ﻿using Robit.Converter;
 using System.Net;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Robit
@@ -34,7 +35,7 @@ namespace Robit
             {
                 Paths paths = new Paths();
 
-                foreach (var field in typeof(Paths).GetFields())
+                foreach (FieldInfo field in typeof(Paths).GetFields())
                 {
                     string? path = field.GetValue(paths)?.ToString();
 
