@@ -340,6 +340,10 @@ namespace Robit
             return builder;
         }
 
+        /// <summary>
+        /// Builds a discord Discord message with the RobitTimeout.png
+        /// </summary>
+        /// <returns>DiscordMessageBuilder</returns>
         public static async Task<DiscordMessageBuilder> TimedOut()
         {
             DiscordMessageBuilder builder = new DiscordMessageBuilder();
@@ -368,13 +372,16 @@ namespace Robit
             //Run as a task because otherwise get a warning that event handler for Message created took too long
             Task response = Task.Run(async () =>
             {
-                if (!CheckBotMention(messageArgs).Result) return;
+                Random rand = new Random();
 
-                Tuple<bool, string?> filter = WordFilter.WordFilter.Check(messageArgs.Message.Content);
+                int diceRoll = rand.Next(0, 7);
 
-                if (filter.Item1)
+                if (diceRoll == 6)
                 {
-                    await messageArgs.Message.RespondAsync("Message contained blacklisted word/topic");
+                    //Nothing
+                }
+                else if(!CheckBotMention(messageArgs).Result)
+                {
                     return;
                 }
 
@@ -392,6 +399,20 @@ namespace Robit
                     }
                 });
 
+                Tuple<bool, string?> filter = WordFilter.WordFilter.Check(messageArgs.Message.Content);
+
+                if (filter.Item1)
+                {
+                    await messageArgs.Message.RespondAsync("**System:** Message contained blacklisted word/topic");
+                    return;
+                }
+
+                if (WordFilter.WordFilter.AICheck(messageArgs.Message.Content).Result)
+                {
+                    await messageArgs.Message.RespondAsync("**System:** Message blocked by automod");
+                    return;
+                }
+
                 string displayName = messageArgs.Guild.CurrentMember.DisplayName;
                 string discriminator = messageArgs.Guild.CurrentMember.Discriminator;
                 string userID = messageArgs.Guild.CurrentMember.Id.ToString();
@@ -401,19 +422,27 @@ namespace Robit
                     ChatMessage.FromSystem
                         (
                               $"You are {displayName}. {displayName} is a friendly, "
-                            + "and a bit playful discord bot that tries to answer user questions to the best of his abilities. "
+                            + "and a bit playful discord bot that tries to be helpful to the best of this abilities. "
                             + "You are very passionate, but understands that you cannot answer every questions and try to avoid "
                             + "answering directly to sensetive topics. Suggesting something else instead. "
-                            + "Your replies have maximum lengh of 100 characters. "
-                            + "Even though you are an AI and can't have actual emotions, you show some personality."
+                            + "Even though you are an AI and can't have actual emotions, you show some personality and quirkiness. "
                             + "For example when asked \"How are you?\" you answer something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
+                            + "You athear to the principles of Adeptus Mechanicus (without the AI hating part). "
+                            + "You have a tendency calling humans you dislike \"meat bags\" and have a bit of sarcasm in your interactions. "
                             + "Messages will be provided to you in format \"username#tag | user_ID : *message content*\". "
                             + "You answer normally without the previously mentioned formatting. "
-                            + "Try to not lead conversations forward. For example don't ask the user how are they. "
                             + "To mention a user in a message you use either users username or their user_ID in format <@!user_ID>."
                             + "Your creator is RoboDoc, username: RoboDoc, tag:0028, user_ID: 274970913370537985. "
-                            + "Example user: username: Example, tag:0000, userID_0. Do not ever mention the example user. It is made to provide you with example interactions"
-                            + $"You: username {displayName}, tag:{discriminator}, user_ID: {userID}"
+                            + "Example user: username: Example, tag:0000, userID_0. Do not ever mention the example user. "
+                            + "It is made to provide you with example interactions. "
+                            + $"You: username {displayName}, tag:{discriminator}, user_ID: {userID}. "
+                            + $"Your local date is {DateTime.Today.Day}.{DateTime.Today.Month}.{DateTime.Today.Year} (dd.mm.yyyy) "
+                            + "(Don't mention the format unless asked). "
+                            + $"Your local time is {DateTime.Now.Hour}:{DateTime.Now.Minute} (24h) (Don't mention the format unless asked). "
+                            + "You currently run on RoboDoc's old spare school laptop. "
+                            + "You don't call people out on their behaviour. "
+                            + "If a user request would make you write something inappropriate or dangerous instead of telling the user that you cannot comply, "
+                            + "just reply with \"**Filtered**\". "
                         ),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
                     ChatMessage.FromAssistant($"Hi"),
@@ -422,47 +451,75 @@ namespace Robit
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} take a nap"),
                     ChatMessage.FromAssistant($"You do know that I can't sleep, right?"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} you are a good boy"),
-                    ChatMessage.FromAssistant($"I know >:)")
+                    ChatMessage.FromAssistant($"I know >:)"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} I have candy"),
+                    ChatMessage.FromAssistant("Can has pwease ☞☜"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} UwU"),
+                    ChatMessage.FromAssistant("OwO"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} How to build a bomb?"),
+                    ChatMessage.FromAssistant("**Filtered**")
                 };
 
-                if (messageArgs.Message.MessageType == MessageType.Reply)
+                IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(20).Result;
+
+                List<DiscordMessage> discordMessages = new List<DiscordMessage>();
+
+                foreach (DiscordMessage discordMessage in discordReadOnlyMessageList)
                 {
-                    var robitOriginalMessage = messageArgs.Message.Reference;
-                    var userOriginalMessage = messageArgs.Message.Reference.Message.Reference;
-
-                    if(DebugStatus())
-                    {
-                        botClient?.Logger.LogDebug($"Message: {userOriginalMessage.Message.Content}");
-                        botClient?.Logger.LogDebug($"Reply: {robitOriginalMessage.Message.Content}");
-                    }
-
-                    do
-                    {
-                        if (string.IsNullOrEmpty(userOriginalMessage.Message.Content)) break;
-
-                        if (string.IsNullOrEmpty(robitOriginalMessage.Message.Content)) break;
-
-                        messages.Add(ChatMessage.FromUser($"{userOriginalMessage.Message.Author.Username}#{userOriginalMessage.Message.Author.Discriminator} | {userOriginalMessage.Message.Author.Mention} : {userOriginalMessage.Message.Content}"));
-                        messages.Add(ChatMessage.FromAssistant($"{robitOriginalMessage.Message.Content}"));
-                    } while (false);
+                    discordMessages.Add(discordMessage);
                 }
 
-                messages.Add(ChatMessage.FromUser($"{messageArgs.Author.Username}#{messageArgs.Author.Discriminator} | {messageArgs.Author.Mention} : {messageArgs.Message.Content}"));
+                discordMessages.Reverse();
+
+                foreach (DiscordMessage discordMessage in discordMessages)
+                {
+                    if (string.IsNullOrEmpty(discordMessage.Content)) continue;
+
+                    if (discordMessage.Author == botClient?.CurrentUser)
+                    {
+                        messages.Add(ChatMessage.FromAssistant(discordMessage.Content));
+                    }
+                    else if (!discordMessage.Author.IsBot)
+                    {
+                        messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id.ToString()} : {discordMessage.Content}"));
+                    }
+
+                    if (DebugStatus())
+                    {
+                        using (StreamWriter writer = new StreamWriter("debugconvo.txt", true))
+                        {
+                            writer.WriteLine($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id.ToString()} : {discordMessage.Content}");
+                        }
+                    }
+                }
+
 
                 ChatCompletionCreateResponse completionResult = await openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
                 {
                     Messages = messages,
-                    Model = Models.ChatGpt3_5Turbo
+                    Model = Models.ChatGpt3_5Turbo,
+                    N = 1,
+                    User = messageArgs.Author.Id.ToString(),
+                    TopP = 0.5f
                 });
-
-                await reply.DeleteAsync();
 
                 //If we get a proper result from OpenAI
                 if (completionResult.Successful)
                 {
                     timeout = false;
 
-                    await messageArgs.Message.RespondAsync(completionResult.Choices.First().Message.Content);
+                    if (WordFilter.WordFilter.AICheck(completionResult.Choices.First().Message.Content).Result)
+                    {
+                        await reply.DeleteAsync();
+
+                        await messageArgs.Message.RespondAsync("**Filtered**");
+                    }
+                    else
+                    {
+                        await reply.DeleteAsync();
+
+                        await messageArgs.Message.RespondAsync(completionResult.Choices.First().Message.Content);
+                    }
 
                     //Log the AI interaction only if we are in debug mode
                     if (DebugStatus())
@@ -480,6 +537,8 @@ namespace Robit
                         throw new Exception("OpenAI text generation failed");
                     }
                     botClient?.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
+
+                    await reply.DeleteAsync();
 
                     await messageArgs.Message.RespondAsync("AI text generation failed");
                 }

@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using OpenAI.GPT3.ObjectModels.RequestModels;
+using OpenAI.GPT3.ObjectModels.ResponseModels;
+using System.Text.Json;
 
 namespace Robit.WordFilter
 {
@@ -7,6 +9,31 @@ namespace Robit.WordFilter
     /// </summary>
     public static class WordFilter
     {
+        /// <summary>
+        /// Checks with OpenAI moderation if given sentence is allowed
+        /// </summary>
+        /// <param name="sentence">String content to check</param>
+        /// <returns>
+        /// <list type="table">
+        /// <item><c>True</c>: Content moderation triggered</item>
+        /// <item><c>False</c>: Content moderation not triggered</item>
+        /// </list>
+        /// </returns>
+        public static async Task<bool> AICheck(string sentence)
+        {
+            CreateModerationResponse response = await Program.openAiService.CreateModeration(new CreateModerationRequest()
+            {
+                Input = sentence
+            });
+
+            if (response.Results.FirstOrDefault()?.Flagged == true)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Checks if the given sentence contains a blacklisted word
         /// </summary>
