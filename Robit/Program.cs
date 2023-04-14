@@ -368,7 +368,18 @@ namespace Robit
             //Run as a task because otherwise get a warning that event handler for Message created took too long
             Task response = Task.Run(async () =>
             {
-                if (!CheckBotMention(messageArgs).Result) return;
+                Random rand = new Random();
+
+                int diceRoll = rand.Next(0, 7);
+
+                if (diceRoll == 6)
+                {
+                    //Nothing
+                }
+                else if(!CheckBotMention(messageArgs).Result)
+                {
+                    return;
+                }
 
                 DiscordMessage reply = await messageArgs.Message.RespondAsync(MessageThinkingAnimation().Result);
 
