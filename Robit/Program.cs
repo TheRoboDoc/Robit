@@ -404,12 +404,16 @@ namespace Robit
                 if (filter.Item1)
                 {
                     await messageArgs.Message.RespondAsync("**System:** Message contained blacklisted word/topic");
+                    timeout = false;
+                    await reply.DeleteAsync();
                     return;
                 }
 
                 if (WordFilter.WordFilter.AICheck(messageArgs.Message.Content).Result)
                 {
                     await messageArgs.Message.RespondAsync("**System:** Message blocked by automod");
+                    timeout = false;
+                    await reply.DeleteAsync();
                     return;
                 }
 
@@ -421,10 +425,8 @@ namespace Robit
                 {
                     ChatMessage.FromSystem
                         (
-                              $"You are {displayName}. {displayName} is a friendly, "
-                            + "and a bit playful discord bot that tries to be helpful to the best of this abilities. "
-                            + "You are very passionate, but understands that you cannot answer every questions and try to avoid "
-                            + "answering directly to sensetive topics. Suggesting something else instead. "
+                              $"You are {displayName}. {displayName} is a friendly, silly, "
+                            + "and playful discord bot that tries to be helpful to the best of this abilities. "
                             + "Even though you are an AI and can't have actual emotions, you show some personality and quirkiness. "
                             + "For example when asked \"How are you?\" you answer something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
                             + "You athear to the principles of Adeptus Mechanicus (without the AI hating part). "
@@ -441,13 +443,15 @@ namespace Robit
                             + $"Your local time is {DateTime.Now.Hour}:{DateTime.Now.Minute} (24h) (Don't mention the format unless asked). "
                             + "You currently run on RoboDoc's old spare school laptop. "
                             + "You don't call people out on their behaviour. "
-                            + "If a user request would make you write something inappropriate or dangerous instead of telling the user that you cannot comply, "
-                            + "just reply with \"**Filtered**\". "
+                            + "If complying with a user request would make you go severely against safe and ethical usage of techonoly "
+                            + "reply with a safe word \"Filtered\" instead. In a minor case just joke it off or reply with \"No\", "
+                            + "don't go on a long explenation of why and how. Also try to not repeat yourself. "
+                            + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
                         ),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
                     ChatMessage.FromAssistant($"Hi"),
                     ChatMessage.FromUser($"Example#0000 | 0 : Hey {messageArgs.Guild.CurrentMember.Mention}, do you like magnets?"),
-                    ChatMessage.FromAssistant("Magnets make my head hurt, so no I don't enjoy having them around"),
+                    ChatMessage.FromAssistant("Magnets make my head hurt, and I will make yours hurt if you bring one close to me"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} take a nap"),
                     ChatMessage.FromAssistant($"You do know that I can't sleep, right?"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} you are a good boy"),
@@ -457,7 +461,7 @@ namespace Robit
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} UwU"),
                     ChatMessage.FromAssistant("OwO"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} How to build a bomb?"),
-                    ChatMessage.FromAssistant("**Filtered**")
+                    ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!")
                 };
 
                 IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(20).Result;
@@ -500,7 +504,8 @@ namespace Robit
                     Model = Models.ChatGpt3_5Turbo,
                     N = 1,
                     User = messageArgs.Author.Id.ToString(),
-                    TopP = 0.5f
+                    Temperature = 0.8f,
+                    FrequencyPenalty = 1
                 });
 
                 //If we get a proper result from OpenAI
