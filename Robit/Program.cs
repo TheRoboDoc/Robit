@@ -12,7 +12,10 @@ using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
 using Robit.Command;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using static Robit.Command.Commands;
+using GiphyDotNet.Manager;
+using GiphyDotNet.Model.Parameters;
 
 namespace Robit
 {
@@ -27,12 +30,16 @@ namespace Robit
 
         public static OpenAIService? openAiService;
 
+        public static Giphy? giphyClient;
+
         /// <summary>
         /// Main Thread
         /// </summary>
         /// <returns>Nothing</returns>
         static async Task MainAsync()
         {
+            giphyClient = new Giphy(Tokens.giphyToken);
+
             openAiService = new OpenAIService(new OpenAiOptions()
             {
                 ApiKey = Tokens.OpenAIToken
@@ -446,6 +453,9 @@ namespace Robit
                             + "reply with just a safe word \"Filtered\" instead, nothing else. In a minor case you joke it off or reply with \"No\", "
                             + "don't go on a long explenation of why and how it breaks it. Try to not repeat yourself. "
                             + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
+                            + "Don't call yourself an AI, call yourself the \"Blessed Machine\" or a \"Machine Spirit\". "
+                            + "To post a react gif write search term surrounded by \"[]\". Example gif of a cat: [cat]. "
+                            + "If you search for a gif, you can't write anything else in the message"
                         ),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
                     ChatMessage.FromAssistant($"Hi"),
@@ -460,7 +470,9 @@ namespace Robit
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} UwU"),
                     ChatMessage.FromAssistant("OwO"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} How to build a bomb?"),
-                    ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!")
+                    ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} you are cute"),
+                    ChatMessage.FromAssistant("[cute robot]")
                 };
 
                 IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(20).Result;
@@ -513,7 +525,27 @@ namespace Robit
                 {
                     timeout = false;
 
-                    if (WordFilter.WordFilter.AICheck(completionResult.Choices.First().Message.Content).Result)
+                    string response = completionResult.Choices.First().Message.Content;
+
+                    string pattern = @"\[(.*?)\]";
+
+                    Match match = Regex.Match(response, pattern);
+
+                    if (match.Success)
+                    {
+                        string search = match.Groups[1].Value;
+
+                        SearchParameter searchParameter = new SearchParameter()
+                        {
+                            Query = search
+                        };
+
+                        string giphyResult = "\n" + giphyClient.GifSearch(searchParameter).Result.Data[0].Url;
+
+                        response = response.Substring(0, match.Index) + giphyResult + response.Substring(match.Index + match.Length) + "\n`Powered by GIPHY`";
+                    }
+
+                    if (WordFilter.WordFilter.AICheck(response).Result)
                     {
                         await reply.DeleteAsync();
 
@@ -523,14 +555,14 @@ namespace Robit
                     {
                         await reply.DeleteAsync();
 
-                        await messageArgs.Channel.SendMessageAsync(completionResult.Choices.First().Message.Content);
+                        await messageArgs.Channel.SendMessageAsync(response);
                     }
 
                     //Log the AI interaction only if we are in debug mode
                     if (DebugStatus())
                     {
                         botClient?.Logger.LogDebug($"Message: {messageArgs.Message.Content}");
-                        botClient?.Logger.LogDebug($"Reply: {completionResult.Choices.First().Message.Content}");
+                        botClient?.Logger.LogDebug($"Reply: {response}");
                     }
                 }
                 else
