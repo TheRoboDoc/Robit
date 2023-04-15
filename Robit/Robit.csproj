@@ -35,6 +35,7 @@
     <PackageReference Include="DSharpPlus.Lavalink" Version="4.4.0" />
     <PackageReference Include="DSharpPlus.SlashCommands" Version="4.4.0" />
     <PackageReference Include="DSharpPlus.VoiceNext" Version="4.4.0" />
+    <PackageReference Include="GiphyDotNet" Version="2.4.0" />
     <PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
   </ItemGroup>
 

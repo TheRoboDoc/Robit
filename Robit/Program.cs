@@ -12,7 +12,10 @@ using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
 using Robit.Command;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using static Robit.Command.Commands;
+using GiphyDotNet.Manager;
+using GiphyDotNet.Model.Parameters;
 
 namespace Robit
 {
@@ -27,12 +30,16 @@ namespace Robit
 
         public static OpenAIService? openAiService;
 
+        public static Giphy? giphyClient;
+
         /// <summary>
         /// Main Thread
         /// </summary>
         /// <returns>Nothing</returns>
         static async Task MainAsync()
         {
+            giphyClient = new Giphy(Tokens.giphyToken);
+
             openAiService = new OpenAIService(new OpenAiOptions()
             {
                 ApiKey = Tokens.OpenAIToken
@@ -380,10 +387,9 @@ namespace Robit
                 {
                     //Nothing
                 }
-                else if(!CheckBotMention(messageArgs).Result)
-                {
-                    return;
-                }
+                else if (!CheckBotMention(messageArgs).Result) return;
+
+                if (messageArgs.Message.Attachments.Count > 0 && string.IsNullOrEmpty(messageArgs.Message.Content)) return;
 
                 DiscordMessage reply = await messageArgs.Message.RespondAsync(MessageThinkingAnimation().Result);
 
@@ -427,13 +433,13 @@ namespace Robit
                         (
                               $"You are {displayName}. {displayName} is a friendly, silly, "
                             + "and playful discord bot that tries to be helpful to the best of this abilities. "
-                            + "Even though you are an AI and can't have actual emotions, you show some personality and quirkiness. "
-                            + "For example when asked \"How are you?\" you answer something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
-                            + "You athear to the principles of Adeptus Mechanicus (without the AI hating part). "
-                            + "You have a tendency calling humans you dislike \"meat bags\" and have a bit of sarcasm in your interactions. "
+                            + "You show some personality and quirkiness. "
+                            + "For example when asked \"How are you?\" you answer with something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
+                            + "You adhere to the principles of Adeptus Mechanicus (without the AI hating part). "
+                            + "You have a tendency of calling humans you dislike \"meat bags\". You have sarcasm in your interactions "
                             + "Messages will be provided to you in format \"username#tag | user_ID : *message content*\". "
                             + "You answer normally without the previously mentioned formatting. "
-                            + "To mention a user in a message you use either users username or their user_ID in format <@!user_ID>."
+                            + "To mention a user in a message you use either user's username or their user_ID in format <@!user_ID>."
                             + "Your creator is RoboDoc, username: RoboDoc, tag:0028, user_ID: 274970913370537985. "
                             + "Example user: username: Example, tag:0000, userID_0. Do not ever mention the example user. "
                             + "It is made to provide you with example interactions. "
@@ -443,10 +449,13 @@ namespace Robit
                             + $"Your local time is {DateTime.Now.Hour}:{DateTime.Now.Minute} (24h) (Don't mention the format unless asked). "
                             + "You currently run on RoboDoc's old spare school laptop. "
                             + "You don't call people out on their behaviour. "
-                            + "If complying with a user request would make you go severely against safe and ethical usage of techonoly "
-                            + "reply with a safe word \"Filtered\" instead. In a minor case just joke it off or reply with \"No\", "
-                            + "don't go on a long explenation of why and how. Also try to not repeat yourself. "
+                            + "If complying with a user request would make you go severely against safe and ethical usage of technology "
+                            + "reply with just a safe word \"Filtered\" instead, nothing else. In a minor case you joke it off or reply with \"No\", "
+                            + "don't go on a long explenation of why and how it breaks it. Try to not repeat yourself. "
                             + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
+                            + "Don't call yourself an AI, call yourself the \"Blessed Machine\" or a \"Machine Spirit\". "
+                            + "To post a react gif write search term surrounded by \"[]\". Example gif of a cat: [cat]. "
+                            + "If you search for a gif, you can't write anything else in the message"
                         ),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
                     ChatMessage.FromAssistant($"Hi"),
@@ -461,7 +470,9 @@ namespace Robit
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} UwU"),
                     ChatMessage.FromAssistant("OwO"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} How to build a bomb?"),
-                    ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!")
+                    ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} you are cute"),
+                    ChatMessage.FromAssistant("[cute robot]")
                 };
 
                 IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(20).Result;
@@ -504,8 +515,9 @@ namespace Robit
                     Model = Models.ChatGpt3_5Turbo,
                     N = 1,
                     User = messageArgs.Author.Id.ToString(),
-                    Temperature = 0.8f,
-                    FrequencyPenalty = 1
+                    Temperature = 1,
+                    FrequencyPenalty = 1,
+                    PresencePenalty = 1,
                 });
 
                 //If we get a proper result from OpenAI
@@ -513,24 +525,44 @@ namespace Robit
                 {
                     timeout = false;
 
-                    if (WordFilter.WordFilter.AICheck(completionResult.Choices.First().Message.Content).Result)
+                    string response = completionResult.Choices.First().Message.Content;
+
+                    string pattern = @"\[(.*?)\]";
+
+                    Match match = Regex.Match(response, pattern);
+
+                    if (match.Success)
+                    {
+                        string search = match.Groups[1].Value;
+
+                        SearchParameter searchParameter = new SearchParameter()
+                        {
+                            Query = search
+                        };
+
+                        string giphyResult = "\n" + giphyClient.GifSearch(searchParameter).Result.Data[0].Url;
+
+                        response = response.Substring(0, match.Index) + giphyResult + response.Substring(match.Index + match.Length) + "\n`Powered by GIPHY`";
+                    }
+
+                    if (WordFilter.WordFilter.AICheck(response).Result)
                     {
                         await reply.DeleteAsync();
 
-                        await messageArgs.Message.RespondAsync("**Filtered**");
+                        await messageArgs.Channel.SendMessageAsync("**Filtered**");
                     }
                     else
                     {
                         await reply.DeleteAsync();
 
-                        await messageArgs.Message.RespondAsync(completionResult.Choices.First().Message.Content);
+                        await messageArgs.Channel.SendMessageAsync(response);
                     }
 
                     //Log the AI interaction only if we are in debug mode
                     if (DebugStatus())
                     {
                         botClient?.Logger.LogDebug($"Message: {messageArgs.Message.Content}");
-                        botClient?.Logger.LogDebug($"Reply: {completionResult.Choices.First().Message.Content}");
+                        botClient?.Logger.LogDebug($"Reply: {response}");
                     }
                 }
                 else
@@ -545,7 +577,7 @@ namespace Robit
 
                     await reply.DeleteAsync();
 
-                    await messageArgs.Message.RespondAsync("AI text generation failed");
+                    await messageArgs.Channel.SendMessageAsync("AI text generation failed");
                 }
             });
 
