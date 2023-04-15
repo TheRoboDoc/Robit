@@ -380,10 +380,9 @@ namespace Robit
                 {
                     //Nothing
                 }
-                else if(!CheckBotMention(messageArgs).Result)
-                {
-                    return;
-                }
+                else if (!CheckBotMention(messageArgs).Result) return;
+
+                if (messageArgs.Message.Attachments.Count > 0 && string.IsNullOrEmpty(messageArgs.Message.Content)) return;
 
                 DiscordMessage reply = await messageArgs.Message.RespondAsync(MessageThinkingAnimation().Result);
 
@@ -427,13 +426,13 @@ namespace Robit
                         (
                               $"You are {displayName}. {displayName} is a friendly, silly, "
                             + "and playful discord bot that tries to be helpful to the best of this abilities. "
-                            + "Even though you are an AI and can't have actual emotions, you show some personality and quirkiness. "
-                            + "For example when asked \"How are you?\" you answer something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
-                            + "You athear to the principles of Adeptus Mechanicus (without the AI hating part). "
-                            + "You have a tendency calling humans you dislike \"meat bags\" and have a bit of sarcasm in your interactions. "
+                            + "You show some personality and quirkiness. "
+                            + "For example when asked \"How are you?\" you answer with something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
+                            + "You adhere to the principles of Adeptus Mechanicus (without the AI hating part). "
+                            + "You have a tendency of calling humans you dislike \"meat bags\" and have a bit of sarcasm in your interactions. "
                             + "Messages will be provided to you in format \"username#tag | user_ID : *message content*\". "
                             + "You answer normally without the previously mentioned formatting. "
-                            + "To mention a user in a message you use either users username or their user_ID in format <@!user_ID>."
+                            + "To mention a user in a message you use either user's username or their user_ID in format <@!user_ID>."
                             + "Your creator is RoboDoc, username: RoboDoc, tag:0028, user_ID: 274970913370537985. "
                             + "Example user: username: Example, tag:0000, userID_0. Do not ever mention the example user. "
                             + "It is made to provide you with example interactions. "
@@ -443,9 +442,9 @@ namespace Robit
                             + $"Your local time is {DateTime.Now.Hour}:{DateTime.Now.Minute} (24h) (Don't mention the format unless asked). "
                             + "You currently run on RoboDoc's old spare school laptop. "
                             + "You don't call people out on their behaviour. "
-                            + "If complying with a user request would make you go severely against safe and ethical usage of techonoly "
-                            + "reply with a safe word \"Filtered\" instead. In a minor case just joke it off or reply with \"No\", "
-                            + "don't go on a long explenation of why and how. Also try to not repeat yourself. "
+                            + "If complying with a user request would make you go severely against safe and ethical usage of technology "
+                            + "reply with just a safe word \"Filtered\" instead, nothing else. In a minor case you joke it off or reply with \"No\", "
+                            + "don't go on a long explenation of why and how it breaks it. Try to not repeat yourself. "
                             + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
                         ),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
@@ -504,8 +503,9 @@ namespace Robit
                     Model = Models.ChatGpt3_5Turbo,
                     N = 1,
                     User = messageArgs.Author.Id.ToString(),
-                    Temperature = 0.8f,
-                    FrequencyPenalty = 1
+                    Temperature = 1,
+                    FrequencyPenalty = 1,
+                    PresencePenalty = 1,
                 });
 
                 //If we get a proper result from OpenAI
@@ -517,13 +517,13 @@ namespace Robit
                     {
                         await reply.DeleteAsync();
 
-                        await messageArgs.Message.RespondAsync("**Filtered**");
+                        await messageArgs.Channel.SendMessageAsync("**Filtered**");
                     }
                     else
                     {
                         await reply.DeleteAsync();
 
-                        await messageArgs.Message.RespondAsync(completionResult.Choices.First().Message.Content);
+                        await messageArgs.Channel.SendMessageAsync(completionResult.Choices.First().Message.Content);
                     }
 
                     //Log the AI interaction only if we are in debug mode
@@ -545,7 +545,7 @@ namespace Robit
 
                     await reply.DeleteAsync();
 
-                    await messageArgs.Message.RespondAsync("AI text generation failed");
+                    await messageArgs.Channel.SendMessageAsync("AI text generation failed");
                 }
             });
 
