@@ -386,9 +386,6 @@ namespace Robit
 
             if (messageArgs.Author.IsBot) return Task.CompletedTask;
 
-            //Run as a task because otherwise get a warning that event handler for Message created took too long
-            Task response = Task.Run(async () =>
-            {
                 Random rand = new Random();
 
                 int diceRoll = rand.Next(0, 7);
@@ -397,10 +394,13 @@ namespace Robit
                 {
                     //Nothing
                 }
-                else if (!CheckBotMention(messageArgs).Result) return;
+            else if (!CheckBotMention(messageArgs).Result) return Task.CompletedTask;
 
-                if (messageArgs.Message.Attachments.Count > 0 && string.IsNullOrEmpty(messageArgs.Message.Content)) return;
+            if (messageArgs.Message.Attachments.Count > 0 && string.IsNullOrEmpty(messageArgs.Message.Content)) return Task.CompletedTask;
 
+            //Run as a task because otherwise get a warning that event handler for Message created took too long
+            Task response = Task.Run(async () =>
+            {
                 DiscordMessage reply = await messageArgs.Message.RespondAsync(MessageThinkingAnimation().Result);
 
                 bool timeout = true;
@@ -412,6 +412,10 @@ namespace Robit
                     if (timeout)
                     {
                         reply = await messageArgs.Message.RespondAsync(TimedOut().Result);
+                    }
+                    else
+                    {
+                        await reply.DeleteAsync();
                     }
                 });
 
