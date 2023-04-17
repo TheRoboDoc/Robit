@@ -285,6 +285,10 @@ namespace Robit
         /// <param name="messageArgs">Message creation event arguemnts</param>
         private static async Task Response(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
+            ChannelManager.Channel channel = ChannelManager.ReadChannelInfo(messageArgs.Guild.Id.ToString(), messageArgs.Channel.Id.ToString());
+
+            if (channel.autoResponse == false) return;
+
             if (messageArgs.Message.Content == null) return;
 
             if (messageArgs.Author.IsBot || messageArgs.Equals(null) || CheckBotMention(messageArgs).Result) return;
@@ -375,6 +379,11 @@ namespace Robit
         /// <exception cref="Exception">AI module response fail</exception>
         private static Task AIResponse(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
+            ChannelManager.Channel channel =
+                ChannelManager.ReadChannelInfo(messageArgs.Guild.Id.ToString(), messageArgs.Channel.Id.ToString());
+
+            if (channel.AIIgnore) return Task.CompletedTask;
+
             if (messageArgs.Author.IsBot) return Task.CompletedTask;
 
             //Run as a task because otherwise get a warning that event handler for Message created took too long

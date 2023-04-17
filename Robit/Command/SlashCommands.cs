@@ -252,6 +252,27 @@ namespace Robit.Command
 
                 await ctx.CreateResponseAsync("All response interactions have been overwritten", !visible);
             }
+
+            [SlashCommand("Ignore", "Should Robit's auto response ignore this channel or not")]
+            [SlashCommandPermissions(Permissions.ManageChannels | Permissions.ManageMessages)]
+            public async Task Ignore(InteractionContext ctx,
+            [Option("Ignore", "To ignore or not, true will ignore, false will not")]
+            bool ignore,
+            [Option("Visible", "Sets the visibility")]
+            [DefaultValue(true)]
+            bool visible = true)
+            {
+                string guildID = ctx.Guild.Id.ToString();
+                string channelID = ctx.Channel.Id.ToString();
+
+                ChannelManager.Channel channel = ChannelManager.ReadChannelInfo(guildID, channelID);
+
+                channel.autoResponse = !ignore;
+
+                ChannelManager.WriteChannelInfo(channel, guildID, channelID, true);
+
+                await ctx.CreateResponseAsync($"Ignore this channel: `{ignore}`", !visible);
+        }
         }
         #endregion
 
@@ -593,6 +614,28 @@ namespace Robit.Command
                 await ctx.EditResponseAsync(builder);
             }
         }
+
+        [SlashCommand("AI_Ignore", "Should Robit's AI module ignore this channel, prompt command will still work")]
+        [SlashCommandPermissions(Permissions.ManageChannels | Permissions.ManageMessages)]
+        public async Task AIIgnore(InteractionContext ctx,
+            [Option("Ignore", "To ignore or not, true will ignore, false will not")]
+            bool ignore,
+            [Option("Visible", "Sets the visibility")]
+            [DefaultValue(true)]
+            bool visible = true)
+        {
+            string guildID = ctx.Guild.Id.ToString();
+            string channelID = ctx.Channel.Id.ToString();
+
+            ChannelManager.Channel channel = ChannelManager.ReadChannelInfo(guildID, channelID);
+
+            channel.AIIgnore = ignore;
+
+            ChannelManager.WriteChannelInfo(channel, guildID, channelID, true);
+
+            await ctx.CreateResponseAsync($"Ignore this channel: `{ignore}`", !visible);
+        }
+
         #endregion
 
         #endregion
