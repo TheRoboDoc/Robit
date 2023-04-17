@@ -19,6 +19,7 @@ namespace Robit
             public static readonly string dataPath = $@"{basePath}/ResponseData";
             public static readonly string tempMediaPath = $@"{basePath}/TempMedia";
             public static readonly string resources = $@"{basePath}/Resources";
+            public static readonly string channelSettings = $@"{basePath}/ChannelSettings";
         }
 
         /// <summary>
@@ -55,6 +56,39 @@ namespace Robit
             });
 
             return list;
+        }
+
+        /// <summary>
+        /// Checks if file exists
+        /// </summary>
+        /// <param name="fileDir">File location</param>
+        /// <returns>
+        /// <list type="table">
+        /// <item><c>True</c>: File exists</item>
+        /// <item><c>False</c>: File doesn't exist</item>
+        /// </list>
+        /// </returns>
+        private static bool FileExists(string fileDir)
+        {
+            FileInfo fileInfo = new FileInfo(fileDir);
+
+            if (!fileInfo.Exists)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Creates a file
+        /// </summary>
+        /// <param name="fileDir">Location to create the file at</param>
+        private static void CreateFile(string fileDir)
+        {
+            FileInfo fileInfo = new FileInfo(fileDir);
+
+            fileInfo.Create().Dispose();
         }
 
         /// <summary>
@@ -292,8 +326,6 @@ namespace Robit
             /// <returns><c>ResponseEntry</c> list</returns>
             public static List<ResponseEntry> ReadEntries(string guildID)
             {
-                List<ResponseEntry>? responseEntries = new List<ResponseEntry>();
-
                 string path = IDToPath(guildID);
 
                 if (!FileExists(path))
@@ -302,6 +334,8 @@ namespace Robit
                 }
 
                 string jsonString = File.ReadAllText(path);
+
+                List<ResponseEntry>? responseEntries;
 
                 if (!string.IsNullOrEmpty(jsonString))
                 {
@@ -351,38 +385,163 @@ namespace Robit
 
                 fileStream.Close();
             }
+        }
 
-            /// <summary>
-            /// Checks if file exists
-            /// </summary>
-            /// <param name="fileDir">File location</param>
-            /// <returns>
-            /// <list type="table">
-            /// <item><c>True</c>: File exists</item>
-            /// <item><c>False</c>: File doesn't exist</item>
-            /// </list>
-            /// </returns>
-            private static bool FileExists(string fileDir)
+        /// <summary>
+        /// Checks if a directory exists
+        /// </summary>
+        /// <param name="path">Path to the directory</param>
+        /// <returns>
+        /// <list type="table">
+        /// <item>True: Directory exists</item>
+        /// <item>False: Directory doesn't exists</item>
+        /// </list>
+        /// </returns>
+        public static bool DirectoryExists(string path)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(path);
+
+            if (!directoryInfo.Exists)
             {
-                FileInfo fileInfo = new FileInfo(fileDir);
+                return false;
+            }
 
-                if (!fileInfo.Exists)
-                {
-                    return false;
-                }
+            return true;
+        }
 
-                return true;
+        /// <summary>
+        /// Creates a directory
+        /// </summary>
+        /// <param name="path">Path of the directory to create</param>
+        public static void CreateDirectory(string path)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(path);
+
+            directoryInfo.Create();
+        }
+
+        /// <summary>
+        /// Sets of methods to manage channel settings
+        /// </summary>
+        public static class ChannelManager
+        {
+            /// <summary>
+            /// Channel specific settings
+            /// </summary>
+            public struct Channel
+            {
+                public bool AIIgnore { get; set; }
+                public bool autoResponse { get; set; }
             }
 
             /// <summary>
-            /// Creates a file
+            /// Converts given guildID and channelID to guild folder path and channel settings json path
             /// </summary>
-            /// <param name="fileDir">Location to create the file at</param>
-            private static void CreateFile(string fileDir)
+            /// <param name="guildID">ID of the guild</param>
+            /// <param name="channelID">ID of the channel</param>
+            /// <returns>
+            /// A tuple that contains two strings
+            /// <list type="table">
+            /// <item>Item 1: A path to the guild directory</item>
+            /// <item>Item 2: A path to the channel json file</item>
+            /// </list>
+            /// </returns>
+            private static Tuple<string, string> IDToPath(string guildID, string channelID)
             {
-                FileInfo fileInfo = new FileInfo(fileDir);
+                string guildPath = $"{Paths.channelSettings}/{guildID}";
+                string channelPath = $"{guildPath}/{channelID}.json";
 
-                fileInfo.Create().Dispose();
+                return Tuple.Create(guildPath, channelPath);
+            }
+
+            /// <summary>
+            /// Reads the channel settings information
+            /// </summary>
+            /// <param name="guildID">ID of the guild the channel is in</param>
+            /// <param name="channelID">ID of the channel</param>
+            /// <returns>
+            /// A channel struct
+            /// </returns>
+            public static Channel ReadChannelInfo(string guildID, string channelID)
+            {
+                Tuple<string, string> paths = IDToPath(guildID, channelID);
+
+                string guildPath = paths.Item1;
+                string channelPath = paths.Item2;
+
+                if (!DirectoryExists(guildPath))
+                {
+                    CreateDirectory(guildPath);
+                }
+
+                if (!FileExists(channelPath))
+                {
+                    CreateFile(channelPath);
+                }
+
+                string jsonString = File.ReadAllText(channelPath);
+
+                if (string.IsNullOrEmpty(jsonString))
+                {
+                    Channel newChannel = new Channel()
+                    {
+                        AIIgnore = false,
+                        autoResponse = true
+                    };
+
+                    WriteChannelInfo(newChannel, guildID, channelID, true);
+
+                    return newChannel;
+                }
+
+                return JsonSerializer.Deserialize<Channel>(jsonString);
+            }
+
+            /// <summary>
+            /// Writes channel settings information
+            /// </summary>
+            /// <param name="channel">Channel struct containing the settings you want to write</param>
+            /// <param name="guildID">The ID of the guild the channel belongs to</param>
+            /// <param name="channelID">The ID of the channel</param>
+            /// <param name="overwrite">To overwrite the existing settings(if they exist) or not (default is false)</param>
+            /// <exception cref="Exception">If channel settings exist, but overwrite is set to false</exception>
+            public static void WriteChannelInfo(Channel channel, string guildID, string channelID, bool overwrite = false)
+            {
+                Tuple<string, string> paths = IDToPath(guildID, channelID);
+
+                string guildPath = paths.Item1;
+                string channelPath = paths.Item2;
+
+                if (!DirectoryExists(guildPath))
+                {
+                    CreateDirectory(guildPath);
+                }
+
+                if (FileExists(channelPath))
+                {
+                    if (overwrite)
+                    {
+                        FileInfo fileInfo = new FileInfo(channelPath);
+
+                        fileInfo.Delete();
+                        fileInfo.Create().Dispose();
+                    }
+                    else
+                    {
+                        throw new Exception("Channel settings entry already exists");
+                    }
+                }
+
+                FileStream fileStream = File.OpenWrite(channelPath);
+
+                JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions()
+                {
+                    WriteIndented = true
+                };
+
+                JsonSerializer.Serialize(fileStream, channel, jsonSerializerOptions);
+
+                fileStream.Close();
             }
         }
     }

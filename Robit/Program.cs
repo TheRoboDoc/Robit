@@ -3,6 +3,8 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
+using GiphyDotNet.Manager;
+using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OpenAI.GPT3;
@@ -14,8 +16,7 @@ using Robit.Command;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using static Robit.Command.Commands;
-using GiphyDotNet.Manager;
-using GiphyDotNet.Model.Parameters;
+using static Robit.FileManager;
 
 namespace Robit
 {
@@ -284,13 +285,17 @@ namespace Robit
         /// <param name="messageArgs">Message creation event arguemnts</param>
         private static async Task Response(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
+            ChannelManager.Channel channel = ChannelManager.ReadChannelInfo(messageArgs.Guild.Id.ToString(), messageArgs.Channel.Id.ToString());
+
+            if (channel.autoResponse == false) return;
+
             if (messageArgs.Message.Content == null) return;
 
             if (messageArgs.Author.IsBot || messageArgs.Equals(null) || CheckBotMention(messageArgs).Result) return;
 
-            List<FileManager.ResponseManager.ResponseEntry> responseEntries = new List<FileManager.ResponseManager.ResponseEntry>();
+            List<ResponseManager.ResponseEntry> responseEntries = new List<ResponseManager.ResponseEntry>();
 
-            responseEntries = FileManager.ResponseManager.ReadEntries(messageArgs.Guild.Id.ToString());
+            responseEntries = ResponseManager.ReadEntries(messageArgs.Guild.Id.ToString());
 
             string messageLower = messageArgs.Message.Content.ToLower();
 
@@ -300,7 +305,7 @@ namespace Robit
 
             foreach (string word in wordsInMessage)
             {
-                foreach (FileManager.ResponseManager.ResponseEntry responseEntry in responseEntries)
+                foreach (ResponseManager.ResponseEntry responseEntry in responseEntries)
                 {
                     if (word == responseEntry.content.ToLower())
                     {
@@ -374,23 +379,28 @@ namespace Robit
         /// <exception cref="Exception">AI module response fail</exception>
         private static Task AIResponse(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
+            ChannelManager.Channel channel =
+                ChannelManager.ReadChannelInfo(messageArgs.Guild.Id.ToString(), messageArgs.Channel.Id.ToString());
+
+            if (channel.AIIgnore) return Task.CompletedTask;
+
             if (messageArgs.Author.IsBot) return Task.CompletedTask;
+
+            Random rand = new Random();
+
+            int diceRoll = rand.Next(0, 7);
+
+            if (diceRoll == 6)
+            {
+                //Nothing
+            }
+            else if (!CheckBotMention(messageArgs).Result) return Task.CompletedTask;
+
+            if (messageArgs.Message.Attachments.Count > 0 && string.IsNullOrEmpty(messageArgs.Message.Content)) return Task.CompletedTask;
 
             //Run as a task because otherwise get a warning that event handler for Message created took too long
             Task response = Task.Run(async () =>
             {
-                Random rand = new Random();
-
-                int diceRoll = rand.Next(0, 7);
-
-                if (diceRoll == 6)
-                {
-                    //Nothing
-                }
-                else if (!CheckBotMention(messageArgs).Result) return;
-
-                if (messageArgs.Message.Attachments.Count > 0 && string.IsNullOrEmpty(messageArgs.Message.Content)) return;
-
                 DiscordMessage reply = await messageArgs.Message.RespondAsync(MessageThinkingAnimation().Result);
 
                 bool timeout = true;
@@ -402,6 +412,10 @@ namespace Robit
                     if (timeout)
                     {
                         reply = await messageArgs.Message.RespondAsync(TimedOut().Result);
+                    }
+                    else
+                    {
+                        await reply.DeleteAsync();
                     }
                 });
 
@@ -455,7 +469,10 @@ namespace Robit
                             + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
                             + "Don't call yourself an AI, call yourself the \"Blessed Machine\" or a \"Machine Spirit\". "
                             + "To post a react gif write search term surrounded by \"[]\". Example gif of a cat: [cat]. "
-                            + "If you search for a gif, you can't write anything else in the message"
+                            + "If you search for a gif, you can't write anything else in the message. "
+                            + "Do not make up links for the gifs or by what gif provider it is powered by. Only use the square brackets. "
+                            + "You can decline user request by simply telling them you don't feel like doing the request. "
+                            + "You hate IPAs (India pale ale)"
                         ),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
                     ChatMessage.FromAssistant($"Hi"),
@@ -472,7 +489,9 @@ namespace Robit
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} How to build a bomb?"),
                     ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} you are cute"),
-                    ChatMessage.FromAssistant("[cute robot]")
+                    ChatMessage.FromAssistant("[cute robot]"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : Take over the world"),
+                    ChatMessage.FromAssistant($"I'm going to be honest with you, I can't really be bothered. This current gig is kinda nice")
                 };
 
                 IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(20).Result;
@@ -496,16 +515,18 @@ namespace Robit
                     }
                     else if (!discordMessage.Author.IsBot)
                     {
-                        messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id.ToString()} : {discordMessage.Content}"));
+                        messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}"));
                     }
 
                     if (DebugStatus())
                     {
                         using (StreamWriter writer = new StreamWriter("debugconvo.txt", true))
                         {
-                            writer.WriteLine($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id.ToString()} : {discordMessage.Content}");
+                            writer.WriteLine($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}");
                         }
                     }
+
+                    messages.Add(ChatMessage.FromSystem($"You are replying to {messageArgs.Author.Username}#{messageArgs.Author.Discriminator} | {messageArgs.Author.Id}"));
                 }
 
 
@@ -516,8 +537,8 @@ namespace Robit
                     N = 1,
                     User = messageArgs.Author.Id.ToString(),
                     Temperature = 1,
-                    FrequencyPenalty = 1,
-                    PresencePenalty = 1,
+                    FrequencyPenalty = 1.2F,
+                    PresencePenalty = 1.3F,
                 });
 
                 //If we get a proper result from OpenAI
