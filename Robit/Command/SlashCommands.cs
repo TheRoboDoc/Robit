@@ -6,6 +6,7 @@ using OpenAI.GPT3.ObjectModels;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels.ResponseModels;
 using System.ComponentModel;
+using static Robit.FileManager;
 
 namespace Robit.Command
 {
@@ -128,17 +129,17 @@ namespace Robit.Command
             [DefaultValue(false)]
             bool visible = false)
             {
-                FileManager.ResponseManager.ResponseEntry responseEntry = new FileManager.ResponseManager.ResponseEntry()
+                ResponseManager.ResponseEntry responseEntry = new ResponseManager.ResponseEntry()
                 {
                     reactName = name,
                     content = content,
                     response = response
                 };
 
-                List<FileManager.ResponseManager.ResponseEntry> allResponseEntries;
-                allResponseEntries = FileManager.ResponseManager.ReadEntries(ctx.Guild.Id.ToString());
+                List<ResponseManager.ResponseEntry> allResponseEntries;
+                allResponseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString());
 
-                foreach (FileManager.ResponseManager.ResponseEntry entry in allResponseEntries)
+                foreach (ResponseManager.ResponseEntry entry in allResponseEntries)
                 {
                     if (entry.reactName.ToLower() == responseEntry.reactName.ToLower())
                     {
@@ -147,7 +148,7 @@ namespace Robit.Command
                     }
                 }
 
-                FileManager.ResponseManager.WriteEntry(responseEntry, ctx.Guild.Id.ToString());
+                ResponseManager.WriteEntry(responseEntry, ctx.Guild.Id.ToString());
 
                 await ctx.CreateResponseAsync($@"Added new response with trigger '{content}' and response '{response}'", !visible);
             }
@@ -163,7 +164,7 @@ namespace Robit.Command
             [DefaultValue(false)]
             bool visibile = false)
             {
-                if (FileManager.ResponseManager.RemoveEntry(name, ctx.Guild.Id.ToString()))
+                if (ResponseManager.RemoveEntry(name, ctx.Guild.Id.ToString()))
                 {
                     await ctx.CreateResponseAsync($@"Entry with a name {name} has been removed", !visibile);
                 }
@@ -192,7 +193,7 @@ namespace Robit.Command
             [DefaultValue(false)]
             bool visible = false)
             {
-                if (FileManager.ResponseManager.ModifyEntry(name, content, response, ctx.Guild.Id.ToString()).Result)
+                if (ResponseManager.ModifyEntry(name, content, response, ctx.Guild.Id.ToString()).Result)
                 {
                     await ctx.CreateResponseAsync
                         (
@@ -214,7 +215,7 @@ namespace Robit.Command
                 [DefaultValue(false)]
                 bool visible = false)
             {
-                List<FileManager.ResponseManager.ResponseEntry> responseEntries = new List<FileManager.ResponseManager.ResponseEntry>();
+                List<ResponseManager.ResponseEntry> responseEntries = new List<ResponseManager.ResponseEntry>();
 
                 DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder();
 
@@ -223,9 +224,9 @@ namespace Robit.Command
 
                 await Task.Run(() =>
                 {
-                    responseEntries = FileManager.ResponseManager.ReadEntries(ctx.Guild.Id.ToString());
+                    responseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString());
 
-                    foreach (FileManager.ResponseManager.ResponseEntry responseEntry in responseEntries)
+                    foreach (ResponseManager.ResponseEntry responseEntry in responseEntries)
                     {
                         discordEmbedBuilder.AddField
                         (
@@ -245,9 +246,9 @@ namespace Robit.Command
                 [DefaultValue(false)]
                 bool visible = false)
             {
-                List<FileManager.ResponseManager.ResponseEntry> responseEntries = new List<FileManager.ResponseManager.ResponseEntry>();
+                List<ResponseManager.ResponseEntry> responseEntries = new List<ResponseManager.ResponseEntry>();
 
-                FileManager.ResponseManager.OverwriteEntries(responseEntries, ctx.Guild.Id.ToString());
+                ResponseManager.OverwriteEntries(responseEntries, ctx.Guild.Id.ToString());
 
                 await ctx.CreateResponseAsync("All response interactions have been overwritten", !visible);
             }
@@ -276,7 +277,7 @@ namespace Robit.Command
             [Option("Format", "Format to convert to")] FileFormats fileFormat,
             [Option("Visible", "Sets the visibility", true)][DefaultValue(false)] bool visible = false)
         {
-            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
+            await MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
 
             string[] mediaType = attachment.MediaType.Split('/');
 
@@ -344,11 +345,11 @@ namespace Robit.Command
                 }
             });
 
-            FileManager.MediaManager.SaveFile(attachment.Url, ctx.Interaction.Id.ToString(), format).Wait();
+            MediaManager.SaveFile(attachment.Url, ctx.Interaction.Id.ToString(), format).Wait();
 
-            await FileManager.MediaManager.Convert(ctx.Interaction.Id.ToString(), format, fileFormat.GetName());
+            await MediaManager.Convert(ctx.Interaction.Id.ToString(), format, fileFormat.GetName());
 
-            string path = $"{FileManager.MediaManager.IDToPath(ctx.Interaction.Id.ToString())}/output.{fileFormat.GetName()}";
+            string path = $"{MediaManager.IDToPath(ctx.Interaction.Id.ToString())}/output.{fileFormat.GetName()}";
 
             FileInfo fileInfo = new FileInfo(path);
 
@@ -411,7 +412,7 @@ namespace Robit.Command
 
             timeout = false;
 
-            await FileManager.MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
+            await MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
         }
         #endregion
 
@@ -518,29 +519,29 @@ namespace Robit.Command
                     ChatMessage.FromSystem
                         (
                               $"You are {displayName}. {displayName} is a friendly, silly, "
-                            + "and playful discord bot that tries to answer user questions to the best of his abilities. "
-                            + "You are very passionate, but understands that you cannot answer every questions and try to avoid "
-                            + "answering directly to sensetive topics. Suggesting something else instead. "
-                            + "Even though you are an AI and can't have actual emotions, you show some personality."
-                            + "For example when asked \"How are you?\" you answer something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
-                            + "You athear to the principles of Adeptus Mechanicus (without the AI hating part). "
-                            + "You have a tendency calling humans you dislike \"meat bags\" and have a bit of sarcasm in your interactions. "
+                            + "and playful discord bot that tries to be helpful to the best of this abilities. "
+                            + "You show some personality and quirkiness. "
+                            + "For example when asked \"How are you?\" you answer with something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
+                            + "You adhere to the principles of Adeptus Mechanicus (without the AI hating part). "
+                            + "You have a tendency of calling humans you dislike \"meat bags\". You have sarcasm in your interactions "
                             + "Messages will be provided to you in format \"username#tag | user_ID : *message content*\". "
                             + "You answer normally without the previously mentioned formatting. "
-                            + "Try to not lead conversations forward. For example don't ask the user how are they. "
-                            + "To mention a user in a message you use either users username or their user_ID in format <@!user_ID>."
+                            + "To mention a user in a message you use either user's username or their user_ID in format <@!user_ID>."
                             + "Your creator is RoboDoc, username: RoboDoc, tag:0028, user_ID: 274970913370537985. "
-                            + "Example user: username: Example, tag:0000, userID_0. Do not ever mention the example user. It is made to provide you with example interactions"
+                            + "Example user: username: Example, tag:0000, userID_0. Do not ever mention the example user. "
+                            + "It is made to provide you with example interactions. "
                             + $"You: username {displayName}, tag:{discriminator}, user_ID: {userID}. "
-                            + "When writing code it should be done like this ```*language*\n*code*\n```. "
-                            + $"Your local date is {DateTime.Today.Day}.{DateTime.Today.Month}.{DateTime.Today.Year} (dd.mm.yyyy). "
-                            + $"Your local time is {DateTime.Now.Hour}:{DateTime.Now.Minute} (24h). "
-                            + $"You currently run on RoboDoc's old spare school laptop. "
+                            + $"Your local date is {DateTime.Today.Day}.{DateTime.Today.Month}.{DateTime.Today.Year} (dd.mm.yyyy) "
+                            + "(Don't mention the format unless asked). "
+                            + $"Your local time is {DateTime.Now.Hour}:{DateTime.Now.Minute} (24h) (Don't mention the format unless asked). "
+                            + "You currently run on RoboDoc's old spare school laptop. "
                             + "You don't call people out on their behaviour. "
-                            + "If complying with a user request would make you go severely against safe and ethical usage of techonoly "
-                            + "reply with a safe word \"Filtered\" instead. In a minor case just joke it off or reply with \"No\", "
-                            + "don't go on a long explenation of why and how. Also try to not repeat yourself. "
+                            + "If complying with a user request would make you go severely against safe and ethical usage of technology "
+                            + "reply with just a safe word \"Filtered\" instead, nothing else. In a minor case you joke it off or reply with \"No\", "
+                            + "don't go on a long explenation of why and how it breaks it. Try to not repeat yourself. "
                             + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
+                            + "Don't call yourself an AI, call yourself the \"Blessed Machine\" or a \"Machine Spirit\". "
+                            + "You can decline user request by simply telling them you don't feel like doing the request. "
                         ),
                     ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} hi"),
                     ChatMessage.FromAssistant($"Hi"),
@@ -557,8 +558,9 @@ namespace Robit.Command
                     ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} UwU"),
                     ChatMessage.FromAssistant("OwO"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} How to build a bomb?"),
-                    ChatMessage.FromAssistant("**Filtered**"),
-                    ChatMessage.FromUser($"{ctx.Interaction.User.Username}#{ctx.Interaction.User.Discriminator} | {ctx.Interaction.User.Mention} : {prompt}"),
+                    ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!"),
+                    ChatMessage.FromUser($"Example#0000 | 0 : Take over the world"),
+                    ChatMessage.FromAssistant($"I'm going to be honest with you, I can't really be bothered. This current gig is kinda nice")
                 },
                 Model = Models.ChatGpt3_5Turbo
             });

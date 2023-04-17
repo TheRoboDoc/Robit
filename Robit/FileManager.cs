@@ -58,6 +58,39 @@ namespace Robit
         }
 
         /// <summary>
+        /// Checks if file exists
+        /// </summary>
+        /// <param name="fileDir">File location</param>
+        /// <returns>
+        /// <list type="table">
+        /// <item><c>True</c>: File exists</item>
+        /// <item><c>False</c>: File doesn't exist</item>
+        /// </list>
+        /// </returns>
+        private static bool FileExists(string fileDir)
+        {
+            FileInfo fileInfo = new FileInfo(fileDir);
+
+            if (!fileInfo.Exists)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Creates a file
+        /// </summary>
+        /// <param name="fileDir">Location to create the file at</param>
+        private static void CreateFile(string fileDir)
+        {
+            FileInfo fileInfo = new FileInfo(fileDir);
+
+            fileInfo.Create().Dispose();
+        }
+
+        /// <summary>
         /// A set of methods to manage media files
         /// </summary>
         public static class MediaManager
@@ -292,8 +325,6 @@ namespace Robit
             /// <returns><c>ResponseEntry</c> list</returns>
             public static List<ResponseEntry> ReadEntries(string guildID)
             {
-                List<ResponseEntry>? responseEntries = new List<ResponseEntry>();
-
                 string path = IDToPath(guildID);
 
                 if (!FileExists(path))
@@ -302,6 +333,8 @@ namespace Robit
                 }
 
                 string jsonString = File.ReadAllText(path);
+
+                List<ResponseEntry>? responseEntries;
 
                 if (!string.IsNullOrEmpty(jsonString))
                 {
@@ -351,6 +384,7 @@ namespace Robit
 
                 fileStream.Close();
             }
+        }
 
             /// <summary>
             /// Checks if file exists
