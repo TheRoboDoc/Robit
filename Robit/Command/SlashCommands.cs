@@ -388,38 +388,7 @@ namespace Robit.Command
 
             FileStream fileStream = File.OpenRead(path);
 
-            CompletionCreateResponse? completionResult = await Program.openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
-            {
-                Prompt =
-                $"{ctx.Guild.CurrentMember.DisplayName} is a friendly discord bot that tries to answer user questions to the best of his abilities\n" +
-                 "He is very passionate, but understands that he cannot answer every questions and tries to avoid " +
-                 "answering directly to sensetive topics." +
-                 "He isn't very sophisticated and cannot have full blown conversations.\n" +
-                 "His responses are generated using OpenAI Davinci V3 text AI model\n\n" +
-                $"{ctx.Guild.CurrentMember.DisplayName} just converted '{attachment.FileName}' into an '{fileFormat.GetName()}' " +
-                $"and is telling user about it\n" +
-                $"{ctx.Guild.CurrentMember.DisplayName}: ",
-                MaxTokens = 60,
-                Temperature = 0.3F,
-                TopP = 0.3F,
-                PresencePenalty = 0,
-                FrequencyPenalty = 0.5F
-            }, Models.TextDavinciV3);
-
-            string responseText = $"{ctx.Member.Mention} ";
-
-            if (completionResult.Successful)
-            {
-                responseText += completionResult.Choices[0].Text;
-            }
-            else
-            {
-                if (completionResult.Error == null)
-                {
-                    throw new Exception("OpenAI text generation failed");
-                }
-                ctx.Client.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
-            }
+            string responseText = $"{ctx.Member.Mention} {attachment.FileName} has been converted into {fileFormat.GetName()}";
 
             DiscordWebhookBuilder builder2 = new DiscordWebhookBuilder();
 
