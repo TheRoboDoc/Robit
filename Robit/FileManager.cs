@@ -19,6 +19,7 @@ namespace Robit
             public static readonly string dataPath = $@"{basePath}/ResponseData";
             public static readonly string tempMediaPath = $@"{basePath}/TempMedia";
             public static readonly string resources = $@"{basePath}/Resources";
+            public static readonly string channelSettings = $@"{basePath}/ChannelSettings";
         }
 
         /// <summary>
@@ -386,29 +387,29 @@ namespace Robit
             }
         }
 
-            /// <summary>
+        /// <summary>
         /// Checks if a directory exists
-            /// </summary>
+        /// </summary>
         /// <param name="path">Path to the directory</param>
-            /// <returns>
-            /// <list type="table">
+        /// <returns>
+        /// <list type="table">
         /// <item>True: Directory exists</item>
         /// <item>False: Directory doesn't exists</item>
-            /// </list>
-            /// </returns>
+        /// </list>
+        /// </returns>
         public static bool DirectoryExists(string path)
-            {
+        {
             DirectoryInfo directoryInfo = new DirectoryInfo(path);
 
             if (!directoryInfo.Exists)
-                {
-                    return false;
-                }
-
-                return true;
+            {
+                return false;
             }
 
-            /// <summary>
+            return true;
+        }
+
+        /// <summary>
         /// Creates a directory
         /// </summary>
         /// <param name="path">Path of the directory to create</param>
@@ -519,12 +520,12 @@ namespace Robit
                 if (FileExists(channelPath))
                 {
                     if (overwrite)
-            {
+                    {
                         FileInfo fileInfo = new FileInfo(channelPath);
 
                         fileInfo.Delete();
-                fileInfo.Create().Dispose();
-            }
+                        fileInfo.Create().Dispose();
+                    }
                     else
                     {
                         throw new Exception("Channel settings entry already exists");

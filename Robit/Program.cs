@@ -386,14 +386,14 @@ namespace Robit
 
             if (messageArgs.Author.IsBot) return Task.CompletedTask;
 
-                Random rand = new Random();
+            Random rand = new Random();
 
-                int diceRoll = rand.Next(0, 7);
+            int diceRoll = rand.Next(0, 7);
 
-                if (diceRoll == 6)
-                {
-                    //Nothing
-                }
+            if (diceRoll == 6)
+            {
+                //Nothing
+            }
             else if (!CheckBotMention(messageArgs).Result) return Task.CompletedTask;
 
             if (messageArgs.Message.Attachments.Count > 0 && string.IsNullOrEmpty(messageArgs.Message.Content)) return Task.CompletedTask;

@@ -272,7 +272,7 @@ namespace Robit.Command
                 ChannelManager.WriteChannelInfo(channel, guildID, channelID, true);
 
                 await ctx.CreateResponseAsync($"Ignore this channel: `{ignore}`", !visible);
-        }
+            }
         }
         #endregion
 
