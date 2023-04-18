@@ -4,19 +4,15 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using GiphyDotNet.Manager;
-using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OpenAI.GPT3;
 using OpenAI.GPT3.Managers;
-using OpenAI.GPT3.ObjectModels;
-using OpenAI.GPT3.ObjectModels.RequestModels;
-using OpenAI.GPT3.ObjectModels.ResponseModels;
 using Robit.Command;
+using Robit.Response;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using static Robit.Command.Commands;
-using static Robit.FileManager;
 
 namespace Robit
 {
