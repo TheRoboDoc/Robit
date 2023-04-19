@@ -80,15 +80,16 @@ namespace Robit.Command
                 Color = DiscordColor.Purple,
 
                 Description =
-                $"Hi I'm {ctx.Client.CurrentUser.Mention}. Check out what commands I have via " +
-                $"slash command menu and /commands. I can responde in short form to messages I'm mentioned in and give out " +
-                $"longer responses via /prompt text. Other things that I can do are image generation, automatic responses " +
-                $"to messages with certain triggers, and media file convertion (mov to mp4, png to jpg etc.)",
+                $"Hi I'm {ctx.Client.CurrentUser.Mention}. Your friendly neighborhood machine. My set of abilities is currently expanding. " +
+                $"You can just chat with me in any channel that I have access to (I will ignore your DMs filthy human). " +
+                $"I can write code for you, or post a funny gif if you want. " +
+                $"Perhaps you want to see what commands I have? You can use the \"commands\" command and see for yourself dummy. " +
+                $"Oh and well... if you don't know how to use slash commands... that's just too bad!",
 
                 Timestamp = DateTimeOffset.Now,
 
                 Title = "Hi!",
-            }.AddField("GitHub", @"https://github.com/TheRoboDoc/Robit");
+            }.AddField("GitHub", "Want to see what makes me tick or report a bug? Check my GitHub repo: \nhttps://github.com/TheRoboDoc/Robit ");
 
             await ctx.CreateResponseAsync(embed);
         }
