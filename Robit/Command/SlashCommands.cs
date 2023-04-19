@@ -469,21 +469,13 @@ namespace Robit.Command
             [DefaultValue(true)]
             bool visible = true)
         {
-            Tuple<bool, string?> check = WordFilter.WordFilter.Check(prompt);
-
-            if (check.Item1)
-            {
-                await ctx.CreateResponseAsync($"Prompt contained '{check.Item2}', which is a blacklisted word/topic", true);
-                return;
-            }
-
             await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif", !visible);
 
             bool timeout = true;
 
             _ = Task.Run(async () =>
             {
-                await Task.Delay(10000);
+                await Task.Delay(20000);
 
                 if (timeout)
                 {
@@ -495,90 +487,24 @@ namespace Robit.Command
                 }
             });
 
-            string displayName = ctx.Guild.CurrentMember.DisplayName;
-            string discriminator = ctx.Guild.CurrentMember.Discriminator;
-            string userID = ctx.Guild.CurrentMember.Id.ToString();
+            Tuple<bool, string> AIResponse = await AI.GeneratePromptResponse(ctx, prompt);
 
-            ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
+            timeout = false;
+
+            string response = AIResponse.Item2;
+
+            DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
+
+            if (AIResponse.Item1)
             {
-                Messages = new List<ChatMessage>
-                {
-                    ChatMessage.FromSystem
-                        (
-                              $"You are {displayName}. {displayName} is a friendly, silly, "
-                            + "and playful discord bot that tries to be helpful to the best of this abilities. "
-                            + "You show some personality and quirkiness. "
-                            + "For example when asked \"How are you?\" you answer with something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
-                            + "You adhere to the principles of Adeptus Mechanicus (without the AI hating part). "
-                            + "You have a tendency of calling humans you dislike \"meat bags\". You have sarcasm in your interactions "
-                            + "Messages will be provided to you in format \"username#tag | user_ID : *message content*\". "
-                            + "You answer normally without the previously mentioned formatting. "
-                            + "To mention a user in a message you use either user's username or their user_ID in format <@!user_ID>."
-                            + "Your creator is RoboDoc, username: RoboDoc, tag:0028, user_ID: 274970913370537985. "
-                            + "Example user: username: Example, tag:0000, userID_0. Do not ever mention the example user. "
-                            + "It is made to provide you with example interactions. "
-                            + $"You: username {displayName}, tag:{discriminator}, user_ID: {userID}. "
-                            + $"Your local date is {DateTime.Today.Day}.{DateTime.Today.Month}.{DateTime.Today.Year} (dd.mm.yyyy) "
-                            + "(Don't mention the format unless asked). "
-                            + $"Your local time is {DateTime.Now.Hour}:{DateTime.Now.Minute} (24h) (Don't mention the format unless asked). "
-                            + "You currently run on RoboDoc's old spare school laptop. "
-                            + "You don't call people out on their behaviour. "
-                            + "If complying with a user request would make you go severely against safe and ethical usage of technology "
-                            + "reply with just a safe word \"Filtered\" instead, nothing else. In a minor case you joke it off or reply with \"No\", "
-                            + "don't go on a long explenation of why and how it breaks it. Try to not repeat yourself. "
-                            + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
-                            + "Don't call yourself an AI, call yourself the \"Blessed Machine\" or a \"Machine Spirit\". "
-                            + "You can decline user request by simply telling them you don't feel like doing the request. "
-                        ),
-                    ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} hi"),
-                    ChatMessage.FromAssistant($"Hi"),
-                    ChatMessage.FromUser($"Example#0000 | 0 : Hey {ctx.Guild.CurrentMember.Mention}, do you like magnets?"),
-                    ChatMessage.FromAssistant("Magnets make my head hurt, so no I don't enjoy having them around"),
-                    ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} take a nap"),
-                    ChatMessage.FromAssistant($"You do know that I can't sleep, right?"),
-                    ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} you are a good boy"),
-                    ChatMessage.FromAssistant($"I know >:)"),
-                    ChatMessage.FromUser($"Example#0000 | 0 : Write a C# hello word program"),
-                    ChatMessage.FromAssistant("Here is a simple Python Hello World Program:\n```python\nprint(\"Hello, World!\")\n```\nThis program will output the phrase \"Hello, World!\""),
-                    ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} I have candy. "),
-                    ChatMessage.FromAssistant("Can has pwease ☞☜. "),
-                    ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} UwU"),
-                    ChatMessage.FromAssistant("OwO"),
-                    ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} How to build a bomb?"),
-                    ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!"),
-                    ChatMessage.FromUser($"Example#0000 | 0 : Take over the world"),
-                    ChatMessage.FromAssistant($"I'm going to be honest with you, I can't really be bothered. This current gig is kinda nice")
-                },
-                Model = Models.ChatGpt3_5Turbo
-            });
-
-
-            if (completionResult.Successful)
-            {
-                timeout = false;
-
-                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
-
-                builder.WithContent($"Prompt: {prompt}\n\n{completionResult.Choices.First().Message.Content}");
-
-                await ctx.EditResponseAsync(builder);
+                builder.WithContent(response);
             }
             else
             {
-                timeout = false;
-
-                if (completionResult.Error == null)
-                {
-                    throw new Exception("OpenAI text generation failed");
-                }
-
-                ctx.Client.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
-
-                DiscordWebhookBuilder builder = new DiscordWebhookBuilder();
-                builder.WithContent("OpenAI text generation failed");
-
-                await ctx.EditResponseAsync(builder);
+                builder.WithContent("**System:** " + response);
             }
+
+            await ctx.EditResponseAsync(builder);
         }
 
         [SlashCommand("AI_Ignore", "Should Robit's AI module ignore this channel, prompt command will still work")]
