@@ -37,23 +37,21 @@ namespace Robit.Response
 
             string messageLower = messageArgs.Message.Content.ToLower();
 
-            messageLower = WordFilter.WordFilter.SpecialCharacterRemoval(messageLower);
+            Tuple<bool, string> response = Tuple.Create(false, "No saved matches found"); ;
 
-            string[] wordsInMessage = messageLower.Split(' ');
-
-            foreach (string word in wordsInMessage)
+            await Task.Run(() =>
             {
                 foreach (ResponseManager.ResponseEntry responseEntry in responseEntries)
                 {
-                    if (word == responseEntry.content.ToLower())
+                if (Regex.IsMatch(messageLower, $@"\b{Regex.Escape(responseEntry.content)}"))
                     {
-                        await messageArgs.Message.RespondAsync(responseEntry.response);
-                        return Tuple.Create(true, responseEntry.response);
+                        response = Tuple.Create(true, responseEntry.response);
+                        break;
                     }
                 }
-            }
+            });
 
-            return Tuple.Create(false, "No saved matches found");
+            return response;
         }
     }
 }
