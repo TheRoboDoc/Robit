@@ -17,6 +17,8 @@ namespace Robit.Response
         /// <returns>Completed task</returns>
         public static async Task Run(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
+            if (messageArgs.Author.IsBot) return;
+
             if (await DiscordNoobFailsafe(messageArgs)) return;
 
             ChannelManager.Channel channelSettings = ChannelManager.ReadChannelInfo(messageArgs.Guild.Id.ToString(), messageArgs.Channel.Id.ToString());
