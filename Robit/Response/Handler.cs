@@ -38,9 +38,9 @@ namespace Robit.Response
 
             Random rand = new Random();
 
-            if (rand.Next(1, 7) != 6)
+            if (rand.Next(1, 7) == 6)
             {
-                return;
+                //Allow pass
             }
             else if (await CheckBotMention(messageArgs) == false)
             {

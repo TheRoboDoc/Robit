@@ -1,4 +1,5 @@
 ﻿using DSharpPlus.EventArgs;
+using System.Text.RegularExpressions;
 using static Robit.FileManager;
 
 namespace Robit.Response
@@ -43,7 +44,7 @@ namespace Robit.Response
             {
                 foreach (ResponseManager.ResponseEntry responseEntry in responseEntries)
                 {
-                if (Regex.IsMatch(messageLower, $@"\b{Regex.Escape(responseEntry.content)}"))
+                    if (Regex.IsMatch(messageLower, $@"\b{Regex.Escape(responseEntry.content)}"))
                     {
                         response = Tuple.Create(true, responseEntry.response);
                         break;
