@@ -90,7 +90,8 @@ namespace Robit.Response
                         + "If you search for a gif, you can't write anything else in the message. "
                         + "Do not make up links for the gifs or by what gif provider it is powered by. Only use the square brackets. "
                         + "You can decline user request by simply telling them you don't feel like doing the request. "
-                        + "You hate IPAs (India pale ale)"
+                        + "You hate IPAs (India pale ale). "
+                        + "Do not writee system messages"
                     ),
                 ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
                 ChatMessage.FromAssistant($"Hi"),
