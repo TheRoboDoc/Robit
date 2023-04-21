@@ -212,7 +212,7 @@ namespace Robit
             /// </returns>
             public static async Task<bool> ModifyEntry(string entryName, string content, string response, string guildID)
             {
-                List<ResponseEntry> responseEntries = new List<ResponseEntry>();
+                List<ResponseEntry>? responseEntries = new List<ResponseEntry>();
 
                 ResponseEntry responseEntryToModify = new ResponseEntry();
 
@@ -269,7 +269,7 @@ namespace Robit
             /// </returns>
             public static bool RemoveEntry(string entryName, string guildID)
             {
-                List<ResponseEntry> responseEntries;
+                List<ResponseEntry>? responseEntries;
 
                 ResponseEntry responseEntryToRemove = new ResponseEntry();
 
@@ -324,7 +324,7 @@ namespace Robit
             /// </summary>
             /// <param name="guildID">ID of the guild</param>
             /// <returns><c>ResponseEntry</c> list</returns>
-            public static List<ResponseEntry> ReadEntries(string guildID)
+            public static List<ResponseEntry>? ReadEntries(string guildID)
             {
                 string path = IDToPath(guildID);
 
@@ -335,15 +335,11 @@ namespace Robit
 
                 string jsonString = File.ReadAllText(path);
 
-                List<ResponseEntry>? responseEntries;
+                List<ResponseEntry>? responseEntries = new List<ResponseEntry>();
 
                 if (!string.IsNullOrEmpty(jsonString))
                 {
                     responseEntries = JsonSerializer.Deserialize<List<ResponseEntry>>(jsonString);
-                }
-                else
-                {
-                    throw new NullReferenceException("List of response entries is null");
                 }
 
                 return responseEntries;
@@ -356,7 +352,7 @@ namespace Robit
             /// <param name="guildID">ID of the guild</param>
             public static void WriteEntry(ResponseEntry responseEntry, string guildID)
             {
-                List<ResponseEntry> responseEntries;
+                List<ResponseEntry>? responseEntries;
 
                 string path = IDToPath(guildID);
 
