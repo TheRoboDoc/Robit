@@ -34,7 +34,7 @@ namespace Robit.Response
         /// </returns>
         public static async Task<Tuple<bool, string>> GenerateAutoResponse(MessageCreateEventArgs messageArgs)
         {
-            List<ResponseManager.ResponseEntry> responseEntries = ResponseManager.ReadEntries(messageArgs.Guild.Id.ToString());
+            List<ResponseManager.ResponseEntry>? responseEntries = ResponseManager.ReadEntries(messageArgs.Guild.Id.ToString());
 
             string messageLower = messageArgs.Message.Content.ToLower();
 
@@ -44,7 +44,7 @@ namespace Robit.Response
             {
                 foreach (ResponseManager.ResponseEntry responseEntry in responseEntries)
                 {
-                    if (Regex.IsMatch(messageLower, $@"\b{Regex.Escape(responseEntry.content)}"))
+                    if (Regex.IsMatch(messageLower, $@"\b{Regex.Escape(responseEntry.content)}\b"))
                     {
                         response = Tuple.Create(true, responseEntry.response);
                         break;
