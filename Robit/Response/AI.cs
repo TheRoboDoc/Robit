@@ -43,13 +43,6 @@ namespace Robit.Response
         /// <exception cref="NullReferenceException">OpenAI text generation failed with an unknown error</exception>
         public static async Task<Tuple<bool, string>> GenerateChatResponse(MessageCreateEventArgs messageArgs)
         {
-            Tuple<bool, string?> filter = Check(messageArgs.Message.Content);
-
-            if (filter.Item1)
-            {
-                return Tuple.Create(false, "Message contained blacklisted word/topic");
-            }
-
             if (AICheck(messageArgs.Message.Content).Result)
             {
                 return Tuple.Create(false, "Message blocked by automod");
@@ -187,7 +180,14 @@ namespace Robit.Response
 
                 if (AICheck(response).Result)
                 {
-                    return Tuple.Create(false, "Message blocked by automod");
+                    return Tuple.Create(true, "**Filtered**");
+                }
+
+                Tuple<bool, string?> filter = Check(response);
+
+                if (filter.Item1)
+                {
+                    return Tuple.Create(true, "**Filtered**");
                 }
 
                 //Log the AI interaction only if we are in debug mode
