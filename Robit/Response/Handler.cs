@@ -3,6 +3,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
 using static Robit.FileManager;
 
 namespace Robit.Response
@@ -35,6 +36,12 @@ namespace Robit.Response
             }
 
             if (channelSettings.AIIgnore) return;
+
+            string pattern = @"https?:\/\/(?:www\.)?(?:discordapp|discord)\.com\/.*|https?:\/\/(?:www\.)?cdn\.discordapp\.com\/.*";
+
+            if (Regex.IsMatch(messageArgs.Message.Content, pattern)) return;
+
+            if (string.IsNullOrEmpty(messageArgs.Message.Content) && messageArgs.Message.Attachments.Count > 0) return;
 
             Random rand = new Random();
 
