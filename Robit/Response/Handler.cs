@@ -37,21 +37,26 @@ namespace Robit.Response
 
             if (channelSettings.AIIgnore) return;
 
-            string pattern = @"https?:\/\/(?:www\.)?(?:discordapp|discord)\.com\/.*|https?:\/\/(?:www\.)?cdn\.discordapp\.com\/.*";
-
-            if (Regex.IsMatch(messageArgs.Message.Content, pattern)) return;
-
-            if (string.IsNullOrEmpty(messageArgs.Message.Content) && messageArgs.Message.Attachments.Count > 0) return;
-
             Random rand = new Random();
+
+            bool randoTrigger = false;
 
             if (rand.Next(1, 7) == 6)
             {
-                //Allow pass
+                randoTrigger = true;
             }
             else if (await CheckBotMention(messageArgs) == false)
             {
                 return;
+            }
+
+            if (randoTrigger)
+            {
+                string pattern = @"(https?://|www\.)\S+";
+
+                if (Regex.IsMatch(messageArgs.Message.Content, pattern)) return;
+
+                if (string.IsNullOrEmpty(messageArgs.Message.Content) && messageArgs.Message.Attachments.Count > 0) return;
             }
 
             _ = Task.Run(async () =>
