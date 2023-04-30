@@ -44,7 +44,7 @@ namespace Robit.Response
             {
                 foreach (ResponseManager.ResponseEntry responseEntry in responseEntries)
                 {
-                    if (Regex.IsMatch(messageLower, $@"\b{Regex.Escape(responseEntry.content)}\b"))
+                    if (Regex.IsMatch(messageLower, $@"\b{Regex.Escape(responseEntry.content)}(?!\w)"))
                     {
                         response = Tuple.Create(true, responseEntry.response);
                         break;
