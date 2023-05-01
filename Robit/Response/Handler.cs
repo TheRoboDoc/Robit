@@ -4,6 +4,7 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
+using System.Threading;
 using static Robit.FileManager;
 
 namespace Robit.Response
@@ -22,6 +23,7 @@ namespace Robit.Response
 
             if (await DiscordNoobFailsafe(messageArgs)) return;
 
+            // Checking if we need to respond at all depending on channel settings
             ChannelManager.Channel channelSettings = ChannelManager.ReadChannelInfo(messageArgs.Guild.Id.ToString(), messageArgs.Channel.Id.ToString());
 
             if (channelSettings.autoResponse)
@@ -37,69 +39,100 @@ namespace Robit.Response
 
             if (channelSettings.AIIgnore) return;
 
-            Random rand = new Random();
+            DiscordChannel replyIn = messageArgs.Channel;
 
-            bool randoTrigger = false;
-
-            if (rand.Next(1, 7) == 6)
+            // We want to reply if the message was sent in a thread that bot is a member of
+            if (replyIn.Type == ChannelType.PublicThread || replyIn.Type == ChannelType.PrivateThread)
             {
-                randoTrigger = true;
+                DiscordThreadChannel threadChannel = (DiscordThreadChannel)replyIn;
+
+                // This is stupid but for some magic reasons it didn't work otherwise
+                IReadOnlyList<DiscordThreadChannelMember> romembers = await threadChannel.ListJoinedMembersAsync();
+
+                List<DiscordThreadChannelMember> members = new List<DiscordThreadChannelMember>();
+
+                foreach(DiscordThreadChannelMember member in romembers)
+                {
+                    members.Add(member);
+                }
+
+                // Suboptimal way to check if the bot is a memeber of the thread, but it works
+                bool hasBot = false;
+
+                foreach(DiscordThreadChannelMember member in members)
+                {
+                    if(member.Id == Program.botClient?.CurrentUser.Id)
+                    {
+                        hasBot = true;
+                        break;
+                    }
+                }
+
+                if (!hasBot)
+                {
+                    return;
+                }
             }
             else if (await CheckBotMention(messageArgs) == false)
             {
                 return;
             }
 
-            if (randoTrigger)
+            if(replyIn.Type != ChannelType.PublicThread)
             {
-                string pattern = @"(https?://|www\.)\S+";
+                // We are checking if within 9 messages there were 3 occurances of user message and same for bot message, if so we create a new
+                // thread and reply in there.
+                IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(9).Result;
 
-                if (Regex.IsMatch(messageArgs.Message.Content, pattern)) return;
+                List<DiscordMessage> discordMessagesFromUser = new List<DiscordMessage>();
 
-                if (string.IsNullOrEmpty(messageArgs.Message.Content) && messageArgs.Message.Attachments.Count > 0) return;
+                foreach (DiscordMessage discordMessage in discordReadOnlyMessageList)
+                {
+                    if (discordMessage.Author == messageArgs.Author)
+                    {
+                        discordMessagesFromUser.Add(discordMessage);
+                    }
+                }
+
+                List<DiscordMessage> discordMessagesFromBot = new List<DiscordMessage>();
+
+                foreach (DiscordMessage discordMessage in discordReadOnlyMessageList)
+                {
+                    if (discordMessage.Author == messageArgs.Guild.CurrentMember)
+                    {
+                        discordMessagesFromBot.Add(discordMessage);
+                    }
+                }
+
+                if (discordMessagesFromUser.Count > 3 && discordMessagesFromBot.Count > 3)
+                {
+                    // Remove the mention string
+                    string name = Regex.Replace(messageArgs.Message.Content, "<@!?(\\d+)>", "");
+
+                    // Create the thread
+                    Program.botClient?.Logger.LogDebug("Thread trigger");
+                    DiscordThreadChannel thread = await messageArgs.Channel.CreateThreadAsync(messageArgs.Message, name, AutoArchiveDuration.Day,
+                                $"{messageArgs.Author.Mention} interacted multiple times in a row with the bot");
+
+                    replyIn = thread;
+                }
             }
 
             _ = Task.Run(async () =>
             {
-                DiscordMessage reply = await messageArgs.Message.RespondAsync(await MessageThinkingAnimation());
-
-                bool done = false;
-
-                _ = Task.Run(async () =>
-                {
-                    await Task.Delay(10000);
-
-                    if (!done)
-                    {
-                        try
-                        {
-                            await reply.ModifyAsync(await TimedOut());
-                        }
-                        catch
-                        {
-                            if (Program.DebugStatus())
-                            {
-                                Program.botClient?.Logger.LogDebug("Reply message was deleted or null");
-                            }
-                        }
-                    }
-                });
+                Task typing = replyIn.TriggerTypingAsync();
 
                 Tuple<bool, string> AIGenerationResponse = await AI.GenerateChatResponse(messageArgs);
-
-                done = true;
-
-                await reply.DeleteAsync();
 
                 string response = AIGenerationResponse.Item2;
 
                 if (AIGenerationResponse.Item1)
                 {
-                    await messageArgs.Channel.SendMessageAsync(response);
+                    await replyIn.SendMessageAsync(response);
                 }
                 else
                 {
-                    await messageArgs.Channel.SendMessageAsync("**System:** " + response);
+                    await replyIn.SendMessageAsync("**System:** " + response);
                 }
             });
         }

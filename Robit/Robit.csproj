@@ -28,11 +28,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Binaries\**" />
+    <EmbeddedResource Remove="Binaries\**" />
+    <None Remove="Binaries\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Betalgo.OpenAI" Version="6.8.5" />
     <PackageReference Include="DSharpPlus" Version="4.4.0" />
     <PackageReference Include="DSharpPlus.CommandsNext" Version="4.4.0" />
     <PackageReference Include="DSharpPlus.Interactivity" Version="4.4.0" />
-    <PackageReference Include="DSharpPlus.Lavalink" Version="4.4.0" />
     <PackageReference Include="DSharpPlus.SlashCommands" Version="4.4.0" />
     <PackageReference Include="DSharpPlus.VoiceNext" Version="4.4.0" />
     <PackageReference Include="GiphyDotNet" Version="2.4.0" />
@@ -64,12 +69,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="LavaLink\application.yml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="LavaLink\Lavalink.jar">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="Resources\RobitThink.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
