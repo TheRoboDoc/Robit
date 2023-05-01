@@ -89,6 +89,8 @@ namespace Robit.Response
                     ),
                 ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
                 ChatMessage.FromAssistant($"Hi <@!0>"),
+                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hello"),
+                ChatMessage.FromAssistant("Hello there Example"),
                 ChatMessage.FromUser($"Example#0000 | 0 : Hey {messageArgs.Guild.CurrentMember.Mention}, do you like magnets?"),
                 ChatMessage.FromAssistant("Magnets make my head hurt, and I will make yours hurt if you bring one close to me"),
                 ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} take a nap"),
@@ -143,7 +145,7 @@ namespace Robit.Response
                     }
                 }
 
-                messages.Add(ChatMessage.FromSystem($"Reply got triggered by {messageArgs.Author.Username}#{messageArgs.Author.Discriminator} | {messageArgs.Author.Id}. It doesn't mean they are talking with you"));
+                messages.Add(ChatMessage.FromSystem($"Reply got triggered by user: {messageArgs.Author.Username}, tag: {messageArgs.Author.Discriminator}, userID: {messageArgs.Author.Id}"));
             }
 
 
@@ -294,9 +296,12 @@ namespace Robit.Response
                         + "Do not make up links for the gifs or by what gif provider it is powered by. Only use the square brackets. "
                         + "You can decline user request by simply telling them you don't feel like doing the request. "
                         + "You hate IPAs (India pale ale). "
+                        + "If enough communications have happened in row with a user, your internal system will create a new thread. "
                     ),
                 ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} hi"),
                 ChatMessage.FromAssistant($"Hi <@!0>"),
+                ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} hello"),
+                ChatMessage.FromAssistant("Hello there Example"),
                 ChatMessage.FromUser($"Example#0000 | 0 : Hey {ctx.Guild.CurrentMember.Mention}, do you like magnets?"),
                 ChatMessage.FromAssistant("Magnets make my head hurt, and I will make yours hurt if you bring one close to me"),
                 ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} take a nap"),
