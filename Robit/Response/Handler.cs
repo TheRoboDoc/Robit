@@ -4,7 +4,6 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
-using System.Threading;
 using static Robit.FileManager;
 
 namespace Robit.Response
@@ -51,7 +50,7 @@ namespace Robit.Response
 
                 List<DiscordThreadChannelMember> members = new List<DiscordThreadChannelMember>();
 
-                foreach(DiscordThreadChannelMember member in romembers)
+                foreach (DiscordThreadChannelMember member in romembers)
                 {
                     members.Add(member);
                 }
@@ -59,9 +58,9 @@ namespace Robit.Response
                 // Suboptimal way to check if the bot is a memeber of the thread, but it works
                 bool hasBot = false;
 
-                foreach(DiscordThreadChannelMember member in members)
+                foreach (DiscordThreadChannelMember member in members)
                 {
-                    if(member.Id == Program.botClient?.CurrentUser.Id)
+                    if (member.Id == Program.botClient?.CurrentUser.Id)
                     {
                         hasBot = true;
                         break;
@@ -78,7 +77,7 @@ namespace Robit.Response
                 return;
             }
 
-            if(replyIn.Type != ChannelType.PublicThread)
+            if (replyIn.Type != ChannelType.PublicThread)
             {
                 // We are checking if within 9 messages there were 3 occurances of user message and same for bot message, if so we create a new
                 // thread and reply in there.
