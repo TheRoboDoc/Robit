@@ -135,9 +135,9 @@ namespace Robit.Command
                 };
 
                 List<ResponseManager.ResponseEntry> allResponseEntries;
-                allResponseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString());
+                allResponseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString()); //Converting possible null value to non-nullable type
 
-                foreach (ResponseManager.ResponseEntry entry in allResponseEntries)
+                foreach (ResponseManager.ResponseEntry entry in allResponseEntries) //Dereference of a possbile null reference
                 {
                     if (entry.reactName.ToLower() == responseEntry.reactName.ToLower())
                     {
@@ -222,9 +222,9 @@ namespace Robit.Command
 
                 await Task.Run(() =>
                 {
-                    responseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString());
+                    responseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString()); //Converting possible null value to non-nullable type
 
-                    foreach (ResponseManager.ResponseEntry responseEntry in responseEntries)
+                    foreach (ResponseManager.ResponseEntry responseEntry in responseEntries) //Dereference of a possbile null reference
                     {
                         discordEmbedBuilder.AddField
                         (
@@ -364,8 +364,10 @@ namespace Robit.Command
                 }
             });
 
+            //Saving
             MediaManager.SaveFile(attachment.Url, ctx.Interaction.Id.ToString(), format).Wait();
 
+            //Converting
             await MediaManager.Convert(ctx.Interaction.Id.ToString(), format, fileFormat.GetName());
 
             string path = $"{MediaManager.IDToPath(ctx.Interaction.Id.ToString())}/output.{fileFormat.GetName()}";
@@ -390,6 +392,7 @@ namespace Robit.Command
 
             DiscordWebhookBuilder builder2 = new DiscordWebhookBuilder();
 
+            //Sending
             builder2.AddMention(UserMention.All);
             builder2.WithContent(responseText);
             builder2.AddFile(fileStream);

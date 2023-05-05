@@ -4,7 +4,6 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
-using System.Threading;
 using static Robit.FileManager;
 
 namespace Robit.Response
@@ -51,7 +50,7 @@ namespace Robit.Response
 
                 List<DiscordThreadChannelMember> members = new List<DiscordThreadChannelMember>();
 
-                foreach(DiscordThreadChannelMember member in romembers)
+                foreach (DiscordThreadChannelMember member in romembers)
                 {
                     members.Add(member);
                 }
@@ -59,9 +58,9 @@ namespace Robit.Response
                 // Suboptimal way to check if the bot is a memeber of the thread, but it works
                 bool hasBot = false;
 
-                foreach(DiscordThreadChannelMember member in members)
+                foreach (DiscordThreadChannelMember member in members)
                 {
-                    if(member.Id == Program.botClient?.CurrentUser.Id)
+                    if (member.Id == Program.botClient?.CurrentUser.Id)
                     {
                         hasBot = true;
                         break;
@@ -78,7 +77,7 @@ namespace Robit.Response
                 return;
             }
 
-            if(replyIn.Type != ChannelType.PublicThread)
+            if (replyIn.Type != ChannelType.PublicThread)
             {
                 // We are checking if within 9 messages there were 3 occurances of user message and same for bot message, if so we create a new
                 // thread and reply in there.
@@ -149,7 +148,7 @@ namespace Robit.Response
         /// <item>False: Failsafe not triggered</item>
         /// </list>
         /// </returns>
-        private static async Task<bool> DiscordNoobFailsafe(MessageCreateEventArgs messageArgs)
+        private static async Task<bool> DiscordNoobFailsafe(MessageCreateEventArgs messageArgs) //This is redundant as you need to fuck up pretty bad
         {
             if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return false;
 
@@ -165,11 +164,12 @@ namespace Robit.Response
                 }
             }
 
+            //Fetching every slash command the bot has
             SlashCommandsExtension slashCommandsExtension = Program.botClient.GetSlashCommands();
 
             var slashCommandsList = slashCommandsExtension.RegisteredCommands;
             List<DiscordApplicationCommand> globalCommands =
-                slashCommandsList.Where(x => x.Key == null).SelectMany(x => x.Value).ToList();
+                slashCommandsList.Where(x => x.Key == null).SelectMany(x => x.Value).ToList(); //This is stupid, can't find a better way as of yet
 
             List<string> commands = new List<string>();
 
@@ -224,7 +224,7 @@ namespace Robit.Response
         {
             bool botMentioned = false;
 
-            await Task.Run(() =>
+            await Task.Run(() => 
             {
                 foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
                 {
@@ -239,6 +239,7 @@ namespace Robit.Response
             return botMentioned;
         }
 
+        #region Redundant
         /// <summary>
         /// Builds a discord message with the RobitThink.gif animation
         /// </summary>
@@ -292,5 +293,6 @@ namespace Robit.Response
 
             return builder;
         }
+        #endregion
     }
 }

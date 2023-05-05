@@ -34,15 +34,17 @@ namespace Robit.Response
         /// </returns>
         public static async Task<Tuple<bool, string>> GenerateAutoResponse(MessageCreateEventArgs messageArgs)
         {
+            //Fetching entries for the server
             List<ResponseManager.ResponseEntry>? responseEntries = ResponseManager.ReadEntries(messageArgs.Guild.Id.ToString());
 
             string messageLower = messageArgs.Message.Content.ToLower();
 
             Tuple<bool, string> response = Tuple.Create(false, "No saved matches found"); ;
 
+            //Checking if message contains the response trigger
             await Task.Run(() =>
             {
-                foreach (ResponseManager.ResponseEntry responseEntry in responseEntries)
+                foreach (ResponseManager.ResponseEntry responseEntry in responseEntries) //Dereference of a possbile null reference
                 {
                     if (Regex.IsMatch(messageLower, $@"\b{Regex.Escape(responseEntry.content)}(?!\w)"))
                     {

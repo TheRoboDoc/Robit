@@ -48,12 +48,15 @@ namespace Robit.Response
                 return Tuple.Create(false, "Message blocked by automod");
             }
 
+            //Getting bot user info
             string displayName = messageArgs.Guild.CurrentMember.DisplayName;
             string discriminator = messageArgs.Guild.CurrentMember.Discriminator;
             string userID = messageArgs.Guild.CurrentMember.Id.ToString();
 
+            //Setting up initial bot setup
             List<ChatMessage> messages = new List<ChatMessage>()
             {
+                //Personality description
                 ChatMessage.FromSystem
                     (
                           $"You are {displayName}. {displayName} is a friendly, silly, "
@@ -87,6 +90,7 @@ namespace Robit.Response
                         + "You hate IPAs (India pale ale). "
                         + "Do not write system messages. "
                     ),
+                //Example conversation
                 ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
                 ChatMessage.FromAssistant($"Hi <@!0>"),
                 ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hello"),
@@ -113,6 +117,7 @@ namespace Robit.Response
                 ChatMessage.FromAssistant($"No you :3"),
             };
 
+            //Have to do it this way because otherwise it just doesn't work
             IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(20).Result;
 
             List<DiscordMessage> discordMessages = new List<DiscordMessage>();
@@ -124,6 +129,7 @@ namespace Robit.Response
 
             discordMessages.Reverse();
 
+            //Feeding the AI request the latest 20 messages
             foreach (DiscordMessage discordMessage in discordMessages)
             {
                 if (string.IsNullOrEmpty(discordMessage.Content)) continue;
@@ -144,12 +150,13 @@ namespace Robit.Response
                         writer.WriteLine($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}");
                     }
                 }
-
-                messages.Add(ChatMessage.FromSystem($"Reply got triggered by user: {messageArgs.Author.Username}, tag: {messageArgs.Author.Discriminator}, userID: {messageArgs.Author.Id}"));
             }
 
+            //Makes the AI reply make more sense and lowers the chances of it answering to a wrong user
+            messages.Add(ChatMessage.FromSystem($"Reply got triggered by user: {messageArgs.Author.Username}, tag: {messageArgs.Author.Discriminator}, userID: {messageArgs.Author.Id}"));
 
-            ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
+            //Sending OpenAI API request for chat reply
+            ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest //Dereference of a possbile null reference
             {
                 Messages = messages,
                 Model = Models.ChatGpt3_5Turbo,
@@ -171,6 +178,7 @@ namespace Robit.Response
 
                 Match match = Regex.Match(response, pattern);
 
+                //Checking if AI wants to post a gif
                 if (match.Success)
                 {
                     string search = match.Groups[1].Value;
@@ -180,11 +188,14 @@ namespace Robit.Response
                         Query = search
                     };
 
-                    string giphyResult = "\n" + Program.giphyClient.GifSearch(searchParameter).Result.Data[0].Url;
+                    //Fetching search link result for the GIF the bot wants to post
+                    string giphyResult = "\n" + Program.giphyClient.GifSearch(searchParameter).Result.Data[0].Url; //Dereference of a possbile null reference
 
+                    //Inserting the link into the bot message
                     response = response.Substring(0, match.Index) + giphyResult + response.Substring(match.Index + match.Length) + "\n`Powered by GIPHY`";
                 }
 
+                //Censoring if needed
                 if (AICheck(response).Result)
                 {
                     return Tuple.Create(true, "**Filtered**");
@@ -325,7 +336,7 @@ namespace Robit.Response
                 ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator} | {ctx.Member.Id} : {prompt}")
             };
 
-            ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
+            ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest //Dereference of a possbile null reference
             {
                 Messages = messages,
                 Model = Models.ChatGpt3_5Turbo,
@@ -353,7 +364,7 @@ namespace Robit.Response
                         Query = search
                     };
 
-                    string giphyResult = "\n" + Program.giphyClient.GifSearch(searchParameter).Result.Data[0].Url;
+                    string giphyResult = "\n" + Program.giphyClient.GifSearch(searchParameter).Result.Data[0].Url; //Dereference of a possbile null reference
 
                     response = response.Substring(0, match.Index) + giphyResult + response.Substring(match.Index + match.Length) + "\n`Powered by GIPHY`";
                 }
