@@ -105,6 +105,7 @@ namespace Robit
 
             List<string> dirsMissing = FileManager.DirCheck().Result.ToList();
 
+            //Logging missing directories
             if (dirsMissing.Count != 0)
             {
                 string message = "Missing following directories:\n";
@@ -129,7 +130,8 @@ namespace Robit
 
             botClient.MessageCreated += Handler.Run;
 
-            //The bot has a tendency to lose it's current activity if it gets disconnected
+            //The bot has a tendency to lose it's current activity if it gets disconnected.
+            //With DSharpPlus this happens for time to time for no reason
             //This is why we periodically (on every heartbeat) set it to the correct one
             botClient.Heartbeated += async (client, e) =>
             {

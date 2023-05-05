@@ -13,7 +13,7 @@ namespace Robit
         /// <summary>
         /// Paths to directories that the bot uses to store different kinds of data
         /// </summary>
-        public readonly struct Paths
+        public readonly struct Paths //One day this bot will use an SQL database
         {
             public static readonly string basePath = AppDomain.CurrentDomain.BaseDirectory;
             public static readonly string dataPath = $@"{basePath}/ResponseData";
@@ -224,7 +224,7 @@ namespace Robit
 
                 await Task.Run(() =>
                 {
-                    foreach (ResponseEntry responseEntry in responseEntries)
+                    foreach (ResponseEntry responseEntry in responseEntries) //Dereference of a possbile null reference
                     {
                         if (responseEntry.reactName.ToLower() == entryName.ToLower())
                         {
@@ -246,7 +246,7 @@ namespace Robit
                         response = response
                     };
 
-                    responseEntries.Remove(responseEntryToModify);
+                    responseEntries.Remove(responseEntryToModify); //Dereference of a possbile null reference
                     responseEntries.Add(modifiedResponseEntry);
 
                     OverwriteEntries(responseEntries, guildID);
@@ -275,7 +275,7 @@ namespace Robit
 
                 responseEntries = ReadEntries(guildID);
 
-                foreach (ResponseEntry responseEntry in responseEntries)
+                foreach (ResponseEntry responseEntry in responseEntries) //Dereference of a possbile null reference
                 {
                     if (responseEntry.reactName.ToLower() == entryName.ToLower())
                     {
@@ -368,7 +368,7 @@ namespace Robit
                     responseEntries = new List<ResponseEntry>();
                 }
 
-                responseEntries.Add(responseEntry);
+                responseEntries.Add(responseEntry); //Dereference of a possbile null reference
 
                 FileStream fileStream = File.OpenWrite(path);
 

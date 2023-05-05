@@ -148,7 +148,7 @@ namespace Robit.Response
         /// <item>False: Failsafe not triggered</item>
         /// </list>
         /// </returns>
-        private static async Task<bool> DiscordNoobFailsafe(MessageCreateEventArgs messageArgs)
+        private static async Task<bool> DiscordNoobFailsafe(MessageCreateEventArgs messageArgs) //This is redundant as you need to fuck up pretty bad
         {
             if (messageArgs.Author.IsBot || messageArgs.Equals(null)) return false;
 
@@ -164,11 +164,12 @@ namespace Robit.Response
                 }
             }
 
+            //Fetching every slash command the bot has
             SlashCommandsExtension slashCommandsExtension = Program.botClient.GetSlashCommands();
 
             var slashCommandsList = slashCommandsExtension.RegisteredCommands;
             List<DiscordApplicationCommand> globalCommands =
-                slashCommandsList.Where(x => x.Key == null).SelectMany(x => x.Value).ToList();
+                slashCommandsList.Where(x => x.Key == null).SelectMany(x => x.Value).ToList(); //This is stupid, can't find a better way as of yet
 
             List<string> commands = new List<string>();
 
@@ -223,7 +224,7 @@ namespace Robit.Response
         {
             bool botMentioned = false;
 
-            await Task.Run(() =>
+            await Task.Run(() => 
             {
                 foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
                 {
@@ -238,6 +239,7 @@ namespace Robit.Response
             return botMentioned;
         }
 
+        #region Redundant
         /// <summary>
         /// Builds a discord message with the RobitThink.gif animation
         /// </summary>
@@ -291,5 +293,6 @@ namespace Robit.Response
 
             return builder;
         }
+        #endregion
     }
 }
