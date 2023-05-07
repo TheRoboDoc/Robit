@@ -137,6 +137,10 @@ namespace Robit.Response
                 if (discordMessage.Author == Program.botClient?.CurrentUser)
                 {
                     messages.Add(ChatMessage.FromAssistant(discordMessage.Content));
+                }                                             //Motherboard ID
+                else if (messageArgs?.Author.Id.ToString() == "1103797730276548660")
+                {
+                    messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}"));
                 }
                 else if (!discordMessage.Author.IsBot)
                 {
