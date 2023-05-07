@@ -138,7 +138,7 @@ namespace Robit.Response
                 {
                     messages.Add(ChatMessage.FromAssistant(discordMessage.Content));
                 }                                             //Motherboard ID
-                else if (messageArgs?.Author.Id.ToString() == "1103797730276548660")
+                else if (discordMessage.Author.Id.ToString() == "1103797730276548660")
                 {
                     messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}"));
                 }
