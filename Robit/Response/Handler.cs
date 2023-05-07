@@ -41,8 +41,13 @@ namespace Robit.Response
             DiscordChannel replyIn = messageArgs.Channel;
 
             // We want to reply if the message was sent in a thread that bot is a member of
-            if (replyIn.Type == ChannelType.PublicThread || replyIn.Type == ChannelType.PrivateThread && !messageArgs.Author.IsBot)
+            if (replyIn.Type == ChannelType.PublicThread || replyIn.Type == ChannelType.PrivateThread)
             {
+                if (messageArgs.Author.IsBot)
+                {
+                    return;
+                }
+
                 DiscordThreadChannel threadChannel = (DiscordThreadChannel)replyIn;
 
                 // This is stupid but for some magic reasons it didn't work otherwise
