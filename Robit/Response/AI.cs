@@ -3,9 +3,9 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.Logging;
-using OpenAI.GPT3.ObjectModels;
-using OpenAI.GPT3.ObjectModels.RequestModels;
-using OpenAI.GPT3.ObjectModels.ResponseModels;
+using OpenAI.ObjectModels;
+using OpenAI.ObjectModels.RequestModels;
+using OpenAI.ObjectModels.ResponseModels;
 using System.Text.RegularExpressions;
 using static Robit.WordFilter.WordFilter;
 

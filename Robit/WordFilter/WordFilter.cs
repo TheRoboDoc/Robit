@@ -1,5 +1,5 @@
-﻿using OpenAI.GPT3.ObjectModels.RequestModels;
-using OpenAI.GPT3.ObjectModels.ResponseModels;
+﻿using OpenAI.ObjectModels.RequestModels;
+using OpenAI.ObjectModels.ResponseModels;
 using System.Text.Json;
 
 namespace Robit.WordFilter
