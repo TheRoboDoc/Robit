@@ -534,6 +534,43 @@ namespace Robit.Command
 
         #endregion
 
+        #region Random generation
+        [SlashCommandGroup("Random", "A set of commands to generate random values")]
+        [SlashCommandPermissions(Permissions.SendMessages)]
+        public class RandomCommands
+        {
+            [SlashCommand("Number", "Generates a psudorandom number within given range")]
+            public async Task Number(InteractionContext ctx,
+            [Option("Maximum_value", "Maximum value for the random number")]
+            double maximum,
+            [Option("Minimal_value", "Minimal value for the random number")]
+            [DefaultValue(0)]
+            double minimal = 0,
+            [Option("Visible", "Sets the visibility")]
+            [DefaultValue(true)]
+            bool visible = true)
+            {
+                Random rand = new Random();
+
+                if(maximum > int.MaxValue)
+                {
+                    await ctx.CreateResponseAsync("The number was too large", true);
+                    return;
+                }
+
+                if (minimal < 0 || maximum < 0) 
+                {
+                    await ctx.CreateResponseAsync("The minimal or maximum value cannot be a negative number");
+                    return;
+                }
+
+                int randomValue = rand.Next((int)minimal, (int)maximum);
+
+                await ctx.CreateResponseAsync($"Random number: {randomValue}");
+            }
+        }
+        #endregion
+
         #endregion
     }
 }
