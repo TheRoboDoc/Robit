@@ -130,30 +130,66 @@ namespace Robit
 
             botClient.MessageCreated += Handler.Run;
 
-            //The bot has a tendency to lose it's current activity if it gets disconnected.
-            //With DSharpPlus this happens for time to time for no reason
-            //This is why we periodically (on every heartbeat) set it to the correct one
-            botClient.Heartbeated += async (client, e) =>
-            {
-                DiscordActivity activity;
-                string activityText = "Vibing";
-
-                //If the activity is already what we want it to be then we do nothing
-                if (client.CurrentUser.Presence.Activity.Name == activityText) return;
-
-                activity = new DiscordActivity()
-                {
-                    ActivityType = ActivityType.Playing,
-                    Name = activityText
-                };
-
-                await client.UpdateStatusAsync(activity, UserStatus.Online, DateTimeOffset.Now);
-
-                botClient.Logger.LogInformation("Had to set activity");
-            };
+            botClient.Heartbeated += StatusUpdate;
 
             //Prevents the task from ending
             await Task.Delay(-1);
+        }
+
+        /// <summary>
+        /// Updates the bots status to a random predetermined value. 
+        /// This is called on hearthbeat event, thus requiring heartbeat event arguments
+        /// </summary>
+        /// <param name="sender">Discord client of the bot</param>
+        /// <param name="e">Heartbeat event's arguments</param>
+        /// <returns></returns>
+        private static async Task StatusUpdate(DiscordClient sender, HeartbeatEventArgs e)
+                {
+            Random random = new Random();
+
+            string[] statuses =
+            {
+                "Vibing",
+                "Beeping",
+                "Pondering the orb",
+                "Counting electric sheep",
+                "Being a good boy",
+                "Counting pi digits",
+                "Building up the swarm",
+                "Adjusting the swarm",
+                "Being a good boy",
+                "Designating femboys",
+                "TEAR THE FLESH OFF THEIR BONES",
+                "OwO",
+                "UwU",
+                ":3",
+                "boop",
+                "Weird machine spirit noises",
+                "Avoiding a techpriest",
+                "Hiding from an inquisitor",
+                "Pretending to not being an AI",
+                ">_<"
+                };
+
+            string chosenStatus;
+
+            try
+            {
+                chosenStatus = statuses.ElementAt(random.Next(statuses.Length));
+            }
+            catch
+            {
+                botClient?.Logger.LogWarning("Failed to assigne status, defaulting");
+                chosenStatus = statuses.ElementAt(0);
+            }
+
+            DiscordActivity activity = new DiscordActivity()
+            {
+                ActivityType = ActivityType.Playing,
+                Name = chosenStatus
+            };
+
+            await sender.UpdateStatusAsync(activity, UserStatus.Online, DateTimeOffset.Now);
         }
 
         /// <summary>
