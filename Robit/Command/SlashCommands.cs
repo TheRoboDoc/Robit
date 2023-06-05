@@ -542,9 +542,13 @@ namespace Robit.Command
             [SlashCommand("Number", "Generates a psudorandom number within given range")]
             public async Task Number(InteractionContext ctx,
             [Option("Maximum_value", "Maximum value for the random number")]
-            double maximum,
+            [Minimum(0)]
+            [Maximum(int.MaxValue)]
+            double maximal,
             [Option("Minimal_value", "Minimal value for the random number")]
             [DefaultValue(0)]
+            [Minimum(0)]
+            [Maximum(int.MaxValue)]
             double minimal = 0,
             [Option("Visible", "Sets the visibility")]
             [DefaultValue(true)]
@@ -552,15 +556,15 @@ namespace Robit.Command
             {
                 Random rand = new Random();
 
-                if(maximum > int.MaxValue)
+                if(minimal >= maximal)
                 {
-                    await ctx.CreateResponseAsync("The number was too large", true);
+                    await ctx.CreateResponseAsync("Minimal value cannot be larger or equal to maximal value", true);
                     return;
                 }
 
-                if (minimal < 0 || maximum < 0) 
+                if (minimal < 0 || maximal < 0) 
                 {
-                    await ctx.CreateResponseAsync("The minimal or maximum value cannot be a negative number");
+                    await ctx.CreateResponseAsync("The minimal or maximal value cannot be a negative number", true);
                     return;
                 }
 
