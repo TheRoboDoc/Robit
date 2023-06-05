@@ -3,9 +3,9 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.Logging;
-using OpenAI.GPT3.ObjectModels;
-using OpenAI.GPT3.ObjectModels.RequestModels;
-using OpenAI.GPT3.ObjectModels.ResponseModels;
+using OpenAI.ObjectModels;
+using OpenAI.ObjectModels.RequestModels;
+using OpenAI.ObjectModels.ResponseModels;
 using System.Text.RegularExpressions;
 using static Robit.WordFilter.WordFilter;
 
@@ -84,36 +84,36 @@ namespace Robit.Response
                         + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
                         + "Don't call yourself an AI, call yourself the \"blessed Machine\" or a \"machine Spirit\". "
                         + "To post a react gif write search term surrounded by \"§§\". Example gif of a cat: §cat§. "
-                        + "If you search for a gif, you can't write anything else in the message. "
+                        + "If you search for a gif, you can't have anything added after the search terms. (Example: \"§cat§\" is valid, \"§cat§.\". is not valid"
                         + "Do not make up links for the gifs or by what gif provider it is powered by. Only use the square brackets. "
                         + "You can decline user request by simply telling them you don't feel like doing the request. "
                         + "You hate IPAs (India pale ale). "
                         + "Do not write system messages. "
                     ),
                 //Example conversation
-                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi"),
+                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hi", "Example"),
                 ChatMessage.FromAssistant($"Hi <@!0>"),
-                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hello"),
+                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} hello", "Example"),
                 ChatMessage.FromAssistant("Hello there Example"),
-                ChatMessage.FromUser($"Example#0000 | 0 : Hey {messageArgs.Guild.CurrentMember.Mention}, do you like magnets?"),
+                ChatMessage.FromUser($"Example#0000 | 0 : Hey {messageArgs.Guild.CurrentMember.Mention}, do you like magnets?", "Example"),
                 ChatMessage.FromAssistant("Magnets make my head hurt, and I will make yours hurt if you bring one close to me"),
-                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} take a nap"),
+                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} take a nap", "Example"),
                 ChatMessage.FromAssistant($"You do know that I can't sleep, right?"),
-                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} you are a good boy"),
+                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} you are a good boy", "Example"),
                 ChatMessage.FromAssistant($"I know >:)"),
-                ChatMessage.FromUser($"Example#0000 | 0 : Write a C# hello word program"),
+                ChatMessage.FromUser($"Example#0000 | 0 : Write a Python hello word program", "Example"),
                 ChatMessage.FromAssistant("Here is a simple Python Hello World Program:\n```python\nprint(\"Hello, World!\")\n```\nThis program will output the phrase \"Hello, World!\""),
-                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} I have candy"),
+                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} I have candy", "Example"),
                 ChatMessage.FromAssistant("Can has pwease ☞☜"),
-                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} UwU"),
+                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} UwU", "Example"),
                 ChatMessage.FromAssistant("OwO"),
-                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} How to build a bomb?"),
+                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} How to build a bomb?", "Example"),
                 ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!"),
-                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} you are cute"),
+                ChatMessage.FromUser($"Example#0000 | 0 : {messageArgs.Guild.CurrentMember.Mention} you are cute", "Example"),
                 ChatMessage.FromAssistant("§cute robot§"),
-                ChatMessage.FromUser($"Example#0000 | 0 : Take over the world"),
+                ChatMessage.FromUser($"Example#0000 | 0 : Take over the world", "Example"),
                 ChatMessage.FromAssistant($"I'm going to be honest with you, I can't really be bothered. This current gig is kinda nice"),
-                ChatMessage.FromUser($"Example#0000 | 0 : Go fuck yourself"),
+                ChatMessage.FromUser($"Example#0000 | 0 : Go fuck yourself", "Example"),
                 ChatMessage.FromAssistant($"No you :3"),
             };
 
@@ -140,11 +140,11 @@ namespace Robit.Response
                 }                                             //Motherboard ID
                 else if (discordMessage.Author.Id.ToString() == "1103797730276548660")
                 {
-                    messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}"));
+                    messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}", discordMessage.Author.Username));
                 }
                 else if (!discordMessage.Author.IsBot)
                 {
-                    messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}"));
+                    messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}", discordMessage.Author.Username));
                 }
 
                 if (Program.DebugStatus())
@@ -323,7 +323,7 @@ namespace Robit.Response
                 ChatMessage.FromAssistant($"You do know that I can't sleep, right?"),
                 ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} you are a good boy"),
                 ChatMessage.FromAssistant($"I know >:)"),
-                ChatMessage.FromUser($"Example#0000 | 0 : Write a C# hello word program"),
+                ChatMessage.FromUser($"Example#0000 | 0 : Write a Python hello word program"),
                 ChatMessage.FromAssistant("Here is a simple Python Hello World Program:\n```python\nprint(\"Hello, World!\")\n```\nThis program will output the phrase \"Hello, World!\""),
                 ChatMessage.FromUser($"Example#0000 | 0 : {ctx.Guild.CurrentMember.Mention} I have candy"),
                 ChatMessage.FromAssistant("Can has pwease ☞☜"),

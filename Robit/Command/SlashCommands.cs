@@ -534,6 +534,118 @@ namespace Robit.Command
 
         #endregion
 
+        #region Random generation
+        [SlashCommandGroup("Random", "A set of commands to generate random values")]
+        [SlashCommandPermissions(Permissions.SendMessages)]
+        public class RandomCommands
+        {
+            [SlashCommand("Number", "Generates a psudorandom number within given range")]
+            public async Task Number(InteractionContext ctx,
+            [Option("Maximum_value", "Maximum value for the random number")]
+            [Minimum(0)]
+            [Maximum(int.MaxValue)]
+            double maximal,
+            [Option("Minimal_value", "Minimal value for the random number")]
+            [DefaultValue(0)]
+            [Minimum(0)]
+            [Maximum(int.MaxValue)]
+            double minimal = 0,
+            [Option("Visible", "Sets the visibility")]
+            [DefaultValue(true)]
+            bool visible = true)
+            {
+                Random rand = new Random();
+
+                if(minimal >= maximal)
+                {
+                    await ctx.CreateResponseAsync("Minimal value cannot be larger or equal to maximal value", true);
+                    return;
+                }
+
+                if (minimal < 0 || maximal < 0) 
+                {
+                    await ctx.CreateResponseAsync("The minimal or maximal value cannot be a negative number", true);
+                    return;
+                }
+
+                int randomValue = rand.Next((int)minimal, (int)maximal);
+
+                await ctx.CreateResponseAsync($"Random number: {randomValue}", !visible);
+            }
+
+            public enum DiceTypes
+            {
+                D2 = 2,
+                D4 = 4,
+                D6 = 6,
+                D8 = 8,
+                D10 = 10,
+                D12 = 12,
+                D20 = 20,
+            }
+
+            [SlashCommand("Dice", "Roll dice")]
+            public async Task Dice(InteractionContext ctx,
+            [Option("Dice_type", "Type of dice to roll")]
+            DiceTypes dice,
+            [Option("Amount", "Amount of dice to roll")]
+            [Minimum(1)]
+            [Maximum(255)]
+            [DefaultValue(1)]
+            double amount = 1,
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(true)]
+            bool visible = true)
+            {
+                Random rand = new Random();
+                int maxValue = (int)dice + 1;
+
+                List<int> rolledValues = new List<int>();
+
+                for (int i = 0; i < amount; i++)
+                {
+                    rolledValues.Add(rand.Next(1, maxValue));
+                }
+
+                rolledValues.Sort();
+
+                string diceResult = "";
+
+                foreach (int rolledValue in rolledValues)
+                {
+                    diceResult = diceResult + $"{rolledValue} ";
+                }
+
+                int sum = rolledValues.Sum();
+                int average = sum / rolledValues.Count();
+                int min = rolledValues.Min();
+                int max = rolledValues.Max();
+
+
+                DiscordEmbedBuilder embed = new DiscordEmbedBuilder()
+                {
+                    Color = DiscordColor.Purple,
+
+                    Title = $"Rolled {amount} {dice}s",
+
+                    Timestamp = DateTime.Now
+                };
+
+                embed.AddField("Dice results", diceResult);
+
+                if (amount > 1)
+                {
+                    embed.AddField("Sum", $"{sum}");
+                    embed.AddField("Average", $"{average}");
+                    embed.AddField("Min", $"{min}");
+                    embed.AddField("Max", $"{max}");
+                }
+
+                await ctx.CreateResponseAsync(embed, !visible);
+            }
+        }
+        #endregion
+
         #endregion
     }
 }
