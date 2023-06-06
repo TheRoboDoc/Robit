@@ -19,7 +19,10 @@ namespace Robit
     {
         static void Main(string[] args)
         {
-            MainAsync().GetAwaiter().GetResult();
+            while (true)
+            {
+                MainAsync().GetAwaiter().GetResult();
+            }
         }
 
         public static DiscordClient? botClient;
@@ -132,8 +135,27 @@ namespace Robit
 
             botClient.Heartbeated += StatusUpdate;
 
+            sbyte toggle = -1;
+            byte count = 0;
+
+            botClient.Zombied += async (sender, e) =>
+            {
+                if (count <= 4)
+                {
+                    count++;
+                    return;
+                }
+
+                await Task.Run(() =>
+                {
+                    toggle = 0;
+                });
+            };
+
             //Prevents the task from ending
-            await Task.Delay(-1);
+            await Task.Delay(toggle);
+
+            botClient.Logger.LogWarning("RESTARTING DUE TO ZOMBIENG");
         }
 
         /// <summary>
@@ -144,7 +166,7 @@ namespace Robit
         /// <param name="e">Heartbeat event's arguments</param>
         /// <returns></returns>
         private static async Task StatusUpdate(DiscordClient sender, HeartbeatEventArgs e)
-                {
+        {
             Random random = new Random();
 
             string[] statuses =

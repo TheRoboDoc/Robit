@@ -1,6 +1,7 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using Newtonsoft.Json;
 using Robit.Response;
 using System.ComponentModel;
 using static Robit.FileManager;
@@ -556,13 +557,13 @@ namespace Robit.Command
             {
                 Random rand = new Random();
 
-                if(minimal >= maximal)
+                if (minimal >= maximal)
                 {
                     await ctx.CreateResponseAsync("Minimal value cannot be larger or equal to maximal value", true);
                     return;
                 }
 
-                if (minimal < 0 || maximal < 0) 
+                if (minimal < 0 || maximal < 0)
                 {
                     await ctx.CreateResponseAsync("The minimal or maximal value cannot be a negative number", true);
                     return;
@@ -643,6 +644,63 @@ namespace Robit.Command
 
                 await ctx.CreateResponseAsync(embed, !visible);
             }
+        }
+        #endregion
+
+        #region Quotes
+        public struct QuoteEntry
+        {
+            public string quote { get; set; }
+            public string author { get; set; }
+            public string bookSource { get; set; }
+        }
+
+        [SlashCommand("wh40kquote", "Fetches a random Warhammer 40k quote")]
+        [SlashCommandPermissions(Permissions.SendMessages)]
+        public async Task WH40kQuote(InteractionContext ctx)
+        {
+            string path = $"{Paths.resources}\\Wh40ImperialQuotes.json";
+
+            if (!FileExists(path))
+            {
+                CreateFile(path);
+            }
+
+            string jsonString = File.ReadAllText(path);
+
+            List<QuoteEntry>? quoteEntries = new List<QuoteEntry>();
+
+            await Task.Run(() =>
+            {
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    quoteEntries = JsonConvert.DeserializeObject<List<QuoteEntry>>(jsonString);
+                }
+            });
+
+            Random rand = new Random();
+
+            QuoteEntry quoteEntry = quoteEntries.ElementAt(rand.Next(quoteEntries.Count));
+
+            string quoteText = $"***\"{quoteEntry.quote}\"***";
+
+            if (!string.IsNullOrEmpty(quoteEntry.author))
+            {
+                quoteText += $"\n*⎯ {quoteEntry.author}*";
+            }
+
+            DiscordEmbedBuilder embedBuilder = new DiscordEmbedBuilder()
+            {
+                Color = DiscordColor.Purple,
+                Description = quoteText
+            };
+
+            if (!string.IsNullOrEmpty(quoteEntry.bookSource))
+            {
+                embedBuilder.AddField("Source:", quoteEntry.bookSource);
+            }
+
+            await ctx.CreateResponseAsync(embedBuilder);
         }
         #endregion
 

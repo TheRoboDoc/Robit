@@ -74,6 +74,9 @@
     <None Update="Resources\RobitTimeout.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Wh40ImperialQuotes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Tokens\debugToken.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
