@@ -1,0 +1,3212 @@
+[
+	{
+		"quote": "Should a machine not function upon striking the panel marked \"on\" this is an omen of great ill. The reasons ascribed may be as follows. Firstly, the function of inadequate preparation on the part of the operator. Secondly, the action of the machine whose spirit may refuse the binding of the operator. Thirdly, the malintent of some third party upon the operator or machine. The operator must repeat the ritual from the beginning re-purifying himself, enscribing the runes, intoning the incantations, and striking the panel marked 'on'. An accompanying oath may be made. Should this procedure fail, the operator must recourse to consulting the instruction manual.",
+		"author": "Runic Spaceflight - An Introduction: Naval Flight Manual W110E",
+		"bookSource": "Book of the Astronomican, pg. 18"
+	},
+	{
+	  "quote": "Question: What has the Emperor ever done for me?\nAnswer: What have you ever done for the Emperor?",
+	  "author": "Training questions, Administration Cant and Dogma",
+	  "bookSource": "Book of the Astronomican, pg. 67"
+	},
+	{
+	  "quote": "There is only the Emperor, and he is our Shield and Protector.",
+	  "author": "Statement of fact, Second Book of Chantings",
+	  "bookSource": "Book of the Astronomican, pg. 101"
+	},
+	{
+	  "quote": "You gaze at the mountain, Children of Terra, you see its snow-capped peak and the clouds upon its slopes. You dream of reaching that pinnacle and drinking the cold waters. But who dreams of the road that ascends the mountain side? The road to the peak is hard and murderous. It has broken countless Children of Terra upon its rocks. Their splintered bones lie scattered upon it, paving the way to the mountain top. At every step you will hear the bones crumbling under foot, and maybe you shall hear the wind-blown voices of the dead - guiding you forward or leading you to your doom. Yes, my children, the way to the mountain is cruel and unforgiving. And of those who struggle their long lives, spending their energy and vigour in the climb, who then can taste the melt-water of the summit and say, 'Yes... yes it was worthwhile?'",
+	  "author": "Firing rite (old recension)",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 131"
+	},
+	{
+	  "quote": "Our thoughts light the Darkness that others may cross space. We are one with the Emperor, our souls are joined in his will. Praise the Emperor whose sacrifice is life as ours is death. Hail his name the Master of Humanity.",
+	  "author": "The Credo of the Astronomican",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 37"
+	},
+	{
+	  "quote": "My will be done",
+	  "author": "Codex Imperialis",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 129"
+	},
+	{
+	  "quote": "Those who scale the pinnacles of glory have the furthest to plunge into the abyss.",
+	  "author": "Melothrucius Lux",
+	  "bookSource": "Codex: Chaos Space Marines (8th Edition), pg. 12"
+	},
+	{
+	  "quote": "The Imperium! How mighty its aspect! How far-reaching its boundaries! As one world dies ten more are brought into the fold. Fear us, for we count the lives of planets, not men!",
+	  "author": "Cardinal Morius Blate, Ecclesiarch Primus",
+	  "bookSource": "Apocalypse, pg. 21"
+	},
+	{
+	  "quote": "A fortress is a living thing: the commander its brain, the walls its bones, the sensors its eyes and ears, the troops its blood, their weapons its fists. This tells us two things: If one organ fails, the whole dies. And if the whole dies, no single organ can survive alone.",
+	  "author": "Mordin Barr",
+	  "bookSource": "Warhammer Siege, pg. 91"
+	},
+	{
+	  "quote": "Contact with alien races always renews one's faith in humanity. It is my belief that foreign travel narrows the mind wonderfully.",
+	  "author": "Helem Boesch",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 41"
+	},
+	{
+	  "quote": "If all else fails: duck. As a defensive stratagem it's unreliable, but incredibly reassuring for a moment or two.",
+	  "author": "Lord Corvis of Petrax",
+	  "bookSource": "Warhammer 40,000 5th Edition Rulebook, pg. 21"
+	},
+	{
+	  "quote": "If you don't expect gratitude you'll seldom be disappointed.",
+	  "author": "Eyor Dedonki",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. Four, pg. 539"
+	},
+	{
+	  "quote": "The universe has many horrors yet to throw at us. This is not the end of our struggle. This is just the beginning of our crusade to save Humanity. Be faithful! Be strong! Be vigilant!",
+	  "author": "The Emperor of Mankind",
+	  "bookSource": "Collected Visions, pg. 367"
+	},
+	{
+	  "quote": "To be Unclean\nThis is the mark of the Mutant\nTo be Impure\nThis is the mark of the Mutant\nTo be Abhorred\nThis is the mark of the Mutant\nTo be Reviled\nThis is the mark of the Mutant\nTo be Hunted\nThis is the mark of the Mutant\nTo be Purged\nThis is the mark of the Mutant\nTo be Cleansed\nThis is the mark of the Mutants",
+	  "author": "First Book of Indocrinations",
+	  "bookSource": "White Dwarf 93 (UK), pg. 39"
+	},
+	{
+	  "quote": "It’s often remarked that diplomacy is just warfare by other means. Our battles are no less desperate for being bloodless, but at least we get wine and finger food.",
+	  "author": "Tollen Ferlang, Imperial Envoy to the Realm of Ultramar, 564-603.M41",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 4, pg. 83"
+	},
+	{
+	  "quote": "Never take a gamble you’re not prepared to lose.",
+	  "author": "Abdul Goldberg, Rogue Trader",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 14, pg. 225"
+	},
+	{
+	  "quote": "Shall we lie down meekly as a lamb before the ravening wolf or shall we oppose such horrors as the galaxy will throw at us with proud contempt? Suffer not the beasts and abominations of other worlds to live in our Imperium!	",
+	  "author": "Orthas Gregoran, Chief Demagogue of the Forlan Synod",
+	  "bookSource": "Warhammer 40,000 Battle Primer (8th Edition), pg. 3"
+	},
+	{
+	  "quote": "Give me a squad of marines first. But second, give me army troops and a solid wall.",
+	  "author": "Commander Ashton Grimes",
+	  "bookSource": "Warhammer Siege, pg. 113"
+	},
+	{
+	  "quote": "The warp is a vital tool to us, a means of communication and transport. Without it, there would be no Imperium of Man, for there would be no quick bridges between the stars. We use it, and we harness it, but we have no absolute control over it. It is a wild thing that tolerates our presence, but brooks no mastery. There is power in the warp, fundamental power, not good, nor evil, but elemental and anathema to us. It is a tool we use at our own risk.",
+	  "author": "Warmaster Horus",
+	  "bookSource": "Horus Rising (Novel), Part One, ch. 10, pg. 198"
+	},
+	{
+	  "quote": "Earth is the hub of the Imperium. It's the centre of government, the setting of mankind's greatest temples, the home of our wealthiest and most powerful merchant houses. And the most corrupt.... where there is government and where there is money, there is corruption. And there is no place in this universe that has more government and more money than Old Earth.",
+	  "author": "Ranek Icewalker, Wolf Priest of the Space Wolves",
+	  "bookSource": "Wolfblade (Novel), ch. Two"
+	},
+	{
+	  "quote": "You ask me how, for example, I would deal with a fortress. What can I say? Blast it? Burn it? Gas it? The list is endless. But the military man should never raise such questions. From the moment he enters the Chapter he is taught to deal with practicalities. What is the objective - capture or destroy? What troops do I have - Space Marines or native planet regulars? How are they equipped? What is known of the defenders? And so on. A military man avoids open questions, and resists himself to facts. This is a crucial difference; a question requires an answer, a set of facts has only a result. An answer raises further questions, but a result is indisputable.",
+	  "author": "Imperial Commander Ryland Kline",
+	  "bookSource": "Warhammer Siege, pg. 93"
+	},
+	{
+	  "quote": "One cannot consider the fate of a single man, nor ten, nor a thousand. Billions will live or die by our actions here, and we have not the luxury to count the cost.	",
+	  "author": "Inquisitor Kryptman",
+	  "bookSource": "Apocalypse, pg. 12"
+	},
+	{
+	  "quote": "Revenge is a dish best served with mayonnaise and those little cheesy things on sticks.",
+	  "author": "Osric the Loopy, Governor of Corania",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 21, pg. 753"
+	},
+	{
+	  "quote": "If your battle plan's working, it's probably a trap.",
+	  "author": "Kolton Phae",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium, ch. 13, pg. 649"
+	},
+	{
+	  "quote": "The past is always with us.",
+	  "author": "Gilbran Quail, Collected Essays",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 19, pg. 735"
+	},
+	{
+	  "quote": "If you go looking for trouble, you're sure to find it.",
+	  "author": "Gilbran Quail, Collected Essays",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 17, pg. 705"
+	},
+	{
+	  "quote": "Life’s so much easier when you’ve got someone to blame.",
+	  "author": "Gilbran Quail, Collected Essays",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 16, pg. 257"
+	},
+	{
+	  "quote": "The gratitude of the powerful is a heavy weight to bear.",
+	  "author": "Gilbran Quail, Collected Essays",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 7, pg. 123"
+	},
+	{
+	  "quote": "Old friends are like debt collectors; they have a tendency to turn up when you least expect them.",
+	  "author": "Gilbran Quail, Collected Essays",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 3, pg. 65"
+	},
+	{
+	  "quote": "One thing you can say for enemies; they make life more interesting.	",
+	  "author": "Gilbran Quail, Collected Essays",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 2, pg. 513"
+	},
+	{
+	  "quote": "Paranoia is a very comforting state of mind. If you think they're out to get you, it means you think you matter.",
+	  "author": "Gilbran Quail, Collected Essays",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 6, pg. 563"
+	},
+	{
+	  "quote": "Through the needle's eye, I live or die.",
+	  "author": "Scholastia Psykana saying",
+	  "bookSource": "Blackstone Fortress (Novel), Before"
+	},
+	{
+	  "quote": "War is hell.",
+	  "author": "William Tekumsah Sherman, ancient Terran general",
+	  "bookSource": "Fear to Tread (Novel), page after Dramatis Personae"
+	},
+	{
+	  "quote": "The wider he smiled and called us friend, the tighter we clung to our purses.",
+	  "author": "Argun Slyter",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 1, pg. 501"
+	},
+	{
+	  "quote": "Life's a journey. Shame about the destination.",
+	  "author": "Argun Slyter",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 16, pg. 697"
+	},
+	{
+	  "quote": "The distinction between Trade and Warfare is seen only by those who have no experience of either.",
+	  "author": "Heironymo Sondar, High Master of Vervunhive",
+	  "bookSource": "Necropolis (Novel), ch. 1"
+	},
+	{
+	  "quote": "Beautiful on the surface, but rotten underneath. Don't ever, even for a second, doubt that this is the most dangerous world in the galaxy.... Danger does not always come in the shape of orks with bolters, Ragnar. This world is where the elite of the Imperium have gathered. We are talking now of the most ruthless, ambitious, unscrupulous collection of rogues ever culled from a million planets. This is the place they have come to realise their ambitions, and on Terra they can, and will not let anything stand in their way. Not me, not you, not their own kin if need be.",
+	  "author": "Torin, Wolfblade to House Belisarius",
+	  "bookSource": "Wolfblade (Novel), ch. Four"
+	},
+	{
+	  "quote": "But do not underestimate them. The Navigators are, for the most part, as clever as they think they are. They would not survive otherwise. They are born and trained to conspiracy as we are born and trained to war.",
+	  "author": "Torin, Wolfblade to House Belisarius",
+	  "bookSource": "Wolfblade (Novel), ch. Fourteen"
+	},
+	{
+	  "quote": "Stories are much tidier than real life. Stories have neat, happy endings, but all you ever really get is unfinished business.",
+	  "author": "Janni Vakonz, holo director",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), Epilogue, pg. 267"
+	},
+	{
+	  "quote": "You can never have too many enemies. The more you've got, the more likely they are to get in each other's way.",
+	  "author": "Jarvin Wallankot",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 15, pg. 675"
+	},
+	{
+	  "quote": "Look to your battle-gear and it will protect you We guard it with out lives Your armour is your Soul, and your Soul's dedication its armour The soul of a warrior is the shield of humanity Honour the craft of death Only the Emperor is higher in our devotion Honour the battle-gear of the Dead We ask only to serve",
+	  "author": "Warrior's Catechism of Worship (part)",
+	  "bookSource": "White Dwarf 93 (UK), pg. 40"
+	},
+	{
+	  "quote": "In my high seat I gaze into the immaterium and see the shadow that our own universe casts into depthlessness. This eye... this eye sees gentle flows of soul-stuff where the becalmed mind might starve to death, and tides and churns of genius and hate. The warp mocks the power of words to describe. But what I can never turn my back on is the power and the beauty of the Emperor. I see His soul shine out from Earth and His presence fill every corner of the immaterium. I am scorned for what I talk of seeing, scorned by my family - so be it. Some say that every one of us sees a face of the warp meant only for him, a warp that none other shall ever see, but it makes no matter. I have known from the first time I beheld it that I could do nothing but follow that light with my life.",
+	  "author": "Peshto Vask Zemlya, Navigator",
+	  "bookSource": "Crossfire (Novel) - Enforcer (Omnibus), ch. Five, pg. 119"
+	},
+	{
+	  "quote": "Do not neglect the defence of gateways. They must be able to bar entry as well as allowing it.",
+	  "author": "",
+	  "bookSource": "Warhammer Siege, pg. 103"
+	},
+	{
+	  "quote": "Do not waste your tears. I was not born to watch the world grow dim. Life is not measured in years, but by the deeds of men.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 113"
+	},
+	{
+	  "quote": "Every man is a spark in the darkness. by the time he is noticed he is gone forever. A retinal after-image that fades and is obscured by newer, brighter lights.	",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 93"
+	},
+	{
+	  "quote": "For every battle honour, a thousand heroes die alone, unsung, and unremembered.	",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 72"
+	},
+	{
+	  "quote": "If a job's worth doing it's worth dying for.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 28"
+	},
+	{
+	  "quote": "In an Imperium of a million worlds, what matters the loss of one? That depends very much on the world.",
+	  "author": "",
+	  "bookSource": "The Chapter's Due (Novel), ch. 1, pg. 2"
+	},
+	{
+	  "quote": "It is not my mind to ask questions that cannot be answered. That is the soul standing upon the crossroad of vacillation. You search for wisdom, but achieve only a stasis of will.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 35"
+	},
+	{
+	  "quote": "Let the strength of your will match the stone of your walls.",
+	  "author": "",
+	  "bookSource": "Warhammer Siege, pg. 112"
+	},
+	{
+	  "quote": "Only in your deepest self is the truth of what you can be. And, without a doubt, that truth is terrible to bear.",
+	  "author": "",
+	  "bookSource": "Book of the Astronomican, pg. 70"
+	},
+	{
+	  "quote": "Praise the sun that brings the dawn of our final doom.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 80"
+	},
+	{
+	  "quote": "Speed the bolt that brings the end of enemy and friend.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 76"
+	},
+	{
+	  "quote": "Success is commemorated; Failure merely remembered.",
+	  "author": "",
+	  "bookSource": "Book of the Astronomican, pg. 104"
+	},
+	{
+	  "quote": "The greatest man is but a ripple on the surface of space.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 76"
+	},
+	{
+	  "quote": "There is no right or wrong in our profession. The present changes the past from moment to moment. Only pray for the future to vindicate your action.	",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 116"
+	},
+	{
+	  "quote": "Walk softly and carry a big Multi-melta.",
+	  "author": "",
+	  "bookSource": "Book of the Astronomican, pg. 97"
+	},
+	{
+	  "quote": "Weigh the fist that strikes men down\nAnd salutes the battle won.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 74"
+	},
+	{
+	  "quote": "We shall carry our word,\nWe will correct and unify,\nHail the Emperor!",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 92"
+	},
+	{
+	  "quote": "What fear of death have we who know there is immortality in the great and noble deeds of men?	",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 5th Edition Rulebook, pg. 110"
+	},
+	{
+	  "quote": "Wisdom is the beginning of fear.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 80"
+	},
+	{
+	  "quote": "Remember that it is the duty of the mighty Adeptus Astartes Chapters and the glorious Imperial Guard to wage the Emperor's wars and the duty of the fearless Imperial Navy to guard the Emperor's spaceways, but it is to his loyal servants the Adeptus Arbites that His Divine Majesty in His infinite wisdom entrusts the most sacred duty of all - Keeping in check the lawless heretic rabble that passes itself off as the Emperor's worthy subjects.",
+	  "author": "Adeptus Arbites",
+	  "bookSource": "Execution Hour (Novel), Part Three, pgs. 73-74"
+	},
+	{
+	  "quote": "To serve the Emperor. To protect His domains. To judge and stand guard over His subjects. To carry the Emperor's law to all worlds under His blessed protection. To pursue and punish those who trespassed against His word.",
+	  "author": "Adeptus Arbites",
+	  "bookSource": "Execution Hour (Novel), Part Three, pg. 80"
+	},
+	{
+	  "quote": "Well he's not getting mine.",
+	  "author": "Praetor Kolbe",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 16, pg. 700"
+	},
+	{
+	  "quote": "No servant of the Emperor dies unavenged. No enemy of the Emperor escapes unpunished!",
+	  "author": "Promise of the Pax Imperialis",
+	  "bookSource": "Eternal Damnation (Graphic Novel), short-story Testament"
+	},
+	{
+	  "quote": "To be just, our law must be cruel.",
+	  "author": "",
+	  "bookSource": "Crossfire (Novel), ch. Eight, pg. 189"
+	},
+	{
+	  "quote": "Praise the Emperor! The Emperor's word is the Law, and the Arbites are the voice by which that word is spoken!",
+	  "author": "",
+	  "bookSource": "Crossfire (Novel), ch. Eight, pg. 185"
+	},
+	{
+	  "quote": "To stand upon the bedrock of the Law is our great duty. To presume to stand above it is our worst heresy.",
+	  "author": "",
+	  "bookSource": "Crossfire (Novel), ch. Eight, pg. 188"
+	},
+	{
+	  "quote": "The \"Overlord Instinct\" or the \"I'm the King of the Castle\" syndrome works in our favour when we crush rebellions. The traitors are safe and sound behind their fortress walls. We, the loyal servants of Our Emperor, need look no further for our targets.",
+	  "author": "Johannes Dixen",
+	  "bookSource": "Warhammer Siege, pg. 118"
+	},
+	{
+	  "quote": "Pain is an illusion of the senses, despair an illusion of the mind.	",
+	  "author": "Assassin proverb",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 85"
+	},
+	{
+	  "quote": "For those that defy the Imperium, only the Emperor can judge your crimes. Only in death can you receive the Emperor's Judgement.",
+	  "author": "Motto of the Officio Assassinorum",
+	  "bookSource": "Codex: Assassins (2nd Edition), pg. 2, Eternal Damnation (Graphic Novel), Short Story The Ionis Gambit"
+	},
+	{
+	  "quote": "We do not determine the guilty; we do not decide the punishment; we are merely the cold intrument of the Emperor's vengeance. There is no form of death unknown to us; there is no form of terror beyond our means; there is no enemy outside our reach. We are the blade that hovers over the throat of the traitor; we are the bullet that awaits the heretic's skull; we are the poison in the throat of the alien.",
+	  "author": "Decree Assassinorum",
+	  "bookSource": "Codex: Assassins (3rd Edition), pg. 14"
+	},
+	{
+	  "quote": "We are the killing tools of the Imperium, we live to honor the Callidus temple and die to serve the Emperor.",
+	  "author": "Dictatus Callidus",
+	  "bookSource": "Codex: Assassins (2nd Edition), pg. 14"
+	},
+	{
+	  "quote": "To assume the shape of the accursed and deliver death from the purity within you - that is to be Callidus.",
+	  "author": "Dictatus Callidus",
+	  "bookSource": "Codex: Assassins (2nd Edition), pg. 14"
+	},
+	{
+	  "quote": "Treachery is its own reward.",
+	  "author": "Callidus Temple proverb",
+	  "bookSource": "For The Emperor (Novel), ch. 5, pg. 113"
+	},
+	{
+	  "quote": "That which is unknown and unseen always commands the greatest fear.",
+	  "author": "Motto of the Culexus Temple",
+	  "bookSource": "Codex: Assassins (2nd Edition), pg. 20"
+	},
+	{
+	  "quote": "Sow the seeds of damnation and I shall reap the souls of the tainted.",
+	  "author": "Eversor Temple, Modus Executus",
+	  "bookSource": "Codex: Assassins (2nd Edition), pg. 15"
+	},
+	{
+	  "quote": "Fear me, for I am your apocalypse.",
+	  "author": "Modus Executus",
+	  "bookSource": "Codex: Assassins (2nd Edition), pg. 17"
+	},
+	{
+	  "quote": "Exitus Acta Probat:\nThe Outcome Justifies The Deed.",
+	  "author": "Motto of the Vindicare Temple",
+	  "bookSource": "Codex: Assassins (2nd Edition), pg. 11, Eternal Damnation (Graphic Novel) Short Story The Samos Sanction"
+	},
+	{
+	  "quote": "Three things matter in marksmanship - location, location, location.",
+	  "author": "Training Dogma, Vindicare Temple",
+	  "bookSource": "Codex: Assassins (2nd Edition), pg. 11"
+	},
+	{
+	  "quote": "All of the worlds of the Imperium shall look to their own defense. They shall also look to the defense of the Imperium, and the prosecution of such wars as the Emperor in His wisdom shall decree.\nTherefore, each populated planet shall raise and maintain its own planetary defense force, and from the ranks of this defense force it shall provide the best of its troops for recruitment into the Imperial Guard, according to such requirements as shall be imposed by the Administratum.",
+	  "author": "from the Introit to the Codex Exercitus",
+	  "bookSource": "Warhammer 40,000: Compendium, pg. 142"
+	},
+	{
+	  "quote": "Statistically, you will almost certainly die when assaulting a well-maintained fortress with a competent commander. You must strive to make your death useful.",
+	  "author": "Training Manual, Penal Legion, Suicide Bomb Squads",
+	  "bookSource": "Warhammer Siege, pg. 95"
+	},
+	{
+	  "quote": "Hope for the best, but prepare for the worst.",
+	  "author": "Imperial Guard Tactical Manual",
+	  "bookSource": "The Traitor's Hand (Novel) – Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 8, pg. 591"
+	},
+	{
+	  "quote": "Victory is achieved through mettle.\nGlory is achieved through metal.",
+	  "author": "Uttica 1st Tank Company motto",
+	  "bookSource": "Imperial Armour - Imperial Vehicles for Warhammer 40,000, pg. 65"
+	},
+	{
+	  "quote": "Be swift and silent - as the breeze that crosses the dunes without stirring a grain of sand.",
+	  "author": "Captain Al'rahem, Tallarn 3rd 'Desert Tigers'",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 17"
+	},
+	{
+	  "quote": "If you want a textbook example of righteous hatred, you need look no further than Commissar Yarrick. In him we see a man who justly despises his foes, and they in turn loath him.",
+	  "author": "Lecturer-General Aldous, Scholam Progena",
+	  "bookSource": "Games Workshop: Strategy Cards for Planetary Empires expansion game, card \"Hatred - Minor Stratagem\", (saved archive page, dated February 2011, last accessed 6 October 2015)"
+	},
+	{
+	  "quote": "Fifth Company, this is the moment of truth. You will not fear. You will not falter. You will not give a single step to the enemy.",
+	  "author": "Governor-Militant Lukas Alexander, Commander 1st Kronus Regiment",
+	  "bookSource": "Dawn of War: Dark Crusade (Imperial Guard stronghold campaign)"
+	},
+	{
+	  "quote": "Enemies of the Imperium, hear me. You have come here to die. The Immortal Emperor is with us and we are invincible. His soldiers will strike you down. His war machines will crush you under their treads. His mighty guns will bring the very sky crashing down upon you. You cannot win. The Emperor has given us his greatest weapon to wield. So make yourselves ready. We are the First Kronus Regiment, and today is our Victory Day.",
+	  "author": "Governor-Militant Lukas Alexander, Commander 1st Kronus Regiment",
+	  "bookSource": "Dawn of War: Dark Crusade (Imperial Guard stronghold campaign)"
+	},
+	{
+	  "quote": "When the people forget their duty they are no longer human and become something less than beasts. They have no place in the bosom of humanity nor in the heart of the Emperor. Let them die and be forgotten.",
+	  "author": "Leto Barbaden, Governor of Salinas",
+	  "bookSource": "The Killing Ground (Novel), ch. 20; Codex Imperialis (Background Book), pg. 10"
+	},
+	{
+	  "quote": "A good soldier obeys without question. A good officer commands without doubt.",
+	  "author": "Sergeant Lukas Bastonne, Cadian Shock Troopers",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 59"
+	},
+	{
+	  "quote": "Blessed is the mind too small for doubt.",
+	  "author": "Commissar Groden Bevro",
+	  "bookSource": "Warhammer 40,000: Compendium, pg. 49"
+	},
+	{
+	  "quote": "I left my homeworld the night it died, and I've been fighting for its memory ever since. We Tanith are a dying breed. There are only about twenty hundred of us left. Gaunt only got away with enough for one regiment. The Tanith First. The First-and-Only. That's what makes us 'Ghosts', you see. The last few unquiet souls of a dead world. And I suppose we'll keep going until we're all done.",
+	  "author": "Trooper Dermon Caffran, Tanith First and Only",
+	  "bookSource": "First and Only (Novel), Part Three: Fortis Binary Forge World, ch. Six"
+	},
+	{
+	  "quote": "Sorry. I prefer blondes.",
+	  "author": "Commissar Ciaphas Cain",
+	  "bookSource": "The Beguiling (Short Story)"
+	},
+	{
+	  "quote": "I thought the acolytes of Khorne were supposed to be warriors, not a bunch of pansies.",
+	  "author": "Commissar Ciaphas Cain",
+	  "bookSource": "The Traitor's Hand (Novel), ch. 13"
+	},
+	{
+	  "quote": "The noncom in charge of the squad must have been on something, I thought. Nobody spoke like that outside badly-written combat novels.",
+	  "author": "Commissar Ciaphas Cain",
+	  "bookSource": "The Traitor's Hand (Novel), ch. 15"
+	},
+	{
+	  "quote": "Frak this, for my faith is a shield proof against your blandishments!",
+	  "author": "Commissar Ciaphas Cain",
+	  "bookSource": "The Traitor's Hand (Novel), ch. 20"
+	},
+	{
+	  "quote": "Frak this! My soul's my own and I'm keeping it!",
+	  "author": "Commissar Ciaphas Cain",
+	  "bookSource": "The Traitor's Hand (Novel), ch. 20"
+	},
+	{
+	  "quote": "Well then, I seem to recall a rather pleasant little restaurant not far from here. Care to see if it's still standing?",
+	  "author": "Commissar Ciaphas Cain",
+	  "bookSource": "The Traitor's Hand (Novel), ch. 21"
+	},
+	{
+	  "quote": "As I try to impress on the young whelps in my charge these days, it isn't the scarlet sash and the fancy hat that makes you a commissar, it's the way you wear them. The troops you serve with are never going to like you, but if you can get them to respect you that can be almost as good. Remember, you're going to spend most of your career on a battlefield with them, and they've all got guns, so making them think you're a liability is never going to be a very good idea.",
+	  "author": "Commissar Ciaphas Cain",
+	  "bookSource": "Death or Glory (Novel), ch. Ten"
+	},
+	{
+	  "quote": "I've come across a number of planetary governors in the course of my erratic progress around the galaxy and, on the whole, the ones who weren't incompetent were either corrupt, insane, or both; on at least one occasion sufficiently so to have mortgaged their soul and the world they administered to the forces of the Ruinous Powers.",
+	  "author": "Commissar Ciaphas Cain",
+	  "bookSource": "Traitor's Gambit (Chapbook) UK Games Day 2009, pg. 6"
+	},
+	{
+	  "quote": "I'd faced the servants of the Great Enemy more often than I cared to contemplate, and in my experience it was never wise to underestimate them. Particularly a ten thousand year old madman, who'd been marinating himself in the raw stuff of Chaos for most of that time.",
+	  "author": "Commissar Ciaphas Cain",
+	  "bookSource": "Cain's Last Stand (Novel), ch. 5"
+	},
+	{
+	  "quote": "What do I ask of my officers? Merely that they do their duty with fire in their bellies and a prayer on their lips.",
+	  "author": "Lord Castellan Ursarkar E. Creed",
+	  "bookSource": "Codex: Imperial Guard (3rd Edition, 2nd Codex), pg. 50"
+	},
+	{
+	  "quote": "Although all documents surrounding the final fate of the original Mordant 13th - the \"Lucky 13s\" - have been sealed by order of the Inquisition, I, on behalf of the Cadian High Command, order another regiment to be mustered and given the name “The Mordant 13th”. The psyker cadre that advises my High Command have divined, through the Emperor’s Tarot, that just such a regiment will be able to protect the Imperium from all of its foes. It is with all haste that this regiment be raised and trained. We need these men to be hardened fighters in the service of the Emperor before the year is out.",
+	  "author": "Lord Castellan Ursarkar E. Creed",
+	  "bookSource": "Games Workshop: The Lucky 13s (saved archive page, dated 12 January 2008, last accessed 11 December 2022)"
+	},
+	{
+	  "quote": "Though our tanks and artillery are mighty, it is the vast ranks of Imperial Guardsmen that shall trample the enemy to dust - let them come.",
+	  "author": "Lord Castellan Ursarkar E. Creed",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), Back cover"
+	},
+	{
+	  "quote": "Children you call them? They can pull a trigger just as well as veterans, and they have the spirit of a bull narthax. Call them children if you wish - I call them troops.",
+	  "author": "Colonel Marus Cullen, Pannonia 5th Infantry Regiment",
+	  "bookSource": "Warhammer 40,000: Compendium, pg. 41"
+	},
+	{
+	  "quote": "The Valhallans hate the cold as much as the rest of us, they're just taught that carpin' on about it gets the Commissars all riled...",
+	  "author": "Mosstrooper \"Reiv\" Daggat of the 17th Drookian Fenguard",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 20"
+	},
+	{
+	  "quote": "Da Sergeant Major asked me what my job was an' I said it was to, uh, do what I was told. He said I was a genius and gave me another medal. I likes da Imperial Guard!",
+	  "author": "Nork Deddog, Ogryn Bodyguard",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 67"
+	},
+	{
+	  "quote": "I have at my command an entire battle group of the Imperial Guard. Fifty regiments, including specialized drop troops, stealthers, mechanized formations, armored companies, combat engineers and mobile artillery. Over half a million fighting men and thirty thousand tanks and artillery pieces are mine to command. Emperor show mercy to the fool that stands against me, for I shall not.",
+	  "author": "Warmaster Demetrius",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 7 Imperial Armour Volume One - Imperial Guard and Imperial Navy, pg. 159"
+	},
+	{
+	  "quote": "It remains a sad truth of the Imperium that virtually no veteran ever comes back from fighting its wars intact. Combat alone shreds nerves and shatters bodies. But the horrors of the warp, and of foul xenos forms like the tyranid, steal sanity forever, and leave veterans fearing the shadows, and the night and, sometimes, the nature of their friends and neighbours, for the rest of their lives.",
+	  "author": "Inquisitor Gregor Eisenhorn",
+	  "bookSource": "Missing in Action (Short Story)"
+	},
+	{
+	  "quote": "Ogryns. If we time it just right, the Eldar will all be going \"What the...\" just when what's left of the Company breaks cover over here and piles into them. No spreading out, no fancy stuff, just smash through. Let's see how those degenerate sophisticates handle a healthy dose of pure unreasoning violence.",
+	  "author": "Commander Fleyitch",
+	  "bookSource": "Warhammer 40,000: Compendium, pg. 48"
+	},
+	{
+	  "quote": "Men of Tanith! Do you want to live forever?",
+	  "author": "Colonel-Commissar Ibram Gaunt, Tanith First and Only",
+	  "bookSource": "First and Only (Novel), Part Two: Fortis Binary Forge World, ch. 3"
+	},
+	{
+	  "quote": "I am a Commissar. I am empowered to deliver justice wher ever I see it lacking. I am empowered to punish cowardice. I am granted the gift of total authority to judge, in the name of the Emperor, on the field of combat.",
+	  "author": "Colonel-Commissar Ibram Gaunt, Tanith First and Only",
+	  "bookSource": "First and Only (Novel), A Memory: Khedd 1173"
+	},
+	{
+	  "quote": "I don't pretend to understand the technology, but I know that's an intact Standard Template weapons maker. And I know that's as unheard of as a well-manicured ork.",
+	  "author": "Colonel-Commissar Ibram Gaunt, Tanith First and Only",
+	  "bookSource": "First and Only (Novel), Part Six: Menazoid Epsilon, ch. 23"
+	},
+	{
+	  "quote": "Give any man the power of a god, and you better hope he's got the wisdom and morals of a god to match. There's nothing feeble about my moral line. I value life. That is why I fight to protect it. I mourn every man I lose and every sacrifice I make. One life or a billion, they're all lives.",
+	  "author": "Colonel-Commissar Ibram Gaunt, Tanith First and Only",
+	  "bookSource": "First and Only (Novel), Part Six: Menazoid Epsilon, ch. 23"
+	},
+	{
+	  "quote": "I have a reputation, Modile, a reputation as a fair, honest man who treats his soldiers well and supports them in the face of darkness. Potentially, that reputation makes me soft. It seems I understand failure and forgive it. Some, like Kowle, believe me to be a weak commissar, not prepared to take the action my rank demands. Not prepared to enforce field discipline where I see it failing. I am an Imperial commissar. I will enflame the weak, support the wavering, guide the lost. I will be all things to all men who need me. But I will also punish without hesitation the incompetent, the cowardly, and the treasonous.",
+	  "author": "Colonel-Commissar Ibram Gaunt, Tanith First and Only",
+	  "bookSource": "Necropolis (Novel), ch. 9"
+	},
+	{
+	  "quote": "Choose, for courtesy's sake, summary execution or a firing squad of your own men.",
+	  "author": "Colonel-Commissar Ibram Gaunt, Tanith First and Only",
+	  "bookSource": "Necropolis (Novel), ch. 9"
+	},
+	{
+	  "quote": "If you will not serve in combat, then you will serve on the firing line.",
+	  "author": "Commissar Anton Gebbet, 1st Kronus Regiment",
+	  "bookSource": "Dawn of War: Dark Crusade"
+	},
+	{
+	  "quote": "I have seen war in all its forms. I have seen feral world savages braining each other with stones, and I have monitored the death of a whole planet at the hands of a virus bomb. I have seen Space Marines drop to certain death, and win. I have seen Titans crush whole platoons underfoot. But there is no more stirring sight in war than the charge of massed cavalry.",
+	  "author": "Dravin Gratz, 14th Tharinga Regiment, Imperial Guard",
+	  "bookSource": "Warhammer 40,000: Compendium, pg. 37"
+	},
+	{
+	  "quote": "Target and deny! By our deaths shall they know us!",
+	  "author": "General Coron Grizmund, Narmenian Armoured",
+	  "bookSource": "Necropolis (Novel), ch. Fifteen"
+	},
+	{
+	  "quote": "Let's give them hell, men.",
+	  "author": "General Coron Grizmund, Narmenian Armoured",
+	  "bookSource": "Necropolis (Novel), ch. Fifteen"
+	},
+	{
+	  "quote": "One hammer blow will be all it takes. Place the men on alert, summon the reserves! We crush them here and now, for the Emperor!",
+	  "author": "Graf Harazahn, Lord Marshal",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card \"Apocalyptic Battle – Major Stratagem\", (saved archive pg., dated February 2011, last accessed 7 October 2015)"
+	},
+	{
+	  "quote": "Back home, I once fancied me a pair of Catachan Devil boots. Killed me half a dozen of the great ugly critters but never found a single one that wore any!",
+	  "author": "Gunnery Sergeant \"Stonetooth\" Harker",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 62"
+	},
+	{
+	  "quote": "Been on a death world once. That was a bit like home. Most places are better, though. And there's regular rations. We get more if the Emperor's really pleased with us.",
+	  "author": "Sergeant-Ogryn Hrathlagg",
+	  "bookSource": "Warhammer 40,000: Compendium, pg. 49"
+	},
+	{
+	  "quote": "Stupid dumb Orks, don’t they know they’re on our territory now? Kyraxian Death-jungle? Feels just like home to me!",
+	  "author": "Jarn “Bullneck” Colda, Captain Catachan IX",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card Home Ground - Minor Stratagem\", (saved archive pg., dated February 2011, last accessed 6 October 2015)"
+	},
+	{
+	  "quote": "Ugh! What happened to these guys! Looks like they've been sliced and diced.",
+	  "author": "Private Joanus Finks",
+	  "bookSource": "Imperial Armour II - Ork, Eldar and Dark Eldar Vehicles for Warhammer 40,000, pg. 13"
+	},
+	{
+	  "quote": "Marching through this green hellhole, getting slowly eaten by flies, drowning in our own sweat and choking on sulfur fumes? I can’t see why that’s not a good idea.",
+	  "author": "Lieutenant Kage, 13th Penal Legion",
+	  "bookSource": "13th Legion (Novel), ch. Two"
+	},
+	{
+	  "quote": "Of course they’d come to Mordant for the saviors of the galaxy! We’re the hardest gakking troopers you’ll find in all the Segmentums! I’m proud to lead these warriors of the Emperor where ever he needs us to fight. We’ll stand fast against the myriad of foes that batter at the gates of the Imperium. I’ve scoured the mines and shanty-towns for the fiercest low-lives I could find. As I speak to you now, my men are already suffering through the most rigorous boot camp you could imagine. No soldier of the Lucky 13s will be grist for the mill.",
+	  "author": "Colonel Jago Kallowen",
+	  "bookSource": "ames Workshop: The Lucky 13s (saved archive page, dated 12 January 2008, last accessed 12 December 2022)"
+	},
+	{
+	  "quote": "It is not enough that I achieve victory - my enemy must suffer total defeat. It is not enough that I kill - all my foes must die. It is not enough that I succeed - all others must fail!",
+	  "author": "Mogul Kamir",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 66"
+	},
+	{
+	  "quote": "I don’t know what effect they have on the enemy, but by the Emperor, they frighten me.",
+	  "author": "General Karis",
+	  "bookSource": "For The Emperor (Novel) – Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 1, pg. 35"
+	},
+	{
+	  "quote": "Trust? Trust’s got nothing to do with it. I just don’t want them out of my sight.",
+	  "author": "General Karis",
+	  "bookSource": "For The Emperor (Novel) – Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 10, pg. 167"
+	},
+	{
+	  "quote": "I don't care how bloody sanctioned they are, a psyker's a psyker, and anything to do with the warp is more trouble than it's worth.",
+	  "author": "General Karis",
+	  "bookSource": "The Traitor's Hand (Novel) – Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 11, pg. 625"
+	},
+	{
+	  "quote": "We hit ‘em so hard half of them were still squatting on their latrines. Ain’t nothing in the galaxy that brings victory half as sure as killing the enemy before he knows he’s in a fight.",
+	  "author": "Kol ‘Gutting Knife’ Freen, Penal Legionnaire",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card Surprise Attack - Minor Stratagem\", (saved archive pg., dated February 2011, last accessed 6 October 2015)"
+	},
+	{
+	  "quote": "We're the Death Korps of Krieg, son. Did you think that was just a pretty name? We never retreat. We fight and we die, that's the Krieg way.",
+	  "author": "Lieutenant Konarski, 933rd Death Korp of Krieg",
+	  "bookSource": "Warriors of Ultramar (Novel) - The Ultramarines Omnibus, ch. 11, pg. 440"
+	},
+	{
+	  "quote": "Weep for him - for his faith was not sufficient.\nRejoice for yourselves, for my faith is bottomless!\nForward, for the Emperor!",
+	  "author": "Commissar Krieglust",
+	  "bookSource": "Warhammer 40,000: Compendium, pg. 151; Codex: Imperial Guard (5th Edition), pg. 10"
+	},
+	{
+	  "quote": "And the heretic priests of Eidoline came forth, bringing false images for the praise of the lost people.",
+	  "author": "Kronin",
+	  "bookSource": "13th Legion (Novel) - The Last Chancers (Omnibus), ch. Seven, pg. 208"
+	},
+	{
+	  "quote": "And they smote the enemies of the Emperor with a righteous fury, for they knew they were doing His work.",
+	  "author": "Kronin",
+	  "bookSource": "13th Legion (Novel) - The Last Chancers (Omnibus), ch. Four, pg. 144"
+	},
+	{
+	  "quote": "We ride like the wind, my brothers – victory depends on it.",
+	  "author": "Kudubai Khan, Attilan Rough Rider",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card \"Forced March - Minor Stratagem\", (saved archive pg., dated February 2011, last accessed 5 October 2015)"
+	},
+	{
+	  "quote": "No, he was not a Saint. He was a man. A very great man, and in many ways a very wicked one.",
+	  "author": "Veteran Sergeant Leo Lemuel",
+	  "bookSource": "Angel of Fire (Novel), Prologue"
+	},
+	{
+	  "quote": "With this act we have richly denied the Darkness and made trophies of its creatures. A dark lord is dead. So, this holy crusade, blessed by the Emperor, is advanced with glory.",
+	  "author": "Warmaster Macaroth",
+	  "bookSource": "The Sabbat Worlds Crusade (Background Book), pg. 17"
+	},
+	{
+	  "quote": "What is the strongest weapon of mankind? The god-machines of the Adeptus Mechanicus? No! The Astartes Legions? No! The tank? The lasgun? The fist? Not at all! Courage and courage alone stands above them all!",
+	  "author": "Lord Commander Solar Macharius",
+	  "bookSource": "Necropolis (Novel), ch. 12"
+	},
+	{
+	  "quote": "I give men dreams and men are led by their dreams.",
+	  "author": "Lord Commander Solar Macharius",
+	  "bookSource": "Codex: Imperial Guard (3rd Edition, 2nd Codex), pg. 9"
+	},
+	{
+	  "quote": "What I cannot crush with words I will crush with the tanks of the Imperial Guard!",
+	  "author": "Lord Commander Solar Macharius",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 8"
+	},
+	{
+	  "quote": "Peace? There cannot be peace in these times.",
+	  "author": "Lord Commander Solar Macharius",
+	  "bookSource": "Codex: Imperial Guard (3rd Edition, 2nd Codex), pg. 23, Codex: Imperial Guard (5th Edition), pg. 6"
+	},
+	{
+	  "quote": "The meaning of victory is not to merely defeat your enemy but to destroy him, to completely eradicate him from living memory, to leave no remnant of his endeavours, to crush utterly his achievement and remove from all record his every trace of existence. From that defeat no enemy can ever recover. That is the meaning of victory.",
+	  "author": "Lord Commander Solar Macharius",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 13; The Killing Ground (Novel), ch. Fourteen, pg. 216"
+	},
+	{
+	  "quote": "Always endeavour to fight the enemy on your own terms. If you outnumber the foe use reserves to break through when the enemy's overstretched lines collapse. If you are outnumbered then concentrate your forces so that the enemy can fight only your best troops. If you are powerful at close quarters then engage in dense terrain where your advantage will prove greatest. If you are superior at long range then attack along an extended front. Remember always, however, that a commander who puts his faith in heavy weaponry will be easily outmaneuvered and a commander who relies on close combat without adequate support will lose his force to disciplined fire. No one has ever won a battle who failed to take advantage of his enemy's weakness, or take heed of his own.",
+	  "author": "Lord Commander Solar Macharius",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 45"
+	},
+	{
+	  "quote": "You ask me when this great and noble work of ours will be done? I tell you, it will have its end only when we have divided every sentient thing in this vast and wide cosmos into one of two separate and primary orders of being: the Righteous and the Dead.",
+	  "author": "Lord Commander Solar Macharius",
+	  "bookSource": "Warhammer Monthly Issue 63, Inquisitor Grimm"
+	},
+	{
+	  "quote": "Where the hell are those throne-damned reinforcements? Get Kendrick on the vox. What do you mean there’s no signal? What in hell’s going on here?",
+	  "author": "Macros Captain, Mordian IV",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card Disruptor Field - Minor Stratagem\", (saved archive pg., dated February 2011, last accessed 6 October 2015)"
+	},
+	{
+	  "quote": "Doing the work of the Emperor is its own reward. But this is quite satisfying.",
+	  "author": "Sergeant Alem Mahat, 229th Tallarn Desert Raiders",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 19, pg. 741"
+	},
+	{
+	  "quote": "You can waste as many Imperial Guard lives as you care, that’s your stupidity and not my responsibility.",
+	  "author": "Warmaster Menitus",
+	  "bookSource": "13th Legion (Novel) - The Last Chancers (Omnibus), Interlude between ch.s Four and Five, pg. 148"
+	},
+	{
+	  "quote": "I'd check my instruments if I were you. No-one in his right mind would lay a minefield in a place like...",
+	  "author": "Captain Forgus Merd",
+	  "bookSource": "Warhammer Siege, pg. 98"
+	},
+	{
+	  "quote": "I had heard many rumours of the horrors of the mysterious Eldar. Of fire-clad daemons no weapons could harm. Of power-wreathed psykers who can tell your forture and forecast your doom. Of winged warriors falling from the sky like rain and tall guardian warriors powered by the spirits of the dead. None concerned me. None held any terror for a faithful servant of the Emperor with the might of the Imperial Guard at his command. Non save their aircraft. When fighting the Eldar, watch the skies...",
+	  "author": "Morcar, Lord Commander",
+	  "bookSource": "Imperial Armour Update, pg. 36"
+	},
+	{
+	  "quote": "Peace is not in my vocabulary.",
+	  "author": "Jarra Mordiker Commander, 13th/5th Support Regiment",
+	  "bookSource": "Warhammer 40,000: Compendium, pg. 91"
+	},
+	{
+	  "quote": "They may spend every off-duty minute polishing their shiny boots and marching up and down the parade ground in perfect formation, but don't let that fool you. These men are steel-eyed, cold-blooded killers and I'd as soon have a platoon of them in my force as I would a company of other troops.",
+	  "author": "Gharan O'Hen, Army 212 Chief of Staff",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 16"
+	},
+	{
+	  "quote": "Winning is everything, but the trick is to know where the winning really is.... We're political animals, Ibram. Through us, if we do our job properly, the black and white of war is tempered. We are the interpreters of combat, the translators. We give meaning to war, subtlety, purpose even. Killing is the most abhorrent, mindless profession known to man. Our role is to fashion the killing machine of the human species into a positive force. For the Emperor's sake. For the sake of our own consciences.",
+	  "author": "Commissar-General Delane Oktar",
+	  "bookSource": "First and Only (Novel) - Gaunt's Ghosts: The Founding (Omnibus), A Memory: Darendara, pg. 233"
+	},
+	{
+	  "quote": "The first trick a political officer of the Commissariat learns is: learn to lie. The second is: trust no one. The third: never get involved with local politics.",
+	  "author": "Commissar-General Delane Oktar",
+	  "bookSource": "Necropolis (Novel), ch. Eight"
+	},
+	{
+	  "quote": "Always, always lead from the front. Never expect a man under your command to undertake an action you're not prepared to make yourself.",
+	  "author": "Commissar-General Delane Oktar",
+	  "bookSource": "Necropolis (Novel), ch. Seventeen"
+	},
+	{
+	  "quote": "Target sighted! Red Corsairs Predator left of the bunker. See the repair seam on the turret? Steady. Fire! Good shot. Driver, AT mines, steer left now. Gunner! Enemy infantry in crater, eleven o'clock. High explosive, fire! Sponson gunners keep an eye out, there's plenty more where they came from...",
+	  "author": "Knight Commander Pask, Cadian 423rd Armoured Regiment",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 58"
+	},
+	{
+	  "quote": "Your foe is well equipped, well-trained, battle-hardened. He believes his gods are on his side. Let him believe what he will. We have the tanks on ours.	",
+	  "author": "Colonel Joachim Pfeiff, Krieg 14th Armoured Regiment",
+	  "bookSource": "Imperial Armour - Imperial Vehicles for Warhammer 40,000, pg. 31"
+	},
+	{
+	  "quote": "Codicier Pryke raised the point that a significant credit value was attached to this installation, and that its destruction would result in a 0.017 per cent fluctuation in the mean commerce averages of the sector. She went on to suggest that an alternative strategy should be found. Colonel Kasteen said she was welcome to go outside and ask the Orks to go away if she thought that would help.",
+	  "author": "Scrivener Quintus",
+	  "bookSource": "Caves of Ice (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), Editorial Note after ch. Five, pgs. 348–349"
+	},
+	{
+	  "quote": "Gaunt? He’s a despicable bastard who left my world to die and one day I will slay him with my own hands.",
+	  "author": "Major Elim Rawne, Tanith First and Only",
+	  "bookSource": "Ghostmaker (Novel) - Gaunt's Ghosts: The Founding (Omnibus), ch. Two, pg. 271"
+	},
+	{
+	  "quote": "A friend of death, a brother of luck and a son of a bitch.",
+	  "author": "Major Elim Rawne, Tanith First and Only",
+	  "bookSource": "Necropolis (Novel), ch. 18"
+	},
+	{
+	  "quote": "We've run into scorpions the size of battle tanks, three men died from Eyerot last week. I've sweat enough to fill a lake, my boots got sucked into a sink-swamp and the trees are so thick in places, you can't squeeze between them. Emperor help me, I love this place! It's just like home!",
+	  "author": "Captain Rock of the Catachan III 'Green Devils'",
+	  "bookSource": "Codex: Catachans (3rd Edition), pg. 3"
+	},
+	{
+	  "quote": "Sir, will do. I've never liked that particular title. It seems to foster unhealthy ambitions.",
+	  "author": "Colonel Rorkins, Imperial Guard (retired)",
+	  "bookSource": "Cain's Last Stand (Novel) - Ciaphas Cain: Defender of the Imperium (Omnibus), ch. 9, pg. 605"
+	},
+	{
+	  "quote": "They’re sending us where? The want us to fight who? Well, I guess the Emperor knows what he’s doing, because those bureaucrats in the Administratum sure as gak don’t!",
+	  "author": "Trooper Gage Rorsche, 3rd Platoon, Alpha Company, Mordant 13th, \"The Lucky 13s\"",
+	  "bookSource": "Games Workshop: The Lucky 13s (saved archive page, dated 12 January 2008, last accessed 11 December 2022)"
+	},
+	{
+	  "quote": "They have seen more death and ruin than another soldier sees in ten lifetimes.",
+	  "author": "General Sejanus",
+	  "bookSource": "Codex: Imperial Guard (3rd Edition, 1st Codex), pg. 23"
+	},
+	{
+	  "quote": "I love the smell of promethium in the morning.",
+	  "author": "Captain Shambas, Valhallan 597th",
+	  "bookSource": "For The Emperor (Novel) – Ciaphas Cain: Hero of the Imperium (Omnibus), pg. 212 (Editorial Note following ch. 12)"
+	},
+	{
+	  "quote": "In war, best know what enemies are around you in your camp, before you step out to face the foe and wonder why you do so alone.",
+	  "author": "Warmaster Slaydo",
+	  "bookSource": "Necropolis (Novel), ch. 5"
+	},
+	{
+	  "quote": "Do not ask how you may give your life for the Emperor. Ask instead how you may give your death.",
+	  "author": "Warmaster Slaydo",
+	  "bookSource": "Necropolis (Novel), ch. 9"
+	},
+	{
+	  "quote": "Never!",
+	  "author": "Warmaster Slaydo",
+	  "bookSource": "Necropolis (Novel), ch. 13"
+	},
+	{
+	  "quote": "We have been given our crusade, my sons... the Sabbat Worlds!",
+	  "author": "Warmaster Slaydo",
+	  "bookSource": "Honour Guard (Novel), ch. 12"
+	},
+	{
+	  "quote": "The beati was a warrior. She exemplifies the Imperial creed, and the human spirit better than any figure in the annals. As a boy, she inspired me. I take this crusade as a personal matter, a duty greater than any I have yet undertaken for the Golden Throne. To repay her inspiration, to walk in her path and make free again the worlds she brought from darkness. I feel as if I am... a pilgrim, Ibram.",
+	  "author": "Warmaster Slaydo",
+	  "bookSource": "Honour Guard (Novel), ch. 12"
+	},
+	{
+	  "quote": "Every position must be held to the last man: there must be no retirement. With our backs to the wall, and believing in the justice of our cause, each one of us must fight on to the end.",
+	  "author": "Imperial Warmaster Solon",
+	  "bookSource": "Warhammer 40,000 2nd Edition Rulebook, pg. 18"
+	},
+	{
+	  "quote": "Damn it, follow me. I'll show you how it's done.",
+	  "author": "Colonel \"Iron Hand\" Straken, Catachan II",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 60"
+	},
+	{
+	  "quote": "To each of us falls a task. And all the Emperor requires of us Guardsmen is that we stand in line, and we die fighting. It is what we do best: we die standing.",
+	  "author": "General Sturnn, Commander Cadian 412th",
+	  "bookSource": "Dawn of War: Winter Assault"
+	},
+	{
+	  "quote": "Although the Golden Throne of Terra orbits a distant star far from here, the Emperor's hand is on your shoulders today. You have fought and displayed bravery and loyalty far and above your calling as Guardsmen. You have faced the full brunt of an Ork Waaagh! as well as stared down the horrors of the Warp in the fallen Space Marines, and in that I am honoured to have led you.",
+	  "author": "General Sturnn, Commander Cadian 412th",
+	  "bookSource": "Dawn of War: Winter Assault"
+	},
+	{
+	  "quote": "Oh. Were there Tyranids on Corania? I guess I was just too busy with my needlepoint to notice!",
+	  "author": "Lady General Jenit Sulla",
+	  "bookSource": "For the Emperor (Novel) – Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 2, pg. 50"
+	},
+	{
+	  "quote": "For justice! For vengeance! For the Emperor!",
+	  "author": "Lady General Jenit Sulla",
+	  "bookSource": "For the Emperor (Novel) – Ciaphas Cain: Hero of the Imperium (Omnibus), Editorial Note after ch. 15, pg. 255"
+	},
+	{
+	  "quote": "The most dangerous thing on the battlefield is a junior officer with a compass and a map.",
+	  "author": "Lady General Jenit Sulla",
+	  "bookSource": "The Traitor's Hand (Novel) – Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 7, pg. 573"
+	},
+	{
+	  "quote": "Walls of stone do not a fortress make. But they're not a bad start.",
+	  "author": "Commander Rango Thaxx",
+	  "bookSource": "Warhammer Siege, pg. 98"
+	},
+	{
+	  "quote": "We shall wage this war with undaunted faith and courage. We shall not take one step back. This is the Emperor's world and we will not surrender it!",
+	  "author": "Lord Marshal Toshenko",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 18"
+	},
+	{
+	  "quote": "A small mind is easily filled with faith.",
+	  "author": "Commissar Exen Treuer, 23rd Moradia Regiment",
+	  "bookSource": "Warhammer 40,000: Compendium, pg. 50"
+	},
+	{
+	  "quote": "It is always better to find your enemy, before your enemy finds you.",
+	  "author": "Commander Tulathan, Vastadt 4th Independent Tank Regiment",
+	  "bookSource": "Imperial Armour - Imperial Vehicles for Warhammer 40,000, pg. 27"
+	},
+	{
+	  "quote": "All men need something to fight for, a cause to believe in. Tell them that the Emperor needs them to hold that ground at all costs, and they’ll fight like lions.",
+	  "author": "Commissar Tyreen, Versimmon Dragoons",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card \"Capture and Secure - Minor Stratagem\", (saved archive pg., dated February 2011, last accessed 6 October 2015)"
+	},
+	{
+	  "quote": "What I remember most about the battle for Vogen was the confusion and the colossal scale of death. We fought like heroes, like each building that had even one Guardsman inside was a fortress against the enemy. Every soldier, fighting in a basement or under the stairs, stood his ground alone and accomplished the task on his own. Because in cityfighting a soldier has to be his own general. He needs to be given correct guidance and the trust of his officers. On Vogen we had neither and how we survived was a miracle.",
+	  "author": "Veteran Sergeant Hessel, 122nd Cadians",
+	  "bookSource": "GW saved archive pg. of the introduction to Cityfight (last accessed 29 June 2015)"
+	},
+	{
+	  "quote": "I don’t get it. How does a tank that big just disappear? What sorcery can do… Holy Throne! Heavy weapons, right flank, right flank! Fire now.",
+	  "author": "Corporal Webb, Cadian XIV Shocktroopers",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card \"Hologram - Minor Stratagem\", (saved archive page, dated February 2011, last accessed 05 October 2015)"
+	},
+	{
+	  "quote": "Who told you to die? Keep fighting!",
+	  "author": "Commissar Otto Xavier",
+	  "bookSource": "http://www.dawnofwargame.com"
+	},
+	{
+	  "quote": "Heroes of Armageddon! You have withstood the evil savagery of the Orks, and they have nothing left for you to fear. So raise high the black banners of vengeance - now is our time.",
+	  "author": "Commissar Sebastian Yarrick",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 19"
+	},
+	{
+	  "quote": "This planet is a hellhole, but it’ll be an Imperial hellhole when we’re through with it.",
+	  "author": "Zhaebin, Lieutenant, Vostroyan Firstborn",
+	  "bookSource": "FFG Teaser for \"Jungles of Nectavus\", supplement for Warhammer 40,000: Conquest (last accessed 3 March 2016)"
+	},
+	{
+	  "quote": "We draw the line here! Sergeants, pass the word out, we give no ground, we stand and we die in the name of the Emperor!",
+	  "author": "Zoutah, Commissar, Catachan 'Wild Cats'",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card \"Chosen Ground - Minor Stratagem\", (saved archive page, dated February 2011, last accessed 7 October 2015)"
+	},
+	{
+	  "quote": "Competence on the battlefield is a myth. The side which screws up next to last wins, it's as simple as that.",
+	  "author": "Lord General Zyvan",
+	  "bookSource": "The Traitor's Hand (Novel) – Ciaphas Cain: Hero of the Imperium (Omnibus), ch. Ten, pg. 611"
+	},
+	{
+	  "quote": "Infantry win firefights. Tanks win battles. Artillery win wars.",
+	  "author": "Old saying amongst Imperial Guard artillery officers",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 52"
+	},
+	{
+	  "quote": "Incoming fire has the right of way.",
+	  "author": "Old artilleryman's maxim",
+	  "bookSource": "The Traitor's Hand (Novel), ch. 3"
+	},
+	{
+	  "quote": "The Emperor points, and we obey,\nThrough the warp and far away.",
+	  "author": "From a warriors' song of the Imperial Guard",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 4, pg. 86"
+	},
+	{
+	  "quote": "Hurry up and wait.",
+	  "author": "Guardsman's traditional summation of the process of deployment	",
+	  "bookSource": "The Traitor's Hand (Novel), ch. 12"
+	},
+	{
+	  "quote": "Whatever happens, we have got\nThe Emperor’s blessing. They have not.",
+	  "author": "From The Guardsman's Duty, a popular ballad",
+	  "bookSource": "For The Emperor (Novel), ch. 11"
+	},
+	{
+	  "quote": "When in deadly danger,\nWhen beset by doubt,\nRun in little circles,\nWave your arms and shout.",
+	  "author": "Parody of the Litany of Command, popular among Commissar Cadets",
+	  "bookSource": "For The Emperor (Novel), ch. 6"
+	},
+	{
+	  "quote": "Things can always get worse.",
+	  "author": "Valhallan proverb",
+	  "bookSource": "The Traitor's Hand (Novel), ch. 14"
+	},
+	{
+	  "quote": "It's never too late to panic.",
+	  "author": "Popular Valhallan folk saying",
+	  "bookSource": "For The Emperor (Novel), ch. 15"
+	},
+	{
+	  "quote": "Any Cadian who can't field-strip his own lasgun by age ten was born on the wrong planet.",
+	  "author": "Anonymous",
+	  "bookSource": "Codex: Imperial Guard (5th Edition), pg. 14"
+	},
+	{
+	  "quote": "Please try to run. It would save me lots of problems.",
+	  "author": "Unknown Commissar",
+	  "bookSource": "13th Legion (Novel) - The Last Chancers (Omnibus), ch. Six, pg. 179"
+	},
+	{
+	  "quote": "Glory for the first man to die, charge!",
+	  "author": "Unknown Commissar",
+	  "bookSource": "Dawn of War: Winter Assault"
+	},
+	{
+	  "quote": "Stop bleeding and fight back!",
+	  "author": "Unknown Guardsman",
+	  "bookSource": "Dawn of War: Winter Assault"
+	},
+	{
+	  "quote": "CAPTURING it was easy. HOLDING it will be hard.",
+	  "author": "Unknown Guardsman",
+	  "bookSource": "Dawn of War: Winter Assault"
+	},
+	{
+	  "quote": "Those are Eldar? I thought they'd be taller.",
+	  "author": "Unknown Guardsman",
+	  "bookSource": "Dawn of War: Winter Assault"
+	},
+	{
+	  "quote": "Tanks! Where are the bloody tanks?!",
+	  "author": "Unknown Guardsman",
+	  "bookSource": "Dawn of War: Winter Assault"
+	},
+	{
+	  "quote": "Concentrate all fire on that big bruiser!",
+	  "author": "Unknown Guardsman",
+	  "bookSource": "Dawn of War: Winter Assault"
+	},
+	{
+	  "quote": "For every one of us who falls, ten more will take his place!",
+	  "author": "Unknown Guardsman",
+	  "bookSource": "Dawn of War: Winter Assault"
+	},
+	{
+	  "quote": "Nah, soon as you're old enough you're sent to join the regiment. Colonel Stagler don't approve of educated men, says it was educated men that got Krieg bombed to shit in the first place. The colonel says that all a man needs to do is fight and die. That's the Krieg way.",
+	  "author": "Unknown Guardsman",
+	  "bookSource": "Warriors of Ultramar (Novel) - Ultramarines: The Omnibus, ch. 6, pg. 358"
+	},
+	{
+	  "quote": "When the people forget their duty they are no longer human and become something less than beasts. They have no place in the bosom of humanity nor in the heart of the Emperor. Let them die and be forgotten.",
+	  "author": "Prime Edicts of the Holy Synod of the Adeptus Ministorum",
+	  "bookSource": "Codex Imperialis (Background Book), pg. 10"
+	},
+	{
+	  "quote": "Imperial citizens who undertake the arduous seven year 'Pilgrimage of Macharius' must obtain the Solar Medal before they set forth. The medal can only be purchased at the Offices of the Pilgrimorium on the shrine world of Macharia, and entitles the pilgrim to seek passage on any craft traveling along the prescribed pilgrimage routes.",
+	  "author": "Excerpt from The Road of Salvation: A Guide to Following in the Steps of the Prophets and Saints of the Imperium",
+	  "bookSource": "Codex: Imperial Guard (3rd Edition, 1st Codex), inside back cover"
+	},
+	{
+	  "quote": "The Heretic and Blasphemer can offer no excuse for their crimes. Those who are pardoned merely live to further shroud Humanity from the Light of the Emperor with the Darkness of their souls.",
+	  "author": "from the Sermons of Cardinal Beneficta	",
+	  "bookSource": "Codex: Sisters of Battle (2nd Edition), pg. 24"
+	},
+	{
+	  "quote": "The glory we gain blinds us first with its lustre.",
+	  "author": "Caddaway, Redemptionist theologian	",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus) Editorial note after ch. 10, pg. 624"
+	},
+	{
+	  "quote": "On the Day of Affirmation it is the custom to light a candle, small and sweetly scented, and while it burns to silently think on those days so long ago. For a few minutes every year the whole universe of mankind falls silent and bends its mind to one purpose - billions of billions of souls drawn together in memory of the Great Confessor.",
+	  "author": "Dolan Chirosius",
+	  "bookSource": "Codex Imperialis (Background Book), pg. 39"
+	},
+	{
+	  "quote": "I tread the path of Righteousness. Though it be paved with broken glass, I will walk it barefoot; though it cross rivers of fire, I will pass over them; though it wanders wide, the light of the Emperor guides my step.",
+	  "author": "Dolan Chirosius",
+	  "bookSource": "Codex: Sisters of Battle (2nd Edition), pg. 44"
+	},
+	{
+	  "quote": "It is the story of a man who did insane things because he put in practice what many Saints have preached.",
+	  "author": "Dolan Chirosius",
+	  "bookSource": "Codex: Sisters of Battle (2nd Edition), pg. 9"
+	},
+	{
+	  "quote": "Men united in the purpose of the Emperor are blessed in his sight, and shall live forever in his memory.	",
+	  "author": "Ecclesiarch Deacis IX",
+	  "bookSource": "Daemonifuge, Book I, back cover"
+	},
+	{
+	  "quote": "The words of the faithful are the mountains. But the deeds of the faithful are the world.",
+	  "author": "Ecclesiarch Deacis IX",
+	  "bookSource": "Dark Adeptus (Novel), ch. Five, pg. 73"
+	},
+	{
+	  "quote": "No army is big enough to conquer the galaxy. But faith alone can overturn the universe.",
+	  "author": "Ecclesiarch Deacis IX",
+	  "bookSource": "Codex Imperialis (Background Book), pg. 40"
+	},
+	{
+	  "quote": "One man can start a landslide with the casting of a single pebble.",
+	  "author": "Ecclesiarch Deacis IX",
+	  "bookSource": "Codex: Sisters of Battle (2nd Edition), pg. 12"
+	},
+	{
+	  "quote": "Taking the long view is all well and prudent, but take care that you don’t become so preoccupied with it that you miss what’s right under your nose.",
+	  "author": "Saint Emelia",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 13, pg. 215"
+	},
+	{
+	  "quote": "The path to duty is often a stony one, made smoother by thought for others.",
+	  "author": "Saint Emelia",
+	  "bookSource": "Duty Calls (Novel) - Ciaphas Cain: Defender of the Imperium (Omnibus), ch. Twenty-Four, pg. 462"
+	},
+	{
+	  "quote": "Never forget you are the walls of steel and iron, between Mankind and a thousand horrors too unspeakable to name. You are the walls of Hell.",
+	  "author": "Preacher Eran Gudi",
+	  "bookSource": "Imperial Armour - Imperial Vehicles for Warhammer 40,000, pg. 55"
+	},
+	{
+	  "quote": "Prayer may cleanse the soul, but pain cleanses the body. Both are necessary for the survival of humanity.",
+	  "author": "Confessor Ganinimus",
+	  "bookSource": "Codex: Sisters of Battle (2nd Edition), pg. 55"
+	},
+	{
+	  "quote": "I long for death, not because I seek peace, but because I seek the war eternal.",
+	  "author": "Cardinal Armandus Helfire",
+	  "bookSource": "Dark Adeptus (Novel), ch. One, pg. 7"
+	},
+	{
+	  "quote": "The Daemonic leads to two crimes. You turn away from the path of righteousness. And you abandon the Emperor as the object of your devotion. For the first, death is merely a just retribution. The second is a heresy so terrible that no punishment can be sufficient. Yet the search for an appropriate penalty continues, and it shall be found.",
+	  "author": "Ecclesiarch Issus XLVII",
+	  "bookSource": "Realm of Chaos: Slaves to Darkness, pg. 260 reprinted in Codex: Daemonhunters (3rd Edition), pg. 19"
+	},
+	{
+	  "quote": "Death in service to the Emperor is its own reward. Life in failure to Him is its own condemnation.",
+	  "author": "Uriah Jacobus",
+	  "bookSource": "Dark Adeptus (Novel), ch. Fifteen, pg. 261"
+	},
+	{
+	  "quote": "The Emperor of Mankind is the Light and the Way, and all his actions are for the benefit of mankind, which is his people. The Emperor is God and God is the Emperor, so it is taught in the Lectio Divinitatus, and above all things, the Emperor will protect...",
+	  "author": "Euphrati Keeler, Remembrancer",
+	  "bookSource": "Horus Rising (Novel), Part Two, ch. Six, pg. 330"
+	},
+	{
+	  "quote": "A Heretic may see the truth and seek redemption. He may be forgiven his past and will be absolved in death. A Traitor can never be forgiven. A Traitor will never find peace in this world or the next. There is nothing as wretched or as hated in all the world as a Traitor.",
+	  "author": "Cardinal Khrysdam",
+	  "bookSource": "Codex: Witch Hunters (3rd Edition), pg. 42"
+	},
+	{
+	  "quote": "A swarm of mechanised locusts sweeping over the land, stripping it bare of resources, bringing death and destruction to anything that stands in its path. Emperor preserve us against the predations of these so-called Orkish Cults of Speed.",
+	  "author": "Cardinal Nomura",
+	  "bookSource": "Fantasy Flight Games teaser of the \"Deadly Salvage\" - War Pack for the Conquest Card Game (last accessed 7 July 2015)"
+	},
+	{
+	  "quote": "When it was over, when the blood had dried and the fires had died down, then we found we were the same as we had always been - small and terrified human beings, with only the light of the Emperor to see by in this dark galaxy of sin.",
+	  "author": "Saint Praxides of Ophelia VII",
+	  "bookSource": "Dark Adeptus (Novel), ch. Seventeen, pg. 299"
+	},
+	{
+	  "quote": "There are no miracles. There are only men.",
+	  "author": "Saint Sabbat",
+	  "bookSource": "The Sabbat Worlds Crusade (Background Book), pg. 9 Honour Guard (Novel), Ch. 17"
+	},
+	{
+	  "quote": "Betwixt the wash of the river and the waft of the wind, let my sins be transfigured to virtues.",
+	  "author": "Saint Sabbat",
+	  "bookSource": "Honour Guard (Novel), Ch. 1"
+	},
+	{
+	  "quote": "If the road is easy, the destination is worthless.",
+	  "author": "Saint Sabbat",
+	  "bookSource": "Honour Guard (Novel), Ch. 9"
+	},
+	{
+	  "quote": "Let the sky welcome you, for therein dwells the Emperor and his saints.",
+	  "author": "Saint Sabbat",
+	  "bookSource": "Honour Guard (Novel), Ch. 2"
+	},
+	{
+	  "quote": "Though my tears be as many as the spots of rain falling in the Hagian woods, one for every fallen soul loyal to the Throne, there would not be enough.",
+	  "author": "Saint Sabbat",
+	  "bookSource": "Honour Guard (Novel), Ch. 11"
+	},
+	{
+	  "quote": "As I have been called to the holy work, so I will call others to me.",
+	  "author": "Saint Sabbat",
+	  "bookSource": "Honour Guard (Novel), Ch. 8"
+	},
+	{
+	  "quote": "A single man with faith can triumph over a legion of the faithless. Untold billions of the faithful can never be opposed.",
+	  "author": "Sebastian Thor",
+	  "bookSource": "Codex: Sisters of Battle (2nd Edition), pg. 11"
+	},
+	{
+	  "quote": "The Emperor is our Father and our Guardian, but we must also guard the Emperor.",
+	  "author": "Sebastian Thor",
+	  "bookSource": "Codex: Sisters of Battle (2nd Edition), pg. 15"
+	},
+	{
+	  "quote": "I will steal from the plate of decadence to feed the mouths of the powerless.",
+	  "author": "Sebastian Thor",
+	  "bookSource": "Codex: Sisters of Battle (2nd Edition), pg. 16"
+	},
+	{
+	  "quote": "A war waged by committee is a war already lost.",
+	  "author": "Sebastian Thor",
+	  "bookSource": "Necropolis (Novel) by Dan Abnett, ch. 6, pg. 83"
+	},
+	{
+	  "quote": "The strength of the Emperor is Humanity, and the strength of Humanity is the Emperor. If one turns from the other we shall all become the Lost and the Damned.",
+	  "author": "Sebastian Thor",
+	  "bookSource": "Codex: Sisters of Battle (2nd Edition), pg. 54"
+	},
+	{
+	  "quote": "Give me a gun that never fires! Give me sword that is ever blunt! Give me a weapon that deals no wound as long as it always strikes awe!",
+	  "author": "Sebastian Thor",
+	  "bookSource": "Dark Adeptus (Novel), ch. Fourteen, pg. 245"
+	},
+	{
+	  "quote": "You are the dark heart of man, Leto. You are the evil that can lurk in any of us, the potential to commit the most heinous acts and do it with a smile on our faces. There is a wall of conscience between acts of good and evil inside most of us, but that's missing in you. I don't know why, but for you there is no concept of evil, just results.",
+	  "author": "Cardinal Shavo Togandis",
+	  "bookSource": "The Killing Ground (Novel) ch. Nineteen, pg. 284"
+	},
+	{
+	  "quote": "Though the darkness will be rent by noise and flame. Let not men's souls be broken in the crucible of war.",
+	  "author": "Preacher Veltros Theodorus before the third assault on Tarrisus Ridge",
+	  "bookSource": "Imperial Armour - Imperial Vehicles for Warhammer 40,000, pg. 9"
+	},
+	{
+	  "quote": "Fortune deliver you by the nine holy wounds!",
+	  "author": "Ayatani blessing",
+	  "bookSource": "Honour Guard (Novel), Ch. 3"
+	},
+	{
+	  "quote": "From this high rock, from this peak, let the light of worship shine so that the Emperor himself might see it from his Golden Throne.",
+	  "author": "Dedication on the high altar of the Tempelum Infarfarid Sabbat",
+	  "bookSource": "Honour Guard (Novel), Ch. 5"
+	},
+	{
+	  "quote": "The weak will always be led by the strong. Where the strong see purpose and act, the weak follow; where the strong cry out against fate, the weak bow their heads and succumb. There are many who are weak; and many are their temptations. Despise the weak for they shall flock to the call of the Daemon and the Renegade. Pity them not and scorn their cries of innocence - it is better that one hundred innocently fall before the wrath of the Emperor than one kneels before the Daemon.",
+	  "author": "The First Book of Indoctrinations",
+	  "bookSource": "Realm of Chaos: Slaves to Darkness, pg. 230"
+	},
+	{
+	  "quote": "Know this adept, for your journey has been long and you are to be trusted as few will ever be. Psykers represent Humanity's future, the ideal creature into which mankind will evolve; a more powerful, more intelligent and more capable life form. As yet this race is weak, its members lacking the mental strength needed to face the dangers of the psychic universe. Were the new race of psykers permitted to develop free and unprotected, the whole of Humanity would soon be destroyed. We few who are privy to this truth have guarded it selflessly for nigh on four millennia, since the end of the great schism from which our order was born. It is our sole concern, for the very future of our race depends upon us, and us alone.",
+	  "author": "Transcription of suppressed texts, from the archives of the Gethsemene Reclusium",
+	  "bookSource": "Codex: Witch Hunters (3rd Edition), pg. 14"
+	},
+	{
+	  "quote": "So great has been the calamitousness of these times, and such the inveterate malice of the heretics, that there has been nothing ever so clear in our statement of faith, nothing so surely settled, which they, at the instigation of the enemy of the human race, have not defiled by some sort of error. For which cause the holy Inquisition hath made it Its especial care to condemn and anathematise the principal errors of the heretics of our time, and to deliver and teach the true and Imperial doctrine; even as It has condemned, anathematised, and decreed.",
+	  "author": "Declaration of Inquisitorial mandate, Inquisitorial representative, Senate Imperialis",
+	  "bookSource": "Codex: Witch Hunters (3rd Edition), pg. 28"
+	},
+	{
+	  "quote": "His loyalty couldn't be bought at any price; but it could be rented remarkably cheaply.",
+	  "author": "Inquisitor Allendyne",
+	  "bookSource": "The Traitor's Hand (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 9, pg. 601"
+	},
+	{
+	  "quote": "He who allows the alien to live shares in the crime of its existence.",
+	  "author": "Inquisitor Apollyon, Ordo Xenos",
+	  "bookSource": "Warrior Coven (Novel) - Kill Squad: A Deathwatch Omnibus, ch. 2, pg. 202"
+	},
+	{
+	  "quote": "Inquisitors? They’re sneaky bastards. Useful, yes, even necessary, but I wouldn’t buy a used aircar from any of them.",
+	  "author": "Arbitrator General Bex van Sturm",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 8, pg. 133"
+	},
+	{
+	  "quote": "Of creations most foul I beheld the Lord of All and knew that I was dead.",
+	  "author": "Inquisitor Brand",
+	  "bookSource": "Codex: Daemonhunters (3rd Edition), pg. 18; Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Turning the weapons of the enemy against him is, of course, of grave danger to one’s soul. It is nonetheless a satisfying thing to see.",
+	  "author": "Inquisitor Havelock Brundsted",
+	  "bookSource": "Dark Heresy: Daemon Hunter, pg. 66"
+	},
+	{
+	  "quote": "I'm sure most of the men in the galaxy are familiar with the sinking feeling that accompanies the words \"Do you think you could do me a little favour, darling?\", but when the woman asking the question is an inquisitor it's even less wise than usual to say \"No\".",
+	  "author": "Commissar Ciaphas Cain",
+	  "bookSource": "Duty Calls (Novel) - Ciaphas Cain: Defender of the Imperium (Omnibus), ch. 6, pg. 303"
+	},
+	{
+	  "quote": "This is the Emperor’s planet, the Emperor’s Throne damn you. You want it, you traitor pigs? Come take it from us!",
+	  "author": "Caspiel Rex, Inquisitor",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card Hold At All Costs - Minor Stratagem\", (saved archive page, dated February 2011, last accessed 6 October 2015)"
+	},
+	{
+	  "quote": "There are those amongst our Ordo who say that I seek advancement for my own purposes, and they are correct. My purpose is to destroy the daemonic and if I must rise to command an entire sector to do so, then so be it. I am a servant of the Emperor and only those who consort with Warp-spawn need fear my ambition.",
+	  "author": "Inquisitor Lord Torquemada Coteaz",
+	  "bookSource": "Codex: Daemonhunters (3rd Edition), pg. 56"
+	},
+	{
+	  "quote": "Things are very seldom what they seem. In my experience, they’re usually a damn sight worse.",
+	  "author": "Inquisitor Titus Drake",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 9, pg. 155"
+	},
+	{
+	  "quote": "I am forty-two standard years old, in my prime by Imperial standards, young by those of the Inquisition. All my life, I have had a reputation for being cold, unfeeling. Some have called me heartless, ruthless, even cruel. I am not. I am not beyond emotional response or compassion. But I possess - and my masters count this as perhaps my paramount virtue - a singular force of will. Throughout my career it has served me well to draw on this facility and steel myself, unflinching, at all that this wretched galaxy can throw at me. To feel pain or fear or grief is to allow myself a luxury I cannot afford.",
+	  "author": "Inquisitor Gregor Eisenhorn",
+	  "bookSource": "Xenos (Novel), ch. One"
+	},
+	{
+	  "quote": "I'm excusing a lot because I recognize the trauma and the loss you have suffered. But my patience isn't limitless... unlike my authority.",
+	  "author": "Inquisitor Gregor Eisenhorn",
+	  "bookSource": "Xenos (Novel), ch. Three"
+	},
+	{
+	  "quote": "I'm an inquisitor. I do not get angry.",
+	  "author": "Inquisitor Gregor Eisenhorn",
+	  "bookSource": "Xenos (Novel), ch. Three"
+	},
+	{
+	  "quote": "My lord, what foetid corner of the Imperium breeds these fawning idiots? Now you really owe me.",
+	  "author": "Inquisitor Gregor Eisenhorn",
+	  "bookSource": "Hereticus (Novel), Prologue"
+	},
+	{
+	  "quote": "The guilty and the polluted fight. They deny. They struggle. In my lifetime, I have brought down nine marked Diabolus. None went quietly.",
+	  "author": "Inquisitor Gregor Eisenhorn",
+	  "bookSource": "Malleus (Novel), ch. Sixteen"
+	},
+	{
+	  "quote": "We are at War with forces too terrible to comprehend. We cannot afford mercy for any of its victims too weak to take the correct course. Mercy destroys us; it weakens us and saps our resolve. Put aside all such thoughts. They are not worthy of Inquisitors in the service of Our Emperor. Praise His name for in our resolve we only reflect his purpose of will.",
+	  "author": "The Book of Exorcisms, the Verses of Inquisitor Enoch",
+	  "bookSource": "Realm of Chaos: Slaves to Darkness, pg. 220"
+	},
+	{
+	  "quote": "Your daily work brings you closer and closer to the warp, increases your understanding of orderless powers. Gradually, without noticing it, even the most puritanical and rod-stiff inquisitor becomes seduced... The first step is the knowledge. An inquisitor must understand the basic traits of Chaos in order to fight it. In a few years, he knows more about the warp than most untutored cultists. Then the second step: the moment he breaks the rules and allows some aspect of Chaos to survive or remain so that he can study it and learn from it... The third stepg... the third step is the line itself. When the inquisitor becomes a radical. When he chooses to use Chaos against Chaos. When he employs the agencies of the warpg. When he asks the heretical for helpg... So... are you going to ask me to help you?",
+	  "author": "Pontius Glaw",
+	  "bookSource": "Malleus (Novel) ch. Twenty"
+	},
+	{
+	  "quote": "The daemonic are without number, and their legions span the galaxy. But faith does not tire. Should it take us an eternity, the Ordo Malleus will find and exterminate them all.",
+	  "author": "Lord Hephaestos Grudd",
+	  "bookSource": "Codex: Daemonhunters (3rd Edition), pg. 17"
+	},
+	{
+	  "quote": "Look upon this hammer I hold before me, for it is far more than a weapon. It is a symbol of the Imperial justice that smites the diabolic enemies of the Imperium wherever they are found, just as I. Though it has banished even a mighty Greater Daemon to the hell from which it was spawned, it remains true and pure, just as I. Furthermore, it is a symbol of my order and my office, of the authority granted to me by the divine will of the Emperor. By that authority, I am commanding you and your entire regiment to obey me without question or hesitation. Advance, or it will not be daemonic blood that stains my hammer this day.",
+	  "author": "Lord Hephaestos Grudd",
+	  "bookSource": "Codex: Daemonhunters (3rd Edition), pg. 22"
+	},
+	{
+	  "quote": "You must face the truth squarely and without flinching from duty. Our Enemies are mortal no longer. Mercy for such as they is a chimera, self-deception is its only ally. Dedicate this weapon, given unto your hand at the behest of the Emperor, to their destruction. Regard its function as your only duty: you live only to bring cleansing fire. Take up your rod and staff, your armour and psycannon, and go forth.",
+	  "author": "Inquisitor Historical Galbus Heer",
+	  "bookSource": "Realm of Chaos: Slaves to Darkness, pg. 253"
+	},
+	{
+	  "quote": "There is no such thing as a plea of innocence in my court. A plea of innocence is guilty of wasting my time. Guilty.",
+	  "author": "Inquisitor Lord Fyodor Karamazov",
+	  "bookSource": "Codex: Witch Hunters (3rd Edition), pg. 45"
+	},
+	{
+	  "quote": "There is no end to the abomination of the alien. Do not allow any guise of sentience to stay your hand – there can be no hesitation when the survival of humanity as a species is at stake.",
+	  "author": "Inquisitor Kartize, Ordo Xenos",
+	  "bookSource": "Fantasy Flight Games - Teaser to \"Enemies Without\", Supplement to Dark Heresy Second Edition, (last accessed 9 August 2015)"
+	},
+	{
+	  "quote": "One cannot consider the fate of a single man, nor ten, nor a hundred, nor a thousand. Billions will live or die by our actions here, and we have not the luxury to count the cost.",
+	  "author": "Inquisitor Kryptmann (presumably Kryptman)",
+	  "bookSource": "Apocalypse, pg. 12"
+	},
+	{
+	  "quote": "They are beyond comprehension, beyond mortal flesh, beyond even time and mortality. They are beyond many things, but never my hate!",
+	  "author": "Inquisitor Lias du Ortise, Ordo Malleus",
+	  "bookSource": "FFG Site Teaser for Enemy Beyond Supplement for Dark Heresy Second Edition - (last accessed 16 October 2015)"
+	},
+	{
+	  "quote": "Do not presume to judge me or the methods I choose to employ, petty-minded fool. You cannot comprehend the magnitude of the task I have undertaken nor the consequences of my failure.",
+	  "author": "Inquisitor Lichtenstein, declared Excommunicate Traitoris 998.M41",
+	  "bookSource": "Codex: Daemonhunters (3rd Edition), pg. 24"
+	},
+	{
+	  "quote": "If you can confront the xenos, look upon the xenos, even think upon the xenos, without revulsion, then you are as damned as they.",
+	  "author": "Inquisitor Loffengar, Ordo Xenos",
+	  "bookSource": "FFG Site Teaser for Enemy Without Supplement for Dark Heresy Second Edition (last accessed 11 October 2015)"
+	},
+	{
+	  "quote": "You are Astartes indeed, and that will never alter. But you are a Death Guard no longer. You are a ghost, a figure that stands between light and dark, trapped amid the grey. And I have need of such a man.",
+	  "author": "Malcador the Sigillite",
+	  "bookSource": "Garro: Oath of Moment (Audio Book), Track 5: Flashback"
+	},
+	{
+	  "quote": "You get more with a kind word and an Excruciator than with just a kind word.",
+	  "author": "Inquisitor Malden",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 2, pg. 47"
+	},
+	{
+	  "quote": "Though Mankind is at the brink of this great apotheosis, you must be ever vigilant for the stillborn harbingers of this change. Where you seek the pure and strong, there too will you find the impure and weak. Where you find but one worthy of life, you will also find a million twisted, deformed monstrosities for whom death by your hand is a mercy. Therefore, look first for the mutant, for he may never hide his sin from you, and in his midst there will be revealed to you that which you seek. But be ever vigilant, for even should you find one with the gift, only one in a thousand psykers will be strong enough to resist the perils of the Empyrean and be allowed to live.",
+	  "author": "Inquisitor Malich",
+	  "bookSource": "Codex: Witch Hunters (3rd Edition), pg. 9"
+	},
+	{
+	  "quote": "Though I walk through the valley of the shadow of the daemon, I shall fear nothing. For I am what the daemon fears.	",
+	  "author": "Grand Master Mandulis of the Grey Knights",
+	  "bookSource": "Dark Adeptus (Novel), ch. Twenty"
+	},
+	{
+	  "quote": "The place breeds recidivists like a pond breeds scum.",
+	  "author": "Inquisitor-General Neve",
+	  "bookSource": "Malleus (Novel), ch. Twelve"
+	},
+	{
+	  "quote": "Now the past must unveil one of its darkest secrets, the story of the Plague of Unbelief and its most heinous vector Bucharis the Apostate Cardinal of Gathalamor. Never has the Imperium endured such a crisis of faith, not since the dark days of the Horus Heresy itself.",
+	  "author": "Galan Noirgrim, Master of the Ordo Malleus",
+	  "bookSource": "Warhammer 40,000: Wargear, pg. 63"
+	},
+	{
+	  "quote": "Gregor Eisenhorn, in fealty to the God-Emperor, our undying lord, and by the grace of the Golden Throne, in the name of the Ordo Malleus and the Inquisition, I call thee diabolis, and in the testimony of thy crimes, I submit this carta. May imperial justice account in all balance. The Emperor protects.",
+	  "author": "Grand Master Osma of the Ordos Helican",
+	  "bookSource": "Codex: Daemonhunters (3rd Edition), pg. 10"
+	},
+	{
+	  "quote": "My enemy’s enemy is a problem for later: In the meantime, they might be useful.",
+	  "author": "Inquisitor Quixos",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 12, pg. 201"
+	},
+	{
+	  "quote": "Chaos claims the unwary or the incomplete. A true man may flinch away its embrace, if he is stalwart, and he girds his soul with the armour of contempt.",
+	  "author": "Inquisitor Gideon Ravenor",
+	  "bookSource": "The Armour of Contempt, pg. 3"
+	},
+	{
+	  "quote": "The creatures of the Warp have but one trait with which you need concern yourself - their undying contempt for the Emperor. It is your task to quell the rebellion they preach, and the only sure way is to destroy them utterly.",
+	  "author": "Qualtak Shoran, Inquisitor",
+	  "bookSource": "White Dwarf 114 (UK), pg. 11; Warhammer 40,000 Compendium, pg.5"
+	},
+	{
+	  "quote": "Trust in the God-Emperor. But trust your blade, too.",
+	  "author": "Inquisitor Atellus Thrax",
+	  "bookSource": "Dark Heresy: Daemon Hunter, pg. 66"
+	},
+	{
+	  "quote": "Even if you could take us both, and I sincerely doubt that, I've lost count of the number of people I've met who thought they could outrun the Inquisition. But you might as well give it a try if you really want to. After all, there's a first time for everything.",
+	  "author": "Inquisitor Amberley Vail, Ordo Xenos",
+	  "bookSource": "For the Emperor (Novel) - Ciaphas Cain: Hero of the Imperium (Omnibus), ch. 10, pg. 172"
+	},
+	{
+	  "quote": "So there it is: unimaginably ancient Xenos artefact somewhere on the planet in the hands of a renegade, the hive fleet poised above our heads ready to rip this world apart, hidden 'stealer broods everywhere making an early start on their behalf, and now a bloody Chaos cult crawling out of the woodwork just in case we were getting bored. Welcome to my world, Ciaphas.",
+	  "author": "Inquisitor Amberley Vail, Ordo Xenos",
+	  "bookSource": "Duty Calls (Novel) - Ciaphas Cain: Defender of the Imperium (Omnibus), ch. 11, pg. 345"
+	},
+	{
+	  "quote": "Some Inquisitors believe the Emperor’s work is best done by charging around the place like a grox in a ceramic emporium, leaving a trail of carnage and destruction in their wake, while others prefer not to let the enemies of all that’s good and holy get clean away by making it blindingly obvious they’re coming for them.",
+	  "author": "Inquisitor Amberley Vail, Ordo Xenos",
+	  "bookSource": "Duty Calls (Novel) - Ciaphas Cain: Defender of the Imperium (Omnibus), ch. 12, pg. 349, fn. 1"
+	},
+	{
+	  "quote": "Curses! Just when you've finally managed to bring the whole world under your evil influence some pathetic little Inquisitor goes whining off to the Adeptus Terra about rogue psykers and daemonic possession. I mean, do I look possessed? Well, do I? DO I???",
+	  "author": "Lord Varlak",
+	  "bookSource": "Codex: Witch Hunters (3rd Edition), pg. 40"
+	},
+	{
+	  "quote": "Seek not the words of the xenos, lest they infect us with blasphemy.",
+	  "author": "Admonitions Mechanae 3:16",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Without a Standard Model, there is naught but madness and Chaos among the stars.",
+	  "author": "Aetheric Manuscripts Appendix 71",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Thus does the Enemy seek to crush our spirit, for our souls are our most potent weapon.",
+	  "author": "Amalanthians 9.41",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "If it resembles a heretic, if it speaks like a heretic, and if it be redolent to the nose, as if like a heretic, then a heretic it will be!",
+	  "author": "Amarinthine Admonitions",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "We fight the foe’s battle for him, when we take his words into our hearts.",
+	  "author": "Amalathian Commentaries Chapter 94",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "No task that is easy is ever worthwhile.",
+	  "author": "Amaranthine Verses 78.12",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Failure is unique among sin, in that we can turn it into a virtue when it drives us to succeed.",
+	  "author": "Antonine Musings 901.45",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "There are horrors in this galaxy that only faith and steel can overcome, and that we should be grateful we shall never fully understand.",
+	  "author": "Aphorisms 7.1",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Grant a coward the excuse to retreat from the battlefield and he will never fight again.",
+	  "author": "Aphorisms 7.31",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Look not upon the alien, for the alien looks back.",
+	  "author": "Aphorisms 56",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The Enemy rushes to action, when our ministrations cause him fear",
+	  "author": "Aphorisms 94.13",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "If it is worth doing, it is worth doing to completion.",
+	  "author": "Aphorisms 97",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "In the presence of the xenos lies the invisible miasma of corruption.",
+	  "author": "Aphorisms of the Logic-Saints 7.91",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "And we shall cast them down, that corrupt by their presence; We shall break the teeth of the xenos that would swallow us whole.",
+	  "author": "Appendix Heuristica 73.90",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "They need not rend us with their blades. They have but to make us witness them, and thereby can we fall.",
+	  "author": "Armageddon Verses 13.90",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Fragile indeed are the tools of the righteous.",
+	  "author": "Avelornians 5.91",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The only will of the Machine Spirit is that of the Omnissian technologies, for the Xenos will deceive you and tempt you, but you will not falter, for you are a Priest.",
+	  "author": "Cannot unless you Canticle v.34",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Inefficiency is a slope whereupon one slides ever downwards, by degrees, until one reaches the nadir unknowing.",
+	  "author": "Canticles Borealis 6.15",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "When we muse on the works of the enemy, we invite him into our minds.",
+	  "author": "Canticles Flamminia 713",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Where corruption remains, men will fall.",
+	  "author": "Canticles Logica 6.41",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Let the weaker in mind follow the words of the strong!",
+	  "author": "Canticles of Gethsemenoth Line 87",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Rejoice. Give thanks. For we are but one step now from triumph.",
+	  "author": "Canticles of Mars 79.12",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Thus are the wages of those who delve too deep.",
+	  "author": "Castigations 17.4",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Show caution and scorn in all things.",
+	  "author": "Codex Fulminatus 83.12",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "A Tech-Priest eschews the illogicality of fear, the unbalanced equation of doubt, the broken circuit of failure.",
+	  "author": "Cognis Amalathian 5.89",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "And lo, shall Your holy steel be as armour around our souls, and shall Your wisdom guide our hands. No spear nor barb of the enemy shall trouble our flesh of iron. Let the will of Mars be done!",
+	  "author": "Collected Logic-Psalms 31.3",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "It’s not work if you enjoy it.",
+	  "author": "Colloquialisms Minor Chapter 51",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Enough fire in the right place can solve any problem.",
+	  "author": "Colloquialisms of Metalica Chapter 52",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Blessed is he who, in death, does his duty.",
+	  "author": "Conceptua Comprehensis Verse 329",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "There can be no forgiveness now. No penitence that will satisfy my sin.",
+	  "author": "Confessions of Logic-Saint Levistian",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Death itself is scarcely an excuse for the sin of duty undone.",
+	  "author": "Contemplations Hagiographica",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Protect the shield of the mind, and the body will be shielded thereby.",
+	  "author": "Epigrams of Saint Eukelsis 3.89",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Wheresoever the blasphemer writes, obliterate.",
+	  "author": "Epigraphs Macrologica Psalm 105",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Men fuelled by the righteousness of their purpose can achieve what armies cannot.",
+	  "author": "Eukelkisians 60.24",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The Lord of Mars is with us in the dark, even if thou knowest it not.",
+	  "author": "Exaltations 49",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "We are all but a weapon in the right hand of the Emperor.",
+	  "author": "Exhortationes Principiis Titannorum, Divisio Militaris",
+	  "bookSource": "Adeptus Titanicus (game) rulebook, pg.21"
+	},
+	{
+	  "quote": "Not all data should be acquired.",
+	  "author": "Formulae Technologia Verses 4-27",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "And endeavour is its own reward.",
+	  "author": "Gathalamorians 6.13",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "When the final analysis is fully calculated, all equations balance against righteous annihilation.",
+	  "author": "Gathalamorians 9.41",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Above bullets, above blades, care for your soul above all.",
+	  "author": "Gathalamorians 45.7",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "He who prosecutes the alien with zeal, is the ally of Mankind.",
+	  "author": "Gathalamorians 60.41",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "By Flame Shall The Unclean Be Made Clean, By Fire Shall The Unholy Be Made Holy.",
+	  "author": "Gathalamorians 71.6",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Even in the deepest darkness, give devotion to the Omnissiah, for there He is needed the most.",
+	  "author": "Gathalamorians 71.30",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Be thou wary of the works of the alien, for their presence is poison and their every word deceit.",
+	  "author": "Gathalamorians 94.3",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "He who aids the blasphemer, even through ignorance, has the blood of the faithful upon his hands!",
+	  "author": "Gathalamorians 97.14",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Obliterate his words, cut out his tongue, put to fire all wrought by his hand, and the heretic shall cease to exist.",
+	  "author": "Gathalamorians 714.5",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Purification is the prelude to annihilation.",
+	  "author": "Hagiographies of Saint Regulavis 91.12",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "He who sows doubt is as blameful as he who sheds blood.",
+	  "author": "Hagiography of Thor 14.91",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "When the enemy begs for destruction, do not let him go hungry.",
+	  "author": "Helfirian Recollections Chapter 571",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The tree of heresy persists were its roots be not torn up.",
+	  "author": "Jovian Commentaries Chapter 59",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "When the heretic is silenced, it is as if his weapons and tools are stripped from him, he is left impotent and weak.",
+	  "author": "Jovian Ministrations 61.90",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "It is a rare man whose faith survives the failings of his superiors.",
+	  "author": "Jovian Tutelage 56.41",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The sweet incense of faith conquers the toxic stench of corruption.",
+	  "author": "Kalemnan Orations 5.25",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Wheresoever the sacred man tread, led it be made pure, or say he is not sacred.",
+	  "author": "Keraptic Inscriptions Chapter 15",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Ware the script of the enemy! For writ into its lies are the seeds of corruption.",
+	  "author": "Kryptmann Verses 11-13",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Bleak be the prospects, when the black wind of heresy blows.",
+	  "author": "Levistians 7.14",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Knowledge will ever be a blessing and a curse.",
+	  "author": "Levistians 9.22",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Our only objective should be death to the alien and all his works. All else is deviance from the Omnissiah Creed.",
+	  "author": "Life of Archmagos Borasis Appendix 9",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Annihilation. Not exile, submission or subjugation. For the xenos, only annihilation.",
+	  "author": "Life of Fabricator General Kane 56.90",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Then into the teeth of the enemy we shall stride.",
+	  "author": "Life of Macharius 23.19",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Faith is light, and where it burns, there is no night.",
+	  "author": "Life of Saint Hermeticus 5.23",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Improvisation is rarely to be welcomed, and then only when the Omnissiah’s will demands it.",
+	  "author": "Linguis Fulminatus Chapter 7",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "If it has not a head to sever, cut out the heart.",
+	  "author": "Lives of Gyarados 73.60",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The circuits are complete. The engine of fate is primed. One turn of the cog remains, and the grand machine shall fulfil its purpose.",
+	  "author": "Logistae Septimus 21.4",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "And when at last he came upon the vehicle, he perceived the distress of the engine therein and forthwith struck the rune and it was good. Thereupon the engine ignited and was filled with strength...",
+	  "author": "Lord of the Engines, 16th Tome, Verse 2001",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 131"
+	},
+	{
+	  "quote": "Watch your brother, for his sin of heresy is thy sin of tolerance.",
+	  "author": "Macharians 16.4",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The wilful child is as the maddened steed: when it is let off its leash, it is lost.",
+	  "author": "Macharian Axioms Line 918",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "As we purify the ground beneath their feet, they shall find no shelter!",
+	  "author": "Macharian Commentaries Chapter 71",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Seek profane knowledge, and find profane fates.",
+	  "author": "Macharian Commentaries 73.5",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Let the foe blunt their blades against our resolve. They will be ash and memories soon enough.",
+	  "author": "Macharian Duologues Chapter 61",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Better safe and ignorant, than rueing the means of our downfall.",
+	  "author": "Macharian Notions Chapter 4113",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "First comes knowledge of destruction, then its execution.",
+	  "author": "Malchadorian Insights 17.4",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "From such small heresies are great apostasies made.",
+	  "author": "Maxims Metalica 76.12",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Beware the deviance of thine own tools, for the Enemy finds his entrance thereby.",
+	  "author": "Maxims of Amalanth 5.12",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "How dim the sacred light burns when the unholy darkness loometh all about.",
+	  "author": "Meditations Logicae Verse 619",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "When the corruption of the unholy becomes manifest to our senses, a far greater corruption lies unseen.",
+	  "author": "Meditations on the Superlogicae Verse 971",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Blessed is that life that, in its ending, forgives a lifetime of sin.",
+	  "author": "Memoirs of Saint Hestios 5.25",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Thus does Mankind fail. Not in knowing betrayal, but in the silent sin of duty neglected.",
+	  "author": "Mensis Hagiographica Appendix 91",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "If His Will be done, let it be done quickly.",
+	  "author": "Neodogmatics 71.90",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "We are derelict in our duty whenever we allow corruption to plague the minds of good men.",
+	  "author": "Observations on the Tech-Cosmos Verse 68",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The Omnissiah demands the stain of the xenos be deleted. Where it remains, the Omnissiah rages.",
+	  "author": "Opus Fulminata",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Let His word be exalted to the eleventh degree.",
+	  "author": "Principae Logica 22.4",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The xenos must be purged, for the stars are humanity’s birthright.",
+	  "author": "Psalms Hermeticus 46",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "From the mouths of heretics emit naught but foul vapours. Cut out the tongue and be clean.",
+	  "author": "Quaestos Mechanicor 5.21",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Of all creations most foul I beheld the Lord of All and knew that I was dead.",
+	  "author": "Recollections of Inquisitor Brand Chapter 87",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "I beheld the babel of the enemy’s tongues, and I was overwhelmed by a wall of heresy.",
+	  "author": "Recollections of Saint Hesperis Volume 17",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The enemy shall take what we give him, and reap a harvest behind our backs besides, until whole worlds are lost to our sight.",
+	  "author": "Revelations of Titan 18.12",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The beast of metal endures longer than the flesh of men. Those that tend the beasts of metal must labour long to learn its ways, for a single beast must suffer the mastership of many men until ready to shed its vorpal coils. Those that seek apprenticeship must attended closely to the runes of mobilisation, the rites of maintenance, and the words-of-power that describe the parts of a beast. Nor must they neglect the tutelage of the Adeptus Prefects, nor the casting of the proper roboscopes.",
+	  "author": "Runic Mechanics - An Introduction",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 118"
+	},
+	{
+	  "quote": "Strike the first rune upon the engine's casing employing the chosen wrench. Its tip should be anointed with the oil of engineering using the proper incantation when the auspices are correct. Strike the second rune upon the engine's casing employing the arc-tip of the power-driver. If the second rune is not good, a third rune may be struck in like manner to the first. This is done according to the true ritual laid down by Scotti the Enginseer. A libation should be offered. If this sequence is properly observed the engines may be brought to full activation by depressing the large panel marked \"ON\".",
+	  "author": "Runic Spaceflight - An Introduction; Naval Flight Manual W110E",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 98"
+	},
+	{
+	  "quote": "The loose tongues of our soldiers are as guns in the hands of our enemies.",
+	  "author": "Saturnine Verses 81.4",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Prayer has power, but I cannot deny fire does, too.",
+	  "author": "Sayings of Archmagos Cortiko Verse 58",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Such sweet music is the chatter of binary, that has no tongue to lie.",
+	  "author": "Sayings of the Archmagi Appendix 4",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "When thou desirest to discourse purely, use binary.",
+	  "author": "Sayings of the Princeps 65.4",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Wary of those that wonder.",
+	  "author": "Scripture of the Taloned Cog v.09 p.3",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Sometimes the weak limb must be amputated before the whole body withers.",
+	  "author": "Selucian Aphorisms Verse 539",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "One can verge from the standard form, but one must always retain their humanity, or be lost to the Men of Iron and their ways.",
+	  "author": "Text of the Oiled Cog v.12",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "When uttering the incantation, mark well that the rod is upon and not within the intake. The second incantation should not be uttered until all the fumes have come forth, then the way shall be clear for the sacred words to penetrate unto the heart of the engine. If the mounting be hot say the third rune, if it be cold the fourth rune is more appropriate. For then the wrath of the engine will be aroused...",
+	  "author": "The Book of Five Runes",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 131"
+	},
+	{
+	  "quote": "An opportunity wasted is a sin preserved.",
+	  "author": "The Life of Fabricator General Heuristicus VII",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "When the enemy offers open battle, take it, and make it his final mistake.",
+	  "author": "The Life of Uriah Jacobus 8.31",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The soul of the Machine God surrounds thee.\nThe power of the Machine God invests thee.\nThe hate of the Machine God drives thee.\nThe Machine God endows thee with life.\nLive!",
+	  "author": "The Litany of Ignition",
+	  "bookSource": "White Dwarf 67 (2015), pg. 27"
+	},
+	{
+	  "quote": "Even In Death, Our Duty Is Not Complete.",
+	  "author": "The Lives of the Logic-Saints Psalm 61",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "What the enemy built, let it be made asunder, for to us it will be as a house of sand and knives.",
+	  "author": "Themiscyran Manuscripts Verse 619",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The broken in body can blame the bullet or the sword, but the broken in mind have all creation to curse.",
+	  "author": "Verses Fulminatus 59.31",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The only logical response to the presence of the xenos, is hatred.",
+	  "author": "Verses Macrologica 17.4",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "To every problem, a solution lies in the application of tech-lore.",
+	  "author": "Ferrarch Asklepian",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "By acuteness of mind shall we find victory.	",
+	  "author": "Fabricator-General Explicatus",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The universe is not like a puzzle-box that you can take apart and put back together again and so solve its secrets. It is a shifting uncertain thing which changes as you consider it, which is changed by the very act of observation. A powerful man is not a man who dissects the universe like a puzzle-box, examining it piece by piece and measuring each piece with scientific precision. A powerful man has only to look upon the universe to change it.",
+	  "author": "Technomagos Gaelos",
+	  "bookSource": "Codex Imperialis (Background Book), pg. 44"
+	},
+	{
+	  "quote": "The weak in mind will seek to understand the xenos. The strong in mind will destroy them, and bless their ignorance.",
+	  "author": "Binary Hierarch Gethsemorr",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Hark not the alien's words, lest ye unknowingly repeat them.",
+	  "author": "Archmagos Veneratus Haelon",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Let the stench of corruption be swept aside by the sweet winds of faith.",
+	  "author": "Archmagos Veneratus Hieraticus",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The best way of improving a gun is to improve its ammunition.",
+	  "author": "Hieronymus, High Magos and Arch-heretic of Artemia Majoris (was terminated on request of Fabricator-General)",
+	  "bookSource": "Imperial Armour Volume One - Imperial Guard and Imperial Navy, pg. 204"
+	},
+	{
+	  "quote": "Through the application of knowledge can great destruction arise…",
+	  "author": "Fabricator-General Isotor",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "All shall be darkness, all shall be madness, for everything will be known and nothing forbidden.",
+	  "author": "Fabricator-General Jaegaron",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Our enemies may rest but rust never sleeps.",
+	  "author": "Tech-Priest Jung, Forge World Gehenna",
+	  "bookSource": "Imperial Armour - Imperial Vehicles for Warhammer 40,000, pg. 59"
+	},
+	{
+	  "quote": "You may say, it is impossible for a man to become like the Machine. And I would reply, that only the smallest mind strives to comprehend its limits.",
+	  "author": "Fabricator General Kane",
+	  "bookSource": "Dark Adeptus (Novel), ch. Two, pg. 19"
+	},
+	{
+	  "quote": "There's no turning back... Triumph or oblivion.",
+	  "author": "The spirit of Ramus Macabee speaking to Ervin Hekate",
+	  "bookSource": "Titan: God-Machine (Graphic Novel) , ca. pg. 16"
+	},
+	{
+	  "quote": "The foe of reason builds monuments to his madness, and reveals himself thereby.",
+	  "author": "Malcador",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "A man may die yet still endure if his work enters the greater work. Time is carried upon a current incepted by forgotten deeds. Events of great moment are but the culmination of a single carefully placed thought. As all men must thank progenitors obscured by the past so we must endure the present that those who come after may continue the greater work.",
+	  "author": "Garba Mojaro, Prefectus of Adeptus Mechanicus",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg.143"
+	},
+	{
+	  "quote": "Take care with that! We have not fully ascertained its function, and the ticking is accelerating.",
+	  "author": "Technographer Adar Millez",
+	  "bookSource": "Dark Heresy: The Lathe Worlds, pg. 69"
+	},
+	{
+	  "quote": "Less exalted minds might waver to learn the secrets of the xenos. But we are stronger. We are better.",
+	  "author": "Archmagos Nerovian",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The eyes of the Omnissiah are ever upon us.",
+	  "author": "Fabricator-General Plutonis",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "The supporting fire of one's brethren is always a comfort. Provided it doesn't hit oneself.",
+	  "author": "Grand Master Thordun Ranxey, Death Bolts",
+	  "bookSource": "Adeptus Titanicus (game) rulebook, pg. 28"
+	},
+	{
+	  "quote": "To perceive the grander picture, to strive to acquire and understand for the benefit of all mankind.",
+	  "author": "Tech-Acquisitor Scaevola, Statement of Purpose",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Obey the Standard Model, or obey the laws of death.",
+	  "author": "Fabricator-General Sin-Cosinius",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "For the alien, nothing.",
+	  "author": "Legio Victorum Motto",
+	  "bookSource": "Third War For Armageddon - Imperial Forces: The Legio Victorum (archived page, last accessed via Wayback Machine 13 December 2022)"
+	},
+	{
+	  "quote": "The Omnissiah directs our footsteps along the path of knowledge.",
+	  "author": "Techpriest Yaffel",
+	  "bookSource": "The Emperor's Finest (Novel), ch. 8, pg. 118"
+	},
+	{
+	  "quote": "It is my great regret that we live in an age that is proud of machines that think and suspicious of people who try to.",
+	  "author": "Adept Koriel Zeth, Forge Mistress",
+	  "bookSource": "Mechanicum (Novel), ch. 1.07, pg. 139"
+	},
+	{
+	  "quote": "Know thy Enemy, to Know Thyself: In each society there is a classification that is mirrored in another society…",
+	  "author": "Magos Tech-Auxilium Prime",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Blessed is the mind too small for doubt.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Look not upon the alien, for the alien looks back.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Blessed is the ignorance that wise men choose for themselves.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Deny the enemy his works and means, then deny to him his life.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Fury has its uses.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Let knowledge serve only man, and let that which does not remain in darkness.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Behold thou corruption, and unthinking, end it.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000: Mechanicus"
+	},
+	{
+	  "quote": "Blessed be the coruscating plasma of the engine room, Spiritus Machina protect us from thy burning doom. Harness unto our will the power of light, Let conduit and coil work alright.",
+	  "author": "Catechism of the Engin-near",
+	  "bookSource": "Battlefleet Gothic Rulebook, pg. 16"
+	},
+	{
+	  "quote": "There is nothing better that a man can do than lay down his life in the service of the Emperor.",
+	  "author": "Inscription at the top of the Gothic Monolith in the Chamber of Heroes",
+	  "bookSource": "Battlefleet Gothic Rulebook, pg. 9"
+	},
+	{
+	  "quote": "You are expected at all times and in all situations to conduct yourself in a manner appropriate to, and mindful of, the great duties and traditions of the Emperor's Most Glorious and Honourable Navy.",
+	  "author": "Opening line of the Imperial Navy Articles of War",
+	  "bookSource": "Battlefleet Gothic Rulebook, pg. 5"
+	},
+	{
+	  "quote": "His great art was to be in the right place at the right time - others were not so cunning.",
+	  "author": "Compel Bast, Captain",
+	  "bookSource": "Battlefleet Gothic Rulebook, pg. 17"
+	},
+	{
+	  "quote": "This is Fury Squadron commencing fly-over, don’t worry Colonel, we’ve got you covered",
+	  "author": "Bayde, Lieutenant of the 104th 'Fury' Thunderbolt Squadron",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card Interdicition - Minor Stratagem\", (saved archive page, dated February 2011, last accessed 6 October 2015)"
+	},
+	{
+	  "quote": "The whole principle of naval fighting is to be free to go anywhere with every damned thing the Navy possesses.",
+	  "author": "Grenfeld, Captain of the Hammer of Justice",
+	  "bookSource": "Battlefleet Gothic Rulebook, pg. 7"
+	},
+	{
+	  "quote": "He who seizes the moment, he is the right man.",
+	  "author": "Hawke, Fleet-Admiral",
+	  "bookSource": "Battlefleet Gothic Rulebook, pg. 11"
+	},
+	{
+	  "quote": "A magnificent ship no doubt, but I would rather have a crew who knew their airlaps from their transons.",
+	  "author": "Rath, Admiral",
+	  "bookSource": "Battlefleet Gothic Rulebook, pg. 10"
+	},
+	{
+	  "quote": "The Emperor is master of the galaxy, but the captain is master of his ship.",
+	  "author": "",
+	  "bookSource": "Battlefleet Gothic Rulebook, pg. 10"
+	},
+	{
+	  "quote": "You have committed the ultimate heresy. Not only have you turned your back on the Emperor and stepped from his light, you have profaned his name and almost destroyed everything he has striven to build. You have perverted and twisted the path he has laid for Mankind to tread. As your decrees have stated, there can be no mercy for such a crime, no pity for such a criminal. I renounce your lordship, you walk in the darkness and cannot be allowed to live. Your sentence has been long overdue and it is now time for you to die.",
+	  "author": "Alicia Dominica to High Lord Goge Vandire",
+	  "bookSource": "Codex: Witch Hunters (3rd Edition), pg. 4"
+	},
+	{
+	  "quote": "Many claim they wish to destroy their enemies. If this were true, most would be compelled to destroy themselves.",
+	  "author": "Abbess Helena the Virtuous",
+	  "bookSource": "Dark Adeptus (Novel), ch. Four, pg. 47"
+	},
+	{
+	  "quote": "By bolter shell, flamer burst and melta blast, the mutant, the heretic and the traitor alike are cleansed of their sin of existence. So has it been for five millennia, so shall it be unto the end of time.",
+	  "author": "Sister Immaculata",
+	  "bookSource": "Dark Heresy: Blood of Martyrs, pg. 23"
+	},
+	{
+	  "quote": "Heretics crave the cleansing fire of absolution. They need not fear, for we shall deliver it to them.",
+	  "author": "Canoness Josmane, Order of the Sacred Rose",
+	  "bookSource": "White Dwarf 379 (US), pg. 93"
+	},
+	{
+	  "quote": "Once, a Novice Cantus came to me, troubled and uncertain. A slip of a girl, only a few strides down the eternal path leading her to the Golden Throne. She asked me a question. She asked me how we can ever truly understand what faith is. I told her that there is no coin to measure what we feel in our hearts. There are no scales upon which we might weigh the faith of one woman against another. There is only duty and blood. There are only deeds and words. There is only the service to the God-Emperor, and the price that demands from each Sister can only be known by Him. But know that whatever fears must be faced, whatever hardships endured, that price is forever worth its full cost.",
+	  "author": "Sister Katherine Elysius, Daughter of the Emperor (later canonised as Saint Katherine)",
+	  "bookSource": "Hammer and Anvil (Novel), Epilogue, pgs. 405-406"
+	},
+	{
+	  "quote": "You have aided and abetted in the murder of a Sororitas, colluded in the escape of a terrorist witch. You belong to the Sisters of Battle for us to persecute as we see fit. You have no rights, no voice, and no recourse. All that remains to be decided is how you will perish.",
+	  "author": "Sister Celestian Miriya of the Order of Our Martyred Lady",
+	  "bookSource": "Faith and Fire (Novel), ch. Three, pg. 69"
+	},
+	{
+	  "quote": "Sisters, let us raise our song to the Golden Throne! 11th Movement, 'We Bless the Sinner as He Burns'. All Exorcists target heretic Warhound 17 by 12, commence Adagio and engage!",
+	  "author": "Emillia Nihlus",
+	  "bookSource": "Imperial Armour Volume Two (Second Edition), pg. 233"
+	},
+	{
+	  "quote": "We are beset by many terrible foes in these dark times, but we walk in the light of the Emperor, and we shall not let a single foe stay us from our duty. We are the Sisters of the great Ecclesiarchy, and we will fight to the bitter end.",
+	  "author": "Canoness Palmiro, Order of the Ebon Chalice",
+	  "bookSource": "White Dwarf 380 (US), pg. 90"
+	},
+	{
+	  "quote": "She was an angel, pure as righteous destruction. She laid low the twisted and lifted the hearts of the righteous. At her passing, a million voices cried out her name. Shall we ever again see her like? No, not now, nor ever again...",
+	  "author": "Sister Patricia of the Order Famulous",
+	  "bookSource": "Codex: Witch Hunters (3rd Edition), pg. 47"
+	},
+	{
+	  "quote": "These heretics refute the Emperor's holy right to rule. Let them argue with the barrel of a gun.",
+	  "author": "Canoness Sabine, Order of Our Martyred Lady",
+	  "bookSource": "White Dwarf 380 (US), pg. 85"
+	},
+	{
+	  "quote": "The absence of faith is the mark of the weak.\nThe absence of faith is the mark of the heretic.\nThe absence of faith is the mark of damnation.",
+	  "author": "Ephrael Stern",
+	  "bookSource": "Daemonifuge, Book Two, frontispiece"
+	},
+	{
+	  "quote": "In any army balance is the key to success. A commander who puts his faith in heavy weaponry alone will be outmanoeuvred. A commander who relies on close combat without support will lose his force to enemy fire. Each element must work in harmony, so that the effectiveness of the army is greater than the sum of its parts.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 2nd Edition Rulebook, pg. 9"
+	},
+	{
+	  "quote": "Do not strike until you are ready to crush the enemy utterly, and then attack without mercy, destroy every vestige of resistance, leave no-one to work against you.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 2nd Edition Rulebook, pg. 35"
+	},
+	{
+	  "quote": "A good general does not lead an army to destruction just because he knows it will follow.",
+	  "author": "",
+	  "bookSource": "Codex: Imperial Guard (3rd Edition, 2nd Codex), pg. 4"
+	},
+	{
+	  "quote": "Identify your target. Concentrate your fire on it to the exclusion of all else. When it is destroyed choose another target. That is the way to secure victory!",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 2nd Edition Rulebook, pg. 31"
+	},
+	{
+	  "quote": "Always endeavour to fight the enemy on your terms. If you are powerful at close quarters then engage in dense terrain where your advantage will prove greatest. If you are superior at long range then fight the battle at a distance. If you have greater numbers then attack along an extended front. Use reserves to break through when the enemy's overstretched lines collapse. If outnumbered then concentrate your forces so that the enemy can fight only your best troops. No-one ever won a battle who failed to take advantage of his enemy's weakness.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 2nd Edition Rulebook, pg. 65"
+	},
+	{
+	  "quote": "An open battlefield is nothing but a death trap - in war any visible target is a casualty no matter how well protected it may be.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 2nd Edition Rulebook, pg. 15"
+	},
+	{
+	  "quote": "A commander must have the courage to see his plan through, for good or ill. Wars are won or lost when the battle lines are drawn.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 2nd Edition Rulebook, pg. 21"
+	},
+	{
+	  "quote": "If you are strong feign weakness. If weak, pretend strength. Whatever your position, conceal it from the enemy, and he will waste his armies fighting his own phantoms.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 2nd Edition Rulebook, pg. 76"
+	},
+	{
+	  "quote": "If the enemy comes on in a great horde, as Orks are wont to do, then try to direct them into a narrow defile or enclosed space, such that their numbers work against them. Crowded together those at the front will impede those behind, whilst the push from the rear will prevent those at the front from retreating or finding a better path.",
+	  "author": "",
+	  "bookSource": "Codex: Imperial Guard (3rd Edition, 2nd Codex), pg. 47"
+	},
+	{
+	  "quote": "Attack the enemy where he is weakest. Where he is strong draw him on until he is trapped. Where he is unsure strike quickly and scatter his forces.",
+	  "author": "",
+	  "bookSource": "Codex Army Lists, pg. 6"
+	},
+	{
+	  "quote": "The only justifiable risk is one that can do more harm to the enemy than it can to you. All risks must be calculated in your favour. Otherwise you are fighting for the enemy!",
+	  "author": "",
+	  "bookSource": "Codex Army Lists, pg. 4"
+	},
+	{
+	  "quote": "The meaning of victory is not the defeat of your enemy but his utter destruction, to eradicate him from living memory, leaving no remnant of his endeavours, crushing utterly his every achievement and removing from all record his every trace of existence. From that defeat no enemy can ever recover. That is the true meaning of victory.",
+	  "author": "",
+	  "bookSource": "Codex: Imperial Guard (2nd Edition), pg. 68"
+	},
+	{
+	  "quote": "A warrior's faith in his commander is his best armour and his strongest weapon.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 2nd Edition Rulebook, pg. 40"
+	},
+	{
+	  "quote": "At battle's end, speak the Liturgy in a clear voice. Respect the bravery of the living. Give the Rite of Passage to the fallen. Honour the battle gear of the dead. To do all this with reverence, even when exhausted by battle and weary from the field, is the duty of a Chaplain. It is his burden and satisfaction.",
+	  "author": "Adeptus Astartes, The Book of Faith",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 25"
+	},
+	{
+	  "quote": "Do not fail your Brothers. Though their bodies die, their spirit must return to the Chapter. That is your charge.",
+	  "author": "Medic Credo",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 28"
+	},
+	{
+	  "quote": "The Space Wolves revere the Emperor as the greatest warrior of all time, the only being to have ever bested Leman Russ in hand-to-hand combat. When Space Wolves call upon Russ or the Emperor in battle, it is to witness the deeds of men and to judge the fallen.",
+	  "author": "Meditations upon the Fang",
+	  "bookSource": "Codex: Space Wolves (5th Edition), pg. 27"
+	},
+	{
+	  "quote": "There is only the Emperor, and he is our Shield and Protector.",
+	  "author": "Statement of fact, Second Book of Chantings",
+	  "bookSource": "Warhammer 40,000 Chapter Approved - The Book of the Astronomican, pg. 78"
+	},
+	{
+	  "quote": "Nothing survives its touch, nothing escapes its grasp. It is a weapon of unspeakable power and unmatched devastation – a horror from a bygone age.",
+	  "author": "Abrahim Kobal, Techmarine of the Salamanders",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card \"Vortex Grenade - Minor Stratagem\", (saved archive page, dated February 2011, last accessed 5 October 2015)"
+	},
+	{
+	  "quote": "Blessed is the mind too small for doubt.",
+	  "author": "Librarian Isador Akios of the Blood Ravens",
+	  "bookSource": "Warhammer 40,000: Dawn of War"
+	},
+	{
+	  "quote": "Through the destruction of our enemies do we earn our salvation!",
+	  "author": "Librarian Isador Akios of the Blood Ravens",
+	  "bookSource": "Warhammer 40,000: Dawn of War"
+	},
+	{
+	  "quote": "We do not know what our chances of survival are, so we fight as if they were zero. We do not know what we are facing, so we fight as if it was the dark gods themselves. No one will remember us now and we may never be buried beneath Titan, so we will build our own memorial here. The Chapter might lose us and the Imperium might never know we existed, but the Enemy - the Enemy will know. The Enemy will remember. We will hurt it so badly that it will never forget us until the stars burn out and the Emperor vanquishes it at the end of time. When Chaos is dying, its last thought will be of us. That is our memorial - carved into the heart of Chaos. We cannot lose, Grey Knights. We have already won.",
+	  "author": "Justicar Alaric of the Grey Knights",
+	  "bookSource": "Grey Knights (Novel), ch. Twenty"
+	},
+	{
+	  "quote": "You had to use the whole Trail. Saint Evisser, the cardinals, every single citizen, you had to move them all into position to beat us. Remember that. You put your plan in motion before the Trail even existed, because you knew it would take nothing less. We made you work, daemon. You feared us so much you had to move star systems to make us dance to your tune.",
+	  "author": "Justicar Alaric of the Grey Knights",
+	  "bookSource": "Grey Knights (Novel), ch. Twenty"
+	},
+	{
+	  "quote": "At Lastrati we gathered every Whirlwind in the Crusade and massed them at the gates of Sogoth. At my order, the entire formation opened fire and the night sky blazed as bright as day. Moments later the city was aflame,its defences shattered and its defenders broken. Inly then did Iorder the Assault squads to attack, and then the battle was truly joined.",
+	  "author": "Ancient Tahncred",
+	  "bookSource": "Imperial Armour Volume Two - Second Edition: War Machines of the Adeptus Astartes, pg. 82"
+	},
+	{
+	  "quote": "The lives of millions, and the honour of our Chapter, hang in the balance brothers. Failure is not an option.",
+	  "author": "Androcles, Captain of the Star Phantoms",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card Vital Mission - Minor Stratagem\", (saved archive page, dated February 2011, last accessed 6 October 2015)"
+	},
+	{
+	  "quote": "While the enemies of the Emperor still draw breath, there can be no peace.",
+	  "author": "Captain Gabriel Angelos, Blood Ravens",
+	  "bookSource": "Warhammer 40,000: Dawn of War"
+	},
+	{
+	  "quote": "If your life is given in service to the Emperor, your death shall not be in vain.",
+	  "author": "Chaplain Hauis Argento, Crimson Fists 2nd Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 58"
+	},
+	{
+	  "quote": "Victory does not always rest with the big guns: but, if we rest in front of them we shall be lost.",
+	  "author": "Commander Argentius, Silver Skulls",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 79"
+	},
+	{
+	  "quote": "Here we stand and here shall we die, unbroken and unbowed, though the very hand of death itself come for us, we will spit our defiance to the end!",
+	  "author": "Chaplain-Dreadnought Armand Titus, Howling Griffons",
+	  "bookSource": "Imperial Armour Volume Nine - The Badab War - Part One, pg. 124"
+	},
+	{
+	  "quote": "Street by street and block by block we’ll sweep them out. There are snipers on the rooftops and the underpass is heavily mined. It’s going to be dangerous, it’s going to be fun.",
+	  "author": "Arn Ironjaw, Wolf Guard",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card \"Cityfight - Major Stratagem\", (saved archive page, dated February 2011, last accessed 7 October 2015)"
+	},
+	{
+	  "quote": "Victory often rests on the correct weaponry being in the right place and at the right time. Even the most destructive weapons of war are worthless if absent from the battle.",
+	  "author": "Artor Amhrad, Chapter Master of the Astral Knights (deceased)",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 74"
+	},
+	{
+	  "quote": "Treat them with honour, my Brothers. Not because they will bring us victory this day, but because their fate will one day be ours.",
+	  "author": "High Chaplain Astorath of the Blood Angels",
+	  "bookSource": "Codex: Blood Angels (5th Edition), pg. 44"
+	},
+	{
+	  "quote": "Come you aliens, show me what passes for fury amongst your misbegotten kind!",
+	  "author": "Blood Ravens Devastator Sergeant Avitus",
+	  "bookSource": "Dawn of War 2"
+	},
+	{
+	  "quote": "We are the Emperor's angels of death, not his angels of mercy.",
+	  "author": "Blood Ravens Devastator Sergeant Avitus",
+	  "bookSource": "Dawn of War 2"
+	},
+	{
+	  "quote": "Don't fool yourselves. War is all we are! Killing is all we are good for! The rest is delusion.",
+	  "author": "Blood Ravens Devastator Sergeant Avitus",
+	  "bookSource": "Dawn of War 2"
+	},
+	{
+	  "quote": "We are weapons. There is the Emperor, and there is war. Nothing more.",
+	  "author": "Blood Ravens Devastator Sergeant Avitus",
+	  "bookSource": "Dawn of War 2"
+	},
+	{
+	  "quote": "Offer the incantation of activation, speak forth the litany of retribution and deliver unto the enemy the wrath of the Omnissiah.",
+	  "author": "Barabel, Praetors of Orpheus Techmarine",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card Special Ammunition - Minor Stratagem\", (saved archive page, dated February 2011, last accessed 6 October 2015)"
+	},
+	{
+	  "quote": "Fenris breeds heroes like a bar breeds drunks - loud, proud and spoiling for a fight.",
+	  "author": "Grand Master Belial of the Dark Angels",
+	  "bookSource": "Codex: Space Wolves (5th Edition), pg. 21"
+	},
+	{
+	  "quote": "I was on Prospero, brothers. I was there when we burned their heresy from the galaxy. I saw Leman Russ lay waste to their cherished places. I saw Traitors weep from corrupted eyes as we turned their pyramids of glass into barren wasteland. That will not happen here. They were made weak by the knowledge of their treachery. We are made strong by the knowledge of our fidelity. Where Tizca fell, the Aett will stand. Though it may cost the lives of us all, the Aett will stand.",
+	  "author": "Bjorn the Fell-Handed, Venerable Dreadnought of the Space Wolves",
+	  "bookSource": "Battle of the Fang (Novel), ch. Fourteen, pg. 304"
+	},
+	{
+	  "quote": "God-Emperor? Calling him a god was how all this mess started.",
+	  "author": "Bjorn the Fell-Handed, Venerable Dreadnought of the Space Wolves",
+	  "bookSource": "The Emperor's Gift (Novel), ch. Twenty-Five, pg. 290"
+	},
+	{
+	  "quote": "We may be few, and our enemies many. Yet so long as there remains one of us still fighting, one who still rages in the name of justice and truth, then by the Allfather, the galaxy shall yet know hope.",
+	  "author": "Ragnar Blackmane, Wolf Lord of the Space Wolves",
+	  "bookSource": "Codex: Space Wolves (5th Edition), pg. 95"
+	},
+	{
+	  "quote": "An open mind is like a fortress with its gates unbarred and unguarded.",
+	  "author": "Blood Ravens Librarian saying",
+	  "bookSource": "Dawn of War"
+	},
+	{
+	  "quote": "Show me a fortress and I'll show you a ruin.",
+	  "author": "Captain Eddan Bourne, Silver Skulls No. 2 Assault Company",
+	  "bookSource": "Warhammer Siege, pg. 105"
+	},
+	{
+	  "quote": "We pray for our brethren who pilot the Dreadnoughts. Though they take new form, their souls, and their weapon mounts, remain pure.",
+	  "author": "Marneus Calgar, Chapter Master of the Ultramarines",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 59"
+	},
+	{
+	  "quote": "Know this, son of Guilliman. The father of our Chapter watches over us always. He knows your soul, your strengths and, aye, even your fears. I share your pain at the loss of Brother-Captain Idaeus, but to dishonour his name with grief is wrong. He gave his life so that his battle-brothers would live and the enemies of the Emperor would be defeated. A warrior can ask for no better death than that. Captain Idaeus was the senior officer, and you were duty bound to follow his orders when they were given. The chain of command must not be broken or we are nothing. Discipline and order are everything on the battlefield and the army that lives by that credo will always triumph.",
+	  "author": "Marneus Calgar, Chapter Master of the Ultramarines",
+	  "bookSource": "Nightbringer (Novel) - Ultramarines: The Omnibus, ch. 2, pg. 47"
+	},
+	{
+	  "quote": "We follow in the footsteps of Guilliman. As it is written in the Codex, so shall it be.",
+	  "author": "Marneus Calgar, Chapter Master of the Ultramarines",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 16"
+	},
+	{
+	  "quote": "You all heard Varro's words. The daemon is vulnerable, exposed, and we have one chance to end this. Right here and right now, the fate of Ultramar is in our hands. You are the best and bravest of your Chapter, and though we may die in these mountains, we will die in service to something greater than blood, something greater than land. We fight for what we know is right. I will lead you in that fight, and all I ask is that you fight like the heroes you are!",
+	  "author": "Marneus Calgar, Chapter Master of the Ultramarines",
+	  "bookSource": "The Chapter's Due (Novel), ch. 23, pg. 307"
+	},
+	{
+	  "quote": "For Ultramar! CHARGE!",
+	  "author": "Marneus Calgar, Chapter Master of the Ultramarines",
+	  "bookSource": "The Chapter's Due (Novel), ch. 23, pg. 308"
+	},
+	{
+	  "quote": "Everything has a purpose, Proteus. So the Emperor ordains.",
+	  "author": "Chaplain Carnak, Imperial Fists 3rd Company",
+	  "bookSource": "Ultramarines - A Warhammer 40,000 Movie"
+	},
+	{
+	  "quote": "The blasphemy of the Tyranids is such that only one solution is acceptable. Extermination. There can only be two sides in a fight - choose carefully, lest you and I find ourselves on different sides.",
+	  "author": "Chaplain Ortan Cassius, Ultramarines Master of Sanctity",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 87"
+	},
+	{
+	  "quote": "We give hope. Ever has it been that the Space Marines are too few to conquer every threat. Yet the truth of our existence and the hope of our intervention steels the hearts of lesser warriors and lends strength to their conviction. They hold out against impossible odds and offer up prayers to the Emperor that the Angels of Death will come. They fight harder, knowing that if they do so we might intervene. Mankind believes our Emperor to be a god, and that is both foolish and blind. Yet they also believe the Adeptus Astartes to be the instrument of His will, and that is not so ignorant. I cannot say whether the Emperor answers prayers thrown up in desperation, but I do know that the Ultramarines reply to calls for aid if it is possible. To not answer that cry for help threatens to shatter something far more precious than ore worlds and hive factories: faith in the Space Marines.",
+	  "author": "Chaplain Ortan Cassius, Ultramarines Master of Sanctity",
+	  "bookSource": "Catechism of Hate (Novella), ch. One"
+	},
+	{
+	  "quote": "We must scour them from the stars before they do same to us.",
+	  "author": "Chaplain Ortan Cassius, Ultramarines Master of Sanctity",
+	  "bookSource": "Consumption, #039 card of the \"The Great Devourer\", expansion to Conquest Card Game, Fantasy Flight Games (last accessed 11 July 2015)"
+	},
+	{
+	  "quote": "The roar of engines, the recoil of cannons. That is where the true joy of battle lies.",
+	  "author": "Sergeant Antaro Chronus, Ultramarines",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 89"
+	},
+	{
+	  "quote": "Let them hide in their fortress. My crew can use the target practice.",
+	  "author": "Sergeant Antaro Chronus, Ultramarines",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 80"
+	},
+	{
+	  "quote": "What is the terror of death? That we die with our work incomplete. What is the joy of life? To die knowing our task is done. I stand alongside warriors of honour, and the warrior who acts out of honour cannot fail. His duty is honour itself. Even a warrior's death--if it is honourable--is a reward and can be no failure, for it has come through duty. Seek honour as you act, and you will know no fear. A fortress is a living thing: the commander its brain, the walls its bones, the sensors its eyes and ears, the troops its blood, their weapons its fists. If one organ fails, the whole dies. And if the whole dies, no single organ can survive alone. And above all, remember this... for a warrior the only crime is cowardice.",
+	  "author": "Chaplain Judd Clausel, Ultramarines 4th Company",
+	  "bookSource": "Defenders of Ultramar (Graphic Novel), ch. 4"
+	},
+	{
+	  "quote": "I haven't lost an arm, brother. It's right over there.",
+	  "author": "Captain Alessio Cortez, Crimson Fists",
+	  "bookSource": "Rynn's World (Novel), Part Three, ch. 8"
+	},
+	{
+	  "quote": "As I bear the colours of my Chapter boldly, so too do these glorious machines. Their flankes caryy our Livery with pride and the scream of their jets proclaims the coming for all our foes to hear.",
+	  "author": "Carab Culln of the Red Scorpions",
+	  "bookSource": "Imperial Armour Volume Two - Second Edition: War Machines of the Adeptus Astartes, pg. 120"
+	},
+	{
+	  "quote": "If my Marines are ordered to serve alongside these tainted half-animals, they shall do so. But upon their return they shall be quarantined and purified by every means in our Apothecarion.",
+	  "author": "Carab Culln of the Red Scorpions",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 52"
+	},
+	{
+	  "quote": "They are an effective force in their way, and I do not doubt the Emperor's wisdom in allowing tainted subhuman filth to serve Him. But my men shall not be exposed to the corruption of these beasts.",
+	  "author": "Carab Culln of the Red Scorpions",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 150"
+	},
+	{
+	  "quote": "Camouflage is the colour of fear... I have no need to hide from my foes... I have no fear of death. My colours I wear openly, they proclaim louder than any words, \"I am proud to live - I am proud to die\"",
+	  "author": "Carab Culln of the Red Scorpions",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 84"
+	},
+	{
+	  "quote": "The ethics of booklearning and scholarship I leave to the savants. But for what it's worth, I would have burned it without a second thought.",
+	  "author": "Brother-Captain Cynewolf of the Deathwatch",
+	  "bookSource": "Xenos (Novel), ch. Twenty-One"
+	},
+	{
+	  "quote": "Shields are holding, power at 44%. Let them spend their impotent wrath.",
+	  "author": "Dac'tyr, Captain of the Salamanders 4th Company",
+	  "bookSource": "Strategy Cards for Planetary Empires expansion game, card Energy Field - Minor Stratagem\", (saved archive page, dated February 2011, last accessed 6 October 2015)"
+	},
+	{
+	  "quote": "Bountiful fate has presented us with the means by which we might repair those wounds upon our souls caused by the weakness of centuries past. It is not only our duty but our right to face the darkness again; to stare into the abyss of the unknown. This time we shall be the cleansing light in the shadow, the burning beacon of righteous war. Restore the honour of the shamed fallen through the death of your foes!",
+	  "author": "Dante, Commander of the Blood Angels",
+	  "bookSource": "White Dwarf September 2016, Space Hulk - Ductways"
+	},
+	{
+	  "quote": "For eleven hundred years, I have fought and I have seen the darkness in our galaxy. I have seen the vileness of the alien and the heresy of the mutant. I have witnessed the sin of possession. I have seen all the evil that the galaxy harbours, and I have slain all whose presence defiles the Emperor. I have seen what you will see. I have fought what you must fight, and I have slain what you must slay... so fear not and be proud, for we are the sons of Sanguinius, the protectors of Mankind. Aye, we are indeed the Angels of Death.",
+	  "author": "Dante, Commander of the Blood Angels",
+	  "bookSource": "Codex: Blood Angels (4th Edition), pg. 6"
+	},
+	{
+	  "quote": "Let the aspirant's first lesson be obedience, for foolishness is bound to his heart. But the Chapter's discipline and the will of the Chaplain shall drive it from him.",
+	  "author": "Reclusiarch Develain of the Black Templars",
+	  "bookSource": "White Dwarf 313 (UK), pg. 77"
+	},
+	{
+	  "quote": "We go where we wilt. We slay who we wilt. Let the Emperor judge the righteousness of our deeds.",
+	  "author": "Sergeant D'Kestrel, Raven Guard 1st Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 62"
+	},
+	{
+	  "quote": "Give me a hundred Space Marines. Or failing that give me a thousand other troops.",
+	  "author": "Rogal Dorn, Primarch of the Imperial Fists",
+	  "bookSource": "Codex: Space Marines (4th Edition), pg. 2 - Introduction"
+	},
+	{
+	  "quote": "The Emperor has no like, Loken. There are no gods in this hollow universe to keep him company. So he made us, demi-gods, to stand beside him. I have never quite come to terms with my status. Does that surprise you? I see what I am capable of, and what is expected of me, and I shudder. The mere fact of me frightens me sometimes.",
+	  "author": "Rogal Dorn, Primarch of the Imperial Fists",
+	  "bookSource": "Horus Rising (Novel), Part One, ch. 6, pg. 134"
+	},
+	{
+	  "quote": "Don't be insulted, but there is something very human about you, Loken, for an Astartes.",
+	  "author": "Rogal Dorn, Primarch of the Imperial Fists",
+	  "bookSource": "Horus Rising (Novel), Part One, ch. 6, pg. 136"
+	},
+	{
+	  "quote": "If there is nobility remaining within Konrad's Legion, then it is hidden deeply beneath too many layers of twisted lusts, deviance, and disobedience. Their ways are foolish, ill-considered and a hindrance to the orderly flow of controlled war. The time is coming when the Night Lords must answer for their behaviour and be brought back into the doctrine of Imperial warfare, lest we lose them to their own deviant hungers.",
+	  "author": "Rogal Dorn, Primarch of the Imperial Fists",
+	  "bookSource": "Soul Hunter (Novel), Part One, ch. 6, pg. 123"
+	},
+	{
+	  "quote": "There is no enemy. The foe on the battlefield is merely the manifestation of that which we must overcome. He is doubt, and fear, and despair. Every battle is fought within. Conquer the battlefield that lies inside you, and the enemy disappears like the illusion he is.",
+	  "author": "Rogal Dorn, Primarch of the Imperial Fists",
+	  "bookSource": "Seventh Retribution (Novel), K-Day + 11 Days, pg. 158"
+	},
+	{
+	  "quote": "They shall be my finest warriors, these men who give of themselves to me. Like clay I shall mould them, and in the furnace of war forge them. They will be of iron will and steely muscle. In great armour shall I clad them and with the mightiest guns will they be armed. They will be untouched by plague or disease, no sickness will blight them. They will have tactics, strategies and machines so that no foe can best them in battle. They are my bulwark against the Terror. They are the Defenders of Humanity. They are my Space Marines and they shall know no fear.",
+	  "author": "The Emperor of Mankind",
+	  "bookSource": "The Horus Heresy Book One - Betrayal, pg. 26"
+	},
+	{
+	  "quote": "You may cleave to your courage but that will fail you, look to your weapons but you will find them not enough. Run, fight, hide, pray, cry out or cover - it does not matter, for we are come.",
+	  "author": "Fafnir Rann, Captain of the Imperial Fists Legion and founder of the Executioners Space Marine Chapter",
+	  "bookSource": "Imperial Armour Volume Ten - The Badab War - Part Two, pg. 84"
+	},
+	{
+	  "quote": "We face greenskin invasion rimward, Eldar raiding coreward, rebellion trailing and the tendrils of a Hive Fleet incoming spinward. Situation excellent, attacking on all fronts...",
+	  "author": "Captain Ferdina, Lord of the Marches of the Tigers Argent",
+	  "bookSource": "Deathwatch: Rites of Battle, pg. 36"
+	},
+	{
+	  "quote": "Kinsmen, we are being tested. We cannot know what madness has overcome Lorgar, we do not know the fate of our brothers and our primarch. But what we do know is duty. Our duty is to hold this approach to the city, to deny it to the enemy. These were Guilliman's last words to us. Meles gave his life in service of that command, and if called, then so shall we.",
+	  "author": "Captain Erikon Gaius, Ultramarines 21st Company",
+	  "bookSource": "Garro: Oath of Moment (Audio Book), Track 4: In The Tunnel"
+	},
+	{
+	  "quote": "My name is Nathaniel Garro, and I am a Legion of One.",
+	  "author": "Captain Nathaniel Garro, Death Guard",
+	  "bookSource": "Garro: Oath of Moment (Audio Book), Track 3: The Field of Battle"
+	},
+	{
+	  "quote": "The Emperor's realm must be cleansed of the taint of the xenos and the heretic. We destroy the former by the sword, we shall destroy the latter through faith and the sword.",
+	  "author": "Gerlach, Dreadnought of the Black Templars",
+	  "bookSource": "Saved Archive GW page (dated December 2005, last accessed 13 October 2016)"
+	},
+	{
+	  "quote": "Yes, I have a damn question... what wars must there be in creation that require warriors like you?",
+	  "author": "Gerhart of the Black Templars",
+	  "bookSource": "Damnation Crusade (Graphic Novel), ch. One"
+	},
+	{
+	  "quote": "Raise the flag high. Let those degenerates know who comes to claim their lives this day!",
+	  "author": "Sergeant Adar Geronan, Imperial Fists 4th Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 55"
+	},
+	{
+	  "quote": "Bravery is stronger than Adamantium. One is the stuff of the soul-forges, the other an illusion of safety created by fools. Adamantium walls cannot keep us out! We have the courage of the Emperor! And in the Emperor's name... ATTACK!! ATTACK!! NO PRISONERS!!",
+	  "author": "Chaplain Gonzago",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 22, Warhammer Siege, pg. 109"
+	},
+	{
+	  "quote": "We of the Librarium must be aware of Chaos. Yet we do not ourselves aim to contend with Chaos, unless compelled to.",
+	  "author": "Librarian Franz Grenzstein of the Imperial Fists",
+	  "bookSource": "Space Marine (Novel), ch. Fifteen"
+	},
+	{
+	  "quote": "Don’t confuse gratitude for a serendipitous event with any cloying compassion towards the author of that event...",
+	  "author": "Librarian Franz Grenzstein of the Imperial Fists",
+	  "bookSource": "Space Marine (Novel), ch. Fifteen"
+	},
+	{
+	  "quote": "True justice is quite simply the will of the Emperor.",
+	  "author": "Librarian Franz Grenzstein of the Imperial Fists",
+	  "bookSource": "Space Marine (Novel), ch. Fifteen"
+	},
+	{
+	  "quote": "The Chaos Power known as Tzeentch conceives plans to alter history schemes which are altogether too devious and far-flung for any human being to hope to comprehend.",
+	  "author": "Librarian Franz Grenzstein of the Imperial Fists",
+	  "bookSource": "Space Marine (Novel), ch. Fifteen"
+	},
+	{
+	  "quote": "It is the way of Fenris. We stay as long as we can. Fight as hard as we can. Kill as much as we can. Only when we can do no more do we move on.",
+	  "author": "Skold Greypelt of the Space Wolves",
+	  "bookSource": "Lone Wolves (Graphic Novel), pg. 54"
+	},
+	{
+	  "quote": "You ask a lot of questions, Marlin. You know what I think? I think you need another drink.",
+	  "author": "Skold Greypelt of the Space Wolves",
+	  "bookSource": "Lone Wolves (Graphic Novel), pg. 55"
+	},
+	{
+	  "quote": "Do you ever go into a fight thinking there's no point giving my best, I'll get another chance later? We only ever get one shot, Marlin. Life is one shot. Making it count is all that matters.",
+	  "author": "Skold Greypelt of the Space Wolves",
+	  "bookSource": "Lone Wolves (Graphic Novel), pgs. 84-85"
+	},
+	{
+	  "quote": "Let a wave of repugnance for the enemy wash over you. Let hatred fill you. Hate is good, for our goal is a Human galaxy. We are called by the Emperor with a sacred duty to conquer it in His name.",
+	  "author": "Chaplain Grimaldus of the Black Templars, hero of Hive Helsreach",
+	  "bookSource": "White Dwarf 311 (US), pg. 25, Assault on Cephian IV"
+	},
+	{
+	  "quote": "Follow me, Sons of Russ! This night our enemies shall feel the fangs of the Wolf!",
+	  "author": "Logan Grimnar, Great Wolf of the Space Wolves",
+	  "bookSource": "Codex: Space Wolves (5th Edition), Back Cover"
+	},
+	{
+	  "quote": "Whatever the Emperor's will is, be sure it will find you out.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "Nightbringer (Novel), ch. Eleven"
+	},
+	{
+	  "quote": "Let them bestride the galaxy like the gods of old, sheltering Mankind from destruction at the hands of an uncaring universe.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 31"
+	},
+	{
+	  "quote": "It is the great irony of the Legiones Astartes: engineered to kill to achieve a victory of peace that they can then be no part of.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "Know No Fear (Novel), Target//Acquisition, ch. 3, pg. 30"
+	},
+	{
+	  "quote": "Space Marines excel at warfare because they were designed to excel at everything. Each of you will become a leader, a ruler, the master of your world and, because there is no more fighting to be done, you will bend your transhuman talents to governance and culture.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "Know No Fear (Novel), Target//Acquisition, ch. 3, pg. 30"
+	},
+	{
+	  "quote": "Never wish for danger. Danger needs no help. There is no such thing as fate that can be tempted, but morale is never improved by an active lust for war.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "Know No Fear (Novel), Target//Acquisition, ch. 3, pg. 40"
+	},
+	{
+	  "quote": "Two things to note there, Sergeant. One is that there is no such thing as a minor detail. Information is victory. One cannot and should not dismiss any data until one is in a position to evaluate its significance, and that only comes with hindsight. So all detail is important until circumstances render it redundant.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "Know No Fear (Novel), Target//Acquisition, ch. 8, pg. 94"
+	},
+	{
+	  "quote": "My brother, hear me. Warriors of the XVII Legion, hear me. This violence is against the code of the Legiones Astartes and against the will of our father, the Emperor. In the name of the Five Hundred Worlds of Ultramar, I implore you to cease fire and stand down. Open communication with me. Let us speak. Let us settle this. This action is an error of the most tragic kind. Cease fire. I, Roboute Guilliman, give you my solemn pledge that we will deal with each other frankly and fairly if these hostilities can be suspended. I urge you to respond.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "Know No Fear (Novel), System//Kill, ch. 1, pg. 167"
+	},
+	{
+	  "quote": "Lorgar of Colchis. You may consider the following. One: I entirely withdraw my previous offer of solemn ceasefire. It is cancelled, and will not be made again, to you or to any other of your motherless bastards. Two: you are no longer any brother of mine. I will find you, I will kill you, and I will hurl your toxic corpse into hell's mouth.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "Know No Fear (Novel), System//Kill, ch. 3, pg. 195"
+	},
+	{
+	  "quote": "What does not kill me... is not trying hard enough.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "Know No Fear (Novel), Ushkul//Thu, ch. Two, pg. 348"
+	},
+	{
+	  "quote": "They shall be pure of heart and strong of body, untainted by doubt and unsullied by self-aggrandisement. They will be bright stars on the firmament of battle, Angels of Death whose shining wings bring swift annihilation to the enemies of Man. So it shall be for a thousand times for a thousand years, unto the very end of eternity and the extinction of mortal flesh.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "Codex: Space Marines (6th Edition) (e-book), pg. 246"
+	},
+	{
+	  "quote": "I am the fist, clenched tight in ceramite, smashing with the force of a Legion. I am the blade, awaiting my foe’s flesh, as keen as the Emperor could make me. I am the bolt, fired from afar – fleet and true, an end to all who stand before the Imperium of Man.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "The Honoured (Novella), ch. Two"
+	},
+	{
+	  "quote": "For the Emperor stands behind his sons as the primarchs behind their captains. It is a captain’s duty to place legionary lives in harm’s way before his own. There is too little glory in the galaxy to go around and officers must be generous in the trust they place in others – for one day such brothers must be captains too.",
+	  "author": "Primarch Roboute Guilliman of the Ultramarines",
+	  "bookSource": "The Honoured (Novella), ch. Five"
+	},
+	{
+	  "quote": "We die, though our war is eternal,\nWe are doomed, but we walk in darkness,\nWe are forgotten, yet the future is our gift to humanity.'",
+	  "author": "Oath of the Grey Knights Seventh Brotherhood, attributed to its first Grand Master",
+	  "bookSource": "Crucible (Short Story)"
+	},
+	{
+	  "quote": "Fenrisians are taught to value comradeship and loyalty to their tribes from birth. Within the Space Wolves, their loyalty is given to their Wolf Lord and the Company of his followers. As warrior-barbarians they set great store by personal bravery and great deeds, having little but contempt for authority that is bestowed rather than earned through the proven virtues of combat.",
+	  "author": "Colonel Hassar, Cadian 7th",
+	  "bookSource": "Codex: Space Wolves (5th Edition), pg. 33"
+	},
+	{
+	  "quote": "Where the Neophyte sees only the difficulties and the Initiate only the advantages in any great enterprise, the hero sees both.",
+	  "author": "High Marshal Helbrecht of the Black Templars",
+	  "bookSource": "White Dwarf 313 (UK), pg. 79"
+	},
+	{
+	  "quote": "The Space Wolves have already proven their ability to stave off the most determined attacks on their realm, so overt action is out of the question. However, I believe that it is imperative that they are closely monitored for signs of abomination.",
+	  "author": "Balthazar von Heppel, Ministorum Adept",
+	  "bookSource": "Codex: Space Wolves (5th Edition), pg. 30"
+	},
+	{
+	  "quote": "Of all the Primarchs, the end of Leman Russ is the most mysterious, for he is accounted to have vanished ten thousand years ago. One of the most fundamental of the Space Wolves' tenets is the belief that their Primarch will eventually return for the final battle at the end of the universe.",
+	  "author": "Balthazar von Heppel, Ministorum Adept",
+	  "bookSource": "Codex: Space Wolves (5th Edition), pg. 9"
+	},
+	{
+	  "quote": "A foe without honour is a foe already beaten.",
+	  "author": "Ancient Helveticus, Ultramarines Honour Guard",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 53"
+	},
+	{
+	  "quote": "Guard your tongue, whelp, lest I cut it out. I care not for your moon-touched ramblings, nor for the tales of your grandmother. Mark this well - of the 13th Company we do not speak.",
+	  "author": "Ulfric Hoodclaw of the Space Wolves",
+	  "bookSource": "Codex: Space Wolves (5th Edition), pg. 17"
+	},
+	{
+	  "quote": "The Wolves aren't animals. No beast is bound by honour, nor does it sacrifice itself for others outside its pack.",
+	  "author": "Hyperion of the Grey Knights",
+	  "bookSource": "The Emperor's Gift (Novel), ch. Twenty-Four, pg. 284"
+	},
+	{
+	  "quote": "The deeds of one bold warrior can alter the course of a battle. I have four such men under my command and our every deed changes the shape of the galaxy.",
+	  "author": "Sergeant Daegon Incursa, Invaders 1st Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 63"
+	},
+	{
+	  "quote": "Praise the sun that brings the dawn of our final doom.",
+	  "author": "Saul Invictus, First Captain of the Ultramarines",
+	  "bookSource": "The Chapter's Due (Novel), ch. Twenty-Three"
+	},
+	{
+	  "quote": "So it was in the beginning; so ever it shall be.",
+	  "author": "Credo of the Iron Hands",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 129"
+	},
+	{
+	  "quote": "Only the spirit is pure.\nThe mind may be swayed, the body may fail.\nOnly the soul cradles vengeance purely.\nBecome the weapon of the soul.",
+	  "author": "Principle Lessons of the Iron Hands",
+	  "bookSource": "Wrath of Iron (Novel), ch. 12"
+	},
+	{
+	  "quote": "Where the mind hesitates, overcome it.\nWhere the body fails, replace it.\nAspire to the condition of the Primarch.\nEmulate his union with steel.",
+	  "author": "Principle Lessons of the Iron Hands",
+	  "bookSource": "Wrath of Iron (Novel), ch. 12"
+	},
+	{
+	  "quote": "Never waver.\nNever retreat.\nNever doubt.",
+	  "author": "Principle Lessons of the Iron Hands",
+	  "bookSource": "Wrath of Iron (Novel), ch. 12"
+	},
+	{
+	  "quote": "The flesh is weak.\nThe weak shall be purged.\nWhat remains is strength.",
+	  "author": "Principle Lessons of the Iron Hands",
+	  "bookSource": "Wrath of Iron (Novel), ch. 12"
+	},
+	{
+	  "quote": "As my battle-brothers are clad in armour of Truesilver, so shall they ride to war in gleaming chariots, protected against all harm until the moment of battle is come.",
+	  "author": "Issad, Brother-Captain of the Grey Knights",
+	  "bookSource": "Imperial Armour Volume Two (Second Edition), pg. 204"
+	},
+	{
+	  "quote": "Problems? Problems? There is no problem I cannot solve with this...",
+	  "author": "Commander Mad Chainsaw Johnson of the White Scars",
+	  "bookSource": "White Dwarf 93 (UK), pg. 40, Warhammer 40,000"
+	},
+	{
+	  "quote": "We have been wounded sorely. Yet still we stand, with fire in our eyes and valour in our hearts. Let them think us beaten. We shall teach them otherwise.",
+	  "author": "Pedro Kantor, Chapter Master of the Crimson Fists",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 29"
+	},
+	{
+	  "quote": "Surround yourself with the greatest warriors at your command, or cower in the deepest and darkest hole you can find. It matters not. I shall take your head for the Great Khan and for the Emperor.",
+	  "author": "Captain Kor'sarro Khan, White Scars 3rd Company, Master of the Hunt",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 94"
+	},
+	{
+	  "quote": "Yes, my lord, you could order the Long Fangs to engage the Orks from that ridge. That's what we did at Karnax 17, and it cost the lives of three entire packs. I advise a direct, frontal assault by the Dreadnoughts, followed by the second wave of the Great Company's kin. If that doesn't smash these greenskins back to the stinking pits of Octavius then I'll answer to the Allfather in person.",
+	  "author": "Ancient Kryll, Dreadnought of the Space Wolves",
+	  "bookSource": "Imperial Armour Volume Two - Second Edition: War Machines of the Adeptus Astartes, pg. 164"
+	},
+	{
+	  "quote": "I, for one, was bloody glad to see the Snakes power in. Beautiful bastards, they are. I owe them my life and my soul.",
+	  "author": "Major Goff Kurtane, 9th Radial Sarpoy Regiment",
+	  "bookSource": "The Sabbat Worlds Crusade (Background Book), pg. 24"
+	},
+	{
+	  "quote": "We shall never rest while a single renegade draws breath. Let them fear our names.",
+	  "author": "Captain Leitz of the Exorcists",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 31"
+	},
+	{
+	  "quote": "Brother... kinsman... every time the death comes closer, but still I am rejected. Do you know why? Will you not tell me? Death took you! Why not me? WHY NOT ME?!",
+	  "author": "Captain Garviel Loken of the Luna Wolves",
+	  "bookSource": "Garro: Legion of One (Audio Book), Track: Cerberus Alone"
+	},
+	{
+	  "quote": "I have travelled far and seen much. Yet nothing warms my heart so much as the sight of a gun so massive that its fury makes the very world tremble.",
+	  "author": "Captain Darnath Lysander, Imperial Fists 1st Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 73"
+	},
+	{
+	  "quote": "My kind were created to feel no fear, but we understand it. We were all once men who felt fear as does anyone else, and we must know it because it is a weapon we wield.",
+	  "author": "Captain Darnath Lysander, Imperial Fists 1st Company",
+	  "bookSource": "Malodrax (Novel), ch. Ten, pg. 229"
+	},
+	{
+	  "quote": "If they are so eager to die, and they will not heed the advice of their superiors, then let them rush headlong into the jaws of the lion. We can only hope some of them get caught in its throat.",
+	  "author": "Lord Solar Macharius",
+	  "bookSource": "Codex: Space Wolves (5th Edition), pg. 32"
+	},
+	{
+	  "quote": "But without a purpose, an Astartes is nothing. A warrior without a war is no warrior at all.",
+	  "author": "Malcador the Sigillite",
+	  "bookSource": "Garro: Oath of Moment (Audio Book), Track 5: Flashback"
+	},
+	{
+	  "quote": "Make war and move on, and again, and again, until nothing breathes which stands against us. All else is sophistry and pretty lies.",
+	  "author": "Ferrus Manus, Primarch of the Iron Hands",
+	  "bookSource": "The Horus Heresy Book Two - Massacre, pg. 68"
+	},
+	{
+	  "quote": "The duty of the Medic, my Brethren, is a sacred one. We embody the Emperor's divine will and his holy purpose. We bring death and we bring life. Let those true to Humanity's cause give thanks for our work. Let the impure bow down before our swords!",
+	  "author": "Surgeon-Commander Grigor Markhava",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 28"
+	},
+	{
+	  "quote": "I trust these automata-weapons far more than any mortal ally. Their machine spirits have served our Chapter faithfully for centuries, and are sure to stand where mortal hearts succumb to fear. Just like us, they know no fear.",
+	  "author": "Iron Thane Mazos Dhule of the Sons of Medusa",
+	  "bookSource": "Imperial Armour Volume Two - Second Edition, pg. 198"
+	},
+	{
+	  "quote": "Faith is purest when it is unquestioning.",
+	  "author": "Chaplain Mikelus of the Blood Ravens",
+	  "bookSource": "Dawn of War"
+	},
+	{
+	  "quote": "Pain now! Reward in the afterlife.",
+	  "author": "Chaplain Mikelus of the Blood Ravens",
+	  "bookSource": "Dawn of War"
+	},
+	{
+	  "quote": "I ask myself what it means to be one of the Dark Angels. Is it to hunt the Fallen, chasing shadows through the dark places of the galaxy? Is it to pursue our quest at any expense, forgoing all other oaths and duties? Is it to lie, to hide and to plot so that others will never know of our shame? Is it to keep our own brethren unacquainted with the truth of our past, the legacy we all share in? Or ist it to be a Space Marine? Is it to follow the path laid down by the Emperor and Lion El'Johnson at the founding of this great Imperium of man? To protect mankind, to purge the alien, cleanse the unclean?",
+	  "author": "Interrogator-Chaplain Boreas of the Dark Angels",
+	  "bookSource": "Ravenwing (Novel), Two - Brother Boreas Speaks"
+	},
+	{
+	  "quote": "As our bodies are armoured with Adamantium, our souls are protected with our loyalty. As our bolters are charged with death for the Emperor's enemies, our thoughts are charged with his wisdom. As our ranks advance, so does our devotion, for are we not Marines? Are we not the chosen of the Emperor, his loyal servants unto death?",
+	  "author": "Chaplain Fergas Nils",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 21; Warhammer 40,000 5th Edition Rulebook, pg. 20"
+	},
+	{
+	  "quote": "If you know no fear, do you also not know awe? Surprise? Majesty? Have you not seen things so bizarre they left you speechless? Shocked you? Unnerved you even?",
+	  "author": "Mersadie Oliton, Remembrancer",
+	  "bookSource": "Horus Rising (Novel), Part Two, ch. Nine, pg. 172"
+	},
+	{
+	  "quote": "One warrior usually suffices.",
+	  "author": "Priad of the Iron Snakes",
+	  "bookSource": "Brothers of the Snake (Novel), Part One - XII"
+	},
+	{
+	  "quote": "\"Mingle\"? What in the Emperor's name does that mean?",
+	  "author": "Priad of the Iron Snakes",
+	  "bookSource": "Brothers of the Snake (Novel), Part Six - II, pg. 171"
+	},
+	{
+	  "quote": "Everything has a purpose. The Emperor ordains it so. You may corrupt the souls of men. But I am steel! I am doom! I march for Macragge, and I know no fear!",
+	  "author": "Brother Proteus, Ultramarines 2nd Company",
+	  "bookSource": "Ultramarines - A Warhammer 40,000 Movie"
+	},
+	{
+	  "quote": "Oh, Proteus. You novices are all alike. And I'm the one who has to put you back together. It isn't combat I resent, Brother. It's the thirst for glory that gets men cut to ribbons.",
+	  "author": "Apothecary Pythol, Ultramarines 2nd Company",
+	  "bookSource": "Ultramarines - A Warhammer 40,000 Movie"
+	},
+	{
+	  "quote": "Death will find you soon enough. War is not about glory. War is about victory!",
+	  "author": "Apothecary Pythol, Ultramarines 2nd Company",
+	  "bookSource": "Ultramarines - A Warhammer 40,000 Movie"
+	},
+	{
+	  "quote": "May the Emperor bless and protect this sacred legacy, so that the strength of these brave warriors may live on in Ultramarines yet unborn, for the abiding honour of our fortress home, Macragge, in the name of the Chapter and the Primarch, to whom we owe all.",
+	  "author": "Apothecary Pythol, Ultramarines 2nd Company",
+	  "bookSource": "Ultramarines - A Warhammer 40,000 Movie"
+	},
+	{
+	  "quote": "We attack without warning, mercy or hesitation. Let the enemies of Mankind know that we will purge every last one of them, and let them shake in fear.",
+	  "author": "Pugilis, Commander of the Iron Knights",
+	  "bookSource": "Imperial Armour Volume Two - Second Edition: War Machines of the Adeptus Astartes, pg. 10"
+	},
+	{
+	  "quote": "I'll not be known as a Son of Horus again, mark that well, lad.",
+	  "author": "Captain Iacton Qruze of the Luna Wolves",
+	  "bookSource": "The Flight of the Eisenstein (Novel), ch. Nine, pg. 229"
+	},
+	{
+	  "quote": "This place was built to destroy something precious to us, something each of us shares, no matter which Primarch or Chapter we call our own. I speak of brotherhood. Bile has isolated us, severed all but the most cursory of contacts. He sows distrust and suspicion, wears you down with the slow grind of mindless days and tormented nights. The bastard wants you to believe you are forgotten. He lies. I am here to tell you that he lies and lies! Look within yourselves, brothers, and you will understand. You have been waiting for this day, even if you did not know it. This day, when you are reminded of who you are. My purpose here is the same as yours, to serve the God-Emperor and Holy Terra! Know that each of you is the harbinger of your own freedom! I say to you all that this day, we are not Blood Angels, Doom Eagles, Space Wolves, Taurans, Salamanders, Crimson Fists... We are one great legion, one heart and one mind! We are the Adeptus Astartes, the Space Marines, the war gods and terrible swift sword of our Emperor! We are His will, and we have always been so!",
+	  "author": "Sergeant Rafen of the Blood Angels",
+	  "bookSource": "Black Tide (Novel), ch. Twelve"
+	},
+	{
+	  "quote": "It is the duty of the Initiate to pass on what he has learned of the craft of death and thus pave the way for the heroes of the future.",
+	  "author": "Initiate Rammius of the Black Templars",
+	  "bookSource": "White Dwarf 313 (UK), pg. 78"
+	},
+	{
+	  "quote": "The Emperor commands us. Dorn guides us. Honour shields us. Fear our name, for it is vengeance.",
+	  "author": "Rhetoricus of the Imperial Fists",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 27"
+	},
+	{
+	  "quote": "Listen closely Brothers, for my life's breath is all but spent. There shall come a time far from now when our chapter itself is dying, even as I am now dying. Then my children, I shall list'n for your call from whatever realms of death hold me, and come I shall no-matter what laws of life and death forbid. At the end I will be there. For the final battle. For the Wolftime.",
+	  "author": "Primarch Leman Russ of the Space Wolves",
+	  "bookSource": "Book of the Astronomican, pg. 8"
+	},
+	{
+	  "quote": "You strive for victory. That is obvious. What may be less obvious is the nature of victory. There are circumstances in which you can destroy the enemy utterly, without loss to your own forces, and yet the victory may be his. In all situations, you must first decide on the nature of victory, and then take steps to secure it. Avoid the instinct of fight first and think later.",
+	  "author": "Primarch Leman Russ of the Space Wolves",
+	  "bookSource": "Adeptus Titanicus Rulebook, pg. 40"
+	},
+	{
+	  "quote": "A fortress circumvented ceases to be an obstacle. A fortress destroyed ceases to be a threat. Do not forget the difference.",
+	  "author": "Primarch Leman Russ of the Space Wolves",
+	  "bookSource": "Warhammer Siege, pg. 108"
+	},
+	{
+	  "quote": "A fortress is built with blood and toil. Only by blood and toil may it be taken.",
+	  "author": "Primarch Leman Russ of the Space Wolves",
+	  "bookSource": "Warhammer Siege, pg. 106"
+	},
+	{
+	  "quote": "Beat your thoughts to the mould of your will.",
+	  "author": "Primarch Leman Russ of the Space Wolves",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 76"
+	},
+	{
+	  "quote": "There are those who undervalue the Penal Battalions. But they should consider this: should a man who has wronged the Emperor be allowed to wrong Him further? For each man executed is a man who can no longer serve, and to fail in service to the Emperor is the greatest of sins",
+	  "author": "Primarch Leman Russ of the Space Wolves",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 148"
+	},
+	{
+	  "quote": "Do not underestimate the Squats. They survived for millennia cut off from the Imperium and assailed from all sides. Their determination and resilience is an example to all.",
+	  "author": "Primarch Leman Russ of the Space Wolves",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 167"
+	},
+	{
+	  "quote": "Harden your soul against decadence. But do not despise it, for the soft appearance of the decadent may be deceptive. One need only consider the Harlequin dancers of the Eldar to see the truth of this proposition.",
+	  "author": "Primarch Leman Russ of the Space Wolves",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 194"
+	},
+	{
+	  "quote": "Here I am and here shall I die.",
+	  "author": "Primarch Leman Russ of the Space Wolves",
+	  "bookSource": "Warhammer 40,000: Rogue Trader, pg. 34"
+	},
+	{
+	  "quote": "Arm the bastards and they might win a few bloody worlds for us in between verses.",
+	  "author": "Primarch Leman Russ of the Space Wolves",
+	  "bookSource": "Horus Rising (Novel), Part One, ch. 3, pg. 46"
+	},
+	{
+	  "quote": "My son... step back, if you can. Step back from the abyss and return to us. I will save you. This is my fault. I am to blame. But I will amend this, if you help me. Will you help me, Alotros?",
+	  "author": "Sanguinius, Primarch of the Blood Angels Legion",
+	  "bookSource": "Fear to Tread (Novel), Prologue: Melchior, pg. 37"
+	},
+	{
+	  "quote": "It cries out for blood. And there is never enough.",
+	  "author": "Sanguinius, Primarch of the Blood Angels Legion",
+	  "bookSource": "Fear to Tread (Novel), Prologue: Melchior, pg. 42"
+	},
+	{
+	  "quote": "I made a vow, Kano. I will see it to its bloody end. There may come a day, and sooner than we might wish, when you...when my sons will have to go on without me.",
+	  "author": "Sanguinius, Primarch of the Blood Angels Legion",
+	  "bookSource": "Fear to Tread (Novel), ch. 20, pg. 500"
+	},
+	{
+	  "quote": "There are more things in the darkness than man can ever count.",
+	  "author": "Sanguinius, Primarch of the Blood Angels Legion",
+	  "bookSource": "Space Hulk (Novella), 00.06.99"
+	},
+	{
+	  "quote": "We are disorder, that is true. But that is what we were made to be. The wild and the random. If each Successor embodies the traits of The Great Angel, then that is what the Flesh Tearers are, just as the Blood Swords are his martial prowess, the Sanguine his secrecy, the Flesh Eaters his carnivore's fangs! But the Blood Angels are the melding of all of those things, and that is why I will always envy you, cousin.",
+	  "author": "Gabriel Seth, Chapter Master of the Flesh Tearers",
+	  "bookSource": "Red Fury (Novel), ch. Thirteen"
+	},
+	{
+	  "quote": "For he today that sheds his blood with me shall be my battle-brother eternal.",
+	  "author": "Gabriel Seth, Chapter Master of the Flesh Tearers",
+	  "bookSource": "Red Fury (Novel), Epilogue"
+	},
+	{
+	  "quote": "In the darkness all men are equal, save those that embrace it.",
+	  "author": "Kayvaan Shrike, Shadow Captain of the Raven Guard 3rd Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 25"
+	},
+	{
+	  "quote": "We are coming. Look to the skies for your salvation.",
+	  "author": "Kayvaan Shrike, Shadow Captain of the Raven Guard 3rd Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 69"
+	},
+	{
+	  "quote": "Wherever you tread, tread lightly. We are closer than you think, and our blades are sharp.",
+	  "author": "Kayvaan Shrike, Shadow Captain of the Raven Guard 3rd Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 92"
+	},
+	{
+	  "quote": "We are the slayers of kings, the destroyers of worlds, bringers of ruination and death in all its forms. These things we do in the name of the Emperor and in the defense of Mankind. Let none stay our wrath.",
+	  "author": "Cato Sicarius, Captain of the Ultramarines 2nd Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 19"
+	},
+	{
+	  "quote": "Brothers! War calls you. Will you answer?",
+	  "author": "Cato Sicarius, Captain of the Ultramarines 2nd Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 85"
+	},
+	{
+	  "quote": "Slay the beast and the horde will die.",
+	  "author": "Cato Sicarius, Captain of the Ultramarines 2nd Company",
+	  "bookSource": "The Chapter's Due (Novel), ch. 7, pg. 91"
+	},
+	{
+	  "quote": "The more we spread the more we find. World after world. New worlds to conquer. Space is limitless, and so is our appetite to master it.",
+	  "author": "Sigismund, First Captain of the Imperial Fists Legion and first High Marshal of the Black Templars",
+	  "bookSource": "Horus Rising (Novel), Part One, ch. 6, pg. 131"
+	},
+	{
+	  "quote": "We will spend our lives fighting to secure this Imperium, and then I fear we will spend the rest of our days fighting to keep it intact. There is such involving darkness amongst the stars. Even when the Imperium is complete, there will be no peace. We will be obliged to fight on to preserve what we have fought to establish. Peace is a vain wish. Our crusade may one day adopt another name, but it will never truly end. In the far future, there will be only war.",
+	  "author": "Sigismund, First Captain of the Imperial Fists Legion and first High Marshal of the Black Templars",
+	  "bookSource": "Horus Rising (Novel), Part One, ch. 6, pg. 132"
+	},
+	{
+	  "quote": "Nothing worthwhile is done without challenge, best to overcome it before plans are enacted.",
+	  "author": "Sigismund, First Captain of the Imperial Fists Legion and first High Marshal of the Black Templars",
+	  "bookSource": "Throneworld (Novel), ch. 12"
+	},
+	{
+	  "quote": "Many great legends lived before Brother Rammius, but most are unmourned and are consigned to unremembered history. Such shall not be the Rammius' fate, for he lives on in glory and, with our ministrations, shall do so for a thousand years and more.",
+	  "author": "Techmarine Simagus of the Black Templars",
+	  "bookSource": "White Dwarf 313 (UK), pg. 80"
+	},
+	{
+	  "quote": "We ride upon the wings of storm. What hope of escape can our foes have?",
+	  "author": "Spiccare, Sergeant of the Blood Angels 1st Company",
+	  "bookSource": "Imperial Armour Volume Two - Second Edition, pg. 26"
+	},
+	{
+	  "quote": "I believe in three tenets of battle - firepower, firepower, and more firepower. Should the Omnissiah have wished otherwise, he would not have provided me with such a mighty tool as the Razorback. I long for the day in which my entire Chapter can ride to war in transports such as these, vehicles whose rage can be given voice through their sanctified armament.",
+	  "author": "Kardan Stronos, Chapter Master of the Iron Hands",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 77"
+	},
+	{
+	  "quote": "Those of the xenos that our Predators do not crush beheanth their armoured tread, we shall strike down ourselves with avenging bolt and righteous blade. Onward Crimson Fists, ever onward!",
+	  "author": "Brother-Captain Telamon, Crimson Fists",
+	  "bookSource": "Imperial Armour Volume Two - Second Edition: War Machines of the Adeptus Astartes, pg. 60"
+	},
+	{
+	  "quote": "Forget all your preconceptions of war, of battle-lines clashing in the churned ground. Your mission is to attack before the foe even realises that the war has begun, to strike hard at those vital weaknesses that all armies possess, but that no commander will admit to. Under my tutelage you will learn how to seek out such fragilities and smite them with every weapon at your disposal. Master these duties and I will have nothing more to teach, and you will truly be a Space Marine.",
+	  "author": "Sergeant Torias Telion, Ultramarines 10th Company",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 75"
+	},
+	{
+	  "quote": "Each path must be chosen with care,\nLest disaster swallow us whole.",
+	  "author": "Varro Tigurius, Chief Librarian of the Ultramarines",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 86"
+	},
+	{
+	  "quote": "Never before or since have I seen fighting such as I witnessed when that host fell upon the Orks. Seizing the moment, I regrouped my Company and led them once more into the fray, yet there was little work for us, for the greenskins lacked stomach for the fight. Soon we secured the great bastion once more and without further loss. Of the dark brotherhood there was no sign.",
+	  "author": "Varro Tigurius, Chief Librarian of the Ultramarines",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 95"
+	},
+	{
+	  "quote": "It cannot be considered a gift, to peer into the Warp and unravel the possibilities of the future that are, that might be, and that must be prevented. Nor can the burden of a weapon, that each of my brothers looks upon with girded revulsion, be called a gift. No, Master, I do not think my psychic prowess a gift... but a tool. Whether by a quirk of fate, or the will of the Emperor, I possess a weapon the like of which can turn the tide, not just in a battle but in the course of history. To withhold it, to flinch from its use or deny it would not just be counter-productive, it would be heresy. But if it is a gift, it is a cruel one.",
+	  "author": "Varro Tigurius, Chief Librarian of the Ultramarines",
+	  "bookSource": "Warlords of the Dark Millennium: Tigurius (Background Book), pg. 3"
+	},
+	{
+	  "quote": "The answer, always, is the Wolves of Fenris, because they are clinically insane.",
+	  "author": "Captain Tarik Torgaddon, Luna Wolves 2nd Company",
+	  "bookSource": "Horus Rising (Novel), Part One, ch. 6, pg. 132"
+	},
+	{
+	  "quote": "They believe they are too good for the Codex Astartes, these... these wolf-men? Too good for ten millennia of tested and refined battle wisdom? Then let them fight as savages, I say. Let them fight and die.",
+	  "author": "Captain Nico Trevellias of the White Consuls",
+	  "bookSource": "Codex: Space Wolves (5th Edition), pg. 16"
+	},
+	{
+	  "quote": "Arm yourselves, fools, the enemy are within us!",
+	  "author": "Marine Psyker Troos, presumably White Scars",
+	  "bookSource": "Book of the Astronomican, pg. 66"
+	},
+	{
+	  "quote": "My sword is at the Emperor's command. I answer to no other man, living or dead.",
+	  "author": "Tu'shan, Chapter Master of the Salamanders",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 52"
+	},
+	{
+	  "quote": "We march for Macragge!\nAnd we shall know no fear!",
+	  "author": "Ultramarines Battle-chant",
+	  "bookSource": "Ultramarines - A Warhammer 40,000 Movie"
+	},
+	{
+	  "quote": "To take a town, send a legionary. To take a city, send a squad. To take a world, send a company. To take a culture, send a Chapter.",
+	  "author": "Popular Ultramarines Aphorism",
+	  "bookSource": "Know No Fear (Novel), Target//Acquisition, ch. 3, pg. 40"
+	},
+	{
+	  "quote": "Come all you Xeno scum and fallen heretics! Come face the one true might of the universe and wither under the Golden Throne's gaze!",
+	  "author": "Chaplain Varnus of the Ultramarines",
+	  "bookSource": "Dawn of War: Winter Assault"
+	},
+	{
+	  "quote": "Hell? There is no such thing, Garro! It's a figment of old idolatry, nothing more. We have no need for a place of horrors beyond death. Horus makes it for us, here, in the real!",
+	  "author": "Macer Varren, Loyalist Captain of the World Eaters",
+	  "bookSource": "Garro: Legion of One (Audio Book), Track 4: The Battlefield"
+	},
+	{
+	  "quote": "Garro, heed me. We have lost so many of our brethren to this schism, this damned bloody war! A traitor I will kill without hesitation, but we do not speak of a traitor! Our kinsman is lost.",
+	  "author": "Macer Varren, Loyalist Captain of the World Eaters",
+	  "bookSource": "Garro: Legion of One (Audio Book), Track 7: Aftermath"
+	},
+	{
+	  "quote": "I was not cut out to lead like this, Garro. I am a killer, a meat cutter, not a brood mare struggling to protect a brood of weak and feeble runts! I lead warriors, not common folk!",
+	  "author": "Macer Varren, Loyalist Captain of the World Eaters",
+	  "bookSource": "Garro: Sword of Truth (Audio Book), Disc 2, Track 2: The Daggerline"
+	},
+	{
+	  "quote": "I can pulp your flesh and snap your bones in less than a second, and without so much as lifting a finger. What is the power of technology compared to that?",
+	  "author": "Chief Librarian Vel'cona of the Salamanders",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 56"
+	},
+	{
+	  "quote": "I have seen my share of death, both honourable and despicable, and yes, I know that war is a brutal, bloody business capable of bringing out the best and the worst in men. This is a harsh, dangerous galaxy, with untold terrors lurking in the dark to devour us, but the minute we turn on our own kind and murder them, we might as well take a blade to our throats.",
+	  "author": "Ultramarines Captain Uriel Ventris",
+	  "bookSource": "The Killing Ground (Novel), ch. Eighteen, pg. 277"
+	},
+	{
+	  "quote": "Without the Codex Astartes, the Imperium wouldn't have survived the aftermath of the Great Heresy. It binds every one of the thousand Chapters of Space Marines together, and gives us a common cause, a connection to the past and to one another. Every Chapter, whether they acknowledge it or not, owes its very existence to the Codex Astartes.",
+	  "author": "Ultramarines Captain Uriel Ventris",
+	  "bookSource": "Courage and Honour (Novel), ch. 3"
+	},
+	{
+	  "quote": "If you can see us, we are dangerous indeed. But that is nothing to the peril you face if you cannot see us, and all you can hear is our laughter.",
+	  "author": "White Scars",
+	  "bookSource": "Codex: Space Marines (5th Edition), pg. 28"
+	},
+	{
+	  "quote": "It was the Allfather who created Leman Russ, the primogenitor of the Vlka Fenryka, and the Allfather who fashioned the Legion that served under his name. For every Legion he created, there was a purpose. Some were blessed with the power to build, or the skill to administer, or the capacity for stealth. Our gift was different. We were made to destroy. Our whole being is destruction. Such was the will of the Allfather. He made us not to construct empires, but to murder them. We were bred to perform the tasks that no other Legion could, to fight with such extravagance that even our brother warriors would shrink from treachery in the knowledge of what we, the Rout, would do to them.",
+	  "author": "Thar Ariak Hraldir, \"Wyrmblade,\" Wolf Priest of the Space Wolves",
+	  "bookSource": "Battle of the Fang (Novel), ch. Nineteen, pgs. 418-419"
+	},
+	{
+	  "quote": "A fortress won't stop the Marines. But it may slow them down.",
+	  "author": "",
+	  "bookSource": "Warhammer Siege, pg. 96"
+	},
+	{
+	  "quote": "Consider the Predator. Let your soul be armoured with Faith, driven on the tracks of obedience which overcomes all obstacles, and armed with the three great guns of Zeal, Duty and Purity.",
+	  "author": "",
+	  "bookSource": "Warhammer 40,000 Compendium, pg. 85"
+	},
+	{
+	  "quote": "Forget nothing - forgive no-one.",
+	  "author": "",
+	  "bookSource": "White Dwarf 96 (UK), pg. 56"
+	},
+	{
+	  "quote": "Let the repentant enjoy a merciful end.",
+	  "author": "",
+	  "bookSource": "White Dwarf 96 (UK), pg. 55"
+	}
+]

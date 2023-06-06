@@ -68,7 +68,7 @@ namespace Robit
         /// <item><c>False</c>: File doesn't exist</item>
         /// </list>
         /// </returns>
-        private static bool FileExists(string fileDir)
+        public static bool FileExists(string fileDir)
         {
             FileInfo fileInfo = new FileInfo(fileDir);
 
@@ -84,7 +84,7 @@ namespace Robit
         /// Creates a file
         /// </summary>
         /// <param name="fileDir">Location to create the file at</param>
-        private static void CreateFile(string fileDir)
+        public static void CreateFile(string fileDir)
         {
             FileInfo fileInfo = new FileInfo(fileDir);
 
