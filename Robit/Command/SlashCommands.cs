@@ -659,7 +659,7 @@ namespace Robit.Command
         [SlashCommandPermissions(Permissions.SendMessages)]
         public async Task WH40kQuote(InteractionContext ctx)
         {
-            string path = $"{Paths.resources}\\Wh40ImperialQuotes.json";
+            string path = $"{Paths.resources}/Wh40ImperialQuotes.json";
 
             if (!FileExists(path))
             {
