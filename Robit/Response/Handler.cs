@@ -229,7 +229,7 @@ namespace Robit.Response
         {
             bool botMentioned = false;
 
-            await Task.Run(() => 
+            await Task.Run(() =>
             {
                 foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
                 {

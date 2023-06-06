@@ -557,13 +557,13 @@ namespace Robit.Command
             {
                 Random rand = new Random();
 
-                if(minimal >= maximal)
+                if (minimal >= maximal)
                 {
                     await ctx.CreateResponseAsync("Minimal value cannot be larger or equal to maximal value", true);
                     return;
                 }
 
-                if (minimal < 0 || maximal < 0) 
+                if (minimal < 0 || maximal < 0)
                 {
                     await ctx.CreateResponseAsync("The minimal or maximal value cannot be a negative number", true);
                     return;
