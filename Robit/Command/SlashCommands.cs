@@ -682,13 +682,23 @@ namespace Robit.Command
 
             QuoteEntry quoteEntry = quoteEntries.ElementAt(rand.Next(quoteEntries.Count));
 
+            string quoteText = $"***\"{quoteEntry.quote}\"***";
+
+            if (!string.IsNullOrEmpty(quoteEntry.author))
+            {
+                quoteText += $"\n*⎯ {quoteEntry.author}*";
+            }
+
             DiscordEmbedBuilder embedBuilder = new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Purple,
-                Description = $"***\"{quoteEntry.quote}\"***\n*⎯ {quoteEntry.author}*"
+                Description = quoteText
             };
 
-            embedBuilder.AddField("Source:", quoteEntry.bookSource);
+            if (!string.IsNullOrEmpty(quoteEntry.bookSource))
+            {
+                embedBuilder.AddField("Source:", quoteEntry.bookSource);
+            }
 
             await ctx.CreateResponseAsync(embedBuilder);
         }
