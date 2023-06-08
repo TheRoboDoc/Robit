@@ -17,7 +17,7 @@ namespace Robit
 {
     public class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             while (true)
             {
@@ -120,7 +120,7 @@ namespace Robit
                     message += $"\t\t\t\t\t\t\t{dirMissingText}\n";
                 }
 
-                botClient.Logger.LogWarning(message);
+                botClient.Logger.LogWarning("{message}", message);
             }
 
             botClient.Ready += BotClient_Ready;

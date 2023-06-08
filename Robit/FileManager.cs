@@ -222,9 +222,18 @@ namespace Robit
 
                 bool found = false;
 
+                if (responseEntries == null)
+                {
+                    return false;
+                }
+                else if (!responseEntries.Any())
+                {
+                    return false;
+                }
+
                 await Task.Run(() =>
                 {
-                    foreach (ResponseEntry responseEntry in responseEntries) //Dereference of a possbile null reference
+                    foreach (ResponseEntry responseEntry in responseEntries)
                     {
                         if (responseEntry.reactName.ToLower() == entryName.ToLower())
                         {
@@ -275,7 +284,10 @@ namespace Robit
 
                 responseEntries = ReadEntries(guildID);
 
-                foreach (ResponseEntry responseEntry in responseEntries) //Dereference of a possbile null reference
+                if (responseEntries == null) { return false; }
+                else if (!responseEntries.Any()) { return false; }
+
+                foreach (ResponseEntry responseEntry in responseEntries)
                 {
                     if (responseEntry.reactName.ToLower() == entryName.ToLower())
                     {
@@ -368,7 +380,12 @@ namespace Robit
                     responseEntries = new List<ResponseEntry>();
                 }
 
-                responseEntries.Add(responseEntry); //Dereference of a possbile null reference
+                if (responseEntries == null)
+                {
+                    return;
+                }
+
+                responseEntries.Add(responseEntry);
 
                 FileStream fileStream = File.OpenWrite(path);
 

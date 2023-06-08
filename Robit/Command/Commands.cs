@@ -34,7 +34,7 @@ namespace Robit.Command
                 context = ctx;
             }
 
-            CommandContext context;
+            readonly CommandContext context;
 
             public override CommandHelpMessage Build()
             {
