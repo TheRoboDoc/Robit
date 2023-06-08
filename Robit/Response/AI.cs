@@ -149,10 +149,8 @@ namespace Robit.Response
 
                 if (Program.DebugStatus())
                 {
-                    using (StreamWriter writer = new StreamWriter("debugconvo.txt", true))
-                    {
-                        writer.WriteLine($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}");
-                    }
+                    using StreamWriter writer = new StreamWriter("debugconvo.txt", true);
+                    writer.WriteLine($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}");
                 }
             }
 
@@ -197,7 +195,7 @@ namespace Robit.Response
                         Query = search
                     };
 
-                    if(Program.giphyClient == null)
+                    if (Program.giphyClient == null)
                     {
                         return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
                     }

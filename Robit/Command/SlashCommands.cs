@@ -633,7 +633,7 @@ namespace Robit.Command
 
                 foreach (int rolledValue in rolledValues)
                 {
-                    diceResult = diceResult + $"{rolledValue} ";
+                    diceResult += $"{rolledValue} ";
                 }
 
                 int sum = rolledValues.Sum();

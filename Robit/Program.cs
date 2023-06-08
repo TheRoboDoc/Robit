@@ -17,7 +17,7 @@ namespace Robit
 {
     public class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             while (true)
             {

@@ -285,7 +285,7 @@ namespace Robit
                 responseEntries = ReadEntries(guildID);
 
                 if (responseEntries == null) { return false; }
-                else if (!responseEntries.Any()) {  return false; }
+                else if (!responseEntries.Any()) { return false; }
 
                 foreach (ResponseEntry responseEntry in responseEntries)
                 {
