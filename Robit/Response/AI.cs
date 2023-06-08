@@ -159,8 +159,13 @@ namespace Robit.Response
             //Makes the AI reply make more sense and lowers the chances of it answering to a wrong user
             messages.Add(ChatMessage.FromSystem($"Reply got triggered by user: {messageArgs.Author.Username}, tag: {messageArgs.Author.Discriminator}, userID: {messageArgs.Author.Id}"));
 
+            if (Program.openAiService == null)
+            {
+                return Tuple.Create(false, "OpenAI service isn't on, if error presists contact RoboDoc");
+            }
+
             //Sending OpenAI API request for chat reply
-            ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest //Dereference of a possbile null reference
+            ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
             {
                 Messages = messages,
                 Model = Models.ChatGpt3_5Turbo,
@@ -192,11 +197,16 @@ namespace Robit.Response
                         Query = search
                     };
 
+                    if(Program.giphyClient == null)
+                    {
+                        return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
+                    }
+
                     //Fetching search link result for the GIF the bot wants to post
-                    string giphyResult = "\n" + Program.giphyClient.GifSearch(searchParameter).Result.Data[0].Url; //Dereference of a possbile null reference
+                    string? giphyResult = Program.giphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
 
                     //Inserting the link into the bot message
-                    response = response.Substring(0, match.Index) + giphyResult + response.Substring(match.Index + match.Length) + "\n`Powered by GIPHY`";
+                    response = response.Substring(0, match.Index) + $"\n{giphyResult}" + response.Substring(match.Index + match.Length) + "\n`Powered by GIPHY`";
                 }
 
                 //Censoring if needed
@@ -340,6 +350,11 @@ namespace Robit.Response
                 ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator} | {ctx.Member.Id} : {prompt}")
             };
 
+            if (Program.openAiService == null)
+            {
+                return Tuple.Create(false, "OpenAI service isn't on, if error presists contact RoboDoc");
+            }
+
             ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest //Dereference of a possbile null reference
             {
                 Messages = messages,
@@ -368,9 +383,14 @@ namespace Robit.Response
                         Query = search
                     };
 
-                    string giphyResult = "\n" + Program.giphyClient.GifSearch(searchParameter).Result.Data[0].Url; //Dereference of a possbile null reference
+                    if (Program.giphyClient == null)
+                    {
+                        return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
+                    }
 
-                    response = response.Substring(0, match.Index) + giphyResult + response.Substring(match.Index + match.Length) + "\n`Powered by GIPHY`";
+                    string? giphyResult = Program.giphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
+
+                    response = response.Substring(0, match.Index) + $"\n{giphyResult}" + response.Substring(match.Index + match.Length) + "\n`Powered by GIPHY`";
                 }
 
                 if (AICheck(response).Result)

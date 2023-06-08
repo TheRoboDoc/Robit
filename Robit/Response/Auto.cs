@@ -41,6 +41,15 @@ namespace Robit.Response
 
             Tuple<bool, string> response = Tuple.Create(false, "No saved matches found"); ;
 
+            if (responseEntries == null)
+            {
+                return response;
+            }
+            else if (!responseEntries.Any())
+            {
+                return response;
+            }
+
             //Checking if message contains the response trigger
             await Task.Run(() =>
             {

@@ -1,6 +1,7 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Robit.Response;
 using System.ComponentModel;
@@ -135,15 +136,21 @@ namespace Robit.Command
                     response = response
                 };
 
-                List<ResponseManager.ResponseEntry> allResponseEntries;
-                allResponseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString()); //Converting possible null value to non-nullable type
+                List<ResponseManager.ResponseEntry>? allResponseEntries;
+                allResponseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString());
 
-                foreach (ResponseManager.ResponseEntry entry in allResponseEntries) //Dereference of a possbile null reference
+                if (allResponseEntries != null)
                 {
-                    if (entry.reactName.ToLower() == responseEntry.reactName.ToLower())
+                    if (!allResponseEntries.Any())
                     {
-                        await ctx.CreateResponseAsync("A response with a same name already exists", true);
-                        return;
+                        foreach (ResponseManager.ResponseEntry entry in allResponseEntries)
+                        {
+                            if (entry.reactName.ToLower() == responseEntry.reactName.ToLower())
+                            {
+                                await ctx.CreateResponseAsync("A response with a same name already exists", true);
+                                return;
+                            }
+                        }
                     }
                 }
 
@@ -214,18 +221,29 @@ namespace Robit.Command
                 [DefaultValue(false)]
                 bool visible = false)
             {
-                List<ResponseManager.ResponseEntry> responseEntries = new List<ResponseManager.ResponseEntry>();
+                List<ResponseManager.ResponseEntry>? responseEntries = new List<ResponseManager.ResponseEntry>();
 
                 DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder();
 
                 discordEmbedBuilder.Title = "List of all responses";
                 discordEmbedBuilder.Color = DiscordColor.Purple;
 
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
-                    responseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString()); //Converting possible null value to non-nullable type
+                    responseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString());
 
-                    foreach (ResponseManager.ResponseEntry responseEntry in responseEntries) //Dereference of a possbile null reference
+                    if (responseEntries == null)
+                    {
+                        await ctx.CreateResponseAsync("Server has no response entries");
+                        return;
+                    }
+                    else if (!responseEntries.Any())
+                    {
+                        await ctx.CreateResponseAsync("Server has no response entries");
+                        return;
+                    }
+
+                    foreach (ResponseManager.ResponseEntry responseEntry in responseEntries)
                     {
                         discordEmbedBuilder.AddField
                         (
@@ -670,7 +688,7 @@ namespace Robit.Command
 
             if (quoteEntries == null)
             {
-            string jsonString = File.ReadAllText(path);
+                string jsonString = File.ReadAllText(path);
 
                 try
                 {
@@ -687,6 +705,19 @@ namespace Robit.Command
             }
 
             Random rand = new Random();
+
+            if (quoteEntries == null)
+            {
+                await ctx.CreateResponseAsync("Failed to fetch Warhammer 40k quote", true);
+
+                return;
+            }
+            else if (!quoteEntries.Any())
+            {
+                await ctx.CreateResponseAsync("Failed to fetch Warhammer 40k quote", true);
+
+                return;
+            }
 
             QuoteEntry quoteEntry = quoteEntries.ElementAt(rand.Next(quoteEntries.Count));
 
