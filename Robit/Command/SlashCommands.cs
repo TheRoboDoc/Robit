@@ -637,7 +637,7 @@ namespace Robit.Command
                 }
 
                 int sum = rolledValues.Sum();
-                int average = sum / rolledValues.Count();
+                int average = sum / rolledValues.Count;
                 int min = rolledValues.Min();
                 int max = rolledValues.Max();
 
@@ -697,7 +697,7 @@ namespace Robit.Command
                 }
                 catch (Exception ex)
                 {
-                    Program.botClient?.Logger.LogWarning(ex.Message);
+                    Program.botClient?.Logger.LogWarning("{Error}", ex.Message);
 
                     await ctx.CreateResponseAsync("Failed to fetch Warhammer 40k quote", true);
 

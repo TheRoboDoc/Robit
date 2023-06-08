@@ -206,7 +206,7 @@ namespace Robit.Response
                     string? giphyResult = Program.giphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
 
                     //Inserting the link into the bot message
-                    response = response.Substring(0, match.Index) + $"\n{giphyResult}" + response.Substring(match.Index + match.Length) + "\n`Powered by GIPHY`";
+                    response = string.Concat(response.AsSpan(0, match.Index), $"\n{giphyResult}", response.AsSpan(match.Index + match.Length), "\n`Powered by GIPHY`");
                 }
 
                 //Censoring if needed
@@ -225,8 +225,8 @@ namespace Robit.Response
                 //Log the AI interaction only if we are in debug mode
                 if (Program.DebugStatus())
                 {
-                    Program.botClient?.Logger.LogDebug($"Message: {messageArgs.Message.Content}");
-                    Program.botClient?.Logger.LogDebug($"Reply: {response}");
+                    Program.botClient?.Logger.LogDebug("Message: {message}", messageArgs.Message.Content);
+                    Program.botClient?.Logger.LogDebug("Reply: {response}", response);
                 }
             }
             else
@@ -236,7 +236,7 @@ namespace Robit.Response
                     throw new NullReferenceException("OpenAI text generation failed with an unknown error");
                 }
 
-                Program.botClient?.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
+                Program.botClient?.Logger.LogError("{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
 
                 return Tuple.Create(false, $"OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}");
             }
@@ -390,7 +390,7 @@ namespace Robit.Response
 
                     string? giphyResult = Program.giphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
 
-                    response = response.Substring(0, match.Index) + $"\n{giphyResult}" + response.Substring(match.Index + match.Length) + "\n`Powered by GIPHY`";
+                    response = string.Concat(response.AsSpan(0, match.Index), $"\n{giphyResult}", response.AsSpan(match.Index + match.Length), "\n`Powered by GIPHY`");
                 }
 
                 if (AICheck(response).Result)
@@ -401,8 +401,8 @@ namespace Robit.Response
                 //Log the AI interaction only if we are in debug mode
                 if (Program.DebugStatus())
                 {
-                    Program.botClient?.Logger.LogDebug($"Message: {prompt}");
-                    Program.botClient?.Logger.LogDebug($"Reply: {response}");
+                    Program.botClient?.Logger.LogDebug("Message: {prompt}", prompt);
+                    Program.botClient?.Logger.LogDebug("Reply: {response}", response);
                 }
             }
             else
@@ -412,7 +412,7 @@ namespace Robit.Response
                     throw new NullReferenceException("OpenAI text generation failed with an unknown error");
                 }
 
-                Program.botClient?.Logger.LogError($"{completionResult.Error.Code}: {completionResult.Error.Message}");
+                Program.botClient?.Logger.LogError("{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
 
                 return Tuple.Create(false, $"OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}");
             }
