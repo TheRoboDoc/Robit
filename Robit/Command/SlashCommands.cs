@@ -655,6 +655,8 @@ namespace Robit.Command
             public string bookSource { get; set; }
         }
 
+        List<QuoteEntry>? quoteEntries;
+
         [SlashCommand("wh40kquote", "Fetches a random Warhammer 40k quote")]
         [SlashCommandPermissions(Permissions.SendMessages)]
         public async Task WH40kQuote(InteractionContext ctx)
@@ -666,17 +668,23 @@ namespace Robit.Command
                 CreateFile(path);
             }
 
+            if (quoteEntries == null)
+            {
             string jsonString = File.ReadAllText(path);
 
-            List<QuoteEntry>? quoteEntries = new List<QuoteEntry>();
-
-            await Task.Run(() =>
-            {
-                if (!string.IsNullOrEmpty(jsonString))
+                try
                 {
                     quoteEntries = JsonConvert.DeserializeObject<List<QuoteEntry>>(jsonString);
                 }
-            });
+                catch (Exception ex)
+                {
+                    Program.botClient?.Logger.LogWarning(ex.Message);
+
+                    await ctx.CreateResponseAsync("Failed to fetch Warhammer 40k quote", true);
+
+                    return;
+                }
+            }
 
             Random rand = new Random();
 
