@@ -13,7 +13,7 @@ namespace Robit.Command
     {
         #region Technical
         [SlashCommand("Ping", "Pings the bot, the bot responds with the ping time in milliseconds")]
-        public async Task Ping(InteractionContext ctx,
+        public static async Task Ping(InteractionContext ctx,
 
         [Option("Times", "Amount of times the bot should be pinged (Max 3)")]
         [DefaultValue(1)]
@@ -42,7 +42,7 @@ namespace Robit.Command
 
         #region Help
         [SlashCommand("Commands", "Lists all commands for the bot")]
-        public async Task Commands(InteractionContext ctx)
+        public static async Task Commands(InteractionContext ctx)
         {
             SlashCommandsExtension slashCommandsExtension = Program.botClient.GetSlashCommands();
 
@@ -75,7 +75,7 @@ namespace Robit.Command
         #region Interaction
         #region Introduction
         [SlashCommand("Intro", "Bot introduction")]
-        public async Task Intro(InteractionContext ctx)
+        public static async Task Intro(InteractionContext ctx)
         {
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder()
             {
@@ -97,7 +97,7 @@ namespace Robit.Command
         }
 
         [SlashCommand("Github", "Posts a link to Robit's GitHub repo")]
-        public async Task GitHub(InteractionContext ctx)
+        public static async Task GitHub(InteractionContext ctx)
         {
             await ctx.CreateResponseAsync("https://github.com/TheRoboDoc/Robit", true);
         }
@@ -111,7 +111,7 @@ namespace Robit.Command
         public class Response
         {
             [SlashCommand("Add", "Add a response interaction")]
-            public async Task Add(InteractionContext ctx,
+            public static async Task Add(InteractionContext ctx,
 
             [Option("Name", "Name of the response interaction")]
             [MaximumLength(50)]
@@ -161,7 +161,7 @@ namespace Robit.Command
 
 
             [SlashCommand("Remove", "Remove a response interaction by a given name")]
-            public async Task Remove(InteractionContext ctx,
+            public static async Task Remove(InteractionContext ctx,
 
             [Option("Name", "Name of the response interaction to delete")]
             string name,
@@ -182,7 +182,7 @@ namespace Robit.Command
 
 
             [SlashCommand("Modify", "Modify a response")]
-            public async Task Modify(InteractionContext ctx,
+            public static async Task Modify(InteractionContext ctx,
 
             [Option("Name", "Name of the response interaction to modify")]
             string name,
@@ -216,17 +216,18 @@ namespace Robit.Command
 
 
             [SlashCommand("List", "List all the response interactions")]
-            public async Task List(InteractionContext ctx,
+            public static async Task List(InteractionContext ctx,
                 [Option("Visible", "Sets the commands visibility", true)]
                 [DefaultValue(false)]
                 bool visible = false)
             {
                 List<ResponseManager.ResponseEntry>? responseEntries = new List<ResponseManager.ResponseEntry>();
 
-                DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder();
-
-                discordEmbedBuilder.Title = "List of all responses";
-                discordEmbedBuilder.Color = DiscordColor.Purple;
+                DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder
+                {
+                    Title = "List of all responses",
+                    Color = DiscordColor.Purple
+                };
 
                 await Task.Run(async () =>
                 {
@@ -258,7 +259,7 @@ namespace Robit.Command
 
             [SlashCommand("Wipe", "Wipe all of the response interactions")]
             [SlashCommandPermissions(Permissions.Administrator)]
-            public async Task Wipe(InteractionContext ctx,
+            public static async Task Wipe(InteractionContext ctx,
                 [Option("visible", "Sets the visibility", true)]
                 [DefaultValue(false)]
                 bool visible = false)
@@ -272,7 +273,7 @@ namespace Robit.Command
 
             [SlashCommand("Ignore", "Should Robit's auto response ignore this channel or not")]
             [SlashCommandPermissions(Permissions.ManageChannels | Permissions.ManageMessages)]
-            public async Task Ignore(InteractionContext ctx,
+            public static async Task Ignore(InteractionContext ctx,
             [Option("Ignore", "To ignore or not, true will ignore, false will not")]
             bool ignore,
             [Option("Visible", "Sets the visibility")]
@@ -310,7 +311,7 @@ namespace Robit.Command
         }
 
         [SlashCommand("Convert", "Converts a given file from one format to another")]
-        public async Task Convert(InteractionContext ctx,
+        public static async Task Convert(InteractionContext ctx,
             [Option("Media_file", "Media file to convert from")] DiscordAttachment attachment,
             [Option("Format", "Format to convert to")] FileFormats fileFormat,
             [Option("Visible", "Sets the visibility", true)][DefaultValue(false)] bool visible = false)
@@ -428,7 +429,7 @@ namespace Robit.Command
 
         #region Tag Voice
         [SlashCommand("Tagvoice", "Tags everyone in the same voice channel as you")]
-        public async Task TagVoice(InteractionContext ctx,
+        public static async Task TagVoice(InteractionContext ctx,
             [Option("Message", "Message to ping people in current voice chat with")]
             [DefaultValue("")]
             string message = "",
@@ -483,7 +484,7 @@ namespace Robit.Command
 
         #region AI Interactions
         [SlashCommand("Prompt", "Prompt the bot for a text response")]
-        public async Task Text(InteractionContext ctx,
+        public static async Task Text(InteractionContext ctx,
             [Option("AI_prompt", "The AI text prompt")]
             [MaximumLength(690)]
             string prompt,
@@ -532,7 +533,7 @@ namespace Robit.Command
 
         [SlashCommand("AI_Ignore", "Should Robit's AI module ignore this channel, prompt command will still work")]
         [SlashCommandPermissions(Permissions.ManageChannels | Permissions.ManageMessages)]
-        public async Task AIIgnore(InteractionContext ctx,
+        public static async Task AIIgnore(InteractionContext ctx,
             [Option("Ignore", "To ignore or not, true will ignore, false will not")]
             bool ignore,
             [Option("Visible", "Sets the visibility")]
@@ -559,7 +560,7 @@ namespace Robit.Command
         public class RandomCommands
         {
             [SlashCommand("Number", "Generates a psudorandom number within given range")]
-            public async Task Number(InteractionContext ctx,
+            public static async Task Number(InteractionContext ctx,
             [Option("Maximum_value", "Maximum value for the random number")]
             [Minimum(0)]
             [Maximum(int.MaxValue)]
@@ -604,7 +605,7 @@ namespace Robit.Command
             }
 
             [SlashCommand("Dice", "Roll dice")]
-            public async Task Dice(InteractionContext ctx,
+            public static async Task Dice(InteractionContext ctx,
             [Option("Dice_type", "Type of dice to roll")]
             DiceTypes dice,
             [Option("Amount", "Amount of dice to roll")]
