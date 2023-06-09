@@ -678,7 +678,10 @@ namespace Robit.Command
 
         [SlashCommand("wh40kquote", "Fetches a random Warhammer 40k quote")]
         [SlashCommandPermissions(Permissions.SendMessages)]
-        public async Task WH40kQuote(InteractionContext ctx)
+        public async Task WH40kQuote(InteractionContext ctx,
+        [Option("Visible", "Sets the visibility", true)]
+        [DefaultValue(true)]
+        bool visible = true)
         {
             string path = $"{Paths.resources}/Wh40ImperialQuotes.json";
 
@@ -740,7 +743,7 @@ namespace Robit.Command
                 embedBuilder.AddField("Source:", quoteEntry.bookSource);
             }
 
-            await ctx.CreateResponseAsync(embedBuilder);
+            await ctx.CreateResponseAsync(embedBuilder, !visible);
         }
         #endregion
 
