@@ -437,7 +437,7 @@ namespace Robit.Command
             [DefaultValue(null)]
             DiscordAttachment? attachment = null)
         {
-            if (ctx.Member.VoiceState?.Channel == null)
+            if (ctx.Member.VoiceState.Channel == null)
             {
                 await ctx.CreateResponseAsync("You must be in a voice chat", true);
                 return;
