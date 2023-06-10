@@ -1,6 +1,7 @@
 ﻿using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace Robit.WordFilter
 {
@@ -82,45 +83,10 @@ namespace Robit.WordFilter
         /// <returns>A string with removed special characters</returns>
         public static string SpecialCharacterRemoval(string aString)
         {
-            //There's a better way, but this works for now
-            aString = aString.Replace("+", " ");
-            aString = aString.Replace("`", " ");
-            aString = aString.Replace("¨", " ");
-            aString = aString.Replace("\'", " ");
-            aString = aString.Replace(",", " ");
-            aString = aString.Replace(".", " ");
-            aString = aString.Replace("-", " ");
-            aString = aString.Replace("!", "");
-            aString = aString.Replace("\"", " ");
-            aString = aString.Replace("#", " ");
-            aString = aString.Replace("¤", " ");
-            aString = aString.Replace("%", " ");
-            aString = aString.Replace("&", " ");
-            aString = aString.Replace("/", " ");
-            aString = aString.Replace("(", " ");
-            aString = aString.Replace(")", " ");
-            aString = aString.Replace("=", " ");
-            aString = aString.Replace("?", " ");
-            aString = aString.Replace("´", " ");
-            aString = aString.Replace("^", " ");
-            aString = aString.Replace("*", " ");
-            aString = aString.Replace(";", " ");
-            aString = aString.Replace(":", " ");
-            aString = aString.Replace("_", " ");
-            aString = aString.Replace("§", " ");
-            aString = aString.Replace("½", " ");
-            aString = aString.Replace("@", " ");
-            aString = aString.Replace("£", " ");
-            aString = aString.Replace("$", " ");
-            aString = aString.Replace("€", " ");
-            aString = aString.Replace("{", " ");
-            aString = aString.Replace("[", " ");
-            aString = aString.Replace("]", " ");
-            aString = aString.Replace("}", " ");
-            aString = aString.Replace("\\", " ");
-            aString = aString.Replace("~", " ");
+            string pattern = @"[+`¨',.\-!""#¤%&/()=?´^*;:_§½@£$€{\[\]}~\\]";
+            string replacement = " ";
 
-            return aString;
+            return Regex.Replace(aString, pattern, replacement);
         }
     }
 }

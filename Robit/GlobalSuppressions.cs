@@ -19,3 +19,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Style", "IDE0057:Use range operator", Justification = "This is just ugly", Scope = "member", Target = "~M:Robit.Command.SlashCommands.Commands(DSharpPlus.SlashCommands.InteractionContext)~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Breaks Commands if this is done", Scope = "member", Target = "~M:Robit.Command.Commands.Ping(DSharpPlus.CommandsNext.CommandContext)~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Style", "IDE0057:Use range operator", Justification = "This is just ugly", Scope = "member", Target = "~M:Robit.Program.MainAsync~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "Breaks AI status check", Scope = "member", Target = "~F:Robit.Program.chosenStatus")]

@@ -114,23 +114,24 @@ namespace Robit
             /// <param name="format">The format of the file</param>
             public static async Task SaveFile(string url, string channelID, string format)
             {
-                WebClient client = new WebClient(); //Needs to be replaced with HttpClient at somepoint
-
+                using HttpClient client = new HttpClient();
                 string path = IDToPath(channelID);
 
                 DirectoryInfo directory = new DirectoryInfo(path);
 
-                await Task.Run(() =>
+                if (!directory.Exists)
                 {
-                    if (!directory.Exists)
-                    {
-                        directory.Create();
-                    }
+                    directory.Create();
+                }
 
-                    client.DownloadFile(new Uri(url), $"{path}/download.{format}");
+                using HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
 
-                    Task.Delay(2000); //Things don't work properly if this is removed
-                });
+                using Stream contentStream = await response.Content.ReadAsStreamAsync();
+                string filePath = Path.Combine(path, $"download.{format}");
+
+                using FileStream fileStream = new FileStream(filePath, FileMode.Create);
+                await contentStream.CopyToAsync(fileStream);
             }
 
             /// <summary>

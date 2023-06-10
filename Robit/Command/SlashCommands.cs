@@ -437,7 +437,7 @@ namespace Robit.Command
             [DefaultValue(null)]
             DiscordAttachment? attachment = null)
         {
-            if (ctx.Member.VoiceState?.Channel == null)
+            if (ctx.Member.VoiceState.Channel == null)
             {
                 await ctx.CreateResponseAsync("You must be in a voice chat", true);
                 return;
@@ -640,7 +640,45 @@ namespace Robit.Command
                 int average = sum / rolledValues.Count;
                 int min = rolledValues.Min();
                 int max = rolledValues.Max();
+                float median;
+                float mean = sum / rolledValues.Count;
 
+                if (rolledValues.Count % 2 == 0) //even
+                {
+                    //(X[n / 2] + X[(n / 2) + 1]) / 2
+
+                    float pos1 = rolledValues[rolledValues.Count / 2];
+                    float pos2 = rolledValues[(rolledValues.Count / 2) + 1];
+
+                    median = (pos1 + pos2) / 2;
+                }
+                else
+                {
+                    //X[(n + 1) / 2]
+
+                    median = rolledValues[(rolledValues.Count + 1) / 2];
+                }
+
+                Dictionary<int, int> frequencyMap = new Dictionary<int, int>();
+
+                // Count the frequency of each number
+                foreach (int rolledValue in rolledValues)
+                {
+                    if (frequencyMap.ContainsKey(rolledValue))
+                    {
+                        frequencyMap[rolledValue]++;
+                    }
+                    else
+                    {
+                        frequencyMap[rolledValue] = 1;
+                    }
+                }
+
+                // Find the maximum frequency
+                int maxFrequency = frequencyMap.Values.Max();
+
+                // Find the numbers with the maximum frequency (modes)
+                List<int> modes = frequencyMap.Where(pair => pair.Value == maxFrequency).Select(pair => pair.Key).ToList();
 
                 DiscordEmbedBuilder embed = new DiscordEmbedBuilder()
                 {
@@ -657,6 +695,9 @@ namespace Robit.Command
                 {
                     embed.AddField("Sum", $"{sum}");
                     embed.AddField("Average", $"{average}");
+                    embed.AddField("Median", $"{median}");
+                    embed.AddField("Mean", $"{mean}");
+                    embed.AddField("Mode(s)", string.Join(", ", modes));
                     embed.AddField("Min", $"{min}");
                     embed.AddField("Max", $"{max}");
                 }
@@ -678,7 +719,10 @@ namespace Robit.Command
 
         [SlashCommand("wh40kquote", "Fetches a random Warhammer 40k quote")]
         [SlashCommandPermissions(Permissions.SendMessages)]
-        public async Task WH40kQuote(InteractionContext ctx)
+        public async Task WH40kQuote(InteractionContext ctx,
+        [Option("Visible", "Sets the visibility", true)]
+        [DefaultValue(true)]
+        bool visible = true)
         {
             string path = $"{Paths.resources}/Wh40ImperialQuotes.json";
 
@@ -740,7 +784,7 @@ namespace Robit.Command
                 embedBuilder.AddField("Source:", quoteEntry.bookSource);
             }
 
-            await ctx.CreateResponseAsync(embedBuilder);
+            await ctx.CreateResponseAsync(embedBuilder, !visible);
         }
         #endregion
 
