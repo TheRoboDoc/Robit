@@ -158,6 +158,8 @@ namespace Robit
             botClient.Logger.LogWarning("RESTARTING DUE TO ZOMBIENG");
         }
 
+        public static string? chosenStatus;
+
         /// <summary>
         /// Updates the bots status to a random predetermined value. 
         /// This is called on hearthbeat event, thus requiring heartbeat event arguments
@@ -191,9 +193,7 @@ namespace Robit
                 "Hiding from an inquisitor",
                 "Pretending to not being an AI",
                 ">_<"
-                };
-
-            string chosenStatus;
+            };
 
             try
             {
