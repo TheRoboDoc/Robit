@@ -1,11 +1,10 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Robit.Response;
 using System.ComponentModel;
 using static Robit.FileManager;
+using static Robit.FileManager.QuoteManager;
 
 namespace Robit.Command
 {
@@ -708,83 +707,201 @@ namespace Robit.Command
         #endregion
 
         #region Quotes
-        public struct QuoteEntry
-        {
-            public string quote { get; set; }
-            public string author { get; set; }
-            public string bookSource { get; set; }
-        }
-
-        List<QuoteEntry>? quoteEntries;
-
-        [SlashCommand("wh40kquote", "Fetches a random Warhammer 40k quote")]
+        [SlashCommandGroup("Wh40kquote", "A set of commands to post 40k quotes")]
         [SlashCommandPermissions(Permissions.SendMessages)]
-        public async Task WH40kQuote(InteractionContext ctx,
-        [Option("Visible", "Sets the visibility", true)]
-        [DefaultValue(true)]
-        bool visible = true)
+        public class Wh40kQuotes
         {
-            string path = $"{Paths.resources}/Wh40ImperialQuotes.json";
+            static List<QuoteEntry>? quoteEntries;
 
-            if (!FileExists(path))
+            [SlashCommand("By_Author", "Search quotes by in universe author")]
+            public static async Task ByAuthor(InteractionContext ctx,
+            [Option("Search", "Search term to search by")]
+            [MaximumLength(40)]
+            string searchTerm,
+            [Option("Count", "Max amount of matches to return", true)]
+            [Maximum(10)]
+            double count = 1,
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
             {
-                CreateFile(path);
-            }
+                quoteEntries ??= FetchAllEntries();
 
-            if (quoteEntries == null)
-            {
-                string jsonString = File.ReadAllText(path);
+                List<QuoteEntry>? foundEntries = FetchByAuthor(searchTerm, (int)count, quoteEntries);
 
-                try
+                if (foundEntries == null)
                 {
-                    quoteEntries = JsonConvert.DeserializeObject<List<QuoteEntry>>(jsonString);
-                }
-                catch (Exception ex)
-                {
-                    Program.botClient?.Logger.LogWarning("{Error}", ex.Message);
-
                     await ctx.CreateResponseAsync("Failed to fetch Warhammer 40k quote", true);
 
                     return;
                 }
+                else if (!foundEntries.Any())
+                {
+                    await ctx.CreateResponseAsync("Didn't find any quotes by that author search", true);
+
+                    return;
+                }
+
+                if (count > 3)
+                {
+                    visible = false;
+                }
+
+                foreach (QuoteEntry entry in foundEntries)
+                {
+                    string quoteText = $"***\"{entry.quote}\"***";
+
+                    if (!string.IsNullOrEmpty(entry.author))
+                    {
+                        quoteText += $"\n*⎯ {entry.author}*";
+                    }
+
+                    DiscordEmbedBuilder embedBuilder = new DiscordEmbedBuilder()
+                    {
+                        Color = DiscordColor.Purple,
+                        Description = quoteText
+                    };
+
+                    if (!string.IsNullOrEmpty(entry.bookSource))
+                    {
+                        embedBuilder.AddField("Source:", entry.bookSource);
+                    }
+
+                    if (foundEntries.IndexOf(entry) == 0)
+                    {
+                        await ctx.CreateResponseAsync(embedBuilder, !visible);
+                    }
+                    else
+                    {
+                        DiscordFollowupMessageBuilder builder = new DiscordFollowupMessageBuilder()
+                        {
+                            IsEphemeral = !visible
+                        };
+
+                        builder.AddEmbed(embedBuilder);
+
+                        await ctx.FollowUpAsync(builder);
+                    }
+                }
             }
 
-            Random rand = new Random();
-
-            if (quoteEntries == null)
+            [SlashCommand("By_Source", "Search quotes by source")]
+            public static async Task BySource(InteractionContext ctx,
+            [Option("Search", "Search term to search by")]
+            [MaximumLength(40)]
+            string searchTerm,
+            [Option("Count", "Max amount of matches to return", true)]
+            [Maximum(10)]
+            double count = 1,
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
             {
-                await ctx.CreateResponseAsync("Failed to fetch Warhammer 40k quote", true);
+                quoteEntries ??= FetchAllEntries();
 
-                return;
+                List<QuoteEntry>? foundEntries = FetchBySource(searchTerm, (int)count, quoteEntries);
+
+                if (foundEntries == null)
+                {
+                    await ctx.CreateResponseAsync("Failed to fetch Warhammer 40k quote", true);
+
+                    return;
+                }
+                else if (!foundEntries.Any())
+                {
+                    await ctx.CreateResponseAsync("Didn't find any quotes by that author search", true);
+
+                    return;
+                }
+
+                if (count > 3)
+                {
+                    visible = false;
+                }
+
+                foreach (QuoteEntry entry in foundEntries)
+                {
+                    string quoteText = $"***\"{entry.quote}\"***";
+
+                    if (!string.IsNullOrEmpty(entry.author))
+                    {
+                        quoteText += $"\n*⎯ {entry.author}*";
+                    }
+
+                    DiscordEmbedBuilder embedBuilder = new DiscordEmbedBuilder()
+                    {
+                        Color = DiscordColor.Purple,
+                        Description = quoteText
+                    };
+
+                    if (!string.IsNullOrEmpty(entry.bookSource))
+                    {
+                        embedBuilder.AddField("Source:", entry.bookSource);
+                    }
+
+                    if (foundEntries.IndexOf(entry) == 0)
+                    {
+                        await ctx.CreateResponseAsync(embedBuilder, !visible);
+                    }
+                    else
+                    {
+                        DiscordFollowupMessageBuilder builder = new DiscordFollowupMessageBuilder()
+                        {
+                            IsEphemeral = !visible
+                        };
+
+                        builder.AddEmbed(embedBuilder);
+
+                        await ctx.FollowUpAsync(builder);
+                    }
+                }
             }
-            else if (!quoteEntries.Any())
-            {
-                await ctx.CreateResponseAsync("Failed to fetch Warhammer 40k quote", true);
 
-                return;
+            [SlashCommand("Random", "Fetches a random Warhammer 40k quote")]
+            public static async Task RandomQuote(InteractionContext ctx,
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(true)]
+            bool visible = true)
+            {
+                quoteEntries ??= FetchAllEntries();
+
+                Random rand = new Random();
+
+                if (quoteEntries == null)
+                {
+                    await ctx.CreateResponseAsync("Failed to fetch Warhammer 40k quote", true);
+
+                    return;
+                }
+                else if (!quoteEntries.Any())
+                {
+                    await ctx.CreateResponseAsync("Failed to fetch Warhammer 40k quote", true);
+
+                    return;
+                }
+
+                QuoteEntry quoteEntry = quoteEntries.ElementAt(rand.Next(quoteEntries.Count));
+
+                string quoteText = $"***\"{quoteEntry.quote}\"***";
+
+                if (!string.IsNullOrEmpty(quoteEntry.author))
+                {
+                    quoteText += $"\n*⎯ {quoteEntry.author}*";
+                }
+
+                DiscordEmbedBuilder embedBuilder = new DiscordEmbedBuilder()
+                {
+                    Color = DiscordColor.Purple,
+                    Description = quoteText
+                };
+
+                if (!string.IsNullOrEmpty(quoteEntry.bookSource))
+                {
+                    embedBuilder.AddField("Source:", quoteEntry.bookSource);
+                }
+
+                await ctx.CreateResponseAsync(embedBuilder, !visible);
             }
-
-            QuoteEntry quoteEntry = quoteEntries.ElementAt(rand.Next(quoteEntries.Count));
-
-            string quoteText = $"***\"{quoteEntry.quote}\"***";
-
-            if (!string.IsNullOrEmpty(quoteEntry.author))
-            {
-                quoteText += $"\n*⎯ {quoteEntry.author}*";
-            }
-
-            DiscordEmbedBuilder embedBuilder = new DiscordEmbedBuilder()
-            {
-                Color = DiscordColor.Purple,
-                Description = quoteText
-            };
-
-            if (!string.IsNullOrEmpty(quoteEntry.bookSource))
-            {
-                embedBuilder.AddField("Source:", quoteEntry.bookSource);
-            }
-
-            await ctx.CreateResponseAsync(embedBuilder, !visible);
         }
         #endregion
 
