@@ -1,5 +1,6 @@
-﻿using Robit.Converter;
-using System.Net;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Robit.Converter;
 using System.Reflection;
 using System.Text.Json;
 
@@ -89,6 +90,137 @@ namespace Robit
             FileInfo fileInfo = new FileInfo(fileDir);
 
             fileInfo.Create().Dispose();
+        }
+
+        /// <summary>
+        /// Sets of methods to manage quotes
+        /// </summary>
+        public static class QuoteManager
+        {
+            /// <summary>
+            /// Quote entry data representation
+            /// </summary>
+            public struct QuoteEntry
+            {
+                public string quote { get; set; }
+                public string author { get; set; }
+                public string bookSource { get; set; }
+            }
+
+            private static readonly string path = $"{Paths.resources}/Wh40ImperialQuotes.json";
+
+            /// <summary>
+            /// Fetches all of the quote entries
+            /// </summary>
+            /// <returns>A list of quote entries</returns>
+            public static List<QuoteEntry>? FetchAllEntries()
+            {
+                if (!FileExists(path))
+                {
+                    CreateFile(path);
+                }
+
+                List<QuoteEntry>? quoteEntries = new List<QuoteEntry>();
+
+                string jsonString = File.ReadAllText(path);
+
+                try
+                {
+                    quoteEntries = JsonConvert.DeserializeObject<List<QuoteEntry>?>(jsonString);
+                }
+                catch (Exception e)
+                {
+                    Program.botClient?.Logger.LogWarning("{Error}", e.Message);
+                }
+
+                return quoteEntries;
+            }
+
+            /// <summary>
+            /// Fetches all the quote entries by matching a given author.
+            /// Will call <c>FetchAllEntries()</c> if quote entries are not given as a parameter
+            /// </summary>
+            /// <param name="author">Author to search by</param>
+            /// <param name="quoteEntries">Quote entries to search through</param>
+            /// <returns>A list of up to ten quote entries</returns>
+            public static List<QuoteEntry>? FetchByAuthor(string author, int count, List<QuoteEntry>? quoteEntries = null)
+            {
+                if (quoteEntries == null)
+                {
+                    quoteEntries = FetchAllEntries();
+                }
+                else if (!quoteEntries.Any())
+                {
+                    quoteEntries = FetchAllEntries();
+                }
+
+                List<QuoteEntry> foundMatches = new List<QuoteEntry>();
+
+                author = author.ToLower();
+
+                int counter = 1;
+
+                quoteEntries ??= new List<QuoteEntry>();
+
+                foreach (QuoteEntry quoteEntry in quoteEntries)
+                {
+                    if (counter > count)
+                    {
+                        break;
+                    }
+
+                    if (quoteEntry.author.ToLower().Contains(author))
+                    {
+                        foundMatches.Add(quoteEntry);
+                        counter++;
+                    }
+                }
+
+                return foundMatches;
+            }
+
+            /// <summary>
+            /// Fetches all the quote entries by matching a given source.
+            /// Will call <c>FetchAllEntries()</c> if quote entries are not given as a parameter
+            /// </summary>
+            /// <param name="source">Author to search by</param>
+            /// <param name="quoteEntries">Quote entries to search through</param>
+            /// <returns>A list of up to ten quote entries</returns>
+            public static List<QuoteEntry>? FetchBySource(string source, int count, List<QuoteEntry>? quoteEntries = null)
+            {
+                if (quoteEntries == null)
+                {
+                    quoteEntries = FetchAllEntries();
+                }
+                else if (!quoteEntries.Any())
+                {
+                    quoteEntries = FetchAllEntries();
+                }
+
+                List<QuoteEntry> foundMatches = new List<QuoteEntry>();
+
+                source = source.ToLower();
+
+                int counter = 1;
+
+                quoteEntries ??= new List<QuoteEntry>();
+
+                foreach (QuoteEntry quoteEntry in quoteEntries)
+                {
+                    if (counter > count)
+                    {
+                        break;
+                    }
+
+                    if (quoteEntry.bookSource.ToLower().Contains(source))
+                    {
+                        foundMatches.Add(quoteEntry);
+                        counter++;
+                    }
+                }
+
+                return foundMatches;
+            }
         }
 
         /// <summary>
@@ -327,7 +459,7 @@ namespace Robit
                     WriteIndented = true
                 };
 
-                JsonSerializer.Serialize(fileStream, responseEntries, jsonSerializerOptions);
+                System.Text.Json.JsonSerializer.Serialize(fileStream, responseEntries, jsonSerializerOptions);
 
                 fileStream.Close();
             }
@@ -352,7 +484,7 @@ namespace Robit
 
                 if (!string.IsNullOrEmpty(jsonString))
                 {
-                    responseEntries = JsonSerializer.Deserialize<List<ResponseEntry>>(jsonString);
+                    responseEntries = System.Text.Json.JsonSerializer.Deserialize<List<ResponseEntry>>(jsonString);
                 }
 
                 return responseEntries;
@@ -395,7 +527,7 @@ namespace Robit
                     WriteIndented = true
                 };
 
-                JsonSerializer.Serialize(fileStream, responseEntries, jsonSerializerOptions);
+                System.Text.Json.JsonSerializer.Serialize(fileStream, responseEntries, jsonSerializerOptions);
 
                 fileStream.Close();
             }
@@ -508,7 +640,7 @@ namespace Robit
                     return newChannel;
                 }
 
-                return JsonSerializer.Deserialize<Channel>(jsonString);
+                return System.Text.Json.JsonSerializer.Deserialize<Channel>(jsonString);
             }
 
             /// <summary>
@@ -553,7 +685,7 @@ namespace Robit
                     WriteIndented = true
                 };
 
-                JsonSerializer.Serialize(fileStream, channel, jsonSerializerOptions);
+                System.Text.Json.JsonSerializer.Serialize(fileStream, channel, jsonSerializerOptions);
 
                 fileStream.Close();
             }
