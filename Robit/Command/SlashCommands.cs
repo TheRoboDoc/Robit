@@ -733,8 +733,6 @@ namespace Robit.Command
             [DefaultValue(false)]
             bool visible = false)
             {
-                var logger = Program.botClient?.Logger;
-
                 quoteEntries ??= FetchAllEntries();
 
                 List<QuoteEntry>? foundEntries;
