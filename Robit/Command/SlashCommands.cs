@@ -711,13 +711,21 @@ namespace Robit.Command
         [SlashCommandPermissions(Permissions.SendMessages)]
         public class Wh40kQuotes
         {
-            static List<QuoteEntry>? quoteEntries;
+            private static List<QuoteEntry>? quoteEntries;
+
+            public enum Selection
+            {
+                First,
+                At_Random
+            }
 
             [SlashCommand("By_Author", "Search quotes by in universe author")]
             public static async Task ByAuthor(InteractionContext ctx,
             [Option("Search", "Search term to search by")]
             [MaximumLength(40)]
             string searchTerm,
+            [Option("Result_Type", "Type of result you want to be fetch")]
+            Selection selection = Selection.At_Random,
             [Option("Count", "Max amount of matches to return", true)]
             [Maximum(10)]
             double count = 1,
@@ -727,7 +735,18 @@ namespace Robit.Command
             {
                 quoteEntries ??= FetchAllEntries();
 
-                List<QuoteEntry>? foundEntries = FetchByAuthor(searchTerm, (int)count, quoteEntries);
+                List<QuoteEntry>? foundEntries;
+
+                Random rand = new Random();
+
+                if (selection == Selection.At_Random)
+                {
+                    foundEntries = FetchByAuthor(searchTerm, int.MaxValue, quoteEntries);
+                }
+                else
+                {
+                    foundEntries = FetchByAuthor(searchTerm, (int)count, quoteEntries);
+                }
 
                 if (foundEntries == null)
                 {
@@ -745,6 +764,52 @@ namespace Robit.Command
                 if (count > 3)
                 {
                     visible = false;
+                }
+
+                if (selection == Selection.At_Random)
+                {
+                    int max = foundEntries.Count;
+
+                    for (int i = 0; i < (int)count; i++)
+                    {
+                        QuoteEntry entry = foundEntries.ElementAt(rand.Next(max));
+
+                        string quoteText = $"***\"{entry.quote}\"***";
+
+                        if (!string.IsNullOrEmpty(entry.author))
+                        {
+                            quoteText += $"\n*⎯ {entry.author}*";
+                        }
+
+                        DiscordEmbedBuilder embedBuilder = new DiscordEmbedBuilder()
+                        {
+                            Color = DiscordColor.Purple,
+                            Description = quoteText
+                        };
+
+                        if (!string.IsNullOrEmpty(entry.bookSource))
+                        {
+                            embedBuilder.AddField("Source:", entry.bookSource);
+                        }
+
+                        if (i == 0)
+                        {
+                            await ctx.CreateResponseAsync(embedBuilder, !visible);
+                        }
+                        else
+                        {
+                            DiscordFollowupMessageBuilder builder = new DiscordFollowupMessageBuilder()
+                            {
+                                IsEphemeral = !visible
+                            };
+
+                            builder.AddEmbed(embedBuilder);
+
+                            await ctx.FollowUpAsync(builder);
+                        }
+                    }
+
+                    return;
                 }
 
                 foreach (QuoteEntry entry in foundEntries)
@@ -790,6 +855,8 @@ namespace Robit.Command
             [Option("Search", "Search term to search by")]
             [MaximumLength(40)]
             string searchTerm,
+            [Option("Result_Type", "Type of result you want to be fetch")]
+            Selection selection = Selection.At_Random,
             [Option("Count", "Max amount of matches to return", true)]
             [Maximum(10)]
             double count = 1,
@@ -799,7 +866,18 @@ namespace Robit.Command
             {
                 quoteEntries ??= FetchAllEntries();
 
-                List<QuoteEntry>? foundEntries = FetchBySource(searchTerm, (int)count, quoteEntries);
+                List<QuoteEntry>? foundEntries;
+
+                Random rand = new Random();
+
+                if (selection == Selection.At_Random)
+                {
+                    foundEntries = FetchBySource(searchTerm, int.MaxValue, quoteEntries);
+                }
+                else
+                {
+                    foundEntries = FetchBySource(searchTerm, (int)count, quoteEntries);
+                }
 
                 if (foundEntries == null)
                 {
@@ -817,6 +895,52 @@ namespace Robit.Command
                 if (count > 3)
                 {
                     visible = false;
+                }
+
+                if (selection == Selection.At_Random)
+                {
+                    int max = foundEntries.Count;
+
+                    for (int i = 0; i < (int)count; i++)
+                    {
+                        QuoteEntry entry = foundEntries.ElementAt(rand.Next(max));
+
+                        string quoteText = $"***\"{entry.quote}\"***";
+
+                        if (!string.IsNullOrEmpty(entry.author))
+                        {
+                            quoteText += $"\n*⎯ {entry.author}*";
+                        }
+
+                        DiscordEmbedBuilder embedBuilder = new DiscordEmbedBuilder()
+                        {
+                            Color = DiscordColor.Purple,
+                            Description = quoteText
+                        };
+
+                        if (!string.IsNullOrEmpty(entry.bookSource))
+                        {
+                            embedBuilder.AddField("Source:", entry.bookSource);
+                        }
+
+                        if (i == 0)
+                        {
+                            await ctx.CreateResponseAsync(embedBuilder, !visible);
+                        }
+                        else
+                        {
+                            DiscordFollowupMessageBuilder builder = new DiscordFollowupMessageBuilder()
+                            {
+                                IsEphemeral = !visible
+                            };
+
+                            builder.AddEmbed(embedBuilder);
+
+                            await ctx.FollowUpAsync(builder);
+                        }
+                    }
+
+                    return;
                 }
 
                 foreach (QuoteEntry entry in foundEntries)
