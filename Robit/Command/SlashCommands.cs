@@ -230,9 +230,9 @@ namespace Robit.Command
             [SlashCommand("List", "List all the response interactions")]
             public static async Task List(InteractionContext ctx,
 
-                [Option("Visible", "Sets the commands visibility", true)]
-                [DefaultValue(false)]
-                bool visible = false)
+            [Option("Visible", "Sets the commands visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
             {
                 List<ResponseManager.ResponseEntry>? responseEntries = new List<ResponseManager.ResponseEntry>();
 
@@ -277,9 +277,9 @@ namespace Robit.Command
             [Option("Are_You_Sure", "Aure you sure you want to wipe all responses on the server?")]
             bool check,
 
-                [Option("visible", "Sets the visibility", true)]
-                [DefaultValue(false)]
-                bool visible = false)
+            [Option("visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
             {
                 if (!check)
                 {
@@ -346,9 +346,9 @@ namespace Robit.Command
         [SlashCommand("Convert", "Converts a given file from one format to another")]
         [SlashCommandPermissions(Permissions.AttachFiles | Permissions.SendMessages)]
         public static async Task Convert(InteractionContext ctx,
-            [Option("Media_file", "Media file to convert from")] DiscordAttachment attachment,
-            [Option("Format", "Format to convert to")] FileFormats fileFormat,
-            [Option("Visible", "Sets the visibility", true)][DefaultValue(false)] bool visible = false)
+        [Option("Media_file", "Media file to convert from")] DiscordAttachment attachment,
+        [Option("Format", "Format to convert to")] FileFormats fileFormat,
+        [Option("Visible", "Sets the visibility", true)][DefaultValue(false)] bool visible = false)
         {
             await MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
 
@@ -466,13 +466,13 @@ namespace Robit.Command
         [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task TagVoice(InteractionContext ctx,
 
-            [Option("Message", "Message to ping people in current voice chat with")]
-            [DefaultValue("")]
-            string message = "",
+        [Option("Message", "Message to ping people in current voice chat with")]
+        [DefaultValue("")]
+        string message = "",
 
-            [Option("Attachment", "File attachment to the ping message")]
-            [DefaultValue(null)]
-            DiscordAttachment? attachment = null)
+        [Option("Attachment", "File attachment to the ping message")]
+        [DefaultValue(null)]
+        DiscordAttachment? attachment = null)
         {
             if (ctx.Member.VoiceState.Channel == null)
             {
@@ -524,13 +524,13 @@ namespace Robit.Command
         [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task Text(InteractionContext ctx,
 
-            [Option("AI_prompt", "The AI text prompt")]
-            [MaximumLength(690)]
-            string prompt,
+        [Option("AI_prompt", "The AI text prompt")]
+        [MaximumLength(690)]
+        string prompt,
 
-            [Option("Visible", "Sets the visibility", true)]
-            [DefaultValue(true)]
-            bool visible = true)
+        [Option("Visible", "Sets the visibility", true)]
+        [DefaultValue(true)]
+        bool visible = true)
         {
             await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif", !visible);
 
@@ -578,12 +578,12 @@ namespace Robit.Command
         [SlashCommandPermissions(Permissions.ManageChannels | Permissions.ManageMessages)]
         public static async Task AIIgnore(InteractionContext ctx,
 
-            [Option("Ignore", "To ignore or not, true will ignore, false will not")]
-            bool ignore,
+        [Option("Ignore", "To ignore or not, true will ignore, false will not")]
+        bool ignore,
 
-            [Option("Visible", "Sets the visibility")]
-            [DefaultValue(true)]
-            bool visible = true)
+        [Option("Visible", "Sets the visibility")]
+        [DefaultValue(true)]
+        bool visible = true)
         {
             string guildID = ctx.Guild.Id.ToString();
             string channelID = ctx.Channel.Id.ToString();
@@ -846,6 +846,8 @@ namespace Robit.Command
                             Description = quoteText
                         };
 
+                        embedBuilder.WithFooter($"Quote search for in universe author result {i + 1}/{count} for search term '{searchTerm}'");
+
                         if (!string.IsNullOrEmpty(entry.bookSource))
                         {
                             embedBuilder.AddField("Source:", entry.bookSource);
@@ -890,6 +892,8 @@ namespace Robit.Command
                     {
                         embedBuilder.AddField("Source:", entry.bookSource);
                     }
+
+                    embedBuilder.WithFooter($"Quote search for in universe author result for search term '{searchTerm}'");
 
                     if (foundEntries.IndexOf(entry) == 0)
                     {
@@ -984,6 +988,8 @@ namespace Robit.Command
                             Description = quoteText
                         };
 
+                        embedBuilder.WithFooter($"Quote search for real life source result {i + 1}/{count} for search term '{searchTerm}'");
+
                         if (!string.IsNullOrEmpty(entry.bookSource))
                         {
                             embedBuilder.AddField("Source:", entry.bookSource);
@@ -1023,6 +1029,8 @@ namespace Robit.Command
                         Color = DiscordColor.Purple,
                         Description = quoteText
                     };
+
+                    embedBuilder.WithFooter($"Quote search for real life source result for search term '{searchTerm}'");
 
                     if (!string.IsNullOrEmpty(entry.bookSource))
                     {
