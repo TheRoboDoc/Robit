@@ -229,6 +229,7 @@ namespace Robit.Command
 
             [SlashCommand("List", "List all the response interactions")]
             public static async Task List(InteractionContext ctx,
+
                 [Option("Visible", "Sets the commands visibility", true)]
                 [DefaultValue(false)]
                 bool visible = false)
@@ -293,8 +294,10 @@ namespace Robit.Command
             [SlashCommand("Ignore", "Should Robit's auto response ignore this channel or not")]
             [SlashCommandPermissions(Permissions.ManageChannels | Permissions.ManageMessages)]
             public static async Task Ignore(InteractionContext ctx,
+
             [Option("Ignore", "To ignore or not, true will ignore, false will not")]
             bool ignore,
+
             [Option("Visible", "Sets the visibility")]
             [DefaultValue(true)]
             bool visible = true)
@@ -451,9 +454,11 @@ namespace Robit.Command
         [SlashCommand("Tagvoice", "Tags everyone in the same voice channel as you")]
         [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task TagVoice(InteractionContext ctx,
+
             [Option("Message", "Message to ping people in current voice chat with")]
             [DefaultValue("")]
             string message = "",
+
             [Option("Attachment", "File attachment to the ping message")]
             [DefaultValue(null)]
             DiscordAttachment? attachment = null)
@@ -507,6 +512,7 @@ namespace Robit.Command
         [SlashCommand("Prompt", "Prompt the bot for a text response")]
         [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task Text(InteractionContext ctx,
+
             [Option("AI_prompt", "The AI text prompt")]
             [MaximumLength(690)]
             string prompt,
@@ -556,8 +562,10 @@ namespace Robit.Command
         [SlashCommand("AI_Ignore", "Should Robit's AI module ignore this channel, prompt command will still work")]
         [SlashCommandPermissions(Permissions.ManageChannels | Permissions.ManageMessages)]
         public static async Task AIIgnore(InteractionContext ctx,
+
             [Option("Ignore", "To ignore or not, true will ignore, false will not")]
             bool ignore,
+
             [Option("Visible", "Sets the visibility")]
             [DefaultValue(true)]
             bool visible = true)
@@ -581,17 +589,31 @@ namespace Robit.Command
         [SlashCommandPermissions(Permissions.SendMessages)]
         public class RandomCommands
         {
+            public enum DiceTypes
+            {
+                D2 = 2,
+                D4 = 4,
+                D6 = 6,
+                D8 = 8,
+                D10 = 10,
+                D12 = 12,
+                D20 = 20,
+            }
+
             [SlashCommand("Number", "Generates a psudorandom number within given range")]
             public static async Task Number(InteractionContext ctx,
+
             [Option("Maximum_value", "Maximum value for the random number")]
             [Minimum(0)]
             [Maximum(int.MaxValue)]
             double maximal,
+
             [Option("Minimal_value", "Minimal value for the random number")]
             [DefaultValue(0)]
             [Minimum(0)]
             [Maximum(int.MaxValue)]
             double minimal = 0,
+
             [Option("Visible", "Sets the visibility")]
             [DefaultValue(true)]
             bool visible = true)
@@ -615,26 +637,18 @@ namespace Robit.Command
                 await ctx.CreateResponseAsync($"Random number: {randomValue}", !visible);
             }
 
-            public enum DiceTypes
-            {
-                D2 = 2,
-                D4 = 4,
-                D6 = 6,
-                D8 = 8,
-                D10 = 10,
-                D12 = 12,
-                D20 = 20,
-            }
-
             [SlashCommand("Dice", "Roll dice")]
             public static async Task Dice(InteractionContext ctx,
+
             [Option("Dice_type", "Type of dice to roll")]
             DiceTypes dice,
+
             [Option("Amount", "Amount of dice to roll")]
             [Minimum(1)]
             [Maximum(255)]
             [DefaultValue(1)]
             double amount = 1,
+
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(true)]
             bool visible = true)
@@ -744,17 +758,21 @@ namespace Robit.Command
 
             [SlashCommand("By_Author", "Search quotes by in universe author")]
             public static async Task ByAuthor(InteractionContext ctx,
+
             [Option("Search", "Search term to search by")]
             [MaximumLength(40)]
             string searchTerm,
+
             [Option("Result_Type", "Type of result you want to be fetch")]
             [DefaultValue(Selection.At_Random)]
             Selection selection = Selection.At_Random,
+
             [Option("Count", "Max amount of matches to return", true)]
             [Minimum(1)]
             [Maximum(10)]
             [DefaultValue(1)]
             double count = 1,
+
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(false)]
             bool visible = false)
@@ -878,17 +896,21 @@ namespace Robit.Command
 
             [SlashCommand("By_Source", "Search quotes by source")]
             public static async Task BySource(InteractionContext ctx,
+
             [Option("Search", "Search term to search by")]
             [MaximumLength(40)]
             string searchTerm,
+
             [Option("Result_Type", "Type of result you want to be fetch")]
             [DefaultValue(Selection.At_Random)]
             Selection selection = Selection.At_Random,
+
             [Option("Count", "Max amount of matches to return", true)]
             [Minimum(1)]
             [Maximum(10)]
             [DefaultValue(1)]
             double count = 1,
+
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(false)]
             bool visible = false)
@@ -1012,6 +1034,7 @@ namespace Robit.Command
 
             [SlashCommand("Random", "Fetches a random Warhammer 40k quote")]
             public static async Task RandomQuote(InteractionContext ctx,
+
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(true)]
             bool visible = true)
