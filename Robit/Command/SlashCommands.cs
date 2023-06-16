@@ -560,11 +560,15 @@ namespace Robit.Command
 
             if (AIResponse.Item1)
             {
+                response = $"**Prompt:** {prompt}\n**Reply:** {response}";
+
                 builder.WithContent(response);
             }
             else
             {
-                builder.WithContent("**System:** " + response);
+                response = $"**Prompt:** {prompt}\n**System:** {response}";
+
+                builder.WithContent(response);
             }
 
             await ctx.EditResponseAsync(builder);
