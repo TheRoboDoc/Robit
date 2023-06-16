@@ -22,8 +22,8 @@ namespace Robit.Command
         double times = 1,
 
         [Option("Visible", "Is the ping visible to others")]
-        [DefaultValue(true)]
-        bool visible = true)
+        [DefaultValue(false)]
+        bool visible = false)
         {
             await ctx.CreateResponseAsync($"Pong {ctx.Client.Ping}ms", !visible);
             times--;
@@ -45,6 +45,10 @@ namespace Robit.Command
         [SlashCommand("Commands", "Lists all commands for the bot")]
         [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task Commands(InteractionContext ctx,
+
+        [Option("Visible", "Is the ping visible to others")]
+        [DefaultValue(false)]
+        bool visible = false)
         {
             SlashCommandsExtension slashCommandsExtension = Program.botClient.GetSlashCommands();
 
@@ -70,7 +74,7 @@ namespace Robit.Command
                 embed.AddField(name, description);
             }
 
-            await ctx.CreateResponseAsync(embed, true);
+            await ctx.CreateResponseAsync(embed, !visible);
         }
         #endregion
 
@@ -79,6 +83,10 @@ namespace Robit.Command
         [SlashCommand("Intro", "Bot introduction")]
         [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task Intro(InteractionContext ctx,
+
+        [Option("Visible", "Is the ping visible to others")]
+        [DefaultValue(true)]
+        bool visible = true)
         {
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder()
             {
@@ -96,7 +104,7 @@ namespace Robit.Command
                 Title = "Hi!",
             }.AddField("GitHub", "Want to see what makes me tick or report a bug? Check my GitHub repo: \nhttps://github.com/TheRoboDoc/Robit ");
 
-            await ctx.CreateResponseAsync(embed);
+            await ctx.CreateResponseAsync(embed, !visible);
         }
 
         [SlashCommand("Github", "Posts a link to Robit's GitHub repo")]
@@ -740,10 +748,12 @@ namespace Robit.Command
             [MaximumLength(40)]
             string searchTerm,
             [Option("Result_Type", "Type of result you want to be fetch")]
+            [DefaultValue(Selection.At_Random)]
             Selection selection = Selection.At_Random,
             [Option("Count", "Max amount of matches to return", true)]
             [Minimum(1)]
             [Maximum(10)]
+            [DefaultValue(1)]
             double count = 1,
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(false)]
@@ -872,10 +882,12 @@ namespace Robit.Command
             [MaximumLength(40)]
             string searchTerm,
             [Option("Result_Type", "Type of result you want to be fetch")]
+            [DefaultValue(Selection.At_Random)]
             Selection selection = Selection.At_Random,
             [Option("Count", "Max amount of matches to return", true)]
             [Minimum(1)]
             [Maximum(10)]
+            [DefaultValue(1)]
             double count = 1,
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(false)]
