@@ -273,10 +273,21 @@ namespace Robit.Command
             [SlashCommand("Wipe", "Wipe all of the response interactions")]
             [SlashCommandPermissions(Permissions.Administrator)]
             public static async Task Wipe(InteractionContext ctx,
+
+            [Option("Are_You_Sure", "Aure you sure you want to wipe all responses on the server?")]
+            bool check,
+
                 [Option("visible", "Sets the visibility", true)]
                 [DefaultValue(false)]
                 bool visible = false)
             {
+                if (!check)
+                {
+                    await ctx.CreateResponseAsync("`Are You Sure` was set to `false` canceling...");
+
+                    return;
+                }
+
                 if (ctx.Member.Permissions.HasPermission(Permissions.Administrator)) //Double checking, just in case
                 {
                     await ctx.CreateResponseAsync("You don't have admin permission to execute this command");
