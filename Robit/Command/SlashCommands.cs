@@ -12,10 +12,12 @@ namespace Robit.Command
     {
         #region Technical
         [SlashCommand("Ping", "Pings the bot, the bot responds with the ping time in milliseconds")]
+        [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task Ping(InteractionContext ctx,
 
         [Option("Times", "Amount of times the bot should be pinged (Max 3)")]
         [DefaultValue(1)]
+        [Minimum(1)]
         [Maximum(3)]
         double times = 1,
 
@@ -41,7 +43,8 @@ namespace Robit.Command
 
         #region Help
         [SlashCommand("Commands", "Lists all commands for the bot")]
-        public static async Task Commands(InteractionContext ctx)
+        [SlashCommandPermissions(Permissions.SendMessages)]
+        public static async Task Commands(InteractionContext ctx,
         {
             SlashCommandsExtension slashCommandsExtension = Program.botClient.GetSlashCommands();
 
@@ -74,7 +77,8 @@ namespace Robit.Command
         #region Interaction
         #region Introduction
         [SlashCommand("Intro", "Bot introduction")]
-        public static async Task Intro(InteractionContext ctx)
+        [SlashCommandPermissions(Permissions.SendMessages)]
+        public static async Task Intro(InteractionContext ctx,
         {
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder()
             {
@@ -105,8 +109,8 @@ namespace Robit.Command
         #region Automatic Responses
         [SlashCommandGroup(
         "Response",
-        "Add, remove, or edit bot's responses to messages. Needs permissions to manage emojis")]
-        [SlashCommandPermissions(Permissions.ManageEmojis | Permissions.AddReactions)]
+        "Add, remove, or edit bot's responses to messages.")]
+        [SlashCommandPermissions(Permissions.ManageEmojis | Permissions.AddReactions | Permissions.SendMessages)]
         public class Response
         {
             [SlashCommand("Add", "Add a response interaction")]
@@ -163,6 +167,7 @@ namespace Robit.Command
             public static async Task Remove(InteractionContext ctx,
 
             [Option("Name", "Name of the response interaction to delete")]
+            [MaximumLength(50)]
             string name,
 
             [Option("Visible", "Sets the visibility", true)]
@@ -263,6 +268,13 @@ namespace Robit.Command
                 [DefaultValue(false)]
                 bool visible = false)
             {
+                if (ctx.Member.Permissions.HasPermission(Permissions.Administrator)) //Double checking, just in case
+                {
+                    await ctx.CreateResponseAsync("You don't have admin permission to execute this command");
+
+                    return;
+                }
+
                 List<ResponseManager.ResponseEntry> responseEntries = new List<ResponseManager.ResponseEntry>();
 
                 ResponseManager.OverwriteEntries(responseEntries, ctx.Guild.Id.ToString());
@@ -310,6 +322,7 @@ namespace Robit.Command
         }
 
         [SlashCommand("Convert", "Converts a given file from one format to another")]
+        [SlashCommandPermissions(Permissions.AttachFiles | Permissions.SendMessages)]
         public static async Task Convert(InteractionContext ctx,
             [Option("Media_file", "Media file to convert from")] DiscordAttachment attachment,
             [Option("Format", "Format to convert to")] FileFormats fileFormat,
@@ -428,6 +441,7 @@ namespace Robit.Command
 
         #region Tag Voice
         [SlashCommand("Tagvoice", "Tags everyone in the same voice channel as you")]
+        [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task TagVoice(InteractionContext ctx,
             [Option("Message", "Message to ping people in current voice chat with")]
             [DefaultValue("")]
@@ -483,6 +497,7 @@ namespace Robit.Command
 
         #region AI Interactions
         [SlashCommand("Prompt", "Prompt the bot for a text response")]
+        [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task Text(InteractionContext ctx,
             [Option("AI_prompt", "The AI text prompt")]
             [MaximumLength(690)]
@@ -727,6 +742,7 @@ namespace Robit.Command
             [Option("Result_Type", "Type of result you want to be fetch")]
             Selection selection = Selection.At_Random,
             [Option("Count", "Max amount of matches to return", true)]
+            [Minimum(1)]
             [Maximum(10)]
             double count = 1,
             [Option("Visible", "Sets the visibility", true)]
@@ -858,6 +874,7 @@ namespace Robit.Command
             [Option("Result_Type", "Type of result you want to be fetch")]
             Selection selection = Selection.At_Random,
             [Option("Count", "Max amount of matches to return", true)]
+            [Minimum(1)]
             [Maximum(10)]
             double count = 1,
             [Option("Visible", "Sets the visibility", true)]
