@@ -12,16 +12,18 @@ namespace Robit.Command
     {
         #region Technical
         [SlashCommand("Ping", "Pings the bot, the bot responds with the ping time in milliseconds")]
+        [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task Ping(InteractionContext ctx,
 
         [Option("Times", "Amount of times the bot should be pinged (Max 3)")]
         [DefaultValue(1)]
+        [Minimum(1)]
         [Maximum(3)]
         double times = 1,
 
         [Option("Visible", "Is the ping visible to others")]
-        [DefaultValue(true)]
-        bool visible = true)
+        [DefaultValue(false)]
+        bool visible = false)
         {
             await ctx.CreateResponseAsync($"Pong {ctx.Client.Ping}ms", !visible);
             times--;
@@ -41,7 +43,12 @@ namespace Robit.Command
 
         #region Help
         [SlashCommand("Commands", "Lists all commands for the bot")]
-        public static async Task Commands(InteractionContext ctx)
+        [SlashCommandPermissions(Permissions.SendMessages)]
+        public static async Task Commands(InteractionContext ctx,
+
+        [Option("Visible", "Is the ping visible to others")]
+        [DefaultValue(false)]
+        bool visible = false)
         {
             SlashCommandsExtension slashCommandsExtension = Program.botClient.GetSlashCommands();
 
@@ -67,14 +74,19 @@ namespace Robit.Command
                 embed.AddField(name, description);
             }
 
-            await ctx.CreateResponseAsync(embed, true);
+            await ctx.CreateResponseAsync(embed, !visible);
         }
         #endregion
 
         #region Interaction
         #region Introduction
         [SlashCommand("Intro", "Bot introduction")]
-        public static async Task Intro(InteractionContext ctx)
+        [SlashCommandPermissions(Permissions.SendMessages)]
+        public static async Task Intro(InteractionContext ctx,
+
+        [Option("Visible", "Is the ping visible to others")]
+        [DefaultValue(true)]
+        bool visible = true)
         {
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder()
             {
@@ -92,7 +104,7 @@ namespace Robit.Command
                 Title = "Hi!",
             }.AddField("GitHub", "Want to see what makes me tick or report a bug? Check my GitHub repo: \nhttps://github.com/TheRoboDoc/Robit ");
 
-            await ctx.CreateResponseAsync(embed);
+            await ctx.CreateResponseAsync(embed, !visible);
         }
 
         [SlashCommand("Github", "Posts a link to Robit's GitHub repo")]
@@ -105,8 +117,8 @@ namespace Robit.Command
         #region Automatic Responses
         [SlashCommandGroup(
         "Response",
-        "Add, remove, or edit bot's responses to messages. Needs permissions to manage emojis")]
-        [SlashCommandPermissions(Permissions.ManageEmojis | Permissions.AddReactions)]
+        "Add, remove, or edit bot's responses to messages.")]
+        [SlashCommandPermissions(Permissions.ManageEmojis | Permissions.AddReactions | Permissions.SendMessages)]
         public class Response
         {
             [SlashCommand("Add", "Add a response interaction")]
@@ -163,6 +175,7 @@ namespace Robit.Command
             public static async Task Remove(InteractionContext ctx,
 
             [Option("Name", "Name of the response interaction to delete")]
+            [MaximumLength(50)]
             string name,
 
             [Option("Visible", "Sets the visibility", true)]
@@ -216,9 +229,10 @@ namespace Robit.Command
 
             [SlashCommand("List", "List all the response interactions")]
             public static async Task List(InteractionContext ctx,
-                [Option("Visible", "Sets the commands visibility", true)]
-                [DefaultValue(false)]
-                bool visible = false)
+
+            [Option("Visible", "Sets the commands visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
             {
                 List<ResponseManager.ResponseEntry>? responseEntries = new List<ResponseManager.ResponseEntry>();
 
@@ -259,10 +273,28 @@ namespace Robit.Command
             [SlashCommand("Wipe", "Wipe all of the response interactions")]
             [SlashCommandPermissions(Permissions.Administrator)]
             public static async Task Wipe(InteractionContext ctx,
-                [Option("visible", "Sets the visibility", true)]
-                [DefaultValue(false)]
-                bool visible = false)
+
+            [Option("Are_You_Sure", "Aure you sure you want to wipe all responses on the server?")]
+            bool check,
+
+            [Option("visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
             {
+                if (!check)
+                {
+                    await ctx.CreateResponseAsync("`Are You Sure` was set to `false` canceling...");
+
+                    return;
+                }
+
+                if (ctx.Member.Permissions.HasPermission(Permissions.Administrator)) //Double checking, just in case
+                {
+                    await ctx.CreateResponseAsync("You don't have admin permission to execute this command");
+
+                    return;
+                }
+
                 List<ResponseManager.ResponseEntry> responseEntries = new List<ResponseManager.ResponseEntry>();
 
                 ResponseManager.OverwriteEntries(responseEntries, ctx.Guild.Id.ToString());
@@ -273,8 +305,10 @@ namespace Robit.Command
             [SlashCommand("Ignore", "Should Robit's auto response ignore this channel or not")]
             [SlashCommandPermissions(Permissions.ManageChannels | Permissions.ManageMessages)]
             public static async Task Ignore(InteractionContext ctx,
+
             [Option("Ignore", "To ignore or not, true will ignore, false will not")]
             bool ignore,
+
             [Option("Visible", "Sets the visibility")]
             [DefaultValue(true)]
             bool visible = true)
@@ -310,10 +344,11 @@ namespace Robit.Command
         }
 
         [SlashCommand("Convert", "Converts a given file from one format to another")]
+        [SlashCommandPermissions(Permissions.AttachFiles | Permissions.SendMessages)]
         public static async Task Convert(InteractionContext ctx,
-            [Option("Media_file", "Media file to convert from")] DiscordAttachment attachment,
-            [Option("Format", "Format to convert to")] FileFormats fileFormat,
-            [Option("Visible", "Sets the visibility", true)][DefaultValue(false)] bool visible = false)
+        [Option("Media_file", "Media file to convert from")] DiscordAttachment attachment,
+        [Option("Format", "Format to convert to")] FileFormats fileFormat,
+        [Option("Visible", "Sets the visibility", true)][DefaultValue(false)] bool visible = false)
         {
             await MediaManager.ClearChannelTempFolder(ctx.Interaction.Id.ToString());
 
@@ -428,13 +463,16 @@ namespace Robit.Command
 
         #region Tag Voice
         [SlashCommand("Tagvoice", "Tags everyone in the same voice channel as you")]
+        [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task TagVoice(InteractionContext ctx,
-            [Option("Message", "Message to ping people in current voice chat with")]
-            [DefaultValue("")]
-            string message = "",
-            [Option("Attachment", "File attachment to the ping message")]
-            [DefaultValue(null)]
-            DiscordAttachment? attachment = null)
+
+        [Option("Message", "Message to ping people in current voice chat with")]
+        [DefaultValue("")]
+        string message = "",
+
+        [Option("Attachment", "File attachment to the ping message")]
+        [DefaultValue(null)]
+        DiscordAttachment? attachment = null)
         {
             if (ctx.Member.VoiceState.Channel == null)
             {
@@ -444,7 +482,7 @@ namespace Robit.Command
 
             DiscordChannel voiceChannel = ctx.Member.VoiceState.Channel;
 
-            if (message == "" && attachment == null)
+            if (string.IsNullOrEmpty(message) && attachment == null)
             {
                 await ctx.CreateResponseAsync("Message and attachment cannot both be empty", true);
                 return;
@@ -460,7 +498,7 @@ namespace Robit.Command
                 }
             }
 
-            content += $"\n{$"{ctx.Member.Mention} wanted people in '{voiceChannel.Name}' to see this:\n"}";
+            content += $"\n{$"{ctx.Member.Mention} wanted people in {voiceChannel.Mention} to see this:\n"}";
 
             if (message != "")
             {
@@ -483,14 +521,16 @@ namespace Robit.Command
 
         #region AI Interactions
         [SlashCommand("Prompt", "Prompt the bot for a text response")]
+        [SlashCommandPermissions(Permissions.SendMessages)]
         public static async Task Text(InteractionContext ctx,
-            [Option("AI_prompt", "The AI text prompt")]
-            [MaximumLength(690)]
-            string prompt,
 
-            [Option("Visible", "Sets the visibility", true)]
-            [DefaultValue(true)]
-            bool visible = true)
+        [Option("AI_prompt", "The AI text prompt")]
+        [MaximumLength(690)]
+        string prompt,
+
+        [Option("Visible", "Sets the visibility", true)]
+        [DefaultValue(true)]
+        bool visible = true)
         {
             await ctx.CreateResponseAsync("https://cdn.discordapp.com/attachments/1051011721755623495/1085873228049809448/RobitThink.gif", !visible);
 
@@ -520,11 +560,15 @@ namespace Robit.Command
 
             if (AIResponse.Item1)
             {
+                response = $"**Prompt:** {prompt}\n**Reply:** {response}";
+
                 builder.WithContent(response);
             }
             else
             {
-                builder.WithContent("**System:** " + response);
+                response = $"**Prompt:** {prompt}\n**System:** {response}";
+
+                builder.WithContent(response);
             }
 
             await ctx.EditResponseAsync(builder);
@@ -533,11 +577,13 @@ namespace Robit.Command
         [SlashCommand("AI_Ignore", "Should Robit's AI module ignore this channel, prompt command will still work")]
         [SlashCommandPermissions(Permissions.ManageChannels | Permissions.ManageMessages)]
         public static async Task AIIgnore(InteractionContext ctx,
-            [Option("Ignore", "To ignore or not, true will ignore, false will not")]
-            bool ignore,
-            [Option("Visible", "Sets the visibility")]
-            [DefaultValue(true)]
-            bool visible = true)
+
+        [Option("Ignore", "To ignore or not, true will ignore, false will not")]
+        bool ignore,
+
+        [Option("Visible", "Sets the visibility")]
+        [DefaultValue(true)]
+        bool visible = true)
         {
             string guildID = ctx.Guild.Id.ToString();
             string channelID = ctx.Channel.Id.ToString();
@@ -558,17 +604,31 @@ namespace Robit.Command
         [SlashCommandPermissions(Permissions.SendMessages)]
         public class RandomCommands
         {
+            public enum DiceTypes
+            {
+                D2 = 2,
+                D4 = 4,
+                D6 = 6,
+                D8 = 8,
+                D10 = 10,
+                D12 = 12,
+                D20 = 20,
+            }
+
             [SlashCommand("Number", "Generates a psudorandom number within given range")]
             public static async Task Number(InteractionContext ctx,
+
             [Option("Maximum_value", "Maximum value for the random number")]
             [Minimum(0)]
             [Maximum(int.MaxValue)]
             double maximal,
+
             [Option("Minimal_value", "Minimal value for the random number")]
             [DefaultValue(0)]
             [Minimum(0)]
             [Maximum(int.MaxValue)]
             double minimal = 0,
+
             [Option("Visible", "Sets the visibility")]
             [DefaultValue(true)]
             bool visible = true)
@@ -592,26 +652,18 @@ namespace Robit.Command
                 await ctx.CreateResponseAsync($"Random number: {randomValue}", !visible);
             }
 
-            public enum DiceTypes
-            {
-                D2 = 2,
-                D4 = 4,
-                D6 = 6,
-                D8 = 8,
-                D10 = 10,
-                D12 = 12,
-                D20 = 20,
-            }
-
             [SlashCommand("Dice", "Roll dice")]
             public static async Task Dice(InteractionContext ctx,
+
             [Option("Dice_type", "Type of dice to roll")]
             DiceTypes dice,
+
             [Option("Amount", "Amount of dice to roll")]
             [Minimum(1)]
             [Maximum(255)]
             [DefaultValue(1)]
             double amount = 1,
+
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(true)]
             bool visible = true)
@@ -721,14 +773,21 @@ namespace Robit.Command
 
             [SlashCommand("By_Author", "Search quotes by in universe author")]
             public static async Task ByAuthor(InteractionContext ctx,
+
             [Option("Search", "Search term to search by")]
             [MaximumLength(40)]
             string searchTerm,
+
             [Option("Result_Type", "Type of result you want to be fetch")]
+            [DefaultValue(Selection.At_Random)]
             Selection selection = Selection.At_Random,
+
             [Option("Count", "Max amount of matches to return", true)]
+            [Minimum(1)]
             [Maximum(10)]
+            [DefaultValue(1)]
             double count = 1,
+
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(false)]
             bool visible = false)
@@ -787,6 +846,8 @@ namespace Robit.Command
                             Description = quoteText
                         };
 
+                        embedBuilder.WithFooter($"Quote search for in universe author result {i + 1}/{count} for search term '{searchTerm}'");
+
                         if (!string.IsNullOrEmpty(entry.bookSource))
                         {
                             embedBuilder.AddField("Source:", entry.bookSource);
@@ -832,6 +893,8 @@ namespace Robit.Command
                         embedBuilder.AddField("Source:", entry.bookSource);
                     }
 
+                    embedBuilder.WithFooter($"Quote search for in universe author result for search term '{searchTerm}'");
+
                     if (foundEntries.IndexOf(entry) == 0)
                     {
                         await ctx.CreateResponseAsync(embedBuilder, !visible);
@@ -852,14 +915,21 @@ namespace Robit.Command
 
             [SlashCommand("By_Source", "Search quotes by source")]
             public static async Task BySource(InteractionContext ctx,
+
             [Option("Search", "Search term to search by")]
             [MaximumLength(40)]
             string searchTerm,
+
             [Option("Result_Type", "Type of result you want to be fetch")]
+            [DefaultValue(Selection.At_Random)]
             Selection selection = Selection.At_Random,
+
             [Option("Count", "Max amount of matches to return", true)]
+            [Minimum(1)]
             [Maximum(10)]
+            [DefaultValue(1)]
             double count = 1,
+
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(false)]
             bool visible = false)
@@ -918,6 +988,8 @@ namespace Robit.Command
                             Description = quoteText
                         };
 
+                        embedBuilder.WithFooter($"Quote search for real life source result {i + 1}/{count} for search term '{searchTerm}'");
+
                         if (!string.IsNullOrEmpty(entry.bookSource))
                         {
                             embedBuilder.AddField("Source:", entry.bookSource);
@@ -958,6 +1030,8 @@ namespace Robit.Command
                         Description = quoteText
                     };
 
+                    embedBuilder.WithFooter($"Quote search for real life source result for search term '{searchTerm}'");
+
                     if (!string.IsNullOrEmpty(entry.bookSource))
                     {
                         embedBuilder.AddField("Source:", entry.bookSource);
@@ -983,6 +1057,7 @@ namespace Robit.Command
 
             [SlashCommand("Random", "Fetches a random Warhammer 40k quote")]
             public static async Task RandomQuote(InteractionContext ctx,
+
             [Option("Visible", "Sets the visibility", true)]
             [DefaultValue(true)]
             bool visible = true)
