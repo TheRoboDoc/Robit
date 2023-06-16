@@ -482,7 +482,7 @@ namespace Robit.Command
 
             DiscordChannel voiceChannel = ctx.Member.VoiceState.Channel;
 
-            if (message == "" && attachment == null)
+            if (string.IsNullOrEmpty(message) && attachment == null)
             {
                 await ctx.CreateResponseAsync("Message and attachment cannot both be empty", true);
                 return;
@@ -498,7 +498,7 @@ namespace Robit.Command
                 }
             }
 
-            content += $"\n{$"{ctx.Member.Mention} wanted people in '{voiceChannel.Name}' to see this:\n"}";
+            content += $"\n{$"{ctx.Member.Mention} wanted people in {voiceChannel.Mention} to see this:\n"}";
 
             if (message != "")
             {
