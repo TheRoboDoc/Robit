@@ -2,6 +2,8 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using DSharpPlus.Interactivity;
+using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
 using GiphyDotNet.Manager;
 using Microsoft.Extensions.DependencyInjection;
@@ -67,6 +69,7 @@ namespace Robit
                 DiscordIntents.MessageContents |
                 DiscordIntents.Guilds |
                 DiscordIntents.GuildPresences |
+                DiscordIntents.GuildVoiceStates |
                 DiscordIntents.GuildMessages,
 
                 MinimumLogLevel = logLevel,
@@ -76,6 +79,8 @@ namespace Robit
 
             botClient = new DiscordClient(config);
             #endregion
+
+            botClient.UseInteractivity(new InteractivityConfiguration());
 
             //Probably redundant
             ServiceProvider services = new ServiceCollection()
