@@ -67,6 +67,7 @@ namespace Robit
                 DiscordIntents.MessageContents |
                 DiscordIntents.Guilds |
                 DiscordIntents.GuildPresences |
+                DiscordIntents.GuildVoiceStates |
                 DiscordIntents.GuildMessages,
 
                 MinimumLogLevel = logLevel,
