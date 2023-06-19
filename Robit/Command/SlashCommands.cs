@@ -1,5 +1,7 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity;
+using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
 using Robit.Response;
 using System.ComponentModel;
@@ -56,25 +58,45 @@ namespace Robit.Command
 
             IReadOnlyList<DiscordApplicationCommand> slashCommands = slashCommandKeyValuePairs.FirstOrDefault().Value;
 
-            DiscordEmbedBuilder embed = new DiscordEmbedBuilder()
+            List<Page> pages = new List<Page>();
+
+            int entriesPerPage = 5;
+            int pageIndex = 0;
+
+            while (pageIndex < slashCommands.Count)
             {
-                Title = "List of commands",
-                Color = DiscordColor.Purple,
-                Timestamp = DateTimeOffset.Now
-            };
+                List<DiscordApplicationCommand> pageEntries = slashCommands
+                    .Skip(pageIndex)
+                    .Take(entriesPerPage)
+                    .ToList();
 
-            foreach (DiscordApplicationCommand slashCommand in slashCommands)
-            {
-                string nameRaw = slashCommand.Name;
-                string descriptionRaw = slashCommand.Description;
+                DiscordEmbedBuilder embed = new DiscordEmbedBuilder()
+                {
+                    Title = "List of commands",
+                    Color = DiscordColor.Purple,
+                };
 
-                string name = char.ToUpper(nameRaw[0]) + nameRaw.Substring(1);
-                string description = char.ToUpper(descriptionRaw[0]) + descriptionRaw.Substring(1);
+                foreach (DiscordApplicationCommand slashCommand in pageEntries)
+                {
+                    string nameRaw = slashCommand.Name;
+                    string descriptionRaw = slashCommand.Description;
 
-                embed.AddField(name, description);
+                    string name = char.ToUpper(nameRaw[0]) + nameRaw.Substring(1);
+                    string description = char.ToUpper(descriptionRaw[0]) + descriptionRaw.Substring(1);
+
+                    embed.AddField(name, description);
+
+                    embed.WithFooter($"{pageIndex / entriesPerPage + 1}/{(slashCommands.Count + entriesPerPage - 1) / entriesPerPage}");
+                }
+
+                pages.Add(new Page { Embed = embed });
+
+                pageIndex += entriesPerPage;
             }
 
-            await ctx.CreateResponseAsync(embed, !visible);
+            InteractivityExtension? interactivity = ctx.Client.GetInteractivity();
+
+            await interactivity.SendPaginatedResponseAsync(ctx.Interaction, !visible, ctx.Member, pages);
         }
         #endregion
 
@@ -236,11 +258,7 @@ namespace Robit.Command
             {
                 List<ResponseManager.ResponseEntry>? responseEntries = new List<ResponseManager.ResponseEntry>();
 
-                DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder
-                {
-                    Title = "List of all responses",
-                    Color = DiscordColor.Purple
-                };
+
 
                 await Task.Run(async () =>
                 {
@@ -257,17 +275,44 @@ namespace Robit.Command
                         return;
                     }
 
-                    foreach (ResponseManager.ResponseEntry responseEntry in responseEntries)
-                    {
-                        discordEmbedBuilder.AddField
-                        (
-                            responseEntry.reactName,
-                            $"{responseEntry.content}: {responseEntry.response}"
-                        );
-                    }
-                });
+                    List<Page> pages = new List<Page>();
 
-                await ctx.CreateResponseAsync(discordEmbedBuilder, !visible);
+                    int entriesPerPage = 5;
+                    int pageIndex = 0;
+
+                    while (pageIndex < responseEntries.Count)
+                    {
+                        List<ResponseManager.ResponseEntry> pageEntries = responseEntries
+                            .Skip(pageIndex)
+                            .Take(entriesPerPage)
+                            .ToList();
+
+                        DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder
+                        {
+                            Title = "List of all responses",
+                            Color = DiscordColor.Purple
+                        };
+
+                        foreach (ResponseManager.ResponseEntry responseEntry in pageEntries)
+                        {
+                            discordEmbedBuilder.AddField
+                            (
+                                responseEntry.reactName,
+                                $"{responseEntry.content}: {responseEntry.response}"
+                            );
+
+                            discordEmbedBuilder.WithFooter($"{pageIndex / entriesPerPage + 1}/{(responseEntries.Count + entriesPerPage - 1) / entriesPerPage}"); //Page number
+                        }
+
+                        pages.Add(new Page { Embed = discordEmbedBuilder });
+
+                        pageIndex += entriesPerPage;
+                    }
+
+                    InteractivityExtension? interactivity = ctx.Client.GetInteractivity();
+
+                    await interactivity.SendPaginatedResponseAsync(ctx.Interaction, !visible, ctx.Member, pages);
+                });
             }
 
             [SlashCommand("Wipe", "Wipe all of the response interactions")]
@@ -820,10 +865,9 @@ namespace Robit.Command
                     return;
                 }
 
-                if (count > 3)
-                {
-                    visible = false;
-                }
+                InteractivityExtension? interactivity = ctx.Client.GetInteractivity();
+
+                List<Page> pages = new List<Page>();
 
                 if (selection == Selection.At_Random)
                 {
@@ -846,29 +890,18 @@ namespace Robit.Command
                             Description = quoteText
                         };
 
-                        embedBuilder.WithFooter($"Quote search for in universe author result {i + 1}/{count} for search term '{searchTerm}'");
-
                         if (!string.IsNullOrEmpty(entry.bookSource))
                         {
                             embedBuilder.AddField("Source:", entry.bookSource);
                         }
 
-                        if (i == 0)
-                        {
-                            await ctx.CreateResponseAsync(embedBuilder, !visible);
-                        }
-                        else
-                        {
-                            DiscordFollowupMessageBuilder builder = new DiscordFollowupMessageBuilder()
-                            {
-                                IsEphemeral = !visible
-                            };
+                        embedBuilder.WithFooter($"Quote search for in universe author using search term '{searchTerm}'" +
+                            $"\n{i + 1}/{count}");
 
-                            builder.AddEmbed(embedBuilder);
-
-                            await ctx.FollowUpAsync(builder);
-                        }
+                        pages.Add(new Page { Embed = embedBuilder });
                     }
+
+                    await interactivity.SendPaginatedResponseAsync(ctx.Interaction, !visible, ctx.Member, pages);
 
                     return;
                 }
@@ -893,24 +926,13 @@ namespace Robit.Command
                         embedBuilder.AddField("Source:", entry.bookSource);
                     }
 
-                    embedBuilder.WithFooter($"Quote search for in universe author result for search term '{searchTerm}'");
+                    embedBuilder.WithFooter($"Quote search for in universe author using search term '{searchTerm}'" +
+                        $"\n{foundEntries.IndexOf(entry) + 1}/{foundEntries.Count}");
 
-                    if (foundEntries.IndexOf(entry) == 0)
-                    {
-                        await ctx.CreateResponseAsync(embedBuilder, !visible);
-                    }
-                    else
-                    {
-                        DiscordFollowupMessageBuilder builder = new DiscordFollowupMessageBuilder()
-                        {
-                            IsEphemeral = !visible
-                        };
-
-                        builder.AddEmbed(embedBuilder);
-
-                        await ctx.FollowUpAsync(builder);
-                    }
+                    pages.Add(new Page { Embed = embedBuilder });
                 }
+
+                await interactivity.SendPaginatedResponseAsync(ctx.Interaction, !visible, ctx.Member, pages);
             }
 
             [SlashCommand("By_Source", "Search quotes by source")]
@@ -962,10 +984,9 @@ namespace Robit.Command
                     return;
                 }
 
-                if (count > 3)
-                {
-                    visible = false;
-                }
+                InteractivityExtension? interactivity = ctx.Client.GetInteractivity();
+
+                List<Page> pages = new List<Page>();
 
                 if (selection == Selection.At_Random)
                 {
@@ -988,29 +1009,18 @@ namespace Robit.Command
                             Description = quoteText
                         };
 
-                        embedBuilder.WithFooter($"Quote search for real life source result {i + 1}/{count} for search term '{searchTerm}'");
-
                         if (!string.IsNullOrEmpty(entry.bookSource))
                         {
                             embedBuilder.AddField("Source:", entry.bookSource);
                         }
 
-                        if (i == 0)
-                        {
-                            await ctx.CreateResponseAsync(embedBuilder, !visible);
-                        }
-                        else
-                        {
-                            DiscordFollowupMessageBuilder builder = new DiscordFollowupMessageBuilder()
-                            {
-                                IsEphemeral = !visible
-                            };
+                        embedBuilder.WithFooter($"Quote search for real life source using search term '{searchTerm}'" +
+                            $"\n{i + 1}/{count}");
 
-                            builder.AddEmbed(embedBuilder);
-
-                            await ctx.FollowUpAsync(builder);
-                        }
+                        pages.Add(new Page { Embed = embedBuilder });
                     }
+
+                    await interactivity.SendPaginatedResponseAsync(ctx.Interaction, !visible, ctx.Member, pages);
 
                     return;
                 }
@@ -1030,29 +1040,18 @@ namespace Robit.Command
                         Description = quoteText
                     };
 
-                    embedBuilder.WithFooter($"Quote search for real life source result for search term '{searchTerm}'");
-
                     if (!string.IsNullOrEmpty(entry.bookSource))
                     {
                         embedBuilder.AddField("Source:", entry.bookSource);
                     }
 
-                    if (foundEntries.IndexOf(entry) == 0)
-                    {
-                        await ctx.CreateResponseAsync(embedBuilder, !visible);
-                    }
-                    else
-                    {
-                        DiscordFollowupMessageBuilder builder = new DiscordFollowupMessageBuilder()
-                        {
-                            IsEphemeral = !visible
-                        };
+                    embedBuilder.WithFooter($"Quote search for real life source using search term '{searchTerm}'" +
+                        $"\n{foundEntries.IndexOf(entry) + 1}/{foundEntries.Count}");
 
-                        builder.AddEmbed(embedBuilder);
-
-                        await ctx.FollowUpAsync(builder);
-                    }
+                    pages.Add(new Page { Embed = embedBuilder });
                 }
+
+                await interactivity.SendPaginatedResponseAsync(ctx.Interaction, !visible, ctx.Member, pages);
             }
 
             [SlashCommand("Random", "Fetches a random Warhammer 40k quote")]
