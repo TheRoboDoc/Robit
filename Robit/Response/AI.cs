@@ -17,6 +17,8 @@ namespace Robit.Response
     /// </summary>
     public static class AI
     {
+        public static readonly EventId AIEvent = new EventId(201, "AI");
+
         /// <summary>
         /// Generates a response intended for use in chat conversations. For text prompt generation use <c>GeneratePromptResponse()</c>.
         /// As that won't include any previous message context and execute faster because of that
@@ -163,6 +165,8 @@ namespace Robit.Response
 
             if (Program.openAiService == null)
             {
+                Program.botClient?.Logger.LogError(AIEvent, "OpenAI service isn't on");
+
                 return Tuple.Create(false, "OpenAI service isn't on, if error presists contact RoboDoc");
             }
 
@@ -201,6 +205,8 @@ namespace Robit.Response
 
                     if (Program.giphyClient == null)
                     {
+                        Program.botClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
+
                         return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
                     }
 
@@ -227,8 +233,8 @@ namespace Robit.Response
                 //Log the AI interaction only if we are in debug mode
                 if (Program.DebugStatus())
                 {
-                    Program.botClient?.Logger.LogDebug("Message: {message}", messageArgs.Message.Content);
-                    Program.botClient?.Logger.LogDebug("Reply: {response}", response);
+                    Program.botClient?.Logger.LogDebug(AIEvent, "Message: {message}", messageArgs.Message.Content);
+                    Program.botClient?.Logger.LogDebug(AIEvent, "Reply: {response}", response);
                 }
             }
             else
@@ -238,7 +244,7 @@ namespace Robit.Response
                     throw new NullReferenceException("OpenAI text generation failed with an unknown error");
                 }
 
-                Program.botClient?.Logger.LogError("{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
+                Program.botClient?.Logger.LogError(AIEvent, "{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
 
                 return Tuple.Create(false, $"OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}");
             }
@@ -354,6 +360,8 @@ namespace Robit.Response
 
             if (Program.openAiService == null)
             {
+                Program.botClient?.Logger.LogError(AIEvent, "OpenAI service isn't on");
+
                 return Tuple.Create(false, "OpenAI service isn't on, if error presists contact RoboDoc");
             }
 
@@ -387,6 +395,8 @@ namespace Robit.Response
 
                     if (Program.giphyClient == null)
                     {
+                        Program.botClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
+
                         return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
                     }
 
@@ -403,7 +413,7 @@ namespace Robit.Response
                 //Log the AI interaction only if we are in debug mode
                 if (Program.DebugStatus())
                 {
-                    Program.botClient?.Logger.LogDebug("Message: {prompt}", prompt);
+                    Program.botClient?.Logger.LogDebug(AIEvent, "Message: {prompt}", prompt);
                     Program.botClient?.Logger.LogDebug("Reply: {response}", response);
                 }
             }
@@ -414,7 +424,7 @@ namespace Robit.Response
                     throw new NullReferenceException("OpenAI text generation failed with an unknown error");
                 }
 
-                Program.botClient?.Logger.LogError("{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
+                Program.botClient?.Logger.LogError(AIEvent, "{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
 
                 return Tuple.Create(false, $"OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}");
             }

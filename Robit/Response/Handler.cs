@@ -10,6 +10,8 @@ namespace Robit.Response
 {
     public static class Handler
     {
+        public static readonly EventId HandlerEvent = new EventId(301, "Handler");
+
         /// <summary>
         /// Runs the response handler that determines to respond or not and how
         /// </summary>
@@ -113,8 +115,12 @@ namespace Robit.Response
                     // Remove the mention string
                     string name = Regex.Replace(messageArgs.Message.Content, "<@!?(\\d+)>", "");
 
+                    if (Program.DebugStatus())
+                    {
+                        Program.botClient?.Logger.LogDebug(HandlerEvent, "Thread trigger");
+                    }
+
                     // Create the thread
-                    Program.botClient?.Logger.LogDebug("Thread trigger");
                     DiscordThreadChannel thread = await messageArgs.Channel.CreateThreadAsync(messageArgs.Message, name, AutoArchiveDuration.Day,
                                 $"{messageArgs.Author.Mention} interacted multiple times in a row with the bot");
 
@@ -165,7 +171,7 @@ namespace Robit.Response
             {
                 if (Program.DebugStatus())
                 {
-                    Program.botClient?.Logger.LogInformation("The message was empty");
+                    Program.botClient?.Logger.LogInformation(HandlerEvent, "The message was empty");
                 }
             }
 

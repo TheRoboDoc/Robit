@@ -122,7 +122,7 @@ namespace Robit
                     message += $"\t\t\t\t\t\t\t{dirMissingText}\n";
                 }
 
-                botClient.Logger.LogWarning("{message}", message);
+                botClient.Logger.LogWarning(LoggerEvents.Startup, "{message}", message);
             }
 
             botClient.Ready += BotClient_Ready;
@@ -130,8 +130,8 @@ namespace Robit
             //Connecting the discord client
             await botClient.ConnectAsync();
 
-            botClient.Logger.LogInformation("Connected");
-            botClient.Logger.LogInformation("Bot is now operational");
+            botClient.Logger.LogInformation(LoggerEvents.Startup, "Connected");
+            botClient.Logger.LogInformation(LoggerEvents.Startup, "Bot is now operational");
 
             botClient.MessageCreated += Handler.Run;
 
@@ -230,7 +230,7 @@ namespace Robit
         /// <returns>The completed task</returns>
         private static Task BotClient_Ready(DiscordClient sender, ReadyEventArgs e)
         {
-            botClient?.Logger.LogInformation("Client is ready");
+            botClient?.Logger.LogInformation(LoggerEvents.Startup, "Client is ready");
 
             return Task.CompletedTask;
         }
