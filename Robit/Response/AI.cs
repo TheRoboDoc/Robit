@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
-using Robit.WordFilter;
 using System.Text.RegularExpressions;
 using static Robit.WordFilter.WordFilter;
 
