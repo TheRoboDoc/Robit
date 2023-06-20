@@ -333,7 +333,7 @@ namespace Robit.Command
                     return;
                 }
 
-                if (ctx.Member.Permissions.HasPermission(Permissions.Administrator)) //Double checking, just in case
+                if (!ctx.Member.Permissions.HasPermission(Permissions.Administrator)) //Double checking, just in case
                 {
                     await ctx.CreateResponseAsync("You don't have admin permission to execute this command");
 
