@@ -184,7 +184,7 @@ namespace Robit
             }
             catch
             {
-                BotClient?.Logger.LogWarning("Failed to assigne status, defaulting");
+                BotClient?.Logger.LogWarning(LoggerEvents.Misc, "Failed to assigne status, defaulting");
                 chosenStatus = statuses.ElementAt(0);
             }
 
