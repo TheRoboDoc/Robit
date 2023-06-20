@@ -137,7 +137,7 @@ namespace Robit.Response
             {
                 if (string.IsNullOrEmpty(discordMessage.Content)) continue;
 
-                if (discordMessage.Author == Program.botClient?.CurrentUser)
+                if (discordMessage.Author == Program.BotClient?.CurrentUser)
                 {
                     messages.Add(ChatMessage.FromAssistant(discordMessage.Content));
                 }                                             //Motherboard ID
@@ -162,15 +162,15 @@ namespace Robit.Response
             //Makes the AI reply make more sense and lowers the chances of it answering to a wrong user
             messages.Add(ChatMessage.FromSystem($"Reply got triggered by user: {messageArgs.Author.Username}, tag: {messageArgs.Author.Discriminator}, userID: {messageArgs.Author.Id}"));
 
-            if (Program.openAiService == null)
+            if (Program.OpenAiService == null)
             {
-                Program.botClient?.Logger.LogError(AIEvent, "OpenAI service isn't on");
+                Program.BotClient?.Logger.LogError(AIEvent, "OpenAI service isn't on");
 
                 return Tuple.Create(false, "OpenAI service isn't on, if error presists contact RoboDoc");
             }
 
             //Sending OpenAI API request for chat reply
-            ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
+            ChatCompletionCreateResponse completionResult = await Program.OpenAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
             {
                 Messages = messages,
                 Model = Models.ChatGpt3_5Turbo,
@@ -202,15 +202,15 @@ namespace Robit.Response
                         Query = search
                     };
 
-                    if (Program.giphyClient == null)
+                    if (Program.GiphyClient == null)
                     {
-                        Program.botClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
+                        Program.BotClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
 
                         return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
                     }
 
                     //Fetching search link result for the GIF the bot wants to post
-                    string? giphyResult = Program.giphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
+                    string? giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
 
                     //Inserting the link into the bot message
                     response = string.Concat(response.AsSpan(0, match.Index), $"\n{giphyResult}", response.AsSpan(match.Index + match.Length), "\n`Powered by GIPHY`");
@@ -232,8 +232,8 @@ namespace Robit.Response
                 //Log the AI interaction only if we are in debug mode
                 if (Program.DebugStatus())
                 {
-                    Program.botClient?.Logger.LogDebug(AIEvent, "Message: {message}", messageArgs.Message.Content);
-                    Program.botClient?.Logger.LogDebug(AIEvent, "Reply: {response}", response);
+                    Program.BotClient?.Logger.LogDebug(AIEvent, "Message: {message}", messageArgs.Message.Content);
+                    Program.BotClient?.Logger.LogDebug(AIEvent, "Reply: {response}", response);
                 }
             }
             else
@@ -243,7 +243,7 @@ namespace Robit.Response
                     throw new NullReferenceException("OpenAI text generation failed with an unknown error");
                 }
 
-                Program.botClient?.Logger.LogError(AIEvent, "{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
+                Program.BotClient?.Logger.LogError(AIEvent, "{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
 
                 return Tuple.Create(false, $"OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}");
             }
@@ -357,14 +357,14 @@ namespace Robit.Response
                 ChatMessage.FromUser($"{ctx.Member.DisplayName}#{ctx.Member.Discriminator} | {ctx.Member.Id} : {prompt}")
             };
 
-            if (Program.openAiService == null)
+            if (Program.OpenAiService == null)
             {
-                Program.botClient?.Logger.LogError(AIEvent, "OpenAI service isn't on");
+                Program.BotClient?.Logger.LogError(AIEvent, "OpenAI service isn't on");
 
                 return Tuple.Create(false, "OpenAI service isn't on, if error presists contact RoboDoc");
             }
 
-            ChatCompletionCreateResponse completionResult = await Program.openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest //Dereference of a possbile null reference
+            ChatCompletionCreateResponse completionResult = await Program.OpenAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest //Dereference of a possbile null reference
             {
                 Messages = messages,
                 Model = Models.ChatGpt3_5Turbo,
@@ -392,14 +392,14 @@ namespace Robit.Response
                         Query = search
                     };
 
-                    if (Program.giphyClient == null)
+                    if (Program.GiphyClient == null)
                     {
-                        Program.botClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
+                        Program.BotClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
 
                         return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
                     }
 
-                    string? giphyResult = Program.giphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
+                    string? giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
 
                     response = string.Concat(response.AsSpan(0, match.Index), $"\n{giphyResult}", response.AsSpan(match.Index + match.Length), "\n`Powered by GIPHY`");
                 }
@@ -412,20 +412,20 @@ namespace Robit.Response
                 //Log the AI interaction only if we are in debug mode
                 if (Program.DebugStatus())
                 {
-                    Program.botClient?.Logger.LogDebug(AIEvent, "Message: {prompt}", prompt);
-                    Program.botClient?.Logger.LogDebug("Reply: {response}", response);
+                    Program.BotClient?.Logger.LogDebug(AIEvent, "Message: {prompt}", prompt);
+                    Program.BotClient?.Logger.LogDebug("Reply: {response}", response);
                 }
             }
             else
             {
                 if (completionResult.Error == null)
                 {
-                    Program.botClient?.Logger.LogError(AIEvent, "OpenAI service isn't on");
+                    Program.BotClient?.Logger.LogError(AIEvent, "OpenAI service isn't on");
 
                     throw new NullReferenceException("OpenAI text generation failed with an unknown error");
                 }
 
-                Program.botClient?.Logger.LogError(AIEvent, "{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
+                Program.BotClient?.Logger.LogError(AIEvent, "{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
 
                 return Tuple.Create(false, $"OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}");
             }

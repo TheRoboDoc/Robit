@@ -52,7 +52,7 @@ namespace Robit.Command
         [DefaultValue(false)]
         bool visible = false)
         {
-            SlashCommandsExtension slashCommandsExtension = Program.botClient.GetSlashCommands();
+            SlashCommandsExtension slashCommandsExtension = Program.BotClient.GetSlashCommands();
 
             List<KeyValuePair<ulong?, IReadOnlyList<DiscordApplicationCommand>>> slashCommandKeyValuePairs = slashCommandsExtension.RegisteredCommands.ToList();
 

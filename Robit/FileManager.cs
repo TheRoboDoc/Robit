@@ -134,7 +134,7 @@ namespace Robit
                 }
                 catch (Exception e)
                 {
-                    Program.botClient?.Logger.LogWarning(QuoteManagerEvent, "{Error}", e.Message);
+                    Program.BotClient?.Logger.LogWarning(QuoteManagerEvent, "{Error}", e.Message);
                 }
 
                 return quoteEntries;

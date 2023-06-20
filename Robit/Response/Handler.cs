@@ -67,7 +67,7 @@ namespace Robit.Response
 
                 foreach (DiscordThreadChannelMember member in members)
                 {
-                    if (member.Id == Program.botClient?.CurrentUser.Id)
+                    if (member.Id == Program.BotClient?.CurrentUser.Id)
                     {
                         hasBot = true;
                         break;
@@ -117,7 +117,7 @@ namespace Robit.Response
 
                     if (Program.DebugStatus())
                     {
-                        Program.botClient?.Logger.LogDebug(HandlerEvent, "Thread trigger");
+                        Program.BotClient?.Logger.LogDebug(HandlerEvent, "Thread trigger");
                     }
 
                     // Create the thread
@@ -171,12 +171,12 @@ namespace Robit.Response
             {
                 if (Program.DebugStatus())
                 {
-                    Program.botClient?.Logger.LogInformation(HandlerEvent, "The message was empty");
+                    Program.BotClient?.Logger.LogInformation(HandlerEvent, "The message was empty");
                 }
             }
 
             //Fetching every slash command the bot has
-            SlashCommandsExtension slashCommandsExtension = Program.botClient.GetSlashCommands();
+            SlashCommandsExtension slashCommandsExtension = Program.BotClient.GetSlashCommands();
 
             var slashCommandsList = slashCommandsExtension.RegisteredCommands;
             List<DiscordApplicationCommand> globalCommands =
@@ -239,7 +239,7 @@ namespace Robit.Response
             {
                 foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
                 {
-                    if (mentionedUser == Program.botClient?.CurrentUser)
+                    if (mentionedUser == Program.BotClient?.CurrentUser)
                     {
                         botMentioned = true;
                         break;

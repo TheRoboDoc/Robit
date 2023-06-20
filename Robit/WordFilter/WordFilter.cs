@@ -22,12 +22,12 @@ namespace Robit.WordFilter
         /// </returns>
         public static async Task<bool> AICheck(string sentence)
         {
-            if (Program.openAiService == null)
+            if (Program.OpenAiService == null)
             {
                 return false;
             }
 
-            CreateModerationResponse response = await Program.openAiService.CreateModeration(new CreateModerationRequest()
+            CreateModerationResponse response = await Program.OpenAiService.CreateModeration(new CreateModerationRequest()
             {
                 Input = sentence
             });
