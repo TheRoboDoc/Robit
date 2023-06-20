@@ -420,6 +420,8 @@ namespace Robit.Response
             {
                 if (completionResult.Error == null)
                 {
+                    Program.botClient?.Logger.LogError(AIEvent, "OpenAI service isn't on");
+
                     throw new NullReferenceException("OpenAI text generation failed with an unknown error");
                 }
 
