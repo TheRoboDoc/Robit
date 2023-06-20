@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
+using Robit.WordFilter;
 using System.Text.RegularExpressions;
 using static Robit.WordFilter.WordFilter;
 
@@ -145,7 +146,9 @@ namespace Robit.Response
                 }
                 else if (!discordMessage.Author.IsBot)
                 {
-                    messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}", discordMessage.Author.Username));
+                    string userName = SpecialCharacterRemoval(discordMessage.Author.Username);
+
+                    messages.Add(ChatMessage.FromUser($"{discordMessage.Author.Username}#{discordMessage.Author.Discriminator} | {discordMessage.Author.Id} : {discordMessage.Content}", userName));
                 }
 
                 if (Program.DebugStatus())
