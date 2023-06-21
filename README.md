@@ -3,7 +3,7 @@ Robit is an AI Discord bot powered by [OpenAI's ChatGPT 3.5 Turbo](https://platf
 
 Help to cover Robit's hosting costs:
 
-[![Ko-Fi](https://github.com/TheRoboDoc/Robit/assets/18618265/b3bf5cf0-f808-43ae-be84-8c90ab25d0e5)](https://ko-fi.com/robodoc)   <---- Click on the cup please :3
+[<img src="https://cdn.discordapp.com/attachments/1096788658566209546/1121171401995472946/cup-borders.png">](https://ko-fi.com/robodoc)
 
 ## Add Robit to your server
 You can add Robit by clicking [**here**](https://discord.com/api/oauth2/authorize?client_id=1049457745763500103&permissions=964220668992&scope=bot%20applications.commands)
