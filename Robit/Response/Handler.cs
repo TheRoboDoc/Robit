@@ -10,6 +10,8 @@ namespace Robit.Response
 {
     public static class Handler
     {
+        public static readonly EventId HandlerEvent = new EventId(301, "Handler");
+
         /// <summary>
         /// Runs the response handler that determines to respond or not and how
         /// </summary>
@@ -65,7 +67,7 @@ namespace Robit.Response
 
                 foreach (DiscordThreadChannelMember member in members)
                 {
-                    if (member.Id == Program.botClient?.CurrentUser.Id)
+                    if (member.Id == Program.BotClient?.CurrentUser.Id)
                     {
                         hasBot = true;
                         break;
@@ -113,8 +115,12 @@ namespace Robit.Response
                     // Remove the mention string
                     string name = Regex.Replace(messageArgs.Message.Content, "<@!?(\\d+)>", "");
 
+                    if (Program.DebugStatus())
+                    {
+                        Program.BotClient?.Logger.LogDebug(HandlerEvent, "Thread trigger");
+                    }
+
                     // Create the thread
-                    Program.botClient?.Logger.LogDebug("Thread trigger");
                     DiscordThreadChannel thread = await messageArgs.Channel.CreateThreadAsync(messageArgs.Message, name, AutoArchiveDuration.Day,
                                 $"{messageArgs.Author.Mention} interacted multiple times in a row with the bot");
 
@@ -165,12 +171,12 @@ namespace Robit.Response
             {
                 if (Program.DebugStatus())
                 {
-                    Program.botClient?.Logger.LogInformation("The message was empty");
+                    Program.BotClient?.Logger.LogInformation(HandlerEvent, "The message was empty");
                 }
             }
 
             //Fetching every slash command the bot has
-            SlashCommandsExtension slashCommandsExtension = Program.botClient.GetSlashCommands();
+            SlashCommandsExtension slashCommandsExtension = Program.BotClient.GetSlashCommands();
 
             var slashCommandsList = slashCommandsExtension.RegisteredCommands;
             List<DiscordApplicationCommand> globalCommands =
@@ -233,7 +239,7 @@ namespace Robit.Response
             {
                 foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
                 {
-                    if (mentionedUser == Program.botClient?.CurrentUser)
+                    if (mentionedUser == Program.BotClient?.CurrentUser)
                     {
                         botMentioned = true;
                         break;

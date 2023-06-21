@@ -24,11 +24,11 @@ namespace Robit
             MainAsync().GetAwaiter().GetResult();
         }
 
-        public static DiscordClient? botClient;
+        public static DiscordClient? BotClient { get; private set; }
 
-        public static OpenAIService? openAiService;
+        public static OpenAIService? OpenAiService { get; private set; }
 
-        public static Giphy? giphyClient;
+        public static Giphy? GiphyClient { get; private set; }
 
         /// <summary>
         /// Main Thread
@@ -36,9 +36,9 @@ namespace Robit
         /// <returns>Nothing</returns>
         static async Task MainAsync()
         {
-            giphyClient = new Giphy(Tokens.giphyToken);
+            GiphyClient = new Giphy(Tokens.giphyToken);
 
-            openAiService = new OpenAIService(new OpenAiOptions()
+            OpenAiService = new OpenAIService(new OpenAiOptions()
             {
                 ApiKey = Tokens.OpenAIToken
             });
@@ -77,10 +77,10 @@ namespace Robit
                 LogTimestampFormat = "dd.MM.yyyy HH:mm:ss (zzz)",
             };
 
-            botClient = new DiscordClient(config);
+            BotClient = new DiscordClient(config);
             #endregion
 
-            botClient.UseInteractivity(new InteractivityConfiguration());
+            BotClient.UseInteractivity(new InteractivityConfiguration());
 
             //Probably redundant
             ServiceProvider services = new ServiceCollection()
@@ -93,14 +93,14 @@ namespace Robit
                 Services = services
             };
 
-            CommandsNextExtension commands = botClient.UseCommandsNext(commandConfig);
+            CommandsNextExtension commands = BotClient.UseCommandsNext(commandConfig);
 
             SlashCommandsConfiguration slashCommandConfig = new SlashCommandsConfiguration()
             {
                 Services = services
             };
 
-            SlashCommandsExtension slashCommands = botClient.UseSlashCommands();
+            SlashCommandsExtension slashCommands = BotClient.UseSlashCommands();
 
             commands.RegisterCommands<Commands>();
             slashCommands.RegisterCommands<SlashCommands>();
@@ -122,20 +122,20 @@ namespace Robit
                     message += $"\t\t\t\t\t\t\t{dirMissingText}\n";
                 }
 
-                botClient.Logger.LogWarning("{message}", message);
+                BotClient.Logger.LogWarning(LoggerEvents.Startup, "{message}", message);
             }
 
-            botClient.Ready += BotClient_Ready;
+            BotClient.Ready += BotClient_Ready;
 
             //Connecting the discord client
-            await botClient.ConnectAsync();
+            await BotClient.ConnectAsync();
 
-            botClient.Logger.LogInformation("Connected");
-            botClient.Logger.LogInformation("Bot is now operational");
+            BotClient.Logger.LogInformation(LoggerEvents.Startup, "Connected");
+            BotClient.Logger.LogInformation(LoggerEvents.Startup, "Bot is now operational");
 
-            botClient.MessageCreated += Handler.Run;
+            BotClient.MessageCreated += Handler.Run;
 
-            botClient.Heartbeated += StatusUpdate;
+            BotClient.Heartbeated += StatusUpdate;
 
             //Prevents the task from ending
             await Task.Delay(-1);
@@ -184,7 +184,7 @@ namespace Robit
             }
             catch
             {
-                botClient?.Logger.LogWarning("Failed to assigne status, defaulting");
+                BotClient?.Logger.LogWarning(LoggerEvents.Misc, "Failed to assigne status, defaulting");
                 chosenStatus = statuses.ElementAt(0);
             }
 
@@ -230,7 +230,7 @@ namespace Robit
         /// <returns>The completed task</returns>
         private static Task BotClient_Ready(DiscordClient sender, ReadyEventArgs e)
         {
-            botClient?.Logger.LogInformation("Client is ready");
+            BotClient?.Logger.LogInformation(LoggerEvents.Startup, "Client is ready");
 
             return Task.CompletedTask;
         }

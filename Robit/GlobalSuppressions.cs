@@ -5,9 +5,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "No reasoable way to change around this", Scope = "member", Target = "~F:Robit.Program.botClient")]
-[assembly: SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "No reasoable way to change around this", Scope = "member", Target = "~F:Robit.Program.giphyClient")]
-[assembly: SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "No reasoable way to change around this", Scope = "member", Target = "~F:Robit.Program.openAiService")]
 [assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Cannot rename as a lot of recorded response entries exist and renaming would require rewriting of a lot of JSON entries", Scope = "member", Target = "~P:Robit.FileManager.ResponseManager.ResponseEntry.reactName")]
 [assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Cannot rename as a lot of recorded response entries exist and renaming would require rewriting of a lot of JSON entries", Scope = "member", Target = "~P:Robit.FileManager.ResponseManager.ResponseEntry.content")]
 [assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Cannot rename as a lot of recorded response entries exist and renaming would require rewriting of a lot of JSON entries", Scope = "member", Target = "~P:Robit.FileManager.ResponseManager.ResponseEntry.response")]

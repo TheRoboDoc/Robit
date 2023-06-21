@@ -52,7 +52,7 @@ namespace Robit.Command
         [DefaultValue(false)]
         bool visible = false)
         {
-            SlashCommandsExtension slashCommandsExtension = Program.botClient.GetSlashCommands();
+            SlashCommandsExtension slashCommandsExtension = Program.BotClient.GetSlashCommands();
 
             List<KeyValuePair<ulong?, IReadOnlyList<DiscordApplicationCommand>>> slashCommandKeyValuePairs = slashCommandsExtension.RegisteredCommands.ToList();
 
@@ -333,7 +333,7 @@ namespace Robit.Command
                     return;
                 }
 
-                if (ctx.Member.Permissions.HasPermission(Permissions.Administrator)) //Double checking, just in case
+                if (!ctx.Member.Permissions.HasPermission(Permissions.Administrator)) //Double checking, just in case
                 {
                     await ctx.CreateResponseAsync("You don't have admin permission to execute this command");
 

@@ -11,6 +11,8 @@ namespace Robit
     /// </summary>
     public static class FileManager
     {
+        public static readonly EventId FileManagerEvent = new EventId(401, "File Manager");
+
         /// <summary>
         /// Paths to directories that the bot uses to store different kinds of data
         /// </summary>
@@ -97,6 +99,8 @@ namespace Robit
         /// </summary>
         public static class QuoteManager
         {
+            public static readonly EventId QuoteManagerEvent = new EventId(402, "Quote Manager");
+
             /// <summary>
             /// Quote entry data representation
             /// </summary>
@@ -130,7 +134,7 @@ namespace Robit
                 }
                 catch (Exception e)
                 {
-                    Program.botClient?.Logger.LogWarning("{Error}", e.Message);
+                    Program.BotClient?.Logger.LogWarning(QuoteManagerEvent, "{Error}", e.Message);
                 }
 
                 return quoteEntries;
