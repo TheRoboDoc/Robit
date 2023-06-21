@@ -84,7 +84,7 @@ namespace Robit.WordFilter
         public static string SpecialCharacterRemoval(string aString)
         {
             string pattern = @"[+`¨',.\-!""#¤%&/()=?´^*;:_§½@£$€{\[\]}~\\]";
-            string replacement = " ";
+            string replacement = "";
 
             return Regex.Replace(aString, pattern, replacement);
         }
