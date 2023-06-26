@@ -1,8 +1,8 @@
 # Robit
-Robit is an AI Discord bot powered by [OpenAI's ChatGPT 3.5 Turbo](https://platform.openai.com/docs/models/gpt-3-5). His primary purpose is to be a little assistant within a discord server and to integrate seamlessly with the server. Bot is currently is beta and might break from time to time
+Robit is an AI Discord bot powered by [OpenAI's ChatGPT 3.5 Turbo](https://platform.openai.com/docs/models/gpt-3-5). His primary purpose is to be a little assistant within a discord server and to integrate seamlessly with the server. The bot is currently in beta and might break from time to time
 
 ## Add Robit to your server
-You can add Robit by clicking [**here**](https://discord.com/api/oauth2/authorize?client_id=1049457745763500103&permissions=964220668992&scope=bot%20applications.commands)
+You can add Robit by clicking [**here**](https://discord.com/api/oauth2/authorize?client_id=1049457745763500103&permissions=861141191680&scope=bot%20applications.commands)
 
 # Features/Commands
 ## Conversation
@@ -277,6 +277,14 @@ Gives out a random quote
   ![RobitQuoteRandom](https://github.com/TheRoboDoc/Robit/assets/18618265/5fc71ab2-37eb-4f19-9563-31e540ca6a5b)
 
 </details>
+
+## Tips
+
+Help to cover Robit's hosting costs:
+
+[<img src="https://cdn.discordapp.com/attachments/1096788658566209546/1121171401995472946/cup-borders.png"> Ko-Fi](https://ko-fi.com/robodoc)
+
+[<img src="https://cdn.discordapp.com/attachments/1096788658566209546/1122794546678468678/paypal.png"> PayPal](https://www.paypal.com/donate/?hosted_button_id=XA4VRCET724AY)
 
 ## Credits
 ### Libraries
