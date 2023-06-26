@@ -6,7 +6,7 @@ Help to cover Robit's hosting costs:
 [<img src="https://cdn.discordapp.com/attachments/1096788658566209546/1121171401995472946/cup-borders.png">](https://ko-fi.com/robodoc)
 
 ## Add Robit to your server
-You can add Robit by clicking [**here**](https://discord.com/api/oauth2/authorize?client_id=1049457745763500103&permissions=964220668992&scope=bot%20applications.commands)
+You can add Robit by clicking [**here**](https://discord.com/api/oauth2/authorize?client_id=1049457745763500103&permissions=861141191680&scope=bot%20applications.commands)
 
 # Features/Commands
 ## Conversation
