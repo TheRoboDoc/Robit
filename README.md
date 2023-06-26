@@ -278,6 +278,9 @@ Gives out a random quote
 
 </details>
 
+## Support
+For support, you can visit [Robit's Little Shack Discord server](https://discord.gg/htxNBgAxZd)
+
 ## Tips
 
 Help to cover Robit's hosting costs:
