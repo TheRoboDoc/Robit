@@ -47,9 +47,7 @@ namespace Robit.Response
 
             if (result)
             {
-                DiscordEmoji emoji;
-
-                if (!DiscordEmoji.TryFromName(sender, reactResult, true, out emoji))
+                if (!DiscordEmoji.TryFromName(sender, reactResult, true, out DiscordEmoji emoji))
                 {
                     sender.Logger.LogWarning("Failed to fetch a reaction emoji");
                     return;
