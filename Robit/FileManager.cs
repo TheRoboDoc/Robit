@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DSharpPlus.Entities;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Robit.Converter;
 using System.Reflection;
 using System.Text.Json;
+using static Robit.FileManager.ResponseManager;
 
 namespace Robit
 {
@@ -23,6 +25,7 @@ namespace Robit
             public static readonly string tempMediaPath = $@"{basePath}/TempMedia";
             public static readonly string resources = $@"{basePath}/Resources";
             public static readonly string channelSettings = $@"{basePath}/ChannelSettings";
+            public static readonly string emoteResponsePath = $@"{basePath}/EmoteResponseData";
         }
 
         /// <summary>
@@ -309,6 +312,238 @@ namespace Robit
         }
 
         /// <summary>
+        /// Class for managment of emote response files
+        /// </summary>
+        public static class EmoteReactManager
+        {
+            /// <summary>
+            /// Constrcut for the emote react entry. Contains the name of the react entry,
+            /// the emote it should react with, and the trigger for it
+            /// </summary>
+            public struct EmoteReactEntry
+            {
+                public string ReactName { get; set; }
+                public DiscordEmoji DiscordEmoji { get; set; }
+                public string Trigger { get; set; }
+            }
+
+            /// <summary>
+            /// Converts a guild ID into that guild's emote react response's json file path
+            /// </summary>
+            /// <param name="guildID">ID to convert</param>
+            /// <returns>Path to guild's emote react response's json file</returns>
+            private static string IDToPath(string guildID)
+            {
+                return $@"{Paths.emoteResponsePath}/{guildID}.json";
+            }
+
+            /// <summary>
+            /// Modifies an react entry
+            /// </summary>
+            /// <param name="reactName">Name of the entry to modify</param>
+            /// <param name="trigger">By what the response entry should be triggered</param>
+            /// <param name="discordEmoji">React to the trigger</param>
+            /// <param name="guildID">The ID of the guild that response entry is binded to</param>
+            /// <returns>
+            /// <list type="table">
+            /// <item>True: Modification succeeded</item>
+            /// <item>False: Modification failed</item>
+            /// </list>
+            /// </returns>
+            public static async Task<bool> ModifyEntry(string reactName, string trigger, DiscordEmoji discordEmoji, string guildID)
+            {
+                List<EmoteReactEntry>? reactEntries = new List<EmoteReactEntry>();
+
+                EmoteReactEntry reactEntryToModify = new EmoteReactEntry();
+
+                string path = IDToPath(guildID);
+
+                reactEntries = ReadEntries(guildID);
+
+                bool found = false;
+
+                if (reactEntries == null)
+                {
+                    return false;
+                }
+                else if (!reactEntries.Any())
+                {
+                    return false;
+                }
+
+                await Task.Run(() =>
+                {
+                    foreach (EmoteReactEntry reactEntry in reactEntries)
+                    {
+                        if (reactEntry.ReactName.ToLower() == reactName.ToLower())
+                        {
+                            reactEntryToModify = reactEntry;
+                            found = true;
+                            break;
+                        }
+                    }
+                });
+
+                if (!found) { return false; }
+
+                await Task.Run(() =>
+                {
+                    EmoteReactEntry modifiedReactEntry = new EmoteReactEntry()
+                    {
+                        ReactName = reactName,
+                        DiscordEmoji = discordEmoji,
+                        Trigger = trigger
+                    };
+
+                    reactEntries.Remove(reactEntryToModify);
+                    reactEntries.Add(modifiedReactEntry);
+
+                    OverwriteEntries(reactEntries, guildID);
+                });
+
+
+                return true;
+            }
+
+            /// <summary>
+            /// Removes an <c>EmoteReactEntry</c> from the corresponding JSON file
+            /// </summary>
+            /// <param name="reactName">Name of the <c>ResponseEntry</c></param>
+            /// <param name="guildID">The ID of the guild</param>
+            /// <returns>
+            /// <list type="table">
+            /// <item>True: Removal succeeded</item>
+            /// <item>False: Removal failed</item>
+            /// </list>
+            /// </returns>
+            public static async Task<bool> RemoveEntry(string reactName, string guildID)
+            {
+                List<EmoteReactEntry>? reactEntries;
+
+                EmoteReactEntry reactEntryToRemove = new EmoteReactEntry();
+
+                reactEntries = ReadEntries(guildID);
+
+                if (reactEntries == null) { return false; }
+                else if (!reactEntries.Any()) { return false; }
+
+                await Task.Run(() =>
+                {
+                    foreach (EmoteReactEntry reactEntry in reactEntries)
+                    {
+                        if (reactEntry.ReactName.ToLower() == reactName.ToLower())
+                        {
+                            reactEntryToRemove = reactEntry;
+                            break;
+                        }
+                    }
+                });
+
+                if (!reactEntries.Remove(reactEntryToRemove))
+                {
+                    return false;
+                }
+
+                OverwriteEntries(reactEntries, guildID);
+
+                return true;
+            }
+
+            /// <summary>
+            /// Overwrites saved entry JSON list with a new <c>EmoteReactEntry</c> list
+            /// </summary>
+            /// <param name="reactEntries">List to overwrite with</param>
+            /// <param name="guildID">The ID of the guild</param>
+            public static void OverwriteEntries(List<EmoteReactEntry> reactEntries, string guildID)
+            {
+                string path = IDToPath(guildID);
+
+                FileInfo fileInfo = new FileInfo(path);
+
+                fileInfo.Delete();
+
+                FileStream fileStream = File.OpenWrite(path);
+
+                JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions()
+                {
+                    WriteIndented = true
+                };
+
+                System.Text.Json.JsonSerializer.Serialize(fileStream, reactEntries, jsonSerializerOptions);
+
+                fileStream.Close();
+            }
+
+            /// <summary>
+            /// Reads a <c>EmoteReactEntry</c> JSON that corresponds to a given guildID
+            /// </summary>
+            /// <param name="guildID">ID of the guild</param>
+            /// <returns><c>EmoteReactEntry</c> list</returns>
+            public static List<EmoteReactEntry>? ReadEntries(string guildID)
+            {
+                string path = IDToPath(guildID);
+
+                if (!FileExists(path))
+                {
+                    CreateFile(path);
+                }
+
+                string jsonString = File.ReadAllText(path);
+
+                List<EmoteReactEntry>? reactEntries = new List<EmoteReactEntry>();
+
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    reactEntries = System.Text.Json.JsonSerializer.Deserialize<List<EmoteReactEntry>>(jsonString);
+                }
+
+                return reactEntries;
+            }
+
+            /// <summary>
+            /// Adds an <c>EmoteReactEntry</c> to a guild's <c>EmoteReactEntry</c> list
+            /// </summary>
+            /// <param name="responseEntry"><c>ResponseEntry to add</c></param>
+            /// <param name="guildID">ID of the guild</param>
+            public static void WriteEntry(EmoteReactEntry responseEntry, string guildID)
+            {
+                List<EmoteReactEntry>? responseEntries;
+
+                string path = IDToPath(guildID);
+
+                FileInfo fileInfo = new FileInfo(path);
+
+                try
+                {
+                    responseEntries = ReadEntries(guildID);
+                    fileInfo.Delete();
+                }
+                catch
+                {
+                    responseEntries = new List<EmoteReactEntry>();
+                }
+
+                if (responseEntries == null)
+                {
+                    return;
+                }
+
+                responseEntries.Add(responseEntry);
+
+                FileStream fileStream = File.OpenWrite(path);
+
+                JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions()
+                {
+                    WriteIndented = true
+                };
+
+                System.Text.Json.JsonSerializer.Serialize(fileStream, responseEntries, jsonSerializerOptions);
+
+                fileStream.Close();
+            }
+        }
+
+        /// <summary>
         /// Class for managment of response files
         /// </summary>
         public static class ResponseManager
@@ -325,10 +560,10 @@ namespace Robit
             }
 
             /// <summary>
-            /// Converts a guild ID into that guild's responses json file path
+            /// Converts a guild ID into that guild's response's json file path
             /// </summary>
             /// <param name="guildID">ID to convert</param>
-            /// <returns>Path to that guilds responses json file</returns>
+            /// <returns>Path to that guild's responses json file</returns>
             private static string IDToPath(string guildID)
             {
                 return $@"{Paths.dataPath}/{guildID}.json";
