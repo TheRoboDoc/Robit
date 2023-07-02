@@ -503,11 +503,11 @@ namespace Robit
             /// <summary>
             /// Adds an <c>EmoteReactEntry</c> to a guild's <c>EmoteReactEntry</c> list
             /// </summary>
-            /// <param name="responseEntry"><c>ResponseEntry to add</c></param>
+            /// <param name="reactEntry"><c>ResponseEntry to add</c></param>
             /// <param name="guildID">ID of the guild</param>
-            public static void WriteEntry(EmoteReactEntry responseEntry, string guildID)
+            public static void WriteEntry(EmoteReactEntry reactEntry, string guildID)
             {
-                List<EmoteReactEntry>? responseEntries;
+                List<EmoteReactEntry>? reactEntries;
 
                 string path = IDToPath(guildID);
 
@@ -520,7 +520,6 @@ namespace Robit
                 }
                 catch
                 {
-                    responseEntries = new List<EmoteReactEntry>();
                     reactEntries = new List<EmoteReactEntry>();
                 }
 
@@ -538,13 +537,9 @@ namespace Robit
                     Formatting = Formatting.Indented
                 };
 
-                Program.BotClient.Logger.LogWarning("Serializing");
-
                 string json = JsonConvert.SerializeObject(reactEntries, settings);
 
                 fileStream.Write(json);
-
-                fileStream.Close();
             }
         }
 
