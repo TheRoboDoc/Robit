@@ -494,7 +494,7 @@ namespace Robit
 
                 if (!string.IsNullOrEmpty(jsonString))
                 {
-                    reactEntries = System.Text.Json.JsonSerializer.Deserialize<List<EmoteReactEntry>>(jsonString);
+                    reactEntries = JsonConvert.DeserializeObject<List<EmoteReactEntry>>(jsonString);
                 }
 
                 return reactEntries;
@@ -530,14 +530,18 @@ namespace Robit
 
                 responseEntries.Add(responseEntry);
 
-                FileStream fileStream = File.OpenWrite(path);
+                using StreamWriter fileStream = File.CreateText(path);
 
-                JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions()
+                JsonSerializerSettings settings = new JsonSerializerSettings()
                 {
-                    WriteIndented = true
+                    Formatting = Formatting.Indented
                 };
 
-                System.Text.Json.JsonSerializer.Serialize(fileStream, responseEntries, jsonSerializerOptions);
+                Program.BotClient.Logger.LogWarning("Serializing");
+
+                string json = JsonConvert.SerializeObject(reactEntries, settings);
+
+                fileStream.Write(json);
 
                 fileStream.Close();
             }
