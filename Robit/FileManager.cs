@@ -515,20 +515,21 @@ namespace Robit
 
                 try
                 {
-                    responseEntries = ReadEntries(guildID);
+                    reactEntries = ReadEntries(guildID);
                     fileInfo.Delete();
                 }
                 catch
                 {
                     responseEntries = new List<EmoteReactEntry>();
+                    reactEntries = new List<EmoteReactEntry>();
                 }
 
-                if (responseEntries == null)
+                if (reactEntries == null)
                 {
                     return;
                 }
 
-                responseEntries.Add(responseEntry);
+                reactEntries.Add(reactEntry);
 
                 using StreamWriter fileStream = File.CreateText(path);
 
