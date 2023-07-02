@@ -323,7 +323,7 @@ namespace Robit
             public struct EmoteReactEntry
             {
                 public string ReactName { get; set; }
-                public DiscordEmoji DiscordEmoji { get; set; }
+                public string DiscordEmoji { get; set; }
                 public string Trigger { get; set; }
             }
 
@@ -350,7 +350,7 @@ namespace Robit
             /// <item>False: Modification failed</item>
             /// </list>
             /// </returns>
-            public static async Task<bool> ModifyEntry(string reactName, string trigger, DiscordEmoji discordEmoji, string guildID)
+            public static async Task<bool> ModifyEntry(string reactName, string trigger, string discordEmoji, string guildID)
             {
                 List<EmoteReactEntry>? reactEntries = new List<EmoteReactEntry>();
 
