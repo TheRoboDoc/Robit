@@ -258,8 +258,6 @@ namespace Robit.Command
             {
                 List<ResponseManager.ResponseEntry>? responseEntries = new List<ResponseManager.ResponseEntry>();
 
-
-
                 await Task.Run(async () =>
                 {
                     responseEntries = ResponseManager.ReadEntries(ctx.Guild.Id.ToString());

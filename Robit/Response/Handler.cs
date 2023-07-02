@@ -38,7 +38,7 @@ namespace Robit.Response
             await AIRespond(messageArgs);
         }
 
-        private static async Task AutoReact(DiscordClient sender,MessageCreateEventArgs messageArgs)
+        private static async Task AutoReact(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
             Tuple<bool, string> autoReactResult = await Auto.GenerateAutoReact(messageArgs);
 

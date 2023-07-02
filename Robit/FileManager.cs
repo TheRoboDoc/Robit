@@ -1,10 +1,8 @@
-﻿using DSharpPlus.Entities;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Robit.Converter;
 using System.Reflection;
 using System.Text.Json;
-using static Robit.FileManager.ResponseManager;
 
 namespace Robit
 {
