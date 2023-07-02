@@ -1,6 +1,7 @@
 ﻿using DSharpPlus.EventArgs;
 using System.Text.RegularExpressions;
 using static Robit.FileManager;
+using static Robit.FileManager.ResponseManager;
 
 namespace Robit.Response
 {
@@ -35,11 +36,11 @@ namespace Robit.Response
         public static async Task<Tuple<bool, string>> GenerateAutoResponse(MessageCreateEventArgs messageArgs)
         {
             //Fetching entries for the server
-            List<ResponseManager.ResponseEntry>? responseEntries = ResponseManager.ReadEntries(messageArgs.Guild.Id.ToString());
+            List<ResponseEntry>? responseEntries = ReadEntries(messageArgs.Guild.Id.ToString());
 
             string messageLower = messageArgs.Message.Content.ToLower();
 
-            Tuple<bool, string> response = Tuple.Create(false, "No saved matches found"); ;
+            Tuple<bool, string> response = Tuple.Create(false, "No saved matches found");
 
             if (responseEntries == null)
             {
@@ -53,7 +54,7 @@ namespace Robit.Response
             //Checking if message contains the response trigger
             await Task.Run(() =>
             {
-                foreach (ResponseManager.ResponseEntry responseEntry in responseEntries) //Dereference of a possbile null reference
+                foreach (ResponseEntry responseEntry in responseEntries)
                 {
                     if (Regex.IsMatch(messageLower, $@"\b{Regex.Escape(responseEntry.content)}(?!\w)"))
                     {
