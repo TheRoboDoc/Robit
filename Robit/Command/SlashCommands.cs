@@ -5,6 +5,7 @@ using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
 using Robit.Response;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using static Robit.FileManager;
 using static Robit.FileManager.QuoteManager;
 
@@ -133,6 +134,261 @@ namespace Robit.Command
         public static async Task GitHub(InteractionContext ctx)
         {
             await ctx.CreateResponseAsync("https://github.com/TheRoboDoc/Robit", true);
+        }
+        #endregion
+
+        #region Automatic Reacts
+        [SlashCommandGroup(
+            "React",
+            "Add, remove, or edit bot's reacts to messages")]
+        [SlashCommandPermissions(Permissions.ManageEmojis | Permissions.AddReactions | Permissions.SendMessages)]
+        public class React
+        {
+            private static bool EmoteValidity(DiscordClient client, string emoteString, out string filteredString)
+            {
+                string pattern = @"<(:.*?:)\d+>";
+
+                Match match = Regex.Match(emoteString, pattern);
+
+                string filteredEmote = emoteString;
+
+                if (match.Success)
+                {
+                    filteredEmote = match.Groups[1].Value;
+                }
+
+                if (DiscordEmoji.TryFromUnicode(client, filteredEmote, out DiscordEmoji emoji))
+                {
+                    filteredString = emoji.GetDiscordName();
+
+                    return true;
+                }
+
+                if (DiscordEmoji.TryFromName(client, filteredEmote, true, out _))
+                {
+                    filteredString = filteredEmote;
+
+                    return true;
+                }
+
+                filteredString = string.Empty;
+
+                return false;
+            }
+
+            [SlashCommand("Add", "Add a react interaction")]
+            public static async Task Add(InteractionContext ctx,
+
+            [Option("Name", "Name of the react interaction")]
+            [MaximumLength(50)]
+            string name,
+
+            [Option("Trigger", "The trigger of the message to respond to")]
+            [MaximumLength(50)]
+            string trigger,
+
+            [Option("React", "The reaction to the message")]
+            string emote,
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
+            {
+                if (!EmoteValidity(ctx.Client, emote, out string filteredEmote))
+                {
+                    await ctx.CreateResponseAsync("Failed to add the emote", true);
+                    return;
+                }
+
+                EmoteReactManager.EmoteReactEntry responseEntry = new EmoteReactManager.EmoteReactEntry()
+                {
+                    ReactName = name,
+                    Trigger = trigger,
+                    DiscordEmoji = filteredEmote
+                };
+
+                List<EmoteReactManager.EmoteReactEntry>? allResponseEntries;
+
+                allResponseEntries = EmoteReactManager.ReadEntries(ctx.Guild.Id.ToString());
+
+                if (allResponseEntries != null)
+                {
+                    if (!allResponseEntries.Any())
+                    {
+                        foreach (EmoteReactManager.EmoteReactEntry entry in allResponseEntries)
+                        {
+                            if (entry.ReactName.ToLower() == responseEntry.ReactName.ToLower())
+                            {
+                                await ctx.CreateResponseAsync("A react with a same name already exists", true);
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                EmoteReactManager.WriteEntry(responseEntry, ctx.Guild.Id.ToString());
+
+                await ctx.CreateResponseAsync($"Added new react entry with trigger '{trigger}'" +
+                                              $" and react '{DiscordEmoji.FromName(ctx.Client, filteredEmote, true)}'", !visible);
+            }
+
+            [SlashCommand("Remove", "Remove a react interaction by a given name")]
+            public static async Task Remove(InteractionContext ctx,
+
+            [Option("Name", "Name of the react interaction to delete")]
+            [MaximumLength(50)]
+            string name,
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visibile = false)
+            {
+                if (await EmoteReactManager.RemoveEntry(name, ctx.Guild.Id.ToString()))
+                {
+                    await ctx.CreateResponseAsync($@"Entry with a name {name} has been removed", !visibile);
+                }
+                else
+                {
+                    await ctx.CreateResponseAsync($@"Couldn't find a react entry with a name {name}", true);
+                }
+            }
+
+            [SlashCommand("Modify", "Modify a react entry")]
+            public static async Task Modify(InteractionContext ctx,
+
+            [Option("Name", "Name of the react interaction to modify")]
+            string name,
+
+            [Option("Trigger", "New trigger for the interaction")]
+            [MaximumLength(50)]
+            string content,
+
+            [Option("Emote", "New emote for the interaction")]
+            [MaximumLength(50)]
+            string emote,
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
+            {
+                if (!EmoteValidity(ctx.Client, emote, out string filteredString))
+                {
+                    await ctx.CreateResponseAsync("Invalid emote!", true);
+                    return;
+                }
+
+                if (EmoteReactManager.ModifyEntry(name, content, filteredString, ctx.Guild.Id.ToString()).Result)
+                {
+                    await ctx.CreateResponseAsync
+                        (
+                            $@"React entry with a name '{name}' has been modified, " +
+                            $@"it now reacts to messages that contain '{content}' " +
+                            $@"with '{DiscordEmoji.FromName(ctx.Client, filteredString, true)}'", !visible
+                        );
+                }
+                else
+                {
+                    await ctx.CreateResponseAsync($@"Couldn't find react interaction with a name {name}", true);
+                }
+            }
+
+            [SlashCommand("List", "List all the react interactions")]
+            public static async Task List(InteractionContext ctx,
+
+            [Option("Visible", "Sets the commands visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
+            {
+                List<EmoteReactManager.EmoteReactEntry>? reactEntires = new List<EmoteReactManager.EmoteReactEntry>();
+
+                await Task.Run(async () =>
+                {
+                    reactEntires = EmoteReactManager.ReadEntries(ctx.Guild.Id.ToString());
+
+                    if (reactEntires == null)
+                    {
+                        await ctx.CreateResponseAsync("Server has no react entries");
+                        return;
+                    }
+                    else if (!reactEntires.Any())
+                    {
+                        await ctx.CreateResponseAsync("Server has no react entries");
+                        return;
+                    }
+
+                    List<Page> pages = new List<Page>();
+
+                    int entriesPerPage = 5;
+                    int pageIndex = 0;
+
+                    while (pageIndex < reactEntires.Count)
+                    {
+                        List<EmoteReactManager.EmoteReactEntry> pageEntries = reactEntires
+                            .Skip(pageIndex)
+                            .Take(entriesPerPage)
+                            .ToList();
+
+                        DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder
+                        {
+                            Title = "List of all responses",
+                            Color = DiscordColor.Purple
+                        };
+
+                        foreach (EmoteReactManager.EmoteReactEntry reactEntry in pageEntries)
+                        {
+                            discordEmbedBuilder.AddField
+                            (
+                                reactEntry.ReactName,
+                                $"{reactEntry.Trigger}: {DiscordEmoji.FromName(ctx.Client, reactEntry.DiscordEmoji, true)}"
+                            );
+
+                            discordEmbedBuilder.WithFooter($"{pageIndex / entriesPerPage + 1}/{(reactEntires.Count + entriesPerPage - 1) / entriesPerPage}"); //Page number
+                        }
+
+                        pages.Add(new Page { Embed = discordEmbedBuilder });
+
+                        pageIndex += entriesPerPage;
+                    }
+
+                    InteractivityExtension? interactivity = ctx.Client.GetInteractivity();
+
+                    await interactivity.SendPaginatedResponseAsync(ctx.Interaction, !visible, ctx.Member, pages);
+                });
+            }
+
+            [SlashCommand("Wipe", "Wipe all of the react interactions")]
+            [SlashCommandPermissions(Permissions.Administrator)]
+            public static async Task Wipe(InteractionContext ctx,
+
+            [Option("Are_You_Sure", "Aure you sure you want to wipe all react on the server?")]
+            bool check,
+
+            [Option("visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
+            {
+                if (!check)
+                {
+                    await ctx.CreateResponseAsync("`Are You Sure` was set to `false` canceling...");
+
+                    return;
+                }
+
+                if (!ctx.Member.Permissions.HasPermission(Permissions.Administrator)) //Double checking, just in case
+                {
+                    await ctx.CreateResponseAsync("You don't have admin permission to execute this command");
+
+                    return;
+                }
+
+                List<EmoteReactManager.EmoteReactEntry> responseEntries = new List<EmoteReactManager.EmoteReactEntry>();
+
+                EmoteReactManager.OverwriteEntries(responseEntries, ctx.Guild.Id.ToString());
+
+                await ctx.CreateResponseAsync("All react interactions have been overwritten", !visible);
+            }
+
+
         }
         #endregion
 
