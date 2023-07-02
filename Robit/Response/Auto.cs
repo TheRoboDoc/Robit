@@ -65,5 +65,36 @@ namespace Robit.Response
 
             return response;
         }
+
+        public static async Task<Tuple<bool, string>> GenerateAutoReact(MessageCreateEventArgs messageArgs)
+        {
+            List<EmoteReactManager.EmoteReactEntry>? reactEntries = EmoteReactManager.ReadEntries(messageArgs.Guild.Id.ToString());
+
+            string messageLower = messageArgs.Message.Content.ToLower();
+
+            Tuple<bool, string> response = Tuple.Create(false, "No saved matches found");
+
+            if (reactEntries == null)
+            {
+                return response;
+            }
+            else if (!reactEntries.Any())
+            {
+                return response;
+            }
+
+            await Task.Run(() =>
+            {
+                foreach (EmoteReactManager.EmoteReactEntry reactEntry in reactEntries)
+                {
+                    if (Regex.IsMatch(messageLower, $@"\b{Regex.Escape(reactEntry.Trigger)}(?!\w)"))
+                    {
+                        response = Tuple.Create(true, reactEntry.DiscordEmoji);
+                    }
+                }
+            });
+
+            return response;
+        }
     }
 }
