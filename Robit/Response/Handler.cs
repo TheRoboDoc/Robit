@@ -27,19 +27,40 @@ namespace Robit.Response
             // Checking if we need to respond at all depending on channel settings
             ChannelManager.Channel channelSettings = ChannelManager.ReadChannelInfo(messageArgs.Guild.Id.ToString(), messageArgs.Channel.Id.ToString());
 
-            if (channelSettings.autoResponse)
-            {
-                Tuple<bool, string> autoResponseResult = await Auto.GenerateAutoResponse(messageArgs);
+            bool responded = await AutoRespond(messageArgs, channelSettings);
 
-                if (autoResponseResult.Item1)
-                {
-                    await messageArgs.Message.RespondAsync(autoResponseResult.Item2);
-                    return;
-                }
-            }
+            await AutoReact(sender, messageArgs);
+
+            if (responded) { return; }
 
             if (channelSettings.AIIgnore) return;
 
+            await AIRespond(messageArgs);
+        }
+
+        private static async Task AutoReact(DiscordClient sender,MessageCreateEventArgs messageArgs)
+        {
+            Tuple<bool, string> autoReactResult = await Auto.GenerateAutoReact(messageArgs);
+
+            bool result = autoReactResult.Item1;
+            string reactResult = autoReactResult.Item2;
+
+            if (result)
+            {
+                DiscordEmoji emoji;
+
+                if (!DiscordEmoji.TryFromName(sender, reactResult, true, out emoji))
+                {
+                    sender.Logger.LogWarning("Failed to fetch a reaction emoji");
+                    return;
+                }
+
+                await messageArgs.Message.CreateReactionAsync(emoji);
+            }
+        }
+
+        private static async Task AIRespond(MessageCreateEventArgs messageArgs)
+        {
             DiscordChannel replyIn = messageArgs.Channel;
 
             // We want to reply if the message was sent in a thread that bot is a member of
@@ -145,6 +166,22 @@ namespace Robit.Response
                     await replyIn.SendMessageAsync("**System:** " + response);
                 }
             });
+        }
+
+        private static async Task<bool> AutoRespond(MessageCreateEventArgs messageArgs, ChannelManager.Channel channelSettings)
+        {
+            if (channelSettings.autoResponse)
+            {
+                Tuple<bool, string> autoResponseResult = await Auto.GenerateAutoResponse(messageArgs);
+
+                if (autoResponseResult.Item1)
+                {
+                    await messageArgs.Message.RespondAsync(autoResponseResult.Item2);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
