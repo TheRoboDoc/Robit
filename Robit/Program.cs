@@ -13,7 +13,6 @@ using OpenAI.Managers;
 using Robit.Command;
 using Robit.Response;
 using System.Diagnostics;
-using static Robit.Command.Commands;
 
 namespace Robit
 {
@@ -82,19 +81,10 @@ namespace Robit
 
             BotClient.UseInteractivity(new InteractivityConfiguration());
 
-            //Probably redundant
             ServiceProvider services = new ServiceCollection()
                 .BuildServiceProvider();
 
             #region Command setup
-            CommandsNextConfiguration commandConfig = new CommandsNextConfiguration()
-            {
-                StringPrefixes = new string[] { "§" },
-                Services = services
-            };
-
-            CommandsNextExtension commands = BotClient.UseCommandsNext(commandConfig);
-
             SlashCommandsConfiguration slashCommandConfig = new SlashCommandsConfiguration()
             {
                 Services = services
@@ -102,10 +92,8 @@ namespace Robit
 
             SlashCommandsExtension slashCommands = BotClient.UseSlashCommands();
 
-            commands.RegisterCommands<Commands>();
             slashCommands.RegisterCommands<SlashCommands>();
 
-            commands.SetHelpFormatter<CustomHelpFormatter>();
             #endregion
 
             List<string> dirsMissing = FileManager.DirCheck().Result.ToList();
