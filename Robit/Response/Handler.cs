@@ -38,6 +38,11 @@ namespace Robit.Response
             await AIRespond(messageArgs);
         }
 
+        /// <summary>
+        /// Reacts to message
+        /// </summary>
+        /// <param name="sender">Discord client</param>
+        /// <param name="messageArgs">Discord message creation arguments</param>
         private static async Task AutoReact(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
             Tuple<bool, string> autoReactResult = await Auto.GenerateAutoReact(messageArgs);
@@ -57,6 +62,10 @@ namespace Robit.Response
             }
         }
 
+        /// <summary>
+        /// Responses with AI answer to the message
+        /// </summary>
+        /// <param name="messageArgs">Discord message creation arguments</param>
         private static async Task AIRespond(MessageCreateEventArgs messageArgs)
         {
             DiscordChannel replyIn = messageArgs.Channel;
@@ -166,6 +175,18 @@ namespace Robit.Response
             });
         }
 
+        /// <summary>
+        /// Auto responses to a message
+        /// </summary>
+        /// <param name="messageArgs">Discord message creation arguments</param>
+        /// <param name="channelSettings">Channel settings</param>
+        /// <returns>
+        /// <list type="bullet">
+        /// <listheader>Boolean</listheader>
+        /// <item>True: Auto-response happened</item>
+        /// <item>False: Auto-response didn't happen</item>
+        /// </list>
+        /// </returns>
         private static async Task<bool> AutoRespond(MessageCreateEventArgs messageArgs, ChannelManager.Channel channelSettings)
         {
             if (channelSettings.autoResponse)
