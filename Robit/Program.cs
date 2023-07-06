@@ -116,7 +116,7 @@ namespace Robit
                 {
                     string dirMissingText = char.ToUpper(dirMissing[0]) + dirMissing.Substring(1);
 
-                    message += $"\t\t\t\t\t\t\t{dirMissingText}\n";
+                    message += $"\t\t\t\t\t\t\t\t{dirMissingText}\n";
                 }
 
                 BotClient.Logger.LogWarning(LoggerEvents.Startup, "{message}", message);
