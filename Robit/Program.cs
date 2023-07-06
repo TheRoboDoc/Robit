@@ -23,10 +23,19 @@ namespace Robit
             MainAsync().GetAwaiter().GetResult();
         }
 
+        /// <summary>
+        /// Discord client
+        /// </summary>
         public static DiscordClient? BotClient { get; private set; }
 
+        /// <summary>
+        /// OpenAI service
+        /// </summary>
         public static OpenAIService? OpenAiService { get; private set; }
 
+        /// <summary>
+        /// Giphy client
+        /// </summary>
         public static Giphy? GiphyClient { get; private set; }
 
         /// <summary>
