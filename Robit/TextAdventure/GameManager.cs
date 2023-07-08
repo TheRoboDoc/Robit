@@ -69,8 +69,8 @@ namespace Robit.TextAdventure
             }
 
             GameStartingParameters =
-                $"You are a text based adventure generating AI\n" + 
-                $"You also act as the GM for these adventures\n" + 
+                $"You are a text based adventure generating AI\n" +
+                $"You also act as the GM for these adventures\n" +
                 $"Instructions:\n" +
                 $"Maximum amount of turns you can take: {MaxTurnCount}\n" +
                 $"The game always follows this event pattern:\n" +
@@ -97,7 +97,7 @@ namespace Robit.TextAdventure
             DiscordThreadChannel channel = await context.Channel.CreateThreadAsync
                 (gameName, DSharpPlus.AutoArchiveDuration.Day, DSharpPlus.ChannelType.PrivateThread, $"Text Based Adventure Game: {gameName}");
 
-            foreach(DiscordMember player in players)
+            foreach (DiscordMember player in players)
             {
                 await channel.AddThreadMemberAsync(player);
             }

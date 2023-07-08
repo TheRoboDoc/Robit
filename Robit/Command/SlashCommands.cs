@@ -4,12 +4,11 @@ using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
 using Robit.Response;
+using Robit.TextAdventure;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using static Robit.FileManager;
 using static Robit.FileManager.QuoteManager;
-using Robit.TextAdventure;
-using Microsoft.Extensions.Logging;
 
 namespace Robit.Command
 {
