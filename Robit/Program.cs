@@ -39,8 +39,6 @@ namespace Robit
         /// </summary>
         public static Giphy? GiphyClient { get; private set; }
 
-        public static GameManagerContainer? GameManagerContainer;
-
         /// <summary>
         /// Game manager container containing all the text based adventure game instances managed by the bot
         /// </summary>
