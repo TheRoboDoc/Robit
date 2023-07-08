@@ -69,7 +69,9 @@ namespace Robit.TextAdventure
             }
 
             GameStartingParameters =
-                $"Write a text based adventure game.\n" +
+                $"You are a text based adventure generating AI\n" + 
+                $"You also act as the GM for these adventures\n" + 
+                $"Instructions:\n" +
                 $"Maximum amount of turns you can take: {MaxTurnCount}\n" +
                 $"The game always follows this event pattern:\n" +
                 $"Description of the event -> Question to the player -> Player answer -> Result\n" +
