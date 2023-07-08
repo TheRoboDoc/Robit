@@ -111,7 +111,7 @@ namespace Robit.TextAdventure
         /// <returns>A list of discord messages</returns>
         private async Task<List<DiscordMessage>> FetchMessages()
         {
-            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = await Channel.GetMessagesAsync(int.MaxValue);
+            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = await Channel.GetMessagesAsync();
 
             List<DiscordMessage> discordMessages = new List<DiscordMessage>();
 
@@ -152,9 +152,6 @@ namespace Robit.TextAdventure
                 Model = "gpt-3.5-turbo-16k",
                 N = 1,
                 User = Players.First().Id.ToString(),
-                Temperature = 0.5f,
-                FrequencyPenalty = 1.1f,
-                PresencePenalty = 0.8f
             });
 
             string response;
