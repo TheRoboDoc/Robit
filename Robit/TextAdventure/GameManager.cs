@@ -10,23 +10,9 @@ namespace Robit.TextAdventure
     public class GameManager
     {
         /// <summary>
-        /// Available game modes
-        /// </summary>
-        public enum GameMode
-        {
-            Private,
-            Public
-        }
-
-        /// <summary>
         /// Array of players in the game
         /// </summary>
         private DiscordMember[] players;
-
-        /// <summary>
-        /// Selected game mode
-        /// </summary>
-        private GameMode gameMode;
 
         /// <summary>
         /// Current turn count
@@ -63,10 +49,9 @@ namespace Robit.TextAdventure
         /// <param name="gameMode">Game mode of the game</param>
         /// <param name="channel">The thread channel this instance should be happening at</param>
         private GameManager(DiscordMember[] players, string gameName, string theme, 
-                            uint maxTurnCountPerPlayer, GameMode gameMode, DiscordThreadChannel channel)
+                            uint maxTurnCountPerPlayer, DiscordThreadChannel channel)
         {
             this.players = players;
-            this.gameMode = gameMode;
             this.gameName = gameName;
             this.channel = channel;
 
@@ -104,13 +89,12 @@ namespace Robit.TextAdventure
         /// <param name="gameMode">Game instance game mode</param>
         /// <returns>Game manager instance that will be managing this instance of the text based adventure game</returns>
         public static async Task<GameManager> Start
-            (DiscordMember[] players, string gameName, string theme, InteractionContext context, uint maxTurnCountPerPlayer,
-             GameMode gameMode = GameMode.Private)
+            (DiscordMember[] players, string gameName, string theme, InteractionContext context, uint maxTurnCountPerPlayer)
         {
             DiscordThreadChannel channel = await context.Channel.CreateThreadAsync
                 (gameName, DSharpPlus.AutoArchiveDuration.Day, DSharpPlus.ChannelType.PrivateThread, $"Text Based Adventure Game: {gameName}");
 
-            return new GameManager(players, gameName, theme, maxTurnCountPerPlayer, gameMode, channel);
+            return new GameManager(players, gameName, theme, maxTurnCountPerPlayer, channel);
         }
 
         /// <summary>
