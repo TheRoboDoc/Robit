@@ -3,6 +3,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
+using Robit.TextAdventure;
 using System.Text.RegularExpressions;
 using static Robit.FileManager;
 
@@ -24,6 +25,8 @@ namespace Robit.Response
 
             if (await DiscordNoobFailsafe(messageArgs)) return;
 
+            if (await TextBasedAdventure(messageArgs)) return;
+
             // Checking if we need to respond at all depending on channel settings
             ChannelManager.Channel channelSettings = ChannelManager.ReadChannelInfo(messageArgs.Guild.Id.ToString(), messageArgs.Channel.Id.ToString());
 
@@ -36,6 +39,23 @@ namespace Robit.Response
             if (channelSettings.AIIgnore) return;
 
             await AIRespond(messageArgs);
+        }
+
+        private static async Task<bool> TextBasedAdventure(MessageCreateEventArgs messageArgs)
+        {
+            if (messageArgs.Channel.Type != ChannelType.PrivateThread) return false;
+
+            DiscordThreadChannel? thread = messageArgs.Channel as DiscordThreadChannel;
+
+            if (thread == null) return false;
+
+            GameManager? gameManager = Program.GameManagerContainer?.GetManagerByThread(thread);
+
+            if (gameManager == null) return false;
+
+            await gameManager.Run();
+
+            return true;
         }
 
         /// <summary>
