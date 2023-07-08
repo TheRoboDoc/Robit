@@ -27,7 +27,7 @@ namespace Robit.TextAdventure
         /// <summary>
         /// Name of the text based adventure instance
         /// </summary>
-        private string gameName;
+        public string gameName { private set; get; }
 
         /// <summary>
         /// Starting parameters of the text based adventure instance
@@ -37,7 +37,7 @@ namespace Robit.TextAdventure
         /// <summary>
         /// The discord thread this current text based adventure instance is happening at
         /// </summary>
-        private DiscordThreadChannel channel;
+        public DiscordThreadChannel channel { private set; get; }
 
         /// <summary>
         /// GameManager instance contructor
