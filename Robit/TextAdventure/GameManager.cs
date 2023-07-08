@@ -103,7 +103,11 @@ namespace Robit.TextAdventure
                 await channel.AddThreadMemberAsync(player);
             }
 
-            return new GameManager(players, gameName, theme, maxTurnCountPerPlayer, channel);
+            GameManager gameManager = new GameManager(players, gameName, theme, maxTurnCountPerPlayer, channel);
+
+            Program.GameManagerContainer?.AddManager(gameManager);
+
+            return gameManager;
         }
 
         /// <summary>
