@@ -1,5 +1,4 @@
 ﻿using DSharpPlus;
-using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
@@ -12,8 +11,8 @@ using OpenAI;
 using OpenAI.Managers;
 using Robit.Command;
 using Robit.Response;
-using System.Diagnostics;
 using Robit.TextAdventure;
+using System.Diagnostics;
 
 namespace Robit
 {

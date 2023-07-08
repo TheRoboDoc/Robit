@@ -50,12 +50,12 @@ namespace Robit.TextAdventure
         /// <param name="theme">The theme of the game</param>
         /// <param name="maxTurnCountPerPlayer">Max turn count per player</param>
         /// <param name="channel">The thread channel this instance should be happening at</param>
-        private GameManager(DiscordMember[] players, string gameName, string theme, 
+        private GameManager(DiscordMember[] players, string gameName, string theme,
                             uint maxTurnCountPerPlayer, DiscordThreadChannel channel)
         {
-            this.Player = players;
-            this.GameName = gameName;
-            this.Channel = channel;
+            Player = players;
+            GameName = gameName;
+            Channel = channel;
 
             TurnCount = 0;
 
@@ -175,7 +175,7 @@ namespace Robit.TextAdventure
                     throw new NullReferenceException("OpenAI text generation failed with an unknown error");
                 }
 
-                Program.BotClient?.Logger.LogError(Response.AI.AIEvent, "{ErrorCode}: {ErrorMessage}", 
+                Program.BotClient?.Logger.LogError(Response.AI.AIEvent, "{ErrorCode}: {ErrorMessage}",
                     completionResult.Error.Code, completionResult.Error.Message);
 
                 return $"System: OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}";

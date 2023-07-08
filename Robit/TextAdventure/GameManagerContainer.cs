@@ -63,9 +63,9 @@ namespace Robit.TextAdventure
         /// </item>
         /// </list>
         /// </returns>
-        public GameManager? GetManagerByThread(DiscordThreadChannel threadChannel) 
-        { 
-            return Managers.Find(gameManager => gameManager.Channel == threadChannel); 
+        public GameManager? GetManagerByThread(DiscordThreadChannel threadChannel)
+        {
+            return Managers.Find(gameManager => gameManager.Channel == threadChannel);
         }
     }
 }
