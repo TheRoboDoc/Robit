@@ -367,7 +367,7 @@ namespace Robit.Response
             ChatCompletionCreateResponse completionResult = await Program.OpenAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest //Dereference of a possbile null reference
             {
                 Messages = messages,
-                Model = Models.ChatGpt3_5Turbo,
+                Model = Models.Gpt_4,
                 N = 1,
                 User = ctx.User.Id.ToString(),
             });
