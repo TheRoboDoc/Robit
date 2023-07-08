@@ -63,7 +63,7 @@ namespace Robit.TextAdventure
 
             foreach (DiscordMember player in players)
             {
-                participantNameList += $"{player.DisplayName}\n";
+                participantNameList += $"{SpecialCharacterRemoval(player.DisplayName)}\n";
             }
 
             gameStartingParameters =
