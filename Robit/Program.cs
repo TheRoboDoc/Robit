@@ -42,7 +42,7 @@ namespace Robit
         /// <summary>
         /// Game manager container containing all the text based adventure game instances managed by the bot
         /// </summary>
-        public static GameManagerContainer? GameManagerContainer;
+        public static GameManagerContainer? GameManagerContainer { get; private set; }
 
         /// <summary>
         /// Main Thread
