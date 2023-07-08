@@ -13,6 +13,7 @@ using OpenAI.Managers;
 using Robit.Command;
 using Robit.Response;
 using System.Diagnostics;
+using Robit.TextAdventure;
 
 namespace Robit
 {
@@ -37,6 +38,8 @@ namespace Robit
         /// Giphy client
         /// </summary>
         public static Giphy? GiphyClient { get; private set; }
+
+        public static GameManagerContainer? GameManagerContainer;
 
         /// <summary>
         /// Main Thread
@@ -133,6 +136,8 @@ namespace Robit
             BotClient.MessageCreated += Handler.Run;
 
             BotClient.Heartbeated += StatusUpdate;
+
+            GameManagerContainer = new GameManagerContainer();
 
             //Prevents the task from ending
             await Task.Delay(-1);
