@@ -1,5 +1,4 @@
 ﻿using DSharpPlus;
-using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
@@ -12,8 +11,8 @@ using OpenAI;
 using OpenAI.Managers;
 using Robit.Command;
 using Robit.Response;
+using Robit.TextAdventure;
 using System.Diagnostics;
-using static Robit.Command.Commands;
 
 namespace Robit
 {
@@ -24,11 +23,25 @@ namespace Robit
             MainAsync().GetAwaiter().GetResult();
         }
 
+        /// <summary>
+        /// Discord client
+        /// </summary>
         public static DiscordClient? BotClient { get; private set; }
 
+        /// <summary>
+        /// OpenAI service
+        /// </summary>
         public static OpenAIService? OpenAiService { get; private set; }
 
+        /// <summary>
+        /// Giphy client
+        /// </summary>
         public static Giphy? GiphyClient { get; private set; }
+
+        /// <summary>
+        /// Game manager container containing all the text based adventure game instances managed by the bot
+        /// </summary>
+        public static GameManagerContainer? GameManagerContainer { get; private set; }
 
         /// <summary>
         /// Main Thread
@@ -82,19 +95,10 @@ namespace Robit
 
             BotClient.UseInteractivity(new InteractivityConfiguration());
 
-            //Probably redundant
             ServiceProvider services = new ServiceCollection()
                 .BuildServiceProvider();
 
             #region Command setup
-            CommandsNextConfiguration commandConfig = new CommandsNextConfiguration()
-            {
-                StringPrefixes = new string[] { "§" },
-                Services = services
-            };
-
-            CommandsNextExtension commands = BotClient.UseCommandsNext(commandConfig);
-
             SlashCommandsConfiguration slashCommandConfig = new SlashCommandsConfiguration()
             {
                 Services = services
@@ -102,10 +106,8 @@ namespace Robit
 
             SlashCommandsExtension slashCommands = BotClient.UseSlashCommands();
 
-            commands.RegisterCommands<Commands>();
             slashCommands.RegisterCommands<SlashCommands>();
 
-            commands.SetHelpFormatter<CustomHelpFormatter>();
             #endregion
 
             List<string> dirsMissing = FileManager.DirCheck().Result.ToList();
@@ -119,7 +121,7 @@ namespace Robit
                 {
                     string dirMissingText = char.ToUpper(dirMissing[0]) + dirMissing.Substring(1);
 
-                    message += $"\t\t\t\t\t\t\t{dirMissingText}\n";
+                    message += $"\t\t\t\t\t\t\t\t{dirMissingText}\n";
                 }
 
                 BotClient.Logger.LogWarning(LoggerEvents.Startup, "{message}", message);
@@ -136,6 +138,8 @@ namespace Robit
             BotClient.MessageCreated += Handler.Run;
 
             BotClient.Heartbeated += StatusUpdate;
+
+            GameManagerContainer = new GameManagerContainer();
 
             //Prevents the task from ending
             await Task.Delay(-1);

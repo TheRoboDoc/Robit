@@ -4,6 +4,7 @@ using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
 using Robit.Response;
+using Robit.TextAdventure;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using static Robit.FileManager;
@@ -1353,6 +1354,78 @@ namespace Robit.Command
                 }
 
                 await ctx.CreateResponseAsync(embedBuilder, !visible);
+            }
+        }
+        #endregion
+
+        #region Text Based Adventure Game
+        [SlashCommandGroup("TBA", "Text Based Adventure")]
+        [SlashCommandPermissions(Permissions.SendMessages | Permissions.SendMessagesInThreads | Permissions.CreatePrivateThreads)]
+        public class TextBasedAdventureGame
+        {
+            [SlashCommand("Create", "Creates an instance of the game")]
+            public static async Task Create(InteractionContext ctx,
+
+            [Option("Game_Theme", "The theme of the adventure")]
+            string gameTheme,
+
+            [Option("Max_Turn_Count_Per_Player", "The maximum amount of turns allowed per player")]
+            [DefaultValue(20)]
+            [Minimum(0)]
+            [Maximum(20)]
+            double maxTurnCountPerPlayer = 20,
+
+            [Option("Game_Name", "The name of the game")]
+            [DefaultValue("")]
+            string gameName = "",
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(true)]
+            bool visible = true)
+            {
+                DiscordMember[] playerArray = { ctx.Member };
+
+                Random rand = new Random();
+
+                if (string.IsNullOrEmpty(gameName))
+                {
+                    gameName = rand.Next().ToString();
+                }
+
+                await ctx.CreateResponseAsync("Creating new game instance...", !visible);
+
+                GameManager gameManager = await GameManager.Start(playerArray, gameName, gameTheme, ctx, (uint)maxTurnCountPerPlayer);
+
+                await gameManager.Channel.TriggerTypingAsync();
+
+                GameManager.TurnResult turnResult = await gameManager.Run();
+
+                DiscordFollowupMessageBuilder builder = new DiscordFollowupMessageBuilder();
+
+                DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder()
+                {
+                    Title = "New text based adventure game instance",
+                    Description = "Created a new instance of text based adventure game"
+                };
+
+                discordEmbedBuilder.AddField("Theme", $"{gameTheme}");
+
+                string playersString = string.Empty;
+
+                foreach (DiscordMember player in playerArray)
+                {
+                    playersString += $"{player.Mention}\n";
+                }
+
+                discordEmbedBuilder.AddField("Players", playersString);
+
+                builder.AddEmbed(discordEmbedBuilder);
+
+                builder.AddMentions(Mentions.All);
+
+                await ctx.FollowUpAsync(builder);
+
+                await gameManager.Channel.SendMessageAsync(turnResult.AIAnswer);
             }
         }
         #endregion

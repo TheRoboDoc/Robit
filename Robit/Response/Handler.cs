@@ -3,6 +3,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
+using Robit.TextAdventure;
 using System.Text.RegularExpressions;
 using static Robit.FileManager;
 
@@ -24,6 +25,8 @@ namespace Robit.Response
 
             if (await DiscordNoobFailsafe(messageArgs)) return;
 
+            if (await TextBasedAdventure(messageArgs)) return;
+
             // Checking if we need to respond at all depending on channel settings
             ChannelManager.Channel channelSettings = ChannelManager.ReadChannelInfo(messageArgs.Guild.Id.ToString(), messageArgs.Channel.Id.ToString());
 
@@ -38,6 +41,30 @@ namespace Robit.Response
             await AIRespond(messageArgs);
         }
 
+        private static async Task<bool> TextBasedAdventure(MessageCreateEventArgs messageArgs)
+        {
+            if (messageArgs.Channel.Type != ChannelType.PrivateThread) return false;
+
+            DiscordThreadChannel? thread = messageArgs.Channel as DiscordThreadChannel;
+
+            if (thread == null) return false;
+
+            GameManager? gameManager = Program.GameManagerContainer?.GetManagerByThread(thread);
+
+            if (gameManager == null) return false;
+
+            GameManager.TurnResult turnResult = await gameManager.Run();
+
+            await thread.SendMessageAsync(turnResult.AIAnswer);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Reacts to message
+        /// </summary>
+        /// <param name="sender">Discord client</param>
+        /// <param name="messageArgs">Discord message creation arguments</param>
         private static async Task AutoReact(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
             Tuple<bool, string> autoReactResult = await Auto.GenerateAutoReact(messageArgs);
@@ -57,6 +84,10 @@ namespace Robit.Response
             }
         }
 
+        /// <summary>
+        /// Responses with AI answer to the message
+        /// </summary>
+        /// <param name="messageArgs">Discord message creation arguments</param>
         private static async Task AIRespond(MessageCreateEventArgs messageArgs)
         {
             DiscordChannel replyIn = messageArgs.Channel;
@@ -166,6 +197,18 @@ namespace Robit.Response
             });
         }
 
+        /// <summary>
+        /// Auto responses to a message
+        /// </summary>
+        /// <param name="messageArgs">Discord message creation arguments</param>
+        /// <param name="channelSettings">Channel settings</param>
+        /// <returns>
+        /// <list type="bullet">
+        /// <listheader>Boolean</listheader>
+        /// <item>True: Auto-response happened</item>
+        /// <item>False: Auto-response didn't happen</item>
+        /// </list>
+        /// </returns>
         private static async Task<bool> AutoRespond(MessageCreateEventArgs messageArgs, ChannelManager.Channel channelSettings)
         {
             if (channelSettings.autoResponse)
