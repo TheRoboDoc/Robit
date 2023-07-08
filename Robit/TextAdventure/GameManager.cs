@@ -95,6 +95,11 @@ namespace Robit.TextAdventure
             DiscordThreadChannel channel = await context.Channel.CreateThreadAsync
                 (gameName, DSharpPlus.AutoArchiveDuration.Day, DSharpPlus.ChannelType.PrivateThread, $"Text Based Adventure Game: {gameName}");
 
+            foreach(DiscordMember player in players)
+            {
+                await channel.AddThreadMemberAsync(player);
+            }
+
             return new GameManager(players, gameName, theme, maxTurnCountPerPlayer, channel);
         }
 
