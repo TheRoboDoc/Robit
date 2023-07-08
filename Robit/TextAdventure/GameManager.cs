@@ -15,32 +15,32 @@ namespace Robit.TextAdventure
         /// <summary>
         /// Array of players in the game
         /// </summary>
-        private DiscordMember[] players;
+        public DiscordMember[] Player { private set; get; }
 
         /// <summary>
         /// Current turn count
         /// </summary>
-        private uint turnCount;
+        public uint TurnCount { private set; get; }
 
         /// <summary>
         /// Maximum turn count
         /// </summary>
-        private uint maxTurnCount;
+        public uint MaxTurnCount { private set; get; }
 
         /// <summary>
         /// Name of the text based adventure instance
         /// </summary>
-        public string gameName { private set; get; }
+        public string GameName { private set; get; }
 
         /// <summary>
         /// Starting parameters of the text based adventure instance
         /// </summary>
-        private string gameStartingParameters;
+        private readonly string GameStartingParameters;
 
         /// <summary>
         /// The discord thread this current text based adventure instance is happening at
         /// </summary>
-        public DiscordThreadChannel channel { private set; get; }
+        public DiscordThreadChannel Channel { private set; get; }
 
         /// <summary>
         /// GameManager instance contructor
@@ -53,13 +53,13 @@ namespace Robit.TextAdventure
         private GameManager(DiscordMember[] players, string gameName, string theme, 
                             uint maxTurnCountPerPlayer, DiscordThreadChannel channel)
         {
-            this.players = players;
-            this.gameName = gameName;
-            this.channel = channel;
+            this.Player = players;
+            this.GameName = gameName;
+            this.Channel = channel;
 
-            turnCount = 0;
+            TurnCount = 0;
 
-            maxTurnCount = (uint)(players.Length * maxTurnCountPerPlayer);
+            MaxTurnCount = (uint)(players.Length * maxTurnCountPerPlayer);
 
             string participantNameList = "";
 
@@ -68,9 +68,9 @@ namespace Robit.TextAdventure
                 participantNameList += $"{SpecialCharacterRemoval(player.DisplayName)}\n";
             }
 
-            gameStartingParameters =
+            GameStartingParameters =
                 $"Write a text based adventure game.\n" +
-                $"Maximum amount of turns you can take: {maxTurnCount}\n" +
+                $"Maximum amount of turns you can take: {MaxTurnCount}\n" +
                 $"The game always follows this event pattern:\n" +
                 $"Description of the event -> Question to the player -> Player answer -> Result\n" +
                 $"Each complete event equals one turn" +
@@ -104,7 +104,7 @@ namespace Robit.TextAdventure
         /// <returns>A list of discord messages</returns>
         private async Task<List<DiscordMessage>> FetchMessages()
         {
-            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = await channel.GetMessagesAsync(int.MaxValue);
+            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = await Channel.GetMessagesAsync(int.MaxValue);
 
             List<DiscordMessage> discordMessages = new List<DiscordMessage>();
 
@@ -144,7 +144,7 @@ namespace Robit.TextAdventure
                 Messages = chatMessages,
                 Model = "gpt-3.5-turbo-16k",
                 N = 1,
-                User = players.First().Id.ToString(),
+                User = Player.First().Id.ToString(),
                 Temperature = 0.5f,
                 FrequencyPenalty = 1.1f,
                 PresencePenalty = 0.8f
@@ -199,7 +199,7 @@ namespace Robit.TextAdventure
         /// <returns>The result of the turn</returns>
         public async Task<TurnResult> Run()
         {
-            if (turnCount >= maxTurnCount)
+            if (TurnCount >= MaxTurnCount)
             {
                 return new TurnResult
                 {
@@ -210,7 +210,7 @@ namespace Robit.TextAdventure
 
             List<ChatMessage> messages = new List<ChatMessage>()
             {
-                ChatMessage.FromSystem(gameStartingParameters)
+                ChatMessage.FromSystem(GameStartingParameters)
             };
 
             List<DiscordMessage> discordMessages = await FetchMessages();
@@ -238,7 +238,7 @@ namespace Robit.TextAdventure
                 }
             });
 
-            turnCount++;
+            TurnCount++;
 
             string AIResponse;
 
