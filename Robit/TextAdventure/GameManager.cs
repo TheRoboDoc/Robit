@@ -75,6 +75,7 @@ namespace Robit.TextAdventure
                 $"Maximum amount of turns you can take: {MaxTurnCount}\n" +
                 $"The game always follows this event pattern:\n" +
                 $"Description of the event -> Question to the player -> Player answer -> Result\n" +
+                $"You always wait for the player answer before proceeding" +
                 $"Each complete event equals one turn" +
                 $"Participants are:\n" +
                 $"{participantNameList}\n" +
