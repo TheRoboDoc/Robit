@@ -188,12 +188,77 @@ namespace Robit.TextAdventure
         /// </summary>
         public struct TurnResult
         {
+            public bool Success;
+            public string AIAnswer;
+        }
+
+        /// <summary>
+        /// A method to run a game turn
+        /// </summary>
+        /// <returns>The result of the turn</returns>
+        public async Task<TurnResult> Run()
+        {
+            if (turnCount >= maxTurnCount)
+            {
+                return new TurnResult
+                {
+                    Success = false,
+                    AIAnswer = "Max turn count reached"
+                };
+            }
+
             List<ChatMessage> messages = new List<ChatMessage>()
             {
                 ChatMessage.FromSystem(gameStartingParameters)
             };
 
             List<DiscordMessage> discordMessages = await FetchMessages();
+
+            await Task.Run(() =>
+            {
+                foreach (DiscordMessage discordMessage in discordMessages)
+                {
+                    if (string.IsNullOrEmpty(discordMessage.Content)) continue;
+
+                    if (discordMessage.Author == Program.BotClient?.CurrentUser)
+                    {
+                        messages.Add(ChatMessage.FromAssistant(discordMessage.Content));
+                    }
+                    else if (discordMessage.Author.IsBot)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        string memberDisplayname = discordMessage.Channel.Guild.GetMemberAsync(discordMessage.Author.Id).Result.DisplayName;
+
+                        messages.Add(ChatMessage.FromUser(discordMessage.Content, SpecialCharacterRemoval(memberDisplayname)));
+                    }
+                }
+            });
+
+            turnCount++;
+
+            string AIResponse;
+
+            try
+            {
+                AIResponse = await CreateResponse(messages.ToArray());
+            }
+            catch (NullReferenceException exception)
+            {
+                return new TurnResult
+                {
+                    Success = false,
+                    AIAnswer = exception.Message
+                };
+            }
+
+            return new TurnResult
+            {
+                Success = true,
+                AIAnswer = AIResponse
+            };
         }
     }
 }
