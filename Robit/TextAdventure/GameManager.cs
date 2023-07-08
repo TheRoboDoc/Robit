@@ -15,7 +15,7 @@ namespace Robit.TextAdventure
         /// <summary>
         /// Array of players in the game
         /// </summary>
-        public DiscordMember[] Player { private set; get; }
+        public DiscordMember[] Players { private set; get; }
 
         /// <summary>
         /// Current turn count
@@ -53,7 +53,7 @@ namespace Robit.TextAdventure
         private GameManager(DiscordMember[] players, string gameName, string theme,
                             uint maxTurnCountPerPlayer, DiscordThreadChannel channel)
         {
-            Player = players;
+            Players = players;
             GameName = gameName;
             Channel = channel;
 
@@ -144,7 +144,7 @@ namespace Robit.TextAdventure
                 Messages = chatMessages,
                 Model = "gpt-3.5-turbo-16k",
                 N = 1,
-                User = Player.First().Id.ToString(),
+                User = Players.First().Id.ToString(),
                 Temperature = 0.5f,
                 FrequencyPenalty = 1.1f,
                 PresencePenalty = 0.8f
