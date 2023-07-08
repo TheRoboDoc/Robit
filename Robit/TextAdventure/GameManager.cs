@@ -49,7 +49,6 @@ namespace Robit.TextAdventure
         /// <param name="gameName">The name of the game instance</param>
         /// <param name="theme">The theme of the game</param>
         /// <param name="maxTurnCountPerPlayer">Max turn count per player</param>
-        /// <param name="gameMode">Game mode of the game</param>
         /// <param name="channel">The thread channel this instance should be happening at</param>
         private GameManager(DiscordMember[] players, string gameName, string theme, 
                             uint maxTurnCountPerPlayer, DiscordThreadChannel channel)
@@ -89,7 +88,6 @@ namespace Robit.TextAdventure
         /// <param name="theme">The theme of the game instance</param>
         /// <param name="context">Interaction context</param>
         /// <param name="maxTurnCountPerPlayer">Maximum turn count per player</param>
-        /// <param name="gameMode">Game instance game mode</param>
         /// <returns>Game manager instance that will be managing this instance of the text based adventure game</returns>
         public static async Task<GameManager> Start
             (DiscordMember[] players, string gameName, string theme, InteractionContext context, uint maxTurnCountPerPlayer)
