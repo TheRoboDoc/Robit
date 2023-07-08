@@ -182,6 +182,11 @@ namespace Robit.TextAdventure
 
             return response;
         }
+
+        /// <summary>
+        /// A result of the turn that was ran
+        /// </summary>
+        public struct TurnResult
         {
             List<ChatMessage> messages = new List<ChatMessage>()
             {
