@@ -2,7 +2,7 @@
 Robit is an AI Discord bot powered by [OpenAI's ChatGPT 3.5 Turbo](https://platform.openai.com/docs/models/gpt-3-5). His primary purpose is to be a little assistant within a discord server and to integrate seamlessly with the server. The bot is currently in beta and might break from time to time
 
 ## Add Robit to your server
-You can add Robit by clicking [**here**](https://discord.com/api/oauth2/authorize?client_id=1049457745763500103&permissions=861141191680&scope=bot%20applications.commands)
+You can add Robit by clicking [**here**](https://discord.com/api/oauth2/authorize?client_id=1049457745763500103&permissions=929860668416&scope=applications.commands%20bot)
 
 # Features/Commands
 ## Conversation
