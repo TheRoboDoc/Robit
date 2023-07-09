@@ -1,5 +1,7 @@
-﻿using OpenAI.ObjectModels.RequestModels;
+﻿using Microsoft.Extensions.Logging;
+using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
+using Robit.Response;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -88,5 +90,16 @@ namespace Robit.WordFilter
 
             return Regex.Replace(aString, pattern, replacement);
         }
+
+        public static string MakeNamefieldAppropriate(string aString)
+        {
+            string pattern = @"[a-zA-Z0-9_-]{1,64}";
+            string filteredString = Regex.Match(aString, pattern).Value;
+
+            Program.BotClient?.Logger.LogDebug(AI.AIEvent, filteredString);
+
+            return filteredString;
+        }
+
     }
 }

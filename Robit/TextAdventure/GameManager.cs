@@ -65,7 +65,11 @@ namespace Robit.TextAdventure
 
             foreach (DiscordMember player in players)
             {
-                participantNameList += $"{SpecialCharacterRemoval(player.DisplayName)}\n";
+                string filteredName = player.DisplayName;
+                filteredName = SpecialCharacterRemoval(filteredName);
+                filteredName = MakeNamefieldAppropriate(filteredName);
+
+                participantNameList += $"{filteredName}\n";
             }
 
             GameStartingParameters =
@@ -242,7 +246,10 @@ namespace Robit.TextAdventure
                     {
                         string memberDisplayname = discordMessage.Channel.Guild.GetMemberAsync(discordMessage.Author.Id).Result.DisplayName;
 
-                        messages.Add(ChatMessage.FromUser(discordMessage.Content, SpecialCharacterRemoval(memberDisplayname)));
+                        memberDisplayname = SpecialCharacterRemoval(memberDisplayname);
+                        memberDisplayname = MakeNamefieldAppropriate(memberDisplayname);
+
+                        messages.Add(ChatMessage.FromUser(discordMessage.Content, memberDisplayname));
                     }
                 }
             });
