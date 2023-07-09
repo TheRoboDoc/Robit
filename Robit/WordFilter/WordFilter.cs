@@ -93,13 +93,13 @@ namespace Robit.WordFilter
 
         public static string MakeNamefieldAppropriate(string aString)
         {
-            string pattern = @"[a-zA-Z0-9_-]{1,64}";
-            string filteredString = Regex.Match(aString, pattern).Value;
+            string pattern = @"([a-zA-Z0-9_-]{1,64})";
+            MatchCollection matches = Regex.Matches(aString, pattern);
+            string filteredString = string.Join("", matches.Cast<Match>().Select(m => m.Value));
 
             Program.BotClient?.Logger.LogDebug(AI.AIEvent, filteredString);
 
             return filteredString;
         }
-
     }
 }
