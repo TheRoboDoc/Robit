@@ -1405,7 +1405,8 @@ namespace Robit.Command
                 DiscordEmbedBuilder discordEmbedBuilder = new DiscordEmbedBuilder()
                 {
                     Title = "New text based adventure game instance",
-                    Description = "Created a new instance of text based adventure game"
+                    Description = "Created a new instance of text based adventure game",
+                    Color = DiscordColor.Purple
                 };
 
                 discordEmbedBuilder.AddField("Theme", $"{gameTheme}");
