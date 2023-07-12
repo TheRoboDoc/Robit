@@ -1,13 +1,11 @@
 ﻿using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
-using GiphyDotNet.Model.GiphyImage;
 using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.Logging;
 using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using static Robit.WordFilter.WordFilter;
 
@@ -28,7 +26,7 @@ namespace Robit.Response
         /// <param name="userID">Bot's user ID</param>
         /// <param name="messageArgs">Message creating arguments</param>
         /// <returns>An array containing setup messages</returns>
-        private static ChatMessage[] GetSetUpMessages(string displayName, string discriminator, string userID, 
+        private static ChatMessage[] GetSetUpMessages(string displayName, string discriminator, string userID,
                                                      MessageCreateEventArgs messageArgs)
         {
             return GetSetUpMessagesActual(displayName, discriminator, userID, messageArgs: messageArgs);
@@ -42,7 +40,7 @@ namespace Robit.Response
         /// <param name="userID">Bot's user ID</param>
         /// <param name="interactionContext">Interaction context</param>
         /// <returns>An array containing setup messages</returns>
-        private static ChatMessage[] GetSetUpMessages(string displayName, string discriminator, string userID, 
+        private static ChatMessage[] GetSetUpMessages(string displayName, string discriminator, string userID,
                                                      InteractionContext? interactionContext = null)
         {
             return GetSetUpMessagesActual(displayName, discriminator, userID, interactionContext: interactionContext);
@@ -58,8 +56,8 @@ namespace Robit.Response
         /// <param name="interactionContext"></param>
         /// <returns>An array containing setup messages</returns>
         /// <exception cref="ArgumentException">Message args and Interaction context were <c>null</c></exception>
-        private static ChatMessage[] GetSetUpMessagesActual(string displayName, string discriminator, string userID, 
-                                                      MessageCreateEventArgs? messageArgs = null, 
+        private static ChatMessage[] GetSetUpMessagesActual(string displayName, string discriminator, string userID,
+                                                      MessageCreateEventArgs? messageArgs = null,
                                                       InteractionContext? interactionContext = null)
         {
             string mentionString;
