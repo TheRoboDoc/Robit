@@ -48,6 +48,16 @@ namespace Robit.Response
             return GetSetUpMessagesActual(displayName, discriminator, userID, interactionContext: interactionContext);
         }
 
+        /// <summary>
+        /// Gets setup messages. Not recommended to use as is. Use <c>GetSetUpMessages</c> instead
+        /// </summary>
+        /// <param name="displayName"></param>
+        /// <param name="discriminator"></param>
+        /// <param name="userID"></param>
+        /// <param name="messageArgs"></param>
+        /// <param name="interactionContext"></param>
+        /// <returns>An array containing setup messages</returns>
+        /// <exception cref="ArgumentException">Message args and Interaction context were <c>null</c></exception>
         private static ChatMessage[] GetSetUpMessagesActual(string displayName, string discriminator, string userID, 
                                                       MessageCreateEventArgs? messageArgs = null, 
                                                       InteractionContext? interactionContext = null)
