@@ -53,6 +53,8 @@ namespace Robit.Response
 
             if (gameManager == null) return false;
 
+            await thread.TriggerTypingAsync();
+
             GameManager.TurnResult turnResult = await gameManager.Run();
 
             await thread.SendMessageAsync(turnResult.AIAnswer);
