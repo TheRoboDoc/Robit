@@ -860,13 +860,13 @@ namespace Robit.Command
 
             if (AIResponse.Item1)
             {
-                response = $"**Prompt:** {prompt}\n**Reply:** {response}";
+                response = $"**Prompt:**\n{prompt}\n**Reply:**\n{response}";
 
                 builder.WithContent(response);
             }
             else
             {
-                response = $"**Prompt:** {prompt}\n**System:** {response}";
+                response = $"**Prompt:**\n{prompt}\n**System:**\n{response}";
 
                 builder.WithContent(response);
             }
