@@ -136,9 +136,7 @@ namespace Robit.Response
 
             if (replyIn.Type != ChannelType.PublicThread)
             {
-                // We are checking if within 9 messages there were 3 occurances of user message and same for bot message, if so we create a new
-                // thread and reply in there.
-                IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(9).Result;
+                IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(100).Result;
 
                 List<DiscordMessage> discordMessagesFromUser = new List<DiscordMessage>();
 
