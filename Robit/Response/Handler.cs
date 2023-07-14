@@ -94,93 +94,12 @@ namespace Robit.Response
         {
             DiscordChannel replyIn = messageArgs.Channel;
 
-            // We want to reply if the message was sent in a thread that bot is a member of
-            if (replyIn.Type == ChannelType.PublicThread || replyIn.Type == ChannelType.PrivateThread)
-            {
-                if (messageArgs.Author.IsBot)
+            if (!await CheckBotMention(messageArgs))
                 {
                     return;
                 }
 
-                DiscordThreadChannel threadChannel = (DiscordThreadChannel)replyIn;
-
-                // This is stupid but for some magic reasons it didn't work otherwise
-                IReadOnlyList<DiscordThreadChannelMember> romembers = await threadChannel.ListJoinedMembersAsync();
-
-                List<DiscordThreadChannelMember> members = new List<DiscordThreadChannelMember>();
-
-                foreach (DiscordThreadChannelMember member in romembers)
-                {
-                    members.Add(member);
-                }
-
-                // Suboptimal way to check if the bot is a memeber of the thread, but it works
-                bool hasBot = false;
-
-                foreach (DiscordThreadChannelMember member in members)
-                {
-                    if (member.Id == Program.BotClient?.CurrentUser.Id)
-                    {
-                        hasBot = true;
-                        break;
-                    }
-                }
-
-                if (!hasBot)
-                {
-                    return;
-                }
-            }
-            else if (!await CheckBotMention(messageArgs))
-            {
-                return;
-            }
-
-            if (replyIn.Type != ChannelType.PublicThread)
-            {
-                IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(100).Result;
-
-                List<DiscordMessage> discordMessagesFromUser = new List<DiscordMessage>();
-
-                foreach (DiscordMessage discordMessage in discordReadOnlyMessageList)
-                {
-                    if (discordMessage.Author == messageArgs.Author)
-                    {
-                        discordMessagesFromUser.Add(discordMessage);
-                    }
-                }
-
-                List<DiscordMessage> discordMessagesFromBot = new List<DiscordMessage>();
-
-                foreach (DiscordMessage discordMessage in discordReadOnlyMessageList)
-                {
-                    if (discordMessage.Author == messageArgs.Guild.CurrentMember)
-                    {
-                        discordMessagesFromBot.Add(discordMessage);
-                    }
-                }
-
-                if (discordMessagesFromUser.Count > 3 && discordMessagesFromBot.Count > 3)
-                {
-                    // Remove the mention string
-                    string name = Regex.Replace(messageArgs.Message.Content, "<@!?(\\d+)>", "");
-
-                    if (Program.DebugStatus())
-                    {
-                        Program.BotClient?.Logger.LogDebug(HandlerEvent, "Thread trigger");
-                    }
-
-                    // Create the thread
-                    DiscordThreadChannel thread = await messageArgs.Channel.CreateThreadAsync(messageArgs.Message, name, AutoArchiveDuration.Day,
-                                $"{messageArgs.Author.Mention} interacted multiple times in a row with the bot");
-
-                    replyIn = thread;
-                }
-            }
-
-            _ = Task.Run(async () =>
-            {
-                Task typing = replyIn.TriggerTypingAsync();
+            await replyIn.TriggerTypingAsync();
 
                 Tuple<bool, string> AIGenerationResponse = await AI.GenerateChatResponse(messageArgs);
 
@@ -194,7 +113,6 @@ namespace Robit.Response
                 {
                     await replyIn.SendMessageAsync("**System:** " + response);
                 }
-            });
         }
 
         /// <summary>
