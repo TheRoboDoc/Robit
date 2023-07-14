@@ -75,6 +75,8 @@ namespace Robit.Response
                 {
                     _ = DeleteGame(gameManager);
                 }
+
+                return false;
             }
 
             await thread.SendMessageAsync(turnResult.AIAnswer);
