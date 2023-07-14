@@ -40,6 +40,10 @@ namespace Robit.Response
             await AIRespond(messageArgs);
         }
 
+        /// <summary>
+        /// Deletes a game instance from main game manager container. Also deletes the game instance channel after five minutes
+        /// </summary>
+        /// <param name="gameManager">Game manager of the instance that needs to be deleted</param>
         private static async Task DeleteGame(GameManager gameManager)
         {
             await gameManager.Channel.SendMessageAsync("**System**: This channel will be deleted in 5 minutes");
@@ -51,6 +55,16 @@ namespace Robit.Response
             await gameManager.Channel.DeleteAsync("Text-Base Adventure game ended");
         }
 
+        /// <summary>
+        /// Managment of text based adventure instance
+        /// </summary>
+        /// <param name="messageArgs">Message arguments</param>
+        /// <returns>
+        /// <list type="table">
+        /// <item>True: Successfully played a turn of text-based adventure</item>
+        /// <item>False: Failed to play a trun of text-based adventure</item>
+        /// </list>
+        /// </returns>
         private static async Task<bool> TextBasedAdventure(MessageCreateEventArgs messageArgs)
         {
             if (messageArgs.Channel.Type != ChannelType.PrivateThread) return false;
