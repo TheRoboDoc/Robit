@@ -13,6 +13,11 @@ namespace Robit.TextAdventure
     public class GameManager
     {
         /// <summary>
+        /// Message to use when max turn amount is reached. Contains this string: <i>"Max turn count reached"</i>
+        /// </summary>
+        public static readonly string MaxTurnReachedMessage = "Max turn count reached";
+
+        /// <summary>
         /// Array of players in the game
         /// </summary>
         public DiscordMember[] Players { private set; get; }
@@ -212,7 +217,7 @@ namespace Robit.TextAdventure
                 return new TurnResult
                 {
                     Success = false,
-                    AIAnswer = "Max turn count reached"
+                    AIAnswer = MaxTurnReachedMessage
                 };
             }
 
