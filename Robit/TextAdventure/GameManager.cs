@@ -84,7 +84,7 @@ namespace Robit.TextAdventure
                 $"Maximum amount of turns you can take: {MaxTurnCount}\n" +
                 $"The game always follows this event pattern:\n" +
                 $"Description of the event -> Question to the player -> Player answer -> Result\n" +
-                $"You always wait for the player answer before proceeding" +
+                $"You always wait for the player answer before proceeding, and you cannot generate answers in player's stead" +
                 $"Each complete event equals one turn" +
                 $"Participants are:\n" +
                 $"{participantNameList}\n" +
@@ -255,6 +255,8 @@ namespace Robit.TextAdventure
             });
 
             TurnCount++;
+
+            messages.Add(ChatMessage.FromSystem($"Turn {TurnCount} out of {MaxTurnCount}"));
 
             string AIResponse;
 
