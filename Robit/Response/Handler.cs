@@ -41,6 +41,17 @@ namespace Robit.Response
             await AIRespond(messageArgs);
         }
 
+        private static async Task DeleteGame(GameManager gameManager)
+        {
+            await gameManager.Channel.SendMessageAsync("**System**: This channel will be deleted in 5 minutes");
+
+            Program.GameManagerContainer?.RemoveManager(gameManager);
+
+            Thread.Sleep(TimeSpan.FromMinutes(5));
+
+            await gameManager.Channel.DeleteAsync("Text-Base Adventure game ended");
+        }
+
         private static async Task<bool> TextBasedAdventure(MessageCreateEventArgs messageArgs)
         {
             if (messageArgs.Channel.Type != ChannelType.PrivateThread) return false;
@@ -56,6 +67,16 @@ namespace Robit.Response
             await thread.TriggerTypingAsync();
 
             GameManager.TurnResult turnResult = await gameManager.Run();
+
+            if (!turnResult.Success)
+            {
+                await thread.SendMessageAsync($"**System:** {turnResult.AIAnswer}");
+
+                if (turnResult.AIAnswer == GameManager.MaxTurnReachedMessage)
+                {
+                    _ = DeleteGame(gameManager);
+                }
+            }
 
             await thread.SendMessageAsync(turnResult.AIAnswer);
 
