@@ -4,7 +4,6 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Logging;
 using Robit.TextAdventure;
-using System.Text.RegularExpressions;
 using static Robit.FileManager;
 
 namespace Robit.Response
@@ -116,24 +115,24 @@ namespace Robit.Response
             DiscordChannel replyIn = messageArgs.Channel;
 
             if (!await CheckBotMention(messageArgs))
-                {
-                    return;
-                }
+            {
+                return;
+            }
 
             await replyIn.TriggerTypingAsync();
 
-                Tuple<bool, string> AIGenerationResponse = await AI.GenerateChatResponse(messageArgs);
+            Tuple<bool, string> AIGenerationResponse = await AI.GenerateChatResponse(messageArgs);
 
-                string response = AIGenerationResponse.Item2;
+            string response = AIGenerationResponse.Item2;
 
-                if (AIGenerationResponse.Item1)
-                {
-                    await replyIn.SendMessageAsync(response);
-                }
-                else
-                {
-                    await replyIn.SendMessageAsync("**System:** " + response);
-                }
+            if (AIGenerationResponse.Item1)
+            {
+                await replyIn.SendMessageAsync(response);
+            }
+            else
+            {
+                await replyIn.SendMessageAsync("**System:** " + response);
+            }
         }
 
         /// <summary>
