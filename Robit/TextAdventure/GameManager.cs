@@ -13,6 +13,11 @@ namespace Robit.TextAdventure
     public class GameManager
     {
         /// <summary>
+        /// Message to use when max turn amount is reached. Contains this string: <i>"Max turn count reached"</i>
+        /// </summary>
+        public static readonly string MaxTurnReachedMessage = "Max turn count reached";
+
+        /// <summary>
         /// Array of players in the game
         /// </summary>
         public DiscordMember[] Players { private set; get; }
@@ -79,7 +84,7 @@ namespace Robit.TextAdventure
                 $"Maximum amount of turns you can take: {MaxTurnCount}\n" +
                 $"The game always follows this event pattern:\n" +
                 $"Description of the event -> Question to the player -> Player answer -> Result\n" +
-                $"You always wait for the player answer before proceeding" +
+                $"You always wait for the player answer before proceeding, and you cannot generate answers in player's stead" +
                 $"Each complete event equals one turn" +
                 $"Participants are:\n" +
                 $"{participantNameList}\n" +
@@ -101,11 +106,6 @@ namespace Robit.TextAdventure
         {
             DiscordThreadChannel channel = await context.Channel.CreateThreadAsync
                 (gameName, DSharpPlus.AutoArchiveDuration.Day, DSharpPlus.ChannelType.PrivateThread, $"Text Based Adventure Game: {gameName}");
-
-            foreach (DiscordMember player in players)
-            {
-                await channel.AddThreadMemberAsync(player);
-            }
 
             GameManager gameManager = new GameManager(players, gameName, theme, maxTurnCountPerPlayer, channel);
 
@@ -217,7 +217,7 @@ namespace Robit.TextAdventure
                 return new TurnResult
                 {
                     Success = false,
-                    AIAnswer = "Max turn count reached"
+                    AIAnswer = MaxTurnReachedMessage
                 };
             }
 
@@ -255,6 +255,8 @@ namespace Robit.TextAdventure
             });
 
             TurnCount++;
+
+            messages.Add(ChatMessage.FromSystem($"Turn {TurnCount} out of {MaxTurnCount}"));
 
             string AIResponse;
 

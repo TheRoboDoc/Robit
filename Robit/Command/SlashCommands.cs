@@ -1426,6 +1426,13 @@ namespace Robit.Command
 
                 await ctx.FollowUpAsync(builder);
 
+                DiscordMember[] players = gameManager.Players;
+
+                foreach (DiscordMember player in players)
+                {
+                    await gameManager.Channel.AddThreadMemberAsync(player);
+                }
+
                 await gameManager.Channel.SendMessageAsync(turnResult.AIAnswer);
             }
         }
