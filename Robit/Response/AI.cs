@@ -169,11 +169,6 @@ namespace Robit.Response
         /// <exception cref="NullReferenceException">OpenAI text generation failed with an unknown error</exception>
         public static async Task<Tuple<bool, string>> GenerateChatResponse(MessageCreateEventArgs messageArgs)
         {
-            if (AICheck(messageArgs.Message.Content).Result)
-            {
-                return Tuple.Create(false, "Message blocked by automod");
-            }
-
             //Getting bot user info
             string displayName = messageArgs.Guild.CurrentMember.DisplayName;
             string discriminator = messageArgs.Guild.CurrentMember.Discriminator;
