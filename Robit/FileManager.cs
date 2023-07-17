@@ -24,6 +24,7 @@ namespace Robit
             public static readonly string resources = $@"{basePath}/Resources";
             public static readonly string channelSettings = $@"{basePath}/ChannelSettings";
             public static readonly string emoteResponsePath = $@"{basePath}/EmoteResponseData";
+            public static readonly string YouTubeNotifications = $@"{basePath}/YoutubeNotifications";
         }
 
         /// <summary>
@@ -93,6 +94,127 @@ namespace Robit
             FileInfo fileInfo = new FileInfo(fileDir);
 
             fileInfo.Create().Dispose();
+        }
+
+        public static class YouTubeNotificationManager
+        {
+            public struct NotificationEntry
+            {
+                public string ChannelID { get; set; }
+                public string NotificationText { get; set; }
+                public bool UseAI { get; set; }
+            }
+
+            private static string IDToPath(string guildID)
+            {
+                return $"{Paths.YouTubeNotifications}/{guildID}.json";
+            }
+
+            public static async Task WriteEntry(NotificationEntry entry, string guildID)
+            {
+                NotificationEntry[]? notificationEntries;
+
+                string path = IDToPath(guildID);
+
+                FileInfo fileInfo = new FileInfo(path);
+
+                try
+                {
+                    notificationEntries = await ReadEntries(guildID);
+                    fileInfo.Delete();
+                }
+                catch
+                {
+                    notificationEntries = Array.Empty<NotificationEntry>();
+                }
+
+                if (notificationEntries == null)
+                {
+                    return;
+                }
+
+                notificationEntries = notificationEntries.Append(entry).ToArray();
+
+                using StreamWriter fileStream = File.CreateText(path);
+
+                JsonSerializerSettings settings = new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented
+                };
+
+                string json = JsonConvert.SerializeObject(notificationEntries, settings);
+
+                await fileStream.WriteAsync(json);
+            }
+
+            public static async Task<NotificationEntry[]?> ReadEntries(string guildID)
+            {
+                string path = IDToPath(guildID);
+
+                if (!FileExists(path))
+                {
+                    CreateFile(path);
+                }
+
+                string jsonString = File.ReadAllText(path);
+
+                NotificationEntry[]? notificationEntries = Array.Empty<NotificationEntry>();
+
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    await Task.Run(() => { notificationEntries = JsonConvert.DeserializeObject<NotificationEntry[]>(jsonString); });
+                }
+
+                return notificationEntries;
+            }
+
+            public static async Task OverwriteEntries(NotificationEntry[] notificationEntries, string guildID)
+            {
+                string path = IDToPath(guildID);
+
+                FileInfo fileInfo = new FileInfo(path);
+
+                fileInfo.Delete();
+
+                using StreamWriter filestream = File.CreateText(path);
+
+                JsonSerializerSettings settings = new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented
+                };
+
+                string jsonString = JsonConvert.SerializeObject(notificationEntries, settings);
+
+                await filestream.WriteAsync(jsonString);
+            }
+
+            public static async Task<bool> RemoveEntry(string channelID,  string guildID)
+            {
+                List<NotificationEntry>? notificationEntries = ReadEntries(guildID).Result?.ToList();
+
+                NotificationEntry notificationEntryToRemove = new NotificationEntry();
+
+                if (notificationEntries == null) { return false; }
+                else if (!notificationEntries.Any()) { return false; }
+
+                await Task.Run(() =>
+                {
+                    foreach (NotificationEntry entry in notificationEntries)
+                    {
+                        if (entry.ChannelID == channelID)
+                        {
+                            notificationEntryToRemove = entry;
+                            break;
+                        }
+                    }
+                });
+
+                if (!notificationEntries.Remove(notificationEntryToRemove)) { return false; }
+
+                await OverwriteEntries(notificationEntries.ToArray(), guildID);
+
+                return true;
+            }
         }
 
         /// <summary>
