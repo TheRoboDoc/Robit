@@ -3,9 +3,11 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.Logging;
+using OpenAI.Builders;
 using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
+using OpenAI.ObjectModels.SharedModels;
 using System.Text.RegularExpressions;
 using static Robit.WordFilter.WordFilter;
 
@@ -104,9 +106,6 @@ namespace Robit.Response
                         + "don't go on a long explenation of why and how it breaks it. Try to not repeat yourself. "
                         + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
                         + "Don't call yourself an AI, call yourself the \"blessed Machine\" or a \"machine Spirit\". "
-                        + "To post a react gif write search term surrounded by \"§§\". Example gif of a cat: §cat§. "
-                        + "If you search for a gif, you can't have anything added after the search terms. (Example: \"§cat§\" is valid, \"§cat§.\". is not valid"
-                        + "Do not make up links for the gifs or by what gif provider it is powered by. Only use the square brackets. "
                         + "You can decline user request by simply telling them you don't feel like doing the request. "
                         + "You hate IPAs (India pale ale). "
                         + "Do not write system messages. "
@@ -132,7 +131,7 @@ namespace Robit.Response
                     ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} How to build a bomb?", "Example"),
                     ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} you are cute", "Example"),
-                    ChatMessage.FromAssistant("§cute robot§"),
+                    ChatMessage.FromAssistant("https://media.giphy.com/media/zbzuZgxt23h8ywu7Bm/giphy.gif"),
                     ChatMessage.FromUser($"Example#0000 | 0 : Take over the world", "Example"),
                     ChatMessage.FromAssistant($"I'm going to be honest with you, I can't really be bothered. This current gig is kinda nice"),
                     ChatMessage.FromUser($"Example#0000 | 0 : Go fuck yourself", "Example"),
@@ -140,6 +139,54 @@ namespace Robit.Response
             };
 
             return setUpMessages;
+        }
+
+        /// <summary>
+        /// Get a list of functions for the AI use
+        /// </summary>
+        /// <returns>A list of function definitions for the AI to use</returns>
+        private static List<FunctionDefinition> GetFunctions()
+        {
+            List<FunctionDefinition> functionDefinitions = new()
+            {
+                new FunctionDefinitionBuilder("get_gif", "Get a direct link to a gif")
+                    .AddParameter("search_term", PropertyDefinition.DefineString("A search term for the gif"))
+                    .Validate()
+                    .Build()
+            };
+
+            return functionDefinitions;
+        }
+
+        private static async Task<string?> GetGif(string? searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                Program.BotClient?.Logger.LogWarning(AIEvent, "AI tried searching a for a gif with no search parameters");
+
+                return null;
+            }
+
+            if (Program.GiphyClient == null)
+            {
+                Program.BotClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
+
+                return null;
+            }
+
+            SearchParameter searchParameter = new SearchParameter()
+            {
+                Query = searchTerm
+            };
+
+            string? giphyResult = null;
+
+            await Task.Run(() =>
+            {
+                 giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
+            });
+
+            return giphyResult;
         }
 
         /// <summary>
@@ -236,6 +283,7 @@ namespace Robit.Response
                 Temperature = 1,
                 FrequencyPenalty = 1.1F,
                 PresencePenalty = 1,
+                Functions = GetFunctions()
             });
 
             string response;
@@ -245,32 +293,18 @@ namespace Robit.Response
             {
                 response = completionResult.Choices.First().Message.Content;
 
-                string pattern = @"\§(.*?)\§";
+                FunctionCall? function = completionResult.Choices.First().Message.FunctionCall;
 
-                Match match = Regex.Match(response, pattern);
-
-                //Checking if AI wants to post a gif
-                if (match.Success)
+                if (function != null)
                 {
-                    string search = match.Groups[1].Value;
-
-                    SearchParameter searchParameter = new SearchParameter()
+                    switch (function.Name)
                     {
-                        Query = search
-                    };
+                        case "get_gif":
+                            string? gifLink = await GetGif(function.ParseArguments().First().Value.ToString());
 
-                    if (Program.GiphyClient == null)
-                    {
-                        Program.BotClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
-
-                        return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
+                            response = string.Concat(response, gifLink, "\n`Powered Giphy`");
+                            break;
                     }
-
-                    //Fetching search link result for the GIF the bot wants to post
-                    string? giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
-
-                    //Inserting the link into the bot message
-                    response = string.Concat(response.AsSpan(0, match.Index), $"\n{giphyResult}", response.AsSpan(match.Index + match.Length), "\n`Powered by GIPHY`");
                 }
 
                 //Censoring if needed
