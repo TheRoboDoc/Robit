@@ -8,7 +8,6 @@ using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
 using OpenAI.ObjectModels.SharedModels;
-using System.Text.RegularExpressions;
 using static Robit.WordFilter.WordFilter;
 
 namespace Robit.Response
@@ -29,7 +28,7 @@ namespace Robit.Response
         /// <param name="messageArgs">Message creating arguments</param>
         /// <returns>An array containing setup messages</returns>
         private static ChatMessage[] GetSetUpMessages(string displayName, string discriminator, string userID,
-                                                     MessageCreateEventArgs messageArgs)
+                                                      MessageCreateEventArgs messageArgs)
         {
             return GetSetUpMessagesActual(displayName, discriminator, userID, messageArgs: messageArgs);
         }
@@ -43,7 +42,7 @@ namespace Robit.Response
         /// <param name="interactionContext">Interaction context</param>
         /// <returns>An array containing setup messages</returns>
         private static ChatMessage[] GetSetUpMessages(string displayName, string discriminator, string userID,
-                                                     InteractionContext? interactionContext = null)
+                                                      InteractionContext? interactionContext = null)
         {
             return GetSetUpMessagesActual(displayName, discriminator, userID, interactionContext: interactionContext);
         }
@@ -59,8 +58,8 @@ namespace Robit.Response
         /// <returns>An array containing setup messages</returns>
         /// <exception cref="ArgumentException">Message args and Interaction context were <c>null</c></exception>
         private static ChatMessage[] GetSetUpMessagesActual(string displayName, string discriminator, string userID,
-                                                      MessageCreateEventArgs? messageArgs = null,
-                                                      InteractionContext? interactionContext = null)
+                                                            MessageCreateEventArgs? messageArgs = null,
+                                                            InteractionContext? interactionContext = null)
         {
             string mentionString;
 
@@ -183,7 +182,7 @@ namespace Robit.Response
 
             await Task.Run(() =>
             {
-                 giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
+                giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
             });
 
             return giphyResult;
