@@ -1,5 +1,7 @@
 ﻿using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.Interactivity;
 using DSharpPlus.SlashCommands;
 using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.Logging;
@@ -8,6 +10,9 @@ using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
 using OpenAI.ObjectModels.SharedModels;
+using static Robit.Command.SlashCommands.Wh40kQuotes;
+using static Robit.FileManager.QuoteManager;
+using System.ComponentModel;
 using static Robit.WordFilter.WordFilter;
 
 namespace Robit.Response
@@ -17,6 +22,107 @@ namespace Robit.Response
     /// </summary>
     public static class AI
     {
+        /// <summary>
+        /// A set of functions for the AI to use
+        /// </summary>
+        public static class Functions
+        {
+            public static readonly EventId AIFunctionEvent = new EventId(202, "AI Function Event");
+
+            /// <summary>
+            /// Get a list of functions for the AI use
+            /// </summary>
+            /// <returns>A list of function definitions for the AI to use</returns>
+            public static List<FunctionDefinition> GetFunctions()
+            {
+                List<FunctionDefinition> functionDefinitions = new()
+                {
+                    new FunctionDefinitionBuilder("get_gif", "Get a direct link to a gif")
+                        .AddParameter("search_term", PropertyDefinition.DefineString("A search term for the gif"))
+                        .Validate()
+                        .Build(),
+
+                    new FunctionDefinitionBuilder("get_40k_quote_by_author", "Get a Warhammer 40k quote by in-universe author")
+                        .AddParameter("search_term", PropertyDefinition.DefineString("A search term for the author"))
+                        .Validate()
+                        .Build()
+                };
+
+                return functionDefinitions;
+            }
+
+            public static string? Get40kQuoteByAuthor(string? searchTerm)
+            {
+                if (searchTerm == null)
+                {
+                    Program.BotClient?.Logger.LogWarning("AI tried searching for a Warhammer 40k quote by author using no search parameters");
+
+                    return null;
+                }
+
+                List<QuoteEntry>? quoteEntries = FetchAllEntries();
+
+                List<QuoteEntry>? foundEntries;
+
+                Random rand = new Random();
+
+                foundEntries = FetchByAuthor(searchTerm, int.MaxValue, quoteEntries);
+
+                if (foundEntries == null)
+                {
+                    return "**System:** Failed to fetch quotes";
+                }
+                else if (!foundEntries.Any())
+                {
+                    return "**System:** Didn't find any quotes by that author search";
+                }
+
+                int max = foundEntries.Count;
+
+                QuoteEntry entry = foundEntries.ElementAt(rand.Next(max));
+
+                string quoteText = $"***\"{entry.quote}\"***";
+
+                if (!string.IsNullOrEmpty(entry.author))
+                {
+                    quoteText += $"\n*⎯ {entry.author}*";
+                }
+
+                if (!string.IsNullOrEmpty(entry.bookSource))
+                {
+                    quoteText += $"\n\n`Source: {entry.bookSource}`";
+                }
+
+                return quoteText;
+            }
+
+            public static string? GetGif(string? searchTerm)
+            {
+                if (string.IsNullOrEmpty(searchTerm))
+                {
+                    Program.BotClient?.Logger.LogWarning(AIEvent, "AI tried searching a for a gif with no search parameters");
+
+                    return null;
+                }
+
+                if (Program.GiphyClient == null)
+                {
+                    Program.BotClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
+
+                    return null;
+                }
+
+                SearchParameter searchParameter = new SearchParameter()
+                {
+                    Query = searchTerm
+                };
+
+                string? giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
+
+                return giphyResult;
+            }
+        }
+
         public static readonly EventId AIEvent = new EventId(201, "AI");
 
         /// <summary>
@@ -141,54 +247,6 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Get a list of functions for the AI use
-        /// </summary>
-        /// <returns>A list of function definitions for the AI to use</returns>
-        private static List<FunctionDefinition> GetFunctions()
-        {
-            List<FunctionDefinition> functionDefinitions = new()
-            {
-                new FunctionDefinitionBuilder("get_gif", "Get a direct link to a gif")
-                    .AddParameter("search_term", PropertyDefinition.DefineString("A search term for the gif"))
-                    .Validate()
-                    .Build()
-            };
-
-            return functionDefinitions;
-        }
-
-        private static async Task<string?> GetGif(string? searchTerm)
-        {
-            if (string.IsNullOrEmpty(searchTerm))
-            {
-                Program.BotClient?.Logger.LogWarning(AIEvent, "AI tried searching a for a gif with no search parameters");
-
-                return null;
-            }
-
-            if (Program.GiphyClient == null)
-            {
-                Program.BotClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
-
-                return null;
-            }
-
-            SearchParameter searchParameter = new SearchParameter()
-            {
-                Query = searchTerm
-            };
-
-            string? giphyResult = null;
-
-            await Task.Run(() =>
-            {
-                giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
-            });
-
-            return giphyResult;
-        }
-
-        /// <summary>
         /// Generates a response intended for use in chat conversations. For text prompt generation use <c>GeneratePromptResponse()</c>.
         /// As that won't include any previous message context and execute faster because of that
         /// </summary>
@@ -282,7 +340,7 @@ namespace Robit.Response
                 Temperature = 1,
                 FrequencyPenalty = 1.1F,
                 PresencePenalty = 1,
-                Functions = GetFunctions()
+                Functions = Functions.GetFunctions()
             });
 
             string response;
@@ -299,10 +357,17 @@ namespace Robit.Response
                     switch (function.Name)
                     {
                         case "get_gif":
-                            string? gifLink = await GetGif(function.ParseArguments().First().Value.ToString());
+                            string? gifLink = Functions.GetGif(function.ParseArguments().First().Value.ToString());
 
                             response = string.Concat(response, gifLink, "\n`Powered Giphy`");
                             break;
+
+                        case "get_40k_quote_by_author":
+                            string? quote = Functions.Get40kQuoteByAuthor(function.ParseArguments().First().Value.ToString());
+
+                            response = string.Concat(response, quote);
+                            break;
+
                     }
                 }
 
