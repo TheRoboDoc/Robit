@@ -8,7 +8,6 @@ using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
 using OpenAI.ObjectModels.SharedModels;
-using System.Text.RegularExpressions;
 using static Robit.WordFilter.WordFilter;
 
 namespace Robit.Response
@@ -183,7 +182,7 @@ namespace Robit.Response
 
             await Task.Run(() =>
             {
-                 giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
+                giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
             });
 
             return giphyResult;
