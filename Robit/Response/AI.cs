@@ -414,31 +414,6 @@ namespace Robit.Response
             {
                 response = completionResult.Choices.First().Message.Content;
 
-                string pattern = @"\§(.*?)\§";
-
-                Match match = Regex.Match(response, pattern);
-
-                if (match.Success)
-                {
-                    string search = match.Groups[1].Value;
-
-                    SearchParameter searchParameter = new SearchParameter()
-                    {
-                        Query = search
-                    };
-
-                    if (Program.GiphyClient == null)
-                    {
-                        Program.BotClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
-
-                        return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
-                    }
-
-                    string? giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
-
-                    response = string.Concat(response.AsSpan(0, match.Index), $"\n{giphyResult}", response.AsSpan(match.Index + match.Length), "\n`Powered by GIPHY`");
-                }
-
                 if (AICheck(response).Result)
                 {
                     return Tuple.Create(false, "Message blocked by automod");
