@@ -46,10 +46,48 @@ namespace Robit.Response
                     new FunctionDefinitionBuilder("get_40k_quote_by_source", "Get a Warhammer 40k quote by real-life source")
                         .AddParameter("search_term", PropertyDefinition.DefineString("A search term for the source"))
                         .Validate()
+                        .Build(),
+
+                    new FunctionDefinitionBuilder("get_40k_quote_random", "Get a random Warhammer 40k quote")
+                        .Validate()
                         .Build()
                 };
 
                 return functionDefinitions;
+            }
+
+            public static string? Get40kQuoteRandom()
+            {
+                List<QuoteEntry>? quoteEntries = FetchAllEntries();
+
+                Random rand = new Random();
+
+                if (quoteEntries == null)
+                {
+                    return "**System:** Failed to fetch quotes";
+                }
+                else if (!quoteEntries.Any())
+                {
+                    return "**System:** Failed to fetch quotes";
+                }
+
+                int max = quoteEntries.Count;
+
+                QuoteEntry entry = quoteEntries.ElementAt(rand.Next(max));
+
+                string quoteText = $"***\"{entry.quote}\"***";
+
+                if (!string.IsNullOrEmpty(entry.author))
+                {
+                    quoteText += $"\n*⎯ {entry.author}*";
+                }
+
+                if (!string.IsNullOrEmpty(entry.bookSource))
+                {
+                    quoteText += $"\n\n`Source: {entry.bookSource}`";
+                }
+
+                return quoteText;
             }
 
             public static string? Get40kQuoteBySource(string? searchTerm)
@@ -418,6 +456,12 @@ namespace Robit.Response
                             string? quotes = Functions.Get40kQuoteBySource(function.ParseArguments().First().Value.ToString());
 
                             response = string.Concat(response, quotes);
+                            break;
+
+                        case "get_40k_quote_random":
+                            string? quoter = Functions.Get40kQuoteRandom();
+
+                            response = string.Concat(response, quoter);
                             break;
                     }
                 }
