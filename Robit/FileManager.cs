@@ -24,6 +24,7 @@ namespace Robit
             public static readonly string resources = $@"{basePath}/Resources";
             public static readonly string channelSettings = $@"{basePath}/ChannelSettings";
             public static readonly string emoteResponsePath = $@"{basePath}/EmoteResponseData";
+            public static readonly string YouTubeNotifications = $@"{basePath}/YoutubeNotifications";
         }
 
         /// <summary>

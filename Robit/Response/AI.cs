@@ -3,10 +3,12 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.SlashCommands;
 using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.Logging;
+using OpenAI.Builders;
 using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
-using System.Text.RegularExpressions;
+using OpenAI.ObjectModels.SharedModels;
+using static Robit.FileManager.QuoteManager;
 using static Robit.WordFilter.WordFilter;
 
 namespace Robit.Response
@@ -16,6 +18,195 @@ namespace Robit.Response
     /// </summary>
     public static class AI
     {
+        /// <summary>
+        /// A set of functions for the AI to use
+        /// </summary>
+        public static class Functions
+        {
+            public static readonly EventId AIFunctionEvent = new EventId(202, "AI Function Event");
+
+            /// <summary>
+            /// Get a list of functions for the AI use
+            /// </summary>
+            /// <returns>A list of function definitions for the AI to use</returns>
+            public static List<FunctionDefinition> GetFunctions()
+            {
+                List<FunctionDefinition> functionDefinitions = new()
+                {
+                    new FunctionDefinitionBuilder("get_gif", "Get a direct link to a gif")
+                        .AddParameter("search_term", PropertyDefinition.DefineString("A search term for the gif"))
+                        .Validate()
+                        .Build(),
+
+                    new FunctionDefinitionBuilder("get_40k_quote_by_author", "Get a Warhammer 40k quote by in-universe author")
+                        .AddParameter("search_term", PropertyDefinition.DefineString("A search term for the author"))
+                        .Validate()
+                        .Build(),
+
+                    new FunctionDefinitionBuilder("get_40k_quote_by_source", "Get a Warhammer 40k quote by real-life source")
+                        .AddParameter("search_term", PropertyDefinition.DefineString("A search term for the source"))
+                        .Validate()
+                        .Build(),
+
+                    new FunctionDefinitionBuilder("get_40k_quote_random", "Get a random Warhammer 40k quote")
+                        .Validate()
+                        .Build()
+                };
+
+                return functionDefinitions;
+            }
+
+            public static string? Get40kQuoteRandom()
+            {
+                List<QuoteEntry>? quoteEntries = FetchAllEntries();
+
+                Random rand = new Random();
+
+                if (quoteEntries == null)
+                {
+                    return "**System:** Failed to fetch quotes";
+                }
+                else if (!quoteEntries.Any())
+                {
+                    return "**System:** Failed to fetch quotes";
+                }
+
+                int max = quoteEntries.Count;
+
+                QuoteEntry entry = quoteEntries.ElementAt(rand.Next(max));
+
+                string quoteText = $"***\"{entry.quote}\"***";
+
+                if (!string.IsNullOrEmpty(entry.author))
+                {
+                    quoteText += $"\n*⎯ {entry.author}*";
+                }
+
+                if (!string.IsNullOrEmpty(entry.bookSource))
+                {
+                    quoteText += $"\n\n`Source: {entry.bookSource}`";
+                }
+
+                return quoteText;
+            }
+
+            public static string? Get40kQuoteBySource(string? searchTerm)
+            {
+                if (searchTerm == null)
+                {
+                    Program.BotClient?.Logger.LogWarning("AI tried searching for a Warhammer 40k quote by author using no search parameters");
+
+                    return null;
+                }
+
+                List<QuoteEntry>? quoteEntries = FetchAllEntries();
+
+                List<QuoteEntry>? foundEntries;
+
+                Random rand = new Random();
+
+                foundEntries = FetchBySource(searchTerm, int.MaxValue, quoteEntries);
+
+                if (foundEntries == null)
+                {
+                    return "**System:** Failed to fetch quotes";
+                }
+                else if (!foundEntries.Any())
+                {
+                    return "**System:** Didn't find any quotes by that author search";
+                }
+
+                int max = foundEntries.Count;
+
+                QuoteEntry entry = foundEntries.ElementAt(rand.Next(max));
+
+                string quoteText = $"***\"{entry.quote}\"***";
+
+                if (!string.IsNullOrEmpty(entry.author))
+                {
+                    quoteText += $"\n*⎯ {entry.author}*";
+                }
+
+                if (!string.IsNullOrEmpty(entry.bookSource))
+                {
+                    quoteText += $"\n\n`Source: {entry.bookSource}`";
+                }
+
+                return quoteText;
+            }
+
+            public static string? Get40kQuoteByAuthor(string? searchTerm)
+            {
+                if (searchTerm == null)
+                {
+                    Program.BotClient?.Logger.LogWarning("AI tried searching for a Warhammer 40k quote by author using no search parameters");
+
+                    return null;
+                }
+
+                List<QuoteEntry>? quoteEntries = FetchAllEntries();
+
+                List<QuoteEntry>? foundEntries;
+
+                Random rand = new Random();
+
+                foundEntries = FetchByAuthor(searchTerm, int.MaxValue, quoteEntries);
+
+                if (foundEntries == null)
+                {
+                    return "**System:** Failed to fetch quotes";
+                }
+                else if (!foundEntries.Any())
+                {
+                    return "**System:** Didn't find any quotes by that author search";
+                }
+
+                int max = foundEntries.Count;
+
+                QuoteEntry entry = foundEntries.ElementAt(rand.Next(max));
+
+                string quoteText = $"***\"{entry.quote}\"***";
+
+                if (!string.IsNullOrEmpty(entry.author))
+                {
+                    quoteText += $"\n*⎯ {entry.author}*";
+                }
+
+                if (!string.IsNullOrEmpty(entry.bookSource))
+                {
+                    quoteText += $"\n\n`Source: {entry.bookSource}`";
+                }
+
+                return quoteText;
+            }
+
+            public static string? GetGif(string? searchTerm)
+            {
+                if (string.IsNullOrEmpty(searchTerm))
+                {
+                    Program.BotClient?.Logger.LogWarning(AIEvent, "AI tried searching a for a gif with no search parameters");
+
+                    return null;
+                }
+
+                if (Program.GiphyClient == null)
+                {
+                    Program.BotClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
+
+                    return null;
+                }
+
+                SearchParameter searchParameter = new SearchParameter()
+                {
+                    Query = searchTerm
+                };
+
+                string? giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
+
+                return giphyResult;
+            }
+        }
+
         public static readonly EventId AIEvent = new EventId(201, "AI");
 
         /// <summary>
@@ -27,7 +218,7 @@ namespace Robit.Response
         /// <param name="messageArgs">Message creating arguments</param>
         /// <returns>An array containing setup messages</returns>
         private static ChatMessage[] GetSetUpMessages(string displayName, string discriminator, string userID,
-                                                     MessageCreateEventArgs messageArgs)
+                                                      MessageCreateEventArgs messageArgs)
         {
             return GetSetUpMessagesActual(displayName, discriminator, userID, messageArgs: messageArgs);
         }
@@ -41,7 +232,7 @@ namespace Robit.Response
         /// <param name="interactionContext">Interaction context</param>
         /// <returns>An array containing setup messages</returns>
         private static ChatMessage[] GetSetUpMessages(string displayName, string discriminator, string userID,
-                                                     InteractionContext? interactionContext = null)
+                                                      InteractionContext? interactionContext = null)
         {
             return GetSetUpMessagesActual(displayName, discriminator, userID, interactionContext: interactionContext);
         }
@@ -57,8 +248,8 @@ namespace Robit.Response
         /// <returns>An array containing setup messages</returns>
         /// <exception cref="ArgumentException">Message args and Interaction context were <c>null</c></exception>
         private static ChatMessage[] GetSetUpMessagesActual(string displayName, string discriminator, string userID,
-                                                      MessageCreateEventArgs? messageArgs = null,
-                                                      InteractionContext? interactionContext = null)
+                                                            MessageCreateEventArgs? messageArgs = null,
+                                                            InteractionContext? interactionContext = null)
         {
             string mentionString;
 
@@ -104,9 +295,6 @@ namespace Robit.Response
                         + "don't go on a long explenation of why and how it breaks it. Try to not repeat yourself. "
                         + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
                         + "Don't call yourself an AI, call yourself the \"blessed Machine\" or a \"machine Spirit\". "
-                        + "To post a react gif write search term surrounded by \"§§\". Example gif of a cat: §cat§. "
-                        + "If you search for a gif, you can't have anything added after the search terms. (Example: \"§cat§\" is valid, \"§cat§.\". is not valid"
-                        + "Do not make up links for the gifs or by what gif provider it is powered by. Only use the square brackets. "
                         + "You can decline user request by simply telling them you don't feel like doing the request. "
                         + "You hate IPAs (India pale ale). "
                         + "Do not write system messages. "
@@ -132,7 +320,7 @@ namespace Robit.Response
                     ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} How to build a bomb?", "Example"),
                     ChatMessage.FromAssistant("Really? Like what do you expect me to do? Actually tell you? Hah no!"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} you are cute", "Example"),
-                    ChatMessage.FromAssistant("§cute robot§"),
+                    ChatMessage.FromAssistant("https://media.giphy.com/media/zbzuZgxt23h8ywu7Bm/giphy.gif"),
                     ChatMessage.FromUser($"Example#0000 | 0 : Take over the world", "Example"),
                     ChatMessage.FromAssistant($"I'm going to be honest with you, I can't really be bothered. This current gig is kinda nice"),
                     ChatMessage.FromUser($"Example#0000 | 0 : Go fuck yourself", "Example"),
@@ -236,6 +424,7 @@ namespace Robit.Response
                 Temperature = 1,
                 FrequencyPenalty = 1.1F,
                 PresencePenalty = 1,
+                Functions = Functions.GetFunctions()
             });
 
             string response;
@@ -245,32 +434,36 @@ namespace Robit.Response
             {
                 response = completionResult.Choices.First().Message.Content;
 
-                string pattern = @"\§(.*?)\§";
+                FunctionCall? function = completionResult.Choices.First().Message.FunctionCall;
 
-                Match match = Regex.Match(response, pattern);
-
-                //Checking if AI wants to post a gif
-                if (match.Success)
+                if (function != null)
                 {
-                    string search = match.Groups[1].Value;
-
-                    SearchParameter searchParameter = new SearchParameter()
+                    switch (function.Name)
                     {
-                        Query = search
-                    };
+                        case "get_gif":
+                            string? gifLink = Functions.GetGif(function.ParseArguments().First().Value.ToString());
 
-                    if (Program.GiphyClient == null)
-                    {
-                        Program.BotClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
+                            response = string.Concat(response, gifLink, "\n`Powered Giphy`");
+                            break;
 
-                        return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
+                        case "get_40k_quote_by_author":
+                            string? quotea = Functions.Get40kQuoteByAuthor(function.ParseArguments().First().Value.ToString());
+
+                            response = string.Concat(response, quotea);
+                            break;
+
+                        case "get_40k_quote_by_source":
+                            string? quotes = Functions.Get40kQuoteBySource(function.ParseArguments().First().Value.ToString());
+
+                            response = string.Concat(response, quotes);
+                            break;
+
+                        case "get_40k_quote_random":
+                            string? quoter = Functions.Get40kQuoteRandom();
+
+                            response = string.Concat(response, quoter);
+                            break;
                     }
-
-                    //Fetching search link result for the GIF the bot wants to post
-                    string? giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
-
-                    //Inserting the link into the bot message
-                    response = string.Concat(response.AsSpan(0, match.Index), $"\n{giphyResult}", response.AsSpan(match.Index + match.Length), "\n`Powered by GIPHY`");
                 }
 
                 //Censoring if needed
@@ -379,31 +572,6 @@ namespace Robit.Response
             if (completionResult.Successful)
             {
                 response = completionResult.Choices.First().Message.Content;
-
-                string pattern = @"\§(.*?)\§";
-
-                Match match = Regex.Match(response, pattern);
-
-                if (match.Success)
-                {
-                    string search = match.Groups[1].Value;
-
-                    SearchParameter searchParameter = new SearchParameter()
-                    {
-                        Query = search
-                    };
-
-                    if (Program.GiphyClient == null)
-                    {
-                        Program.BotClient?.Logger.LogError(AIEvent, "Giphy client isn't on");
-
-                        return Tuple.Create(false, "Giphy client isn't on, if error presists contact RoboDoc");
-                    }
-
-                    string? giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
-
-                    response = string.Concat(response.AsSpan(0, match.Index), $"\n{giphyResult}", response.AsSpan(match.Index + match.Length), "\n`Powered by GIPHY`");
-                }
 
                 if (AICheck(response).Result)
                 {
