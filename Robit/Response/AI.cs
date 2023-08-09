@@ -45,10 +45,60 @@ namespace Robit.Response
                     new FunctionDefinitionBuilder("get_40k_quote_by_author", "Get a Warhammer 40k quote by in-universe author")
                         .AddParameter("search_term", PropertyDefinition.DefineString("A search term for the author"))
                         .Validate()
+                        .Build(),
+
+                    new FunctionDefinitionBuilder("get_40k_quote_by_source", "Get a Warhammer 40k quote by real-life source")
+                        .AddParameter("search_term", PropertyDefinition.DefineString("A search term for the source"))
+                        .Validate()
                         .Build()
                 };
 
                 return functionDefinitions;
+            }
+
+            public static string? Get40kQuoteBySource(string? searchTerm)
+            {
+                if (searchTerm == null)
+                {
+                    Program.BotClient?.Logger.LogWarning("AI tried searching for a Warhammer 40k quote by author using no search parameters");
+
+                    return null;
+                }
+
+                List<QuoteEntry>? quoteEntries = FetchAllEntries();
+
+                List<QuoteEntry>? foundEntries;
+
+                Random rand = new Random();
+
+                foundEntries = FetchBySource(searchTerm, int.MaxValue, quoteEntries);
+
+                if (foundEntries == null)
+                {
+                    return "**System:** Failed to fetch quotes";
+                }
+                else if (!foundEntries.Any())
+                {
+                    return "**System:** Didn't find any quotes by that author search";
+                }
+
+                int max = foundEntries.Count;
+
+                QuoteEntry entry = foundEntries.ElementAt(rand.Next(max));
+
+                string quoteText = $"***\"{entry.quote}\"***";
+
+                if (!string.IsNullOrEmpty(entry.author))
+                {
+                    quoteText += $"\n*⎯ {entry.author}*";
+                }
+
+                if (!string.IsNullOrEmpty(entry.bookSource))
+                {
+                    quoteText += $"\n\n`Source: {entry.bookSource}`";
+                }
+
+                return quoteText;
             }
 
             public static string? Get40kQuoteByAuthor(string? searchTerm)
@@ -363,11 +413,16 @@ namespace Robit.Response
                             break;
 
                         case "get_40k_quote_by_author":
-                            string? quote = Functions.Get40kQuoteByAuthor(function.ParseArguments().First().Value.ToString());
+                            string? quotea = Functions.Get40kQuoteByAuthor(function.ParseArguments().First().Value.ToString());
 
-                            response = string.Concat(response, quote);
+                            response = string.Concat(response, quotea);
                             break;
 
+                        case "get_40k_quote_by_source":
+                            string? quotes = Functions.Get40kQuoteBySource(function.ParseArguments().First().Value.ToString());
+
+                            response = string.Concat(response, quotes);
+                            break;
                     }
                 }
 
