@@ -1,7 +1,5 @@
 ﻿using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
-using DSharpPlus.Interactivity.Extensions;
-using DSharpPlus.Interactivity;
 using DSharpPlus.SlashCommands;
 using GiphyDotNet.Model.Parameters;
 using Microsoft.Extensions.Logging;
@@ -10,9 +8,7 @@ using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
 using OpenAI.ObjectModels.SharedModels;
-using static Robit.Command.SlashCommands.Wh40kQuotes;
 using static Robit.FileManager.QuoteManager;
-using System.ComponentModel;
 using static Robit.WordFilter.WordFilter;
 
 namespace Robit.Response
