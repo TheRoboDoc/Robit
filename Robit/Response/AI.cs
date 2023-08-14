@@ -65,6 +65,12 @@ namespace Robit.Response
                 return functionDefinitions;
             }
 
+            /// <summary>
+            /// Rolls dice
+            /// </summary>
+            /// <param name="diceType">Common dice type describe in Dx notation. 20 sided dice would be D20, six sided dice would be D6</param>
+            /// <param name="amount">Amount of given dice type to roll</param>
+            /// <returns>Returns a formatted Discord type with mathematical results</returns>
             public static string RollDice(string? diceType, int? amount)
             {
                 Random rand = new Random();
@@ -167,6 +173,10 @@ namespace Robit.Response
                 return valueToReturn;
             }
 
+            /// <summary>
+            /// Get a random 40k quote
+            /// </summary>
+            /// <returns>A random Warhammer 40k quote</returns>
             public static string? Get40kQuoteRandom()
             {
                 List<QuoteEntry>? quoteEntries = FetchAllEntries();
@@ -201,6 +211,11 @@ namespace Robit.Response
                 return quoteText;
             }
 
+            /// <summary>
+            /// Get a 40k quote based on universe source
+            /// </summary>
+            /// <param name="searchTerm">A search term used to find a quote</param>
+            /// <returns>A Warhammer 40k quote</returns>
             public static string? Get40kQuoteBySource(string? searchTerm)
             {
                 if (searchTerm == null)
@@ -246,6 +261,11 @@ namespace Robit.Response
                 return quoteText;
             }
 
+            /// <summary>
+            /// Get a 40k quote based on real world soruce
+            /// </summary>
+            /// <param name="searchTerm">A search term used to find a quote</param>
+            /// <returns>A Warhammer 40k quote</returns>
             public static string? Get40kQuoteByAuthor(string? searchTerm)
             {
                 if (searchTerm == null)
@@ -291,6 +311,11 @@ namespace Robit.Response
                 return quoteText;
             }
 
+            /// <summary>
+            /// Gets a direct link to a gif on Giphy.com
+            /// </summary>
+            /// <param name="searchTerm">A search term for the gif</param>
+            /// <returns>A link to the gif</returns>
             public static string? GetGif(string? searchTerm)
             {
                 if (string.IsNullOrEmpty(searchTerm))
