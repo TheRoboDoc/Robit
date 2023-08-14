@@ -8,6 +8,8 @@ using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
 using OpenAI.ObjectModels.SharedModels;
+using static Robit.Command.SlashCommands.RandomCommands;
+using System.ComponentModel;
 using static Robit.FileManager.QuoteManager;
 using static Robit.WordFilter.WordFilter;
 
@@ -24,6 +26,8 @@ namespace Robit.Response
         public static class Functions
         {
             public static readonly EventId AIFunctionEvent = new EventId(202, "AI Function Event");
+
+            public static readonly List<string> DiceTypes = Enum.GetNames(typeof(Command.SlashCommands.RandomCommands.DiceTypes)).ToList();
 
             /// <summary>
             /// Get a list of functions for the AI use
@@ -50,10 +54,118 @@ namespace Robit.Response
 
                     new FunctionDefinitionBuilder("get_40k_quote_random", "Get a random Warhammer 40k quote")
                         .Validate()
+                        .Build(),
+
+                    new FunctionDefinitionBuilder("roll_dice", "Rolls a set of dice")
+                        .AddParameter("dice_type", PropertyDefinition.DefineEnum(DiceTypes, "A dice type to use"))
+                        .AddParameter("dice_amount", PropertyDefinition.DefineInteger("Amount of dice to roll, min 1, max 255"))
+                        .Validate()
                         .Build()
                 };
 
                 return functionDefinitions;
+            }
+
+            public static string RollDice(string? diceType, int? amount)
+            {
+                Random rand = new Random();
+
+                if(!Enum.TryParse(diceType, out DiceTypes dice))
+                {
+                    Program.BotClient?.Logger.LogWarning(AIFunctionEvent ,"AI tried to roll dice with incorrect dice type");
+
+                    return string.Empty;
+                }
+
+                int maxValue = (int)dice + 1;
+
+                List<int> rolledValues = new List<int>();
+
+                for (int i = 0; i < amount; i++)
+                {
+                    rolledValues.Add(rand.Next(1, maxValue));
+                }
+
+                rolledValues.Sort();
+
+                string diceResult = "";
+
+                foreach (int rolledValue in rolledValues)
+                {
+                    diceResult += $"{rolledValue} ";
+                }
+
+                int sum = rolledValues.Sum();
+                int average = sum / rolledValues.Count;
+                int min = rolledValues.Min();
+                int max = rolledValues.Max();
+                float median;
+                float mean = sum / rolledValues.Count;
+
+                if (rolledValues.Count % 2 == 0) //even
+                {
+                    //(X[n / 2] + X[(n / 2) + 1]) / 2
+
+                    float pos1 = rolledValues[rolledValues.Count / 2];
+                    float pos2 = rolledValues[(rolledValues.Count / 2) + 1];
+
+                    median = (pos1 + pos2) / 2;
+                }
+                else
+                {
+                    //X[(n + 1) / 2]
+
+                    median = rolledValues[(rolledValues.Count + 1) / 2];
+                }
+
+                Dictionary<int, int> frequencyMap = new Dictionary<int, int>();
+
+                // Count the frequency of each number
+                foreach (int rolledValue in rolledValues)
+                {
+                    if (frequencyMap.ContainsKey(rolledValue))
+                    {
+                        frequencyMap[rolledValue]++;
+                    }
+                    else
+                    {
+                        frequencyMap[rolledValue] = 1;
+                    }
+                }
+
+                // Find the maximum frequency
+                int maxFrequency = frequencyMap.Values.Max();
+
+                // Find the numbers with the maximum frequency (modes)
+                List<int> modes = frequencyMap.Where(pair => pair.Value == maxFrequency).Select(pair => pair.Key).ToList();
+
+                string valueToReturn =
+                    $"## Rolled {amount} {dice}(s)\n" +
+                    "### Dice results\n" +
+                    $"{diceResult}\n" +
+
+                    "### Sum\n" +
+                    $"{sum}\n" +
+
+                    "### Average\n" +
+                    $"{average}\n" +
+
+                    "### Median\n" +
+                    $"{median}\n" +
+
+                    "### Mean\n" +
+                    $"{mean}\n" +
+
+                    "### Mode(s)\n" +
+                    $"{string.Join(", ", modes)}\n" +
+
+                    "### Min\n" +
+                    $"{min}\n" +
+
+                    "### Max\n" +
+                    $"{max}\n";
+
+                return valueToReturn;
             }
 
             public static string? Get40kQuoteRandom()
@@ -462,6 +574,25 @@ namespace Robit.Response
                             string? quoter = Functions.Get40kQuoteRandom();
 
                             response = string.Concat(response, quoter);
+                            break;
+
+                        case "roll_dice":
+                            string? diceResult;
+
+                            try
+                            {
+                                diceResult = Functions.RollDice(function.ParseArguments().ElementAt(0).Value.ToString(),
+                                                                int.Parse(function.ParseArguments().ElementAt(1).Value.ToString() ?? "1"));
+                            }
+                            catch (FormatException e)
+                            {
+                                Program.BotClient?.Logger.LogWarning(Functions.AIFunctionEvent, "Failed to parse AI given values. Exception: \n{message}", e.Message);
+
+                                diceResult = "**System:** Failed to parse AI given values to function call";
+                            }
+                            
+
+                            response = string.Concat(response, diceResult);
                             break;
                     }
                 }
