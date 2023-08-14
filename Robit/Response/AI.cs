@@ -9,7 +9,6 @@ using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
 using OpenAI.ObjectModels.SharedModels;
 using static Robit.Command.SlashCommands.RandomCommands;
-using System.ComponentModel;
 using static Robit.FileManager.QuoteManager;
 using static Robit.WordFilter.WordFilter;
 
@@ -70,9 +69,9 @@ namespace Robit.Response
             {
                 Random rand = new Random();
 
-                if(!Enum.TryParse(diceType, out DiceTypes dice))
+                if (!Enum.TryParse(diceType, out DiceTypes dice))
                 {
-                    Program.BotClient?.Logger.LogWarning(AIFunctionEvent ,"AI tried to roll dice with incorrect dice type");
+                    Program.BotClient?.Logger.LogWarning(AIFunctionEvent, "AI tried to roll dice with incorrect dice type");
 
                     return string.Empty;
                 }
@@ -590,7 +589,7 @@ namespace Robit.Response
 
                                 diceResult = "**System:** Failed to parse AI given values to function call";
                             }
-                            
+
 
                             response = string.Concat(response, diceResult);
                             break;
