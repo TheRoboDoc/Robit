@@ -3,6 +3,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
+using Microsoft.Extensions.Logging;
 using Robit.Response;
 using Robit.TextAdventure;
 using System.ComponentModel;
@@ -54,16 +55,25 @@ namespace Robit.Command
         [DefaultValue(false)]
         bool visible = false)
         {
-            SlashCommandsExtension slashCommandsExtension = Program.BotClient.GetSlashCommands();
+            SlashCommandsExtension? slashCommandsExtension = Program.BotClient?.GetSlashCommands();
 
-            List<KeyValuePair<ulong?, IReadOnlyList<DiscordApplicationCommand>>> slashCommandKeyValuePairs = slashCommandsExtension.RegisteredCommands.ToList();
+            List<KeyValuePair<ulong?, IReadOnlyList<DiscordApplicationCommand>>>? slashCommandKeyValuePairs = slashCommandsExtension?.RegisteredCommands.ToList();
 
-            IReadOnlyList<DiscordApplicationCommand> slashCommands = slashCommandKeyValuePairs.FirstOrDefault().Value;
+            IReadOnlyList<DiscordApplicationCommand>? slashCommands = slashCommandKeyValuePairs?.FirstOrDefault().Value;
 
             List<Page> pages = new List<Page>();
 
             int entriesPerPage = 5;
             int pageIndex = 0;
+
+            if (slashCommands == null)
+            {
+                Program.BotClient?.Logger.LogWarning("Failed to fetch list of commands");
+
+                await ctx.CreateResponseAsync("Failed to fetech list of commands");
+
+                return;
+            }
 
             while (pageIndex < slashCommands.Count)
             {
@@ -774,7 +784,7 @@ namespace Robit.Command
         [DefaultValue(null)]
         DiscordAttachment? attachment = null)
         {
-            if (ctx.Member.VoiceState.Channel == null)
+            if (ctx.Member.VoiceState.Channel.Id != ctx.Guild.Channels.Keys.Where(channelId => channelId == ctx.Member.VoiceState.Channel.Id).FirstOrDefault())
             {
                 await ctx.CreateResponseAsync("You must be in a voice chat", true);
                 return;

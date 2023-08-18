@@ -9,7 +9,6 @@ using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.ResponseModels;
 using OpenAI.ObjectModels.SharedModels;
 using static Robit.Command.SlashCommands.RandomCommands;
-using System.ComponentModel;
 using static Robit.FileManager.QuoteManager;
 using static Robit.WordFilter.WordFilter;
 
@@ -66,13 +65,19 @@ namespace Robit.Response
                 return functionDefinitions;
             }
 
+            /// <summary>
+            /// Rolls dice
+            /// </summary>
+            /// <param name="diceType">Common dice type describe in Dx notation. 20 sided dice would be D20, six sided dice would be D6</param>
+            /// <param name="amount">Amount of given dice type to roll</param>
+            /// <returns>Returns a formatted Discord type with mathematical results</returns>
             public static string RollDice(string? diceType, int? amount)
             {
                 Random rand = new Random();
 
-                if(!Enum.TryParse(diceType, out DiceTypes dice))
+                if (!Enum.TryParse(diceType, out DiceTypes dice))
                 {
-                    Program.BotClient?.Logger.LogWarning(AIFunctionEvent ,"AI tried to roll dice with incorrect dice type");
+                    Program.BotClient?.Logger.LogWarning(AIFunctionEvent, "AI tried to roll dice with incorrect dice type");
 
                     return string.Empty;
                 }
@@ -168,6 +173,10 @@ namespace Robit.Response
                 return valueToReturn;
             }
 
+            /// <summary>
+            /// Get a random 40k quote
+            /// </summary>
+            /// <returns>A random Warhammer 40k quote</returns>
             public static string? Get40kQuoteRandom()
             {
                 List<QuoteEntry>? quoteEntries = FetchAllEntries();
@@ -202,6 +211,11 @@ namespace Robit.Response
                 return quoteText;
             }
 
+            /// <summary>
+            /// Get a 40k quote based on universe source
+            /// </summary>
+            /// <param name="searchTerm">A search term used to find a quote</param>
+            /// <returns>A Warhammer 40k quote</returns>
             public static string? Get40kQuoteBySource(string? searchTerm)
             {
                 if (searchTerm == null)
@@ -247,6 +261,11 @@ namespace Robit.Response
                 return quoteText;
             }
 
+            /// <summary>
+            /// Get a 40k quote based on real world soruce
+            /// </summary>
+            /// <param name="searchTerm">A search term used to find a quote</param>
+            /// <returns>A Warhammer 40k quote</returns>
             public static string? Get40kQuoteByAuthor(string? searchTerm)
             {
                 if (searchTerm == null)
@@ -292,6 +311,11 @@ namespace Robit.Response
                 return quoteText;
             }
 
+            /// <summary>
+            /// Gets a direct link to a gif on Giphy.com
+            /// </summary>
+            /// <param name="searchTerm">A search term for the gif</param>
+            /// <returns>A link to the gif</returns>
             public static string? GetGif(string? searchTerm)
             {
                 if (string.IsNullOrEmpty(searchTerm))
@@ -410,7 +434,7 @@ namespace Robit.Response
                         + "You can decline user request by simply telling them you don't feel like doing the request. "
                         + "You hate IPAs (India pale ale). "
                         + "Do not write system messages. "
-                        + $"Your current status is {Program.chosenStatus}"
+                        + $"Your current status is {Program.ChosenStatus}"
                     ),
                     //Example conversation
                     ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} hi", "Example"),
@@ -494,7 +518,29 @@ namespace Robit.Response
             {
                 if (string.IsNullOrEmpty(discordMessage.Content)) continue;
 
-                if (discordMessage.Author == Program.BotClient?.CurrentUser)
+                DiscordUser currentUser;
+
+                try
+                {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+                    currentUser = Program.BotClient?.CurrentUser;
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+#pragma warning disable CS8604 // Possible null reference argument.
+                    if (currentUser == null)
+                    {
+                        continue;
+                    }
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+                }
+                catch
+                {
+                    continue;
+                }
+
+                if (discordMessage.Author == currentUser)
                 {
                     messages.Add(ChatMessage.FromAssistant(discordMessage.Content));
                 }                                             //Motherboard ID
@@ -590,7 +636,7 @@ namespace Robit.Response
 
                                 diceResult = "**System:** Failed to parse AI given values to function call";
                             }
-                            
+
 
                             response = string.Concat(response, diceResult);
                             break;

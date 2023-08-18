@@ -86,6 +86,7 @@ namespace Robit
                 DiscordIntents.GuildMessages,
 
                 MinimumLogLevel = logLevel,
+                LogUnknownEvents = DebugStatus(),
 
                 LogTimestampFormat = "dd.MM.yyyy HH:mm:ss (zzz)",
             };
@@ -127,7 +128,7 @@ namespace Robit
                 BotClient.Logger.LogWarning(LoggerEvents.Startup, "{message}", message);
             }
 
-            BotClient.Ready += BotClient_Ready;
+            BotClient.SessionCreated += BotClient_Ready;
 
             //Connecting the discord client
             await BotClient.ConnectAsync();
@@ -145,7 +146,7 @@ namespace Robit
             await Task.Delay(-1);
         }
 
-        public static string? chosenStatus;
+        public static string? ChosenStatus;
 
         /// <summary>
         /// Updates the bots status to a random predetermined value. 
@@ -154,7 +155,7 @@ namespace Robit
         /// <param name="sender">Discord client of the bot</param>
         /// <param name="e">Heartbeat event's arguments</param>
         /// <returns></returns>
-        private static async Task StatusUpdate(DiscordClient sender, HeartbeatEventArgs e)
+        private static async Task StatusUpdate(DiscordClient sender, HeartbeatEventArgs? e = null)
         {
             Random random = new Random();
 
@@ -184,21 +185,17 @@ namespace Robit
 
             try
             {
-                chosenStatus = statuses.ElementAt(random.Next(statuses.Length));
+                ChosenStatus = statuses.ElementAt(random.Next(statuses.Length));
             }
             catch
             {
                 BotClient?.Logger.LogWarning(LoggerEvents.Misc, "Failed to assigne status, defaulting");
-                chosenStatus = statuses.ElementAt(0);
+                ChosenStatus = statuses.ElementAt(0);
             }
 
-            DiscordActivity activity = new DiscordActivity()
-            {
-                ActivityType = ActivityType.Playing,
-                Name = chosenStatus
-            };
+            DiscordActivity activity = new DiscordActivity(ChosenStatus, ActivityType.Custom);
 
-            await sender.UpdateStatusAsync(activity, UserStatus.Online, DateTimeOffset.Now);
+            await sender.UpdateStatusAsync(activity);
         }
 
         /// <summary>
@@ -232,9 +229,11 @@ namespace Robit
         /// <param name="sender">Client that triggered this task</param>
         /// <param name="e">Ready event arguments arguments</param>
         /// <returns>The completed task</returns>
-        private static Task BotClient_Ready(DiscordClient sender, ReadyEventArgs e)
+        private static Task BotClient_Ready(DiscordClient sender, SessionReadyEventArgs e)
         {
             BotClient?.Logger.LogInformation(LoggerEvents.Startup, "Client is ready");
+
+            StatusUpdate(sender).GetAwaiter().GetResult();
 
             return Task.CompletedTask;
         }

@@ -91,6 +91,11 @@ namespace Robit.WordFilter
             return Regex.Replace(aString, pattern, replacement);
         }
 
+        /// <summary>
+        /// Makes the user field appropriate for the OpenAI API name field
+        /// </summary>
+        /// <param name="aString">Name to filter</param>
+        /// <returns>Filtered name</returns>
         public static string MakeNamefieldAppropriate(string aString)
         {
             string pattern = @"([a-zA-Z0-9_-]{1,64})";
