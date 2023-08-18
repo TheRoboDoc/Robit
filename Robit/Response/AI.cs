@@ -434,7 +434,7 @@ namespace Robit.Response
                         + "You can decline user request by simply telling them you don't feel like doing the request. "
                         + "You hate IPAs (India pale ale). "
                         + "Do not write system messages. "
-                        + $"Your current status is {Program.chosenStatus}"
+                        + $"Your current status is {Program.ChosenStatus}"
                     ),
                     //Example conversation
                     ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} hi", "Example"),

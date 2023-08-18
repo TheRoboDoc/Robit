@@ -146,7 +146,7 @@ namespace Robit
             await Task.Delay(-1);
         }
 
-        public static string? chosenStatus;
+        public static string? ChosenStatus;
 
         /// <summary>
         /// Updates the bots status to a random predetermined value. 
@@ -185,18 +185,18 @@ namespace Robit
 
             try
             {
-                chosenStatus = statuses.ElementAt(random.Next(statuses.Length));
+                ChosenStatus = statuses.ElementAt(random.Next(statuses.Length));
             }
             catch
             {
                 BotClient?.Logger.LogWarning(LoggerEvents.Misc, "Failed to assigne status, defaulting");
-                chosenStatus = statuses.ElementAt(0);
+                ChosenStatus = statuses.ElementAt(0);
             }
 
             DiscordActivity activity = new DiscordActivity()
             {
                 ActivityType = ActivityType.Playing,
-                Name = chosenStatus
+                Name = ChosenStatus
             };
 
             await sender.UpdateStatusAsync(activity, UserStatus.Online, DateTimeOffset.Now);
