@@ -128,7 +128,7 @@ namespace Robit
                 BotClient.Logger.LogWarning(LoggerEvents.Startup, "{message}", message);
             }
 
-            BotClient.Ready += BotClient_Ready;
+            BotClient.SessionCreated += BotClient_Ready;
 
             //Connecting the discord client
             await BotClient.ConnectAsync();
@@ -233,7 +233,7 @@ namespace Robit
         /// <param name="sender">Client that triggered this task</param>
         /// <param name="e">Ready event arguments arguments</param>
         /// <returns>The completed task</returns>
-        private static Task BotClient_Ready(DiscordClient sender, ReadyEventArgs e)
+        private static Task BotClient_Ready(DiscordClient sender, SessionReadyEventArgs e)
         {
             BotClient?.Logger.LogInformation(LoggerEvents.Startup, "Client is ready");
 

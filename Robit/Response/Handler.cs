@@ -71,7 +71,7 @@ namespace Robit.Response
 
             DiscordThreadChannel? thread = messageArgs.Channel as DiscordThreadChannel;
 
-            if (thread == null) return false;
+            if (thread?.Id != messageArgs.Guild.Threads.Keys.Where(threadId => threadId == thread?.Id).FirstOrDefault()) return false;
 
             GameManager? gameManager = Program.GameManagerContainer?.GetManagerByThread(thread);
 
@@ -208,11 +208,18 @@ namespace Robit.Response
             }
 
             //Fetching every slash command the bot has
-            SlashCommandsExtension slashCommandsExtension = Program.BotClient.GetSlashCommands();
+            SlashCommandsExtension? slashCommandsExtension = Program.BotClient?.GetSlashCommands();
 
-            var slashCommandsList = slashCommandsExtension.RegisteredCommands;
-            List<DiscordApplicationCommand> globalCommands =
-                slashCommandsList.Where(x => x.Key == null).SelectMany(x => x.Value).ToList(); //This is stupid, can't find a better way as of yet
+            var slashCommandsList = slashCommandsExtension?.RegisteredCommands;
+            List<DiscordApplicationCommand>? globalCommands =
+                slashCommandsList?.Where(x => x.Key == null).SelectMany(x => x.Value).ToList(); //This is stupid, can't find a better way as of yet
+
+            if (globalCommands == null)
+            {
+                Program.BotClient?.Logger.LogWarning(HandlerEvent, "Failed to fetch commands");
+
+                return false;
+            }
 
             List<string> commands = new List<string>();
 
@@ -243,10 +250,16 @@ namespace Robit.Response
             // Delets message
             _ = Task.Run(async () =>
             {
-                if (message != null)
+                try
                 {
                     await Task.Delay(10000);
-                    await message.DeleteAsync();
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                    await message?.DeleteAsync();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                }
+                catch
+                {
+                    Program.BotClient?.Logger.LogWarning(HandlerEvent, "Couldn't delete message {messageID}", message?.Id);
                 }
             });
 
@@ -269,13 +282,15 @@ namespace Robit.Response
 
             await Task.Run(() =>
             {
-                foreach (DiscordUser mentionedUser in messageArgs.MentionedUsers)
+                foreach (DiscordUser? mentionedUser in messageArgs.MentionedUsers)
                 {
+#pragma warning disable CS8604 // Possible null reference argument.
                     if (mentionedUser == Program.BotClient?.CurrentUser)
                     {
                         botMentioned = true;
                         break;
                     }
+#pragma warning restore CS8604 // Possible null reference argument.
                 }
             });
 

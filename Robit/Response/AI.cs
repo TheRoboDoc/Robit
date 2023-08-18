@@ -518,7 +518,29 @@ namespace Robit.Response
             {
                 if (string.IsNullOrEmpty(discordMessage.Content)) continue;
 
-                if (discordMessage.Author == Program.BotClient?.CurrentUser)
+                DiscordUser currentUser;
+
+                try
+                {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+                    currentUser = Program.BotClient?.CurrentUser;
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+#pragma warning disable CS8604 // Possible null reference argument.
+                    if (currentUser == null)
+                    {
+                        continue;
+                    }
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+                }
+                catch
+                {
+                    continue;
+                }
+
+                if (discordMessage.Author == currentUser)
                 {
                     messages.Add(ChatMessage.FromAssistant(discordMessage.Content));
                 }                                             //Motherboard ID
