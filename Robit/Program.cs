@@ -155,7 +155,7 @@ namespace Robit
         /// <param name="sender">Discord client of the bot</param>
         /// <param name="e">Heartbeat event's arguments</param>
         /// <returns></returns>
-        private static async Task StatusUpdate(DiscordClient sender, HeartbeatEventArgs e)
+        private static async Task StatusUpdate(DiscordClient sender, HeartbeatEventArgs? e = null)
         {
             Random random = new Random();
 
@@ -193,13 +193,9 @@ namespace Robit
                 ChosenStatus = statuses.ElementAt(0);
             }
 
-            DiscordActivity activity = new DiscordActivity()
-            {
-                ActivityType = ActivityType.Playing,
-                Name = ChosenStatus
-            };
+            DiscordActivity activity = new DiscordActivity(ChosenStatus, ActivityType.Custom);
 
-            await sender.UpdateStatusAsync(activity, UserStatus.Online, DateTimeOffset.Now);
+            await sender.UpdateStatusAsync(activity);
         }
 
         /// <summary>
@@ -236,6 +232,8 @@ namespace Robit
         private static Task BotClient_Ready(DiscordClient sender, SessionReadyEventArgs e)
         {
             BotClient?.Logger.LogInformation(LoggerEvents.Startup, "Client is ready");
+
+            StatusUpdate(sender).GetAwaiter().GetResult();
 
             return Task.CompletedTask;
         }
