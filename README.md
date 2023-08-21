@@ -67,7 +67,7 @@ Posts a link to this GitHub page
 </details>
 
 ## Auto response
-You can automatic responses to content in messages
+You can have automatic responses to content in messages
 
 <details>
   <summary>Click for usage example</summary>
@@ -136,43 +136,13 @@ Marks the channel to be ignored or not by Robit
   
 </details>
 
-## File Convert
-Robit can convert media files. For example from png to jpg, or from mkv to mp4. Conversion from video to gif might return mixed results
+## Auto react
+Works the same way as auto-response, but for automatic reactions. More detailed description will be added in the future
 
-`/convert media_file:[attachment] format:[enumerable] [optional]visible:[boolean][default:false]`
+## AI
+A set of AI-related commands
 
-<details>
-  <summary>Click for usage example</summary>
-
-  ![RobitConvert](https://github.com/TheRoboDoc/Robit/assets/18618265/e07e0669-c775-4f3d-b558-d18ea8acca12)
-
-</details>
-
-### List of supported formats:
-- mp4
-- mov
-- mkv
-- webm
-- gif
-- jpg
-- png
-- tiff
-
-## Tag Voice
-Tag voice command mentions everyone in the same voice chat as you. For those cases where you want to really show your friends that one image of a cat
-
-`/tagvoice [optional]message:[string][default:""] [optional]attachment:[attachment][default:null]`
-
-**At least the message or attachment needs to have something in it as input*
-
-<details>
-  <summary>Click for usage example</summary>
-
-  
-  
-</details>
-
-## AI Prompt
+### AI Prompt
 A command to prompt Robit's AI module without context and in a longer form
 
 `/prompt ai_prompt:[string] [optional]visible:[boolean]`
@@ -184,7 +154,7 @@ A command to prompt Robit's AI module without context and in a longer form
 
 </details>
 
-## AI Ignore
+### AI Ignore
 Makes Robit's AI module ignore the channel depending if ignore is set to `True` or `False`
 
 `/ai_ignore ignore:[boolean] [optional]visible:[boolean]`
@@ -275,6 +245,21 @@ Gives out a random quote
   <summary>Click for usage example</summary>
 
   ![RobitQuoteRandom](https://github.com/TheRoboDoc/Robit/assets/18618265/5fc71ab2-37eb-4f19-9563-31e540ca6a5b)
+
+</details>
+
+## Text-Based Adventure game
+Robit supports the generation of a text-based adventure game with users.
+
+### TBA create
+Command to create a text adventure
+
+`/tba create game_theme:[string] [optional]max_turn_count_per_player:[integer][default:20] [optional]game_name:[string][default:{random integer}] [optional]visible:[boolean][default:true]`
+
+<details>
+  <summary>Click for usage example</summary>
+
+  ![RobitTBA]()
 
 </details>
 
