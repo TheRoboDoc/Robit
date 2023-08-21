@@ -243,25 +243,25 @@ namespace Robit.Response
                         $"That doesn't look very nice for you. So I took the liberty to delete it");
 
                     triggered = true;
+
+                    // Deletes message
+                    _ = Task.Run(async () =>
+                    {
+                        await Task.Delay(10000);
+
+                        try
+                        {
+                            await message.DeleteAsync();
+                        }
+                        catch
+                        {
+                            Program.BotClient?.Logger.LogWarning(HandlerEvent, "Couldn't delete message {messageID}", message?.Id);
+                        }
+                    });
+
                     break;
                 }
             }
-
-            // Delets message
-            _ = Task.Run(async () =>
-            {
-                try
-                {
-                    await Task.Delay(10000);
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                    await message?.DeleteAsync();
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-                }
-                catch
-                {
-                    Program.BotClient?.Logger.LogWarning(HandlerEvent, "Couldn't delete message {messageID}", message?.Id);
-                }
-            });
 
             return triggered;
         }
