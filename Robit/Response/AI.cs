@@ -137,8 +137,8 @@ namespace Robit.Response
                     }
                     else
                     {
-                    median = rolledValues[(rolledValues.Count + 1) / 2];
-                }
+                        median = rolledValues[(rolledValues.Count + 1) / 2];
+                    }
                 }
 
                 Dictionary<int, int> frequencyMap = new Dictionary<int, int>();
@@ -162,8 +162,19 @@ namespace Robit.Response
                 // Find the numbers with the maximum frequency (modes)
                 List<int> modes = frequencyMap.Where(pair => pair.Value == maxFrequency).Select(pair => pair.Key).ToList();
 
-                string valueToReturn =
-                    $"## Rolled {amount} {dice}(s)\n" +
+                string valueToReturn;
+
+                if (rolledValues.Count < 2)
+                {
+                    valueToReturn =
+                    $"## Rolled one {dice}\n" +
+                    "### Dice result\n" +
+                    $"{diceResult}\n";
+                }
+                else
+                {
+                    valueToReturn =
+                    $"## Rolled {amount} {dice}s\n" +
                     "### Dice results\n" +
                     $"{diceResult}\n" +
 
@@ -187,6 +198,7 @@ namespace Robit.Response
 
                     "### Max\n" +
                     $"{max}\n";
+                }
 
                 return valueToReturn;
             }
