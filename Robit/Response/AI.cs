@@ -111,8 +111,19 @@ namespace Robit.Response
                 {
                     //(X[n / 2] + X[(n / 2) + 1]) / 2
 
-                    float pos1 = rolledValues[rolledValues.Count / 2];
-                    float pos2 = rolledValues[(rolledValues.Count / 2) + 1];
+                    float pos1;
+                    float pos2;
+
+                    if (rolledValues.Count == 2)
+                    {
+                        pos1 = rolledValues[0];
+                        pos2 = rolledValues[1];
+                    }
+                    else
+                    {
+                        pos1 = rolledValues[rolledValues.Count / 2];
+                        pos2 = rolledValues[(rolledValues.Count / 2) + 1];
+                    }
 
                     median = (pos1 + pos2) / 2;
                 }
@@ -120,7 +131,14 @@ namespace Robit.Response
                 {
                     //X[(n + 1) / 2]
 
-                    median = rolledValues[(rolledValues.Count + 1) / 2];
+                    if (rolledValues.Count == 1)
+                    {
+                        median = rolledValues[0];
+                    }
+                    else
+                    {
+                        median = rolledValues[(rolledValues.Count + 1) / 2];
+                    }
                 }
 
                 Dictionary<int, int> frequencyMap = new Dictionary<int, int>();
@@ -144,8 +162,19 @@ namespace Robit.Response
                 // Find the numbers with the maximum frequency (modes)
                 List<int> modes = frequencyMap.Where(pair => pair.Value == maxFrequency).Select(pair => pair.Key).ToList();
 
-                string valueToReturn =
-                    $"## Rolled {amount} {dice}(s)\n" +
+                string valueToReturn;
+
+                if (rolledValues.Count < 2)
+                {
+                    valueToReturn =
+                    $"## Rolled one {dice}\n" +
+                    "### Dice result\n" +
+                    $"{diceResult}\n";
+                }
+                else
+                {
+                    valueToReturn =
+                    $"## Rolled {amount} {dice}s\n" +
                     "### Dice results\n" +
                     $"{diceResult}\n" +
 
@@ -169,6 +198,7 @@ namespace Robit.Response
 
                     "### Max\n" +
                     $"{max}\n";
+                }
 
                 return valueToReturn;
             }
