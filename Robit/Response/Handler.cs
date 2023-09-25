@@ -135,9 +135,21 @@ namespace Robit.Response
                 return;
             }
 
-            await replyIn.TriggerTypingAsync();
+            bool typing = true;
+
+            _ = Task.Run(async () =>
+            {
+                while(typing)
+                {
+                    await replyIn.TriggerTypingAsync();
+
+                    await Task.Delay(3000);
+                }
+            });
 
             Tuple<bool, string> AIGenerationResponse = await AI.GenerateChatResponse(messageArgs);
+
+            typing = false;
 
             string response = AIGenerationResponse.Item2;
 
