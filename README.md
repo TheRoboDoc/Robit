@@ -301,4 +301,4 @@ Drawn by [Dia](https://twitter.com/Bubblekin123)
 Animated by [me](https://twitter.com/The_RoboDoc)
 
 #
-*Robit runs on .NET 6.0*
+*Robit runs on .NET 7.0*
