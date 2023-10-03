@@ -291,14 +291,5 @@ Library used to interact with [FFmpeg](https://ffmpeg.org/)
 #### [Newtonsoft Json](https://www.newtonsoft.com/json)
 Library to do JSON deserialization
 
-### Art
-#### Profile picture
-Drawn by [Dia](https://twitter.com/Bubblekin123)
-
-#### Loading Gif
-Drawn by [Dia](https://twitter.com/Bubblekin123)
-
-Animated by [me](https://twitter.com/The_RoboDoc)
-
 #
 *Robit runs on .NET 7.0*
