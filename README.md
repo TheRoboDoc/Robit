@@ -270,9 +270,9 @@ For support, you can visit [Robit's Little Shack Discord server](https://discord
 
 Help to cover Robit's hosting costs:
 
-[<img src="https://cdn.discordapp.com/attachments/1096788658566209546/1121171401995472946/cup-borders.png"> Ko-Fi](https://ko-fi.com/robodoc)
+[<img src="https://imgur.com/iEy0nwb.png"> Ko-Fi](https://ko-fi.com/robodoc)
 
-[<img src="https://cdn.discordapp.com/attachments/1096788658566209546/1122794546678468678/paypal.png"> PayPal](https://www.paypal.com/donate/?hosted_button_id=XA4VRCET724AY)
+[<img src="https://imgur.com/ECBptIJ.png"> PayPal](https://www.paypal.com/donate/?hosted_button_id=XA4VRCET724AY)
 
 ## Credits
 ### Libraries
