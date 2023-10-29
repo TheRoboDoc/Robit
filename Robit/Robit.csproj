@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Betalgo.OpenAI" Version="7.1.5" />
+    <PackageReference Include="Betalgo.OpenAI" Version="7.3.1" />
     <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-01764" />
     <PackageReference Include="DSharpPlus.CommandsNext" Version="5.0.0-nightly-01764" />
     <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-01764" />
