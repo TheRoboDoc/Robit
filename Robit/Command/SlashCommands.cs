@@ -1449,5 +1449,52 @@ namespace Robit.Command
         #endregion
 
         #endregion
+
+        #region Autroles
+        [SlashCommandGroup("Autorole", "Automatic on join roles")]
+        [SlashCommandPermissions(Permissions.ManageRoles)]
+        public class Autoroles
+        {
+            [SlashCommand("Add", "Add automatic role")]
+            public static async Task Add(InteractionContext ctx,
+            [Option("Role", "Role to add as autorole")]
+            DiscordRole role,
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(true)]
+            bool visible = true)
+            {
+                DiscordGuild guild = ctx.Guild;
+
+                AutoroleManager.Autorole autorole = new AutoroleManager.Autorole
+                {
+                    RoleID = role.Id.ToString()
+                };
+
+                await Task.Run(() =>
+                {
+                    AutoroleManager.WriteEntry(autorole, guild.Id.ToString());
+                });
+
+                await ctx.CreateResponseAsync($"Automatic role {role.Mention} has been added", !visible);
+            }
+
+            [SlashCommand("Remove", "Remove automatic role")]
+            public static async Task Remove(InteractionContext ctx,
+            [Option("Role", "Role to remove as autorole")]
+            DiscordRole role,
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(true)]
+            bool visible = true)
+            {
+                DiscordGuild guild = ctx.Guild;
+
+                await AutoroleManager.RemoveEntry(role.Id.ToString(), guild.Id.ToString());
+
+                await ctx.CreateResponseAsync($"Automatic role {role.Mention} has been removed", !visible);
+            }
+        }
+        #endregion
     }
 }
