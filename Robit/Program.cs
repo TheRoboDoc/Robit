@@ -83,7 +83,8 @@ namespace Robit
                 DiscordIntents.Guilds |
                 DiscordIntents.GuildPresences |
                 DiscordIntents.GuildVoiceStates |
-                DiscordIntents.GuildMessages,
+                DiscordIntents.GuildMessages |
+                DiscordIntents.GuildMembers,
 
                 MinimumLogLevel = logLevel,
                 LogUnknownEvents = DebugStatus(),
@@ -142,8 +143,20 @@ namespace Robit
 
             GameManagerContainer = new GameManagerContainer();
 
+            BotClient.GuildMemberAdded += GuildMemberAdded;
+
             //Prevents the task from ending
             await Task.Delay(-1);
+        }
+
+        private static async Task GuildMemberAdded(DiscordClient sender, GuildMemberAddEventArgs args)
+        {
+            if (!args.Guild.CurrentMember.Permissions.HasPermission(Permissions.ManageRoles))
+            {
+                return;
+            }
+
+            await Role.Auto.GiveRole(args.Guild, args.Member);
         }
 
         public static string? ChosenStatus;
