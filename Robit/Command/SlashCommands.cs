@@ -1449,5 +1449,89 @@ namespace Robit.Command
         #endregion
 
         #endregion
+
+        #region Autroles
+        [SlashCommandGroup("Autorole", "Automatic on join roles")]
+        [SlashCommandPermissions(Permissions.ManageRoles)]
+        public class Autoroles
+        {
+            [SlashCommand("Add", "Add automatic role")]
+            public static async Task Add(InteractionContext ctx,
+            [Option("Role", "Role to add as autorole")]
+            DiscordRole role,
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(true)]
+            bool visible = true)
+            {
+                DiscordGuild guild = ctx.Guild;
+
+                AutoroleManager.Autorole autorole = new AutoroleManager.Autorole
+                {
+                    RoleID = role.Id.ToString()
+                };
+
+                await Task.Run(() =>
+                {
+                    AutoroleManager.WriteEntry(autorole, guild.Id.ToString());
+                });
+
+                await ctx.CreateResponseAsync($"Automatic role {role.Mention} has been added", !visible);
+            }
+
+            [SlashCommand("Remove", "Remove automatic role")]
+            public static async Task Remove(InteractionContext ctx,
+            [Option("Role", "Role to remove as autorole")]
+            DiscordRole role,
+
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(true)]
+            bool visible = true)
+            {
+                DiscordGuild guild = ctx.Guild;
+
+                await AutoroleManager.RemoveEntry(role.Id.ToString(), guild.Id.ToString());
+
+                await ctx.CreateResponseAsync($"Automatic role {role.Mention} has been removed", !visible);
+            }
+
+            [SlashCommand("List", "List automatic roles on the server")]
+            public static async Task List(InteractionContext ctx,
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
+            {
+                DiscordGuild guild = ctx.Guild;
+
+                List<AutoroleManager.Autorole>? roles = AutoroleManager.ReadEntries(guild.Id.ToString());
+
+                if (roles == null || !roles.Any())
+                {
+                    await ctx.CreateResponseAsync("Server has no autoroles");
+                    return;
+                }
+
+                string messageText = "";
+
+                foreach (AutoroleManager.Autorole autorole in roles)
+                {
+                    if (!ulong.TryParse(autorole.RoleID, out ulong id))
+                    {
+                        break;
+                    }
+
+                    messageText += $"{guild.GetRole(id).Mention}\n";
+                }
+
+                DiscordEmbedBuilder embded = new DiscordEmbedBuilder();
+
+                embded.WithColor(DiscordColor.Purple);
+                embded.WithTitle($"Autoroles in the {guild.Name} server");
+                embded.WithDescription(messageText);
+
+                await ctx.CreateResponseAsync(embded, !visible);
+            }
+        }
+        #endregion
     }
 }

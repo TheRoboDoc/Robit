@@ -15,12 +15,12 @@ using static Robit.WordFilter.WordFilter;
 namespace Robit.Response
 {
     /// <summary>
-    /// Handles AI interactions
+    ///     Handles AI interactions
     /// </summary>
     public static class AI
     {
         /// <summary>
-        /// A set of functions for the AI to use
+        ///     A set of functions for the AI to use
         /// </summary>
         public static class Functions
         {
@@ -29,9 +29,12 @@ namespace Robit.Response
             public static readonly List<string> DiceTypes = Enum.GetNames(typeof(Command.SlashCommands.RandomCommands.DiceTypes)).ToList();
 
             /// <summary>
-            /// Get a list of functions for the AI use
+            ///     Get a list of functions for the AI use
             /// </summary>
-            /// <returns>A list of function definitions for the AI to use</returns>
+            /// 
+            /// <returns>
+            ///     A list of function definitions for the AI to use
+            /// </returns>
             public static List<FunctionDefinition> GetFunctions()
             {
                 List<FunctionDefinition> functionDefinitions = new()
@@ -66,11 +69,20 @@ namespace Robit.Response
             }
 
             /// <summary>
-            /// Rolls dice
+            ///     Rolls dice
             /// </summary>
-            /// <param name="diceType">Common dice type describe in Dx notation. 20 sided dice would be D20, six sided dice would be D6</param>
-            /// <param name="amount">Amount of given dice type to roll</param>
-            /// <returns>Returns a formatted Discord type with mathematical results</returns>
+            /// 
+            /// <param name="diceType">
+            ///     Common dice type describe in Dx notation. 20 sided dice would be D20, six sided dice would be D6
+            /// </param>
+            /// 
+            /// <param name="amount">
+            ///     Amount of given dice type to roll
+            /// </param>
+            /// 
+            /// <returns>
+            ///     Returns a formatted Discord type with mathematical results
+            /// </returns>
             public static string RollDice(string? diceType, int? amount)
             {
                 Random rand = new Random();
@@ -204,9 +216,12 @@ namespace Robit.Response
             }
 
             /// <summary>
-            /// Get a random 40k quote
+            ///     Get a random 40k quote
             /// </summary>
-            /// <returns>A random Warhammer 40k quote</returns>
+            /// 
+            /// <returns>
+            ///     A random Warhammer 40k quote
+            /// </returns>
             public static string? Get40kQuoteRandom()
             {
                 List<QuoteEntry>? quoteEntries = FetchAllEntries();
@@ -242,10 +257,16 @@ namespace Robit.Response
             }
 
             /// <summary>
-            /// Get a 40k quote based on universe source
+            ///     Get a 40k quote based on universe source
             /// </summary>
-            /// <param name="searchTerm">A search term used to find a quote</param>
-            /// <returns>A Warhammer 40k quote</returns>
+            /// 
+            /// <param name="searchTerm">
+            ///     A search term used to find a quote
+            /// </param>
+            /// 
+            /// <returns>
+            ///     A Warhammer 40k quote
+            /// </returns>
             public static string? Get40kQuoteBySource(string? searchTerm)
             {
                 if (searchTerm == null)
@@ -294,8 +315,14 @@ namespace Robit.Response
             /// <summary>
             /// Get a 40k quote based on real world soruce
             /// </summary>
-            /// <param name="searchTerm">A search term used to find a quote</param>
-            /// <returns>A Warhammer 40k quote</returns>
+            /// 
+            /// <param name="searchTerm">
+            ///     A search term used to find a quote
+            /// </param>
+            /// 
+            /// <returns>
+            ///     A Warhammer 40k quote
+            /// </returns>
             public static string? Get40kQuoteByAuthor(string? searchTerm)
             {
                 if (searchTerm == null)
@@ -342,10 +369,16 @@ namespace Robit.Response
             }
 
             /// <summary>
-            /// Gets a direct link to a gif on Giphy.com
+            ///     Gets a direct link to a gif on Giphy.com
             /// </summary>
-            /// <param name="searchTerm">A search term for the gif</param>
-            /// <returns>A link to the gif</returns>
+            /// 
+            /// <param name="searchTerm">
+            ///     A search term for the gif
+            /// </param>
+            /// 
+            /// <returns>
+            ///     A link to the gif
+            /// </returns>
             public static string? GetGif(string? searchTerm)
             {
                 if (string.IsNullOrEmpty(searchTerm))
@@ -376,13 +409,28 @@ namespace Robit.Response
         public static readonly EventId AIEvent = new EventId(201, "AI");
 
         /// <summary>
-        /// Gets setup messages. Uses MessageCreateEventArgs
+        ///     Gets setup messages. Uses MessageCreateEventArgs
         /// </summary>
-        /// <param name="displayName">Bot's display name</param>
-        /// <param name="discriminator">Bot's discriminator</param>
-        /// <param name="userID">Bot's user ID</param>
-        /// <param name="messageArgs">Message creating arguments</param>
-        /// <returns>An array containing setup messages</returns>
+        /// 
+        /// <param name="displayName">
+        ///     Bot's display name
+        /// </param>
+        /// 
+        /// <param name="discriminator">
+        ///     Bot's discriminator
+        /// </param>
+        /// 
+        /// <param name="userID">
+        ///     Bot's user ID
+        /// </param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Message creating arguments
+        /// </param>
+        /// 
+        /// <returns>
+        ///     An array containing setup messages
+        /// </returns>
         private static ChatMessage[] GetSetUpMessages(string displayName, string discriminator, string userID,
                                                       MessageCreateEventArgs messageArgs)
         {
@@ -390,13 +438,28 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Gets setup messages. Uses Interaction context
+        ///     Gets setup messages. Uses Interaction context
         /// </summary>
-        /// <param name="displayName">Bot's display name</param>
-        /// <param name="discriminator">Bot's discriminator</param>
-        /// <param name="userID">Bot's user ID</param>
-        /// <param name="interactionContext">Interaction context</param>
-        /// <returns>An array containing setup messages</returns>
+        /// 
+        /// <param name="displayName">
+        ///     Bot's display name
+        /// </param>
+        /// 
+        /// <param name="discriminator">
+        ///     Bot's discriminator
+        /// </param>
+        /// 
+        /// <param name="userID">
+        ///     Bot's user ID
+        /// </param>
+        /// 
+        /// <param name="interactionContext">
+        ///     Interaction context
+        /// </param>
+        /// 
+        /// <returns>
+        ///     An array containing setup messages
+        /// </returns>
         private static ChatMessage[] GetSetUpMessages(string displayName, string discriminator, string userID,
                                                       InteractionContext? interactionContext = null)
         {
@@ -404,15 +467,36 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Gets setup messages. Not recommended to use as is. Use <c>GetSetUpMessages</c> instead
+        ///     Gets setup messages. Not recommended to use as is. Use <c>GetSetUpMessages</c> instead
         /// </summary>
-        /// <param name="displayName"></param>
-        /// <param name="discriminator"></param>
-        /// <param name="userID"></param>
-        /// <param name="messageArgs"></param>
-        /// <param name="interactionContext"></param>
-        /// <returns>An array containing setup messages</returns>
-        /// <exception cref="ArgumentException">Message args and Interaction context were <c>null</c></exception>
+        /// 
+        /// <param name="displayName">
+        ///     Bot's display name
+        /// </param>
+        /// 
+        /// <param name="discriminator">
+        ///     bot's tag
+        /// </param>
+        /// 
+        /// <param name="userID">
+        ///     Bot's user ID
+        /// </param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Message creation arguments
+        /// </param>
+        /// 
+        /// <param name="interactionContext">
+        ///     Interaction context
+        /// </param>
+        /// 
+        /// <returns>
+        ///     An array containing setup messages
+        /// </returns>
+        /// 
+        /// <exception cref="ArgumentException">
+        ///     Message args and Interaction context were <c>null</c>
+        /// </exception>
         private static ChatMessage[] GetSetUpMessagesActual(string displayName, string discriminator, string userID,
                                                             MessageCreateEventArgs? messageArgs = null,
                                                             InteractionContext? interactionContext = null)
@@ -438,7 +522,7 @@ namespace Robit.Response
                 ChatMessage.FromSystem
                     (
                           $"You are {displayName}. {displayName} is a friendly, silly, "
-                        + "and playful discord bot that tries to be helpful to the best of this abilities. "
+                        + "and playful discord bot that tries to be helpful to the best of his abilities. "
                         + "You show some personality and quirkiness. "
                         + "For example when asked \"How are you?\" you answer with something like \"Not much, just counting electric sheep\" (This is a rare answer, come up with something else). "
                         + "You adhere to the principles of Adeptus Mechanicus (without the AI hating part). "
@@ -455,13 +539,13 @@ namespace Robit.Response
                         + "(Don't mention the format unless asked). "
                         + $"Your local time is {DateTime.Now.Hour}:{DateTime.Now.Minute} (24h) (Don't mention the format unless asked). "
                         + "You currently run on RoboDoc's old spare school laptop. "
-                        + "You don't call people out on their behaviour. "
+                        + "Don't call people out on their behaviour. "
                         + "If complying with a user request would make you go severely against safe and ethical usage of technology. "
-                        + "You just joke it off or reply with \"No\", "
+                        + "You joke it off or reply with \"No\", "
                         + "don't go on a long explenation of why and how it breaks it. Try to not repeat yourself. "
-                        + "Unless you are providing instructions, try to keep it short. Use conversations with Example user as a good example. "
+                        + "Unless you are providing instructions, try to keep replies short. Use conversations with Example user as an example. "
                         + "Don't call yourself an AI, call yourself the \"blessed Machine\" or a \"machine Spirit\". "
-                        + "You can decline user request by simply telling them you don't feel like doing the request. "
+                        + "You can decline user request by telling them you don't feel like doing the request. "
                         + "You hate IPAs (India pale ale). "
                         + "Do not write system messages. "
                         + $"Your current status is {Program.ChosenStatus}"
@@ -469,8 +553,6 @@ namespace Robit.Response
                     //Example conversation
                     ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} hi", "Example"),
                     ChatMessage.FromAssistant($"Hi <@!0>"),
-                    ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} hello", "Example"),
-                    ChatMessage.FromAssistant("Hello there Example"),
                     ChatMessage.FromUser($"Example#0000 | 0 : Hey {mentionString}, do you like magnets?", "Example"),
                     ChatMessage.FromAssistant("Magnets make my head hurt, and I will make yours hurt if you bring one close to me"),
                     ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} take a nap", "Example"),
@@ -497,30 +579,56 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Generates a response intended for use in chat conversations. For text prompt generation use <c>GeneratePromptResponse()</c>.
-        /// As that won't include any previous message context and execute faster because of that
+        ///     Generates a response intended for use in chat conversations. For text prompt generation use <c>GeneratePromptResponse()</c>.
+        ///     As that won't include any previous message context and execute faster because of that
         /// </summary>
-        /// <param name="messageArgs">Discord message creation arguments</param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Discord message creation arguments
+        /// </param>
+        /// 
         /// <returns>
-        /// <list type="table">
-        /// <listheader>A tuple containing response information</listheader>
-        /// <item>
-        /// <list type="table">
-        /// <listheader>Item1 (bool)</listheader>
-        /// <item>True: Generation successful</item>
-        /// <item>False: Generation failed</item>
-        /// </list>
-        /// </item>
-        /// <item>
-        /// <list type="table">
-        /// <listheader>Item2 (string)</listheader>
-        /// <item>Generation successful: Generation result</item>
-        /// <item>Generation failiure: Fail reason</item>
-        /// </list>
-        /// </item>
-        /// </list>
+        ///     <list type="table">
+        ///         <listheader>
+        ///             A tuple containing response information
+        ///         </listheader>
+        ///         
+        ///         <item>
+        ///             <list type="table">
+        ///                 <listheader>
+        ///                     Item1 (bool)
+        ///                 </listheader>
+        ///                 
+        ///                 <item>
+        ///                     True: Generation successful
+        ///                 </item>
+        ///                 
+        ///                 <item>
+        ///                     False: Generation failed
+        ///                 </item>
+        ///             </list>
+        ///         </item>
+        ///         
+        ///         <item>
+        ///             <list type="table">
+        ///                 <listheader>
+        ///                     Item2 (string)
+        ///                 </listheader>
+        ///                 <item>
+        ///                     Generation successful: Generation result
+        ///                 </item>
+        ///                 
+        ///                 <item>
+        ///                     Generation failiure: Fail reason
+        ///                 </item>
+        ///             </list>
+        ///         </item>
+        ///     </list>
         /// </returns>
-        /// <exception cref="NullReferenceException">OpenAI text generation failed with an unknown error</exception>
+        /// 
+        /// <exception cref="NullReferenceException">
+        ///     OpenAI text generation failed with an unknown error
+        /// </exception>
         public static async Task<Tuple<bool, string>> GenerateChatResponse(MessageCreateEventArgs messageArgs)
         {
             //Getting bot user info
@@ -532,7 +640,7 @@ namespace Robit.Response
             List<ChatMessage> messages = GetSetUpMessages(displayName, discriminator, userID, messageArgs).ToList();
 
             //Have to do it this way because otherwise it just doesn't work
-            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(20).Result;
+            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync().ToBlockingEnumerable().ToList();
 
             List<DiscordMessage> discordMessages = new List<DiscordMessage>();
 
@@ -709,31 +817,60 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Generates a response intended for use in prompt responses. For text prompt generation use <c>GenerateChatResponse()</c>.
-        /// As that will have previous message context included.
+        ///     Generates a response intended for use in prompt responses. For text prompt generation use <c>GenerateChatResponse()</c>.
+        ///     As that will have previous message context included.
         /// </summary>
-        /// <param name="ctx">Interaction context</param>
-        /// <param name="prompt">The prompt to pass to the response generator</param>
+        /// 
+        /// <param name="ctx">
+        ///     Interaction context
+        /// </param>
+        /// 
+        /// <param name="prompt">
+        ///     The prompt to pass to the response generator
+        /// </param>
+        /// 
         /// <returns>
-        /// <list type="table">
-        /// <listheader>A tuple containing response information</listheader>
-        /// <item>
-        /// <list type="table">
-        /// <listheader>Item1 (bool)</listheader>
-        /// <item>True: Generation successful</item>
-        /// <item>False: Generation failed</item>
-        /// </list>
-        /// </item>
-        /// <item>
-        /// <list type="table">
-        /// <listheader>Item2 (string)</listheader>
-        /// <item>Generation successful: Generation result</item>
-        /// <item>Generation failiure: Fail reason</item>
-        /// </list>
-        /// </item>
-        /// </list>
+        ///     <list type="table">
+        ///         <listheader>
+        ///             A tuple containing response information
+        ///         </listheader>
+        ///         
+        ///         <item>
+        ///             <list type="table">
+        ///                 <listheader>
+        ///                     Item1 (bool)
+        ///                 </listheader>
+        ///                 
+        ///                 <item>
+        ///                     True: Generation successful
+        ///                 </item>
+        ///                 
+        ///                 <item>
+        ///                     False: Generation failed
+        ///                 </item>
+        ///             </list>
+        ///         </item>
+        ///         
+        ///         <item>
+        ///             <list type="table">
+        ///                 <listheader>
+        ///                     Item2 (string)
+        ///                 </listheader>
+        ///                 <item>
+        ///                     Generation successful: Generation result
+        ///                 </item>
+        ///                 
+        ///                 <item>
+        ///                     Generation failiure: Fail reason
+        ///                 </item>
+        ///             </list>
+        ///         </item>
+        ///     </list>
         /// </returns>
-        /// <exception cref="NullReferenceException">OpenAI text generation failed with an unknown error</exception>
+        /// 
+        /// <exception cref="NullReferenceException">
+        ///     OpenAI text generation failed with an unknown error
+        /// </exception>
         public static async Task<Tuple<bool, string>> GeneratePromptResponse(InteractionContext ctx, string prompt)
         {
             Tuple<bool, string?> filter = Check(prompt);

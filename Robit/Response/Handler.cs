@@ -13,11 +13,20 @@ namespace Robit.Response
         public static readonly EventId HandlerEvent = new EventId(301, "Handler");
 
         /// <summary>
-        /// Runs the response handler that determines to respond or not and how
+        ///     Runs the response handler that determines to respond or not and how
         /// </summary>
-        /// <param name="sender">Discord client</param>
-        /// <param name="messageArgs">Discord message creation arguments</param>
-        /// <returns>Completed task</returns>
+        /// 
+        /// <param name="sender">
+        ///     Discord client
+        /// </param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Discord message creation arguments
+        /// </param>
+        /// 
+        /// <returns>
+        ///     Completed task
+        /// </returns>
         public static async Task Run(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {                                                                     //Motherboard ID
             if (messageArgs.Author.IsBot && messageArgs?.Author.Id.ToString() != "1103797730276548660") return;
@@ -41,9 +50,12 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Deletes a game instance from main game manager container. Also deletes the game instance channel after five minutes
+        ///     Deletes a game instance from main game manager container. Also deletes the game instance channel after five minutes
         /// </summary>
-        /// <param name="gameManager">Game manager of the instance that needs to be deleted</param>
+        /// 
+        /// <param name="gameManager">
+        ///     Game manager of the instance that needs to be deleted
+        /// </param>
         private static async Task DeleteGame(GameManager gameManager)
         {
             await gameManager.Channel.SendMessageAsync("**System**: This channel will be deleted in 5 minutes");
@@ -56,14 +68,23 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Managment of text based adventure instance
+        ///     Managment of text based adventure instance
         /// </summary>
-        /// <param name="messageArgs">Message arguments</param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Message arguments
+        /// </param>
+        /// 
         /// <returns>
-        /// <list type="table">
-        /// <item>True: Successfully played a turn of text-based adventure</item>
-        /// <item>False: Failed to play a trun of text-based adventure</item>
-        /// </list>
+        ///     <list type="table">
+        ///         <item>
+        ///             True: Successfully played a turn of text-based adventure
+        ///         </item>
+        /// 
+        ///         <item>
+        ///             False: Failed to play a trun of text-based adventure
+        ///         </item>
+        ///     </list>
         /// </returns>
         private static async Task<bool> TextBasedAdventure(MessageCreateEventArgs messageArgs)
         {
@@ -99,10 +120,16 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Reacts to message
+        ///     Reacts to message
         /// </summary>
-        /// <param name="sender">Discord client</param>
-        /// <param name="messageArgs">Discord message creation arguments</param>
+        /// 
+        /// <param name="sender">
+        ///     Discord client
+        /// </param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Discord message creation arguments
+        /// </param>
         private static async Task AutoReact(DiscordClient sender, MessageCreateEventArgs messageArgs)
         {
             Tuple<bool, string> autoReactResult = await Auto.GenerateAutoReact(messageArgs);
@@ -123,9 +150,12 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Responses with AI answer to the message
+        ///     Responses with AI answer to the message
         /// </summary>
-        /// <param name="messageArgs">Discord message creation arguments</param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Discord message creation arguments
+        /// </param>
         private static async Task AIRespond(MessageCreateEventArgs messageArgs)
         {
             DiscordChannel replyIn = messageArgs.Channel;
@@ -135,9 +165,21 @@ namespace Robit.Response
                 return;
             }
 
-            await replyIn.TriggerTypingAsync();
+            bool typing = true;
+
+            _ = Task.Run(async () =>
+            {
+                while (typing)
+                {
+                    await replyIn.TriggerTypingAsync();
+
+                    await Task.Delay(3000);
+                }
+            });
 
             Tuple<bool, string> AIGenerationResponse = await AI.GenerateChatResponse(messageArgs);
+
+            typing = false;
 
             string response = AIGenerationResponse.Item2;
 
@@ -152,16 +194,31 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Auto responses to a message
+        ///     Auto responses to a message
         /// </summary>
-        /// <param name="messageArgs">Discord message creation arguments</param>
-        /// <param name="channelSettings">Channel settings</param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Discord message creation arguments
+        /// </param>
+        /// 
+        /// <param name="channelSettings">
+        ///     Channel settings
+        /// </param>
+        /// 
         /// <returns>
-        /// <list type="bullet">
-        /// <listheader>Boolean</listheader>
-        /// <item>True: Auto-response happened</item>
-        /// <item>False: Auto-response didn't happen</item>
-        /// </list>
+        ///     <list type="table">
+        ///         <listheader>
+        ///             Boolean
+        ///         </listheader>
+        /// 
+        ///         <item>
+        ///             True: Auto-response happened
+        ///         </item>
+        /// 
+        ///         <item>
+        ///             False: Auto-response didn't happen
+        ///         </item>
+        ///     </list>
         /// </returns>
         private static async Task<bool> AutoRespond(MessageCreateEventArgs messageArgs, ChannelManager.Channel channelSettings)
         {
@@ -180,16 +237,28 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// A failsafe for when a user tries to execute a slash command but sends it as a plain message instead.
-        /// Deletes the failed command message and after 10 seconds deletes the warning message.
+        ///     A failsafe for when a user tries to execute a slash command but sends it as a plain message instead.
+        ///     Deletes the failed command message and after 10 seconds deletes the warning message.
         /// </summary>
-        /// <param name="sender">Discord client that triggerd this task</param>
-        /// <param name="messageArgs">Message creation event arguemnts</param>
+        /// 
+        /// <param name="sender">
+        ///     Discord client that triggerd this task
+        /// </param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Message creation event arguemnts
+        /// </param>
+        /// 
         /// <returns>
-        /// <list type="table">
-        /// <item>True: Failsafe triggered</item>
-        /// <item>False: Failsafe not triggered</item>
-        /// </list>
+        ///     <list type="table">
+        ///         <item>
+        ///             True: Failsafe triggered
+        ///         </item>
+        ///         
+        ///         <item>
+        ///             False: Failsafe not triggered
+        ///         </item>
+        ///     </list>
         /// </returns>
         private static async Task<bool> DiscordNoobFailsafe(MessageCreateEventArgs messageArgs) //This is redundant as you need to fuck up pretty bad
         {
@@ -267,14 +336,22 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Checks if the bot was mentioned in a message
+        ///     Checks if the bot was mentioned in a message
         /// </summary>
-        /// <param name="messageArgs">Arguments of the message to check</param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Arguments of the message to check
+        /// </param>
+        /// 
         /// <returns>
-        /// <list type="bullet">
-        /// <item><c>True</c>: Mentioned</item>
-        /// <item><c>False</c>: Not mentioned</item>
-        /// </list>
+        ///     <list type="bullet">
+        ///         <item>
+        ///             <c>True</c>: Mentioned
+        ///         </item>
+        ///         <item>
+        ///             <c>False</c>: Not mentioned
+        ///         </item>
+        ///     </list>
         /// </returns>
         private static async Task<bool> CheckBotMention(MessageCreateEventArgs messageArgs)
         {

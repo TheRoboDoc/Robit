@@ -8,53 +8,68 @@ using static Robit.WordFilter.WordFilter;
 namespace Robit.TextAdventure
 {
     /// <summary>
-    /// Game manager responsible for running a text based adventure game instance
+    ///     Game manager responsible for running a text based adventure game instance
     /// </summary>
     public class GameManager
     {
         /// <summary>
-        /// Message to use when max turn amount is reached. Contains this string: <i>"Max turn count reached"</i>
+        ///     Message to use when max turn amount is reached. Contains this string: <i>"Max turn count reached"</i>
         /// </summary>
         public static readonly string MaxTurnReachedMessage = "Max turn count reached";
 
         /// <summary>
-        /// Array of players in the game
+        ///     Array of players in the game
         /// </summary>
         public DiscordMember[] Players { private set; get; }
 
         /// <summary>
-        /// Current turn count
+        ///     Current turn count
         /// </summary>
         public uint TurnCount { private set; get; }
 
         /// <summary>
-        /// Maximum turn count
+        ///     Maximum turn count
         /// </summary>
         public uint MaxTurnCount { private set; get; }
 
         /// <summary>
-        /// Name of the text based adventure instance
+        ///     Name of the text based adventure instance
         /// </summary>
         public string GameName { private set; get; }
 
         /// <summary>
-        /// Starting parameters of the text based adventure instance
+        ///     Starting parameters of the text based adventure instance
         /// </summary>
         private readonly string GameStartingParameters;
 
         /// <summary>
-        /// The discord thread this current text based adventure instance is happening at
+        ///     The discord thread this current text based adventure instance is happening at
         /// </summary>
         public DiscordThreadChannel Channel { private set; get; }
 
         /// <summary>
-        /// GameManager instance contructor
+        ///     GameManager instance contructor
         /// </summary>
-        /// <param name="players">The list of players participating</param>
-        /// <param name="gameName">The name of the game instance</param>
-        /// <param name="theme">The theme of the game</param>
-        /// <param name="maxTurnCountPerPlayer">Max turn count per player</param>
-        /// <param name="channel">The thread channel this instance should be happening at</param>
+        /// 
+        /// <param name="players">
+        ///     The list of players participating
+        /// </param>
+        /// 
+        /// <param name="gameName">
+        ///     The name of the game instance
+        /// </param>
+        /// 
+        /// <param name="theme">
+        ///     The theme of the game
+        /// </param>
+        /// 
+        /// <param name="maxTurnCountPerPlayer">
+        ///     Max turn count per player
+        /// </param>
+        /// 
+        /// <param name="channel">
+        ///     The thread channel this instance should be happening at
+        /// </param>
         private GameManager(DiscordMember[] players, string gameName, string theme,
                             uint maxTurnCountPerPlayer, DiscordThreadChannel channel)
         {
@@ -93,14 +108,32 @@ namespace Robit.TextAdventure
         }
 
         /// <summary>
-        /// Starts a new instance of a text based adventure game
+        ///     Starts a new instance of a text based adventure game
         /// </summary>
-        /// <param name="players">Players that will be participating</param>
-        /// <param name="gameName">The name of the game instance</param>
-        /// <param name="theme">The theme of the game instance</param>
-        /// <param name="context">Interaction context</param>
-        /// <param name="maxTurnCountPerPlayer">Maximum turn count per player</param>
-        /// <returns>Game manager instance that will be managing this instance of the text based adventure game</returns>
+        /// 
+        /// <param name="players">
+        ///     Players that will be participating
+        /// </param>
+        /// 
+        /// <param name="gameName">
+        ///     The name of the game instance
+        /// </param>
+        /// 
+        /// <param name="theme">
+        ///     The theme of the game instance
+        /// </param>
+        /// 
+        /// <param name="context">
+        ///     Interaction context
+        /// </param>
+        /// 
+        /// <param name="maxTurnCountPerPlayer">
+        ///     Maximum turn count per player
+        /// </param>
+        /// 
+        /// <returns>
+        ///     Game manager instance that will be managing this instance of the text based adventure game
+        /// </returns>
         public static async Task<GameManager> Start
             (DiscordMember[] players, string gameName, string theme, InteractionContext context, uint maxTurnCountPerPlayer)
         {
@@ -115,12 +148,15 @@ namespace Robit.TextAdventure
         }
 
         /// <summary>
-        /// Fetches all the messages that were involved in this current text based adventure game instance
+        ///     Fetches all the messages that were involved in this current text based adventure game instance
         /// </summary>
-        /// <returns>A list of discord messages</returns>
+        /// 
+        /// <returns>
+        ///     A list of discord messages
+        /// </returns>
         private async Task<List<DiscordMessage>> FetchMessages()
         {
-            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = await Channel.GetMessagesAsync();
+            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = Channel.GetMessagesAsync().ToBlockingEnumerable().ToList();
 
             List<DiscordMessage> discordMessages = new List<DiscordMessage>();
 
@@ -138,12 +174,19 @@ namespace Robit.TextAdventure
         }
 
         /// <summary>
-        /// Creates an AI response
+        ///     Creates an AI response
         /// </summary>
-        /// <param name="chatMessages">Array of messages for the AI to have context on</param>
-        /// <returns>A string containing the response generated by the AI</returns>
+        /// 
+        /// <param name="chatMessages">
+        ///     Array of messages for the AI to have context on
+        /// </param>
+        /// 
+        /// <returns>
+        ///     A string containing the response generated by the AI
+        /// </returns>
+        /// 
         /// <exception cref="NullReferenceException">
-        /// AI error where either the whole service in not setup or there was an error generating the AI response
+        ///     AI error where either the whole service in not setup or there was an error generating the AI response
         /// </exception>
         private async Task<string> CreateResponse(ChatMessage[] chatMessages)
         {
@@ -198,7 +241,7 @@ namespace Robit.TextAdventure
         }
 
         /// <summary>
-        /// A result of the turn that was ran
+        ///     A result of the turn that was ran
         /// </summary>
         public struct TurnResult
         {
@@ -207,9 +250,12 @@ namespace Robit.TextAdventure
         }
 
         /// <summary>
-        /// A method to run a game turn
+        ///     A method to run a game turn
         /// </summary>
-        /// <returns>The result of the turn</returns>
+        /// 
+        /// <returns>
+        ///     The result of the turn
+        /// </returns>
         public async Task<TurnResult> Run()
         {
             if (TurnCount >= MaxTurnCount)

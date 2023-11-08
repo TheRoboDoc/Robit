@@ -24,29 +24,28 @@ namespace Robit
         }
 
         /// <summary>
-        /// Discord client
+        ///     Discord client
         /// </summary>
         public static DiscordClient? BotClient { get; private set; }
 
         /// <summary>
-        /// OpenAI service
+        ///     OpenAI service
         /// </summary>
         public static OpenAIService? OpenAiService { get; private set; }
 
         /// <summary>
-        /// Giphy client
+        ///     Giphy client
         /// </summary>
         public static Giphy? GiphyClient { get; private set; }
 
         /// <summary>
-        /// Game manager container containing all the text based adventure game instances managed by the bot
+        ///     Game manager container containing all the text based adventure game instances managed by the bot
         /// </summary>
         public static GameManagerContainer? GameManagerContainer { get; private set; }
 
         /// <summary>
-        /// Main Thread
+        ///     Main Thread
         /// </summary>
-        /// <returns>Nothing</returns>
         static async Task MainAsync()
         {
             GiphyClient = new Giphy(Tokens.giphyToken);
@@ -83,7 +82,8 @@ namespace Robit
                 DiscordIntents.Guilds |
                 DiscordIntents.GuildPresences |
                 DiscordIntents.GuildVoiceStates |
-                DiscordIntents.GuildMessages,
+                DiscordIntents.GuildMessages |
+                DiscordIntents.GuildMembers,
 
                 MinimumLogLevel = logLevel,
                 LogUnknownEvents = DebugStatus(),
@@ -142,19 +142,47 @@ namespace Robit
 
             GameManagerContainer = new GameManagerContainer();
 
+            BotClient.GuildMemberAdded += GuildMemberAdded;
+
             //Prevents the task from ending
             await Task.Delay(-1);
+        }
+
+        /// <summary>
+        ///     Logic for what to do when a user joins a server
+        /// </summary>
+        /// 
+        /// <param name="sender">
+        ///     Discord client that triggered this event
+        /// </param>
+        /// 
+        /// <param name="args">
+        ///     Event arguments
+        /// </param>
+        private static async Task GuildMemberAdded(DiscordClient sender, GuildMemberAddEventArgs args)
+        {
+            if (!args.Guild.CurrentMember.Permissions.HasPermission(Permissions.ManageRoles))
+            {
+                return;
+            }
+
+            await Role.Auto.GiveRole(args.Guild, args.Member);
         }
 
         public static string? ChosenStatus;
 
         /// <summary>
-        /// Updates the bots status to a random predetermined value. 
-        /// This is called on hearthbeat event, thus requiring heartbeat event arguments
+        ///     Updates the bots status to a random predetermined value. 
+        ///     This is called on hearthbeat event, thus requiring heartbeat event arguments
         /// </summary>
-        /// <param name="sender">Discord client of the bot</param>
-        /// <param name="e">Heartbeat event's arguments</param>
-        /// <returns></returns>
+        /// 
+        /// <param name="sender">
+        ///     Discord client of the bot
+        /// </param>
+        /// 
+        /// <param name="e">
+        ///     Heartbeat event's arguments
+        /// </param>
         private static async Task StatusUpdate(DiscordClient sender, HeartbeatEventArgs? e = null)
         {
             Random random = new Random();
@@ -199,13 +227,19 @@ namespace Robit
         }
 
         /// <summary>
-        /// Checks if the bot is running in a debug enviroment
+        ///     Checks if the bot is running in a debug enviroment
         /// </summary>
+        /// 
         /// <returns>
-        /// <list type="bullet">
-        /// <item><c>True</c>: In debug</item>
-        /// <item><c>False</c>: Not in debug</item>
-        /// </list>
+        ///     <list type="bullet">
+        ///         <item>
+        ///             <c>True</c>: In debug
+        ///         </item>
+        /// 
+        ///         <item>
+        ///             <c>False</c>: Not in debug
+        ///         </item>
+        ///     </list>
         /// </returns>
         public static bool DebugStatus()
         {
@@ -224,11 +258,20 @@ namespace Robit
         }
 
         /// <summary>
-        /// What happens once the client is ready
+        ///     What happens once the client is ready
         /// </summary>
-        /// <param name="sender">Client that triggered this task</param>
-        /// <param name="e">Ready event arguments arguments</param>
-        /// <returns>The completed task</returns>
+        /// 
+        /// <param name="sender">
+        ///     Client that triggered this task
+        /// </param>
+        /// 
+        /// <param name="e">
+        ///     Ready event arguments arguments
+        /// </param>
+        /// 
+        /// <returns>
+        ///     The completed task
+        /// </returns>
         private static Task BotClient_Ready(DiscordClient sender, SessionReadyEventArgs e)
         {
             BotClient?.Logger.LogInformation(LoggerEvents.Startup, "Client is ready");

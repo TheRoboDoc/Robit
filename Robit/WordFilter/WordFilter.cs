@@ -8,19 +8,28 @@ using System.Text.RegularExpressions;
 namespace Robit.WordFilter
 {
     /// <summary>
-    /// Contains tools for checking out filtered words
+    ///     Contains tools for checking out filtered words
     /// </summary>
     public static class WordFilter
     {
         /// <summary>
-        /// Checks with OpenAI moderation if given sentence is allowed
+        ///     Checks with OpenAI moderation if given sentence is allowed
         /// </summary>
-        /// <param name="sentence">String content to check</param>
+        /// 
+        /// <param name="sentence">
+        ///     String content to check
+        /// </param>
+        /// 
         /// <returns>
-        /// <list type="table">
-        /// <item><c>True</c>: Content moderation triggered</item>
-        /// <item><c>False</c>: Content moderation not triggered</item>
-        /// </list>
+        ///     <list type="table">
+        ///         <item>
+        ///             <c>True</c>: Content moderation triggered
+        ///         </item>
+        ///         
+        ///         <item>
+        ///             <c>False</c>: Content moderation not triggered
+        ///         </item>
+        ///     </list>
         /// </returns>
         public static async Task<bool> AICheck(string sentence)
         {
@@ -43,12 +52,16 @@ namespace Robit.WordFilter
         }
 
         /// <summary>
-        /// Checks if the given sentence contains a blacklisted word
+        ///     Checks if the given sentence contains a blacklisted word
         /// </summary>
-        /// <param name="sentence">Sentence to check</param>
+        /// 
+        /// <param name="sentence">
+        ///     Sentence to check
+        /// </param>
+        /// 
         /// <returns>
-        /// A tuple with a bool and a string. The bool is true if a blacklisted word was detected and false otherwise.
-        /// String contains the word that was detected, otherwise the string is null.
+        ///     A tuple with a bool and a string. The bool is true if a blacklisted word was detected and false otherwise.
+        ///     String contains the word that was detected, otherwise the string is null.
         /// </returns>
         public static Tuple<bool, string?> Check(string sentence)
         {
@@ -79,10 +92,16 @@ namespace Robit.WordFilter
         }
 
         /// <summary>
-        /// Removes bunch of special characters from a given string (if any are found)
+        ///     Removes bunch of special characters from a given string (if any are found)
         /// </summary>
-        /// <param name="aString">String to clear of special characters</param>
-        /// <returns>A string with removed special characters</returns>
+        /// 
+        /// <param name="aString">
+        ///     String to clear of special characters
+        /// </param>
+        /// 
+        /// <returns>
+        ///     A string with removed special characters
+        /// </returns>
         public static string SpecialCharacterRemoval(string aString)
         {
             string pattern = @"[+`¨',.\-!""#¤%&/()=?´^*;:_§½@£$€{\[\]}~\\]";
@@ -92,10 +111,16 @@ namespace Robit.WordFilter
         }
 
         /// <summary>
-        /// Makes the user field appropriate for the OpenAI API name field
+        ///     Makes the user field appropriate for the OpenAI API name field
         /// </summary>
-        /// <param name="aString">Name to filter</param>
-        /// <returns>Filtered name</returns>
+        /// 
+        /// <param name="aString">
+        ///     Name to filter
+        /// </param>
+        /// 
+        /// <returns>
+        ///     Filtered name
+        /// </returns>
         public static string MakeNamefieldAppropriate(string aString)
         {
             string pattern = @"([a-zA-Z0-9_-]{1,64})";
