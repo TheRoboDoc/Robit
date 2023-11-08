@@ -25,6 +25,7 @@ namespace Robit
             public static readonly string channelSettings = $@"{basePath}/ChannelSettings";
             public static readonly string emoteResponsePath = $@"{basePath}/EmoteResponseData";
             public static readonly string YouTubeNotifications = $@"{basePath}/YoutubeNotifications";
+            public static readonly string Autoroles = $@"{basePath}/autoroles";
         }
 
         /// <summary>
@@ -926,6 +927,135 @@ namespace Robit
                 System.Text.Json.JsonSerializer.Serialize(fileStream, channel, jsonSerializerOptions);
 
                 fileStream.Close();
+            }
+        }
+
+        public static class AutoroleManager
+        {
+            public struct Autorole
+            {
+                public string RoleID { get; set; }
+            }
+
+            private static string IDToPath(string guildID)
+            {
+                return $"{Paths.Autoroles}/{guildID}.json";
+            }
+
+            public static List<Autorole>? ReadEntries(string guildID)
+            {
+                string path = IDToPath(guildID);
+
+                if (!FileExists(path))
+                {
+                    CreateFile(path);
+                }
+
+                string jsonString = File.ReadAllText(path);
+
+                List<Autorole>? autoroles = new List<Autorole>();
+
+                try
+                {
+                    autoroles = JsonConvert.DeserializeObject<List<Autorole>?>(jsonString);
+                }
+                catch (Exception ex)
+                {
+                    Program.BotClient?.Logger.LogWarning("{Error}", ex.Message);
+                }
+
+                return autoroles;
+            }
+
+            public static void WriteEntry(Autorole autorole, string guildID)
+            {
+                List<Autorole>? autoroles;
+
+                string path = IDToPath(guildID);
+
+                FileInfo fileInfo = new FileInfo(path);
+
+                try
+                {
+                    autoroles = ReadEntries(guildID);
+                    fileInfo.Delete();
+                }
+                catch
+                {
+                    autoroles = new List<Autorole>();
+                }
+
+                autoroles ??= new List<Autorole>();
+
+                autoroles.Add(autorole);
+
+                using StreamWriter fileStream = File.CreateText(path);
+
+                JsonSerializerSettings settings = new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented
+                };
+
+                string json = JsonConvert.SerializeObject(autoroles, settings);
+
+                fileStream.Write(json);
+            }
+
+            public static void OverwriteEntries(List<Autorole> autoroles, string guildID)
+            {
+                string path = IDToPath(guildID);
+
+                FileInfo fileInfo = new FileInfo(path);
+
+                fileInfo.Delete();
+
+                using StreamWriter fileStream = File.CreateText(path);
+
+                JsonSerializerSettings settings = new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented
+                };
+
+                string json = JsonConvert.SerializeObject(autoroles, settings);
+            }
+
+            public static async Task<bool> RemoveEntry(string roleID, string guildID)
+            {
+                List<Autorole>? autoroles;
+
+                Autorole autoroleToRemove = new Autorole();
+
+                autoroles = ReadEntries(guildID);
+
+                if (autoroles == null)
+                {
+                    return false;
+                }
+                else if (!autoroles.Any())
+                {
+                    return false;
+                }
+
+                await Task.Run(() =>
+                {
+                    foreach (Autorole autorole in autoroles)
+                    {
+                        if (autorole.RoleID == roleID)
+                        {
+                            autoroleToRemove = autorole;
+                            break;
+                        }
+                    }
+                });
+
+                if (!autoroles.Remove(autoroleToRemove))
+                {
+                    return false;
+                }
+
+                OverwriteEntries(autoroles, guildID);
+
+                return true;
             }
         }
     }
