@@ -4,8 +4,17 @@ using static Robit.FileManager.AutoroleManager;
 
 namespace Robit.Role
 {
+    /// <summary>
+    /// A set of methods to manage automatic role functions
+    /// </summary>
     public static class Auto
     {
+        /// <summary>
+        /// Give a role to a discord user
+        /// </summary>
+        /// <param name="guild">Guild the user is at</param>
+        /// <param name="member">User to give the role to</param>
+        /// <returns></returns>
         public static async Task GiveRole(DiscordGuild guild, DiscordMember member)
         {
             List<Autorole>? autoroles = ReadEntries(guild.Id.ToString());

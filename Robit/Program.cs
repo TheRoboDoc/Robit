@@ -149,6 +149,11 @@ namespace Robit
             await Task.Delay(-1);
         }
 
+        /// <summary>
+        /// Logic for what to do when a user joins a server
+        /// </summary>
+        /// <param name="sender">Discord client that triggered this event</param>
+        /// <param name="args">Event arguments</param>
         private static async Task GuildMemberAdded(DiscordClient sender, GuildMemberAddEventArgs args)
         {
             if (!args.Guild.CurrentMember.Permissions.HasPermission(Permissions.ManageRoles))

@@ -930,18 +930,34 @@ namespace Robit
             }
         }
 
+        /// <summary>
+        /// Set of methods to manage autoroles
+        /// </summary>
         public static class AutoroleManager
         {
+            /// <summary>
+            /// Autorole struct
+            /// </summary>
             public struct Autorole
             {
                 public string RoleID { get; set; }
             }
 
+            /// <summary>
+            /// Converts a given guild id to a path to the corresponding json file
+            /// </summary>
+            /// <param name="guildID">Guild ID</param>
+            /// <returns>Path to the json file corresponding to the guild ID</returns>
             private static string IDToPath(string guildID)
             {
                 return $"{Paths.Autoroles}/{guildID}.json";
             }
 
+            /// <summary>
+            /// Reads all the autorole entries of a guild
+            /// </summary>
+            /// <param name="guildID">Guild ID</param>
+            /// <returns>A list of autoroles that a guild has</returns>
             public static List<Autorole>? ReadEntries(string guildID)
             {
                 string path = IDToPath(guildID);
@@ -967,6 +983,11 @@ namespace Robit
                 return autoroles;
             }
 
+            /// <summary>
+            /// Writes an autorole entry for a guild
+            /// </summary>
+            /// <param name="autorole">Autorole to write</param>
+            /// <param name="guildID">Guild to add the entry to</param>
             public static void WriteEntry(Autorole autorole, string guildID)
             {
                 List<Autorole>? autoroles;
@@ -1001,6 +1022,11 @@ namespace Robit
                 fileStream.Write(json);
             }
 
+            /// <summary>
+            /// Overwrites all of autorole entries with a new list of autorole entries
+            /// </summary>
+            /// <param name="autoroles">Autoroles to overwrite with</param>
+            /// <param name="guildID">Guild ID of the guild</param>
             public static void OverwriteEntries(List<Autorole> autoroles, string guildID)
             {
                 string path = IDToPath(guildID);
@@ -1019,6 +1045,21 @@ namespace Robit
                 string json = JsonConvert.SerializeObject(autoroles, settings);
             }
 
+            /// <summary>
+            /// Removes a autorole entry
+            /// </summary>
+            /// <param name="roleID">ID of the autorole to remove</param>
+            /// <param name="guildID">ID of the guild to remove from</param>
+            /// <returns>
+            /// <list type="table">
+            /// <item>
+            /// True: Entry removed successfully
+            /// </item>
+            /// <item>
+            /// False: Entry removal failed
+            /// </item>
+            /// </list>
+            /// </returns>
             public static async Task<bool> RemoveEntry(string roleID, string guildID)
             {
                 List<Autorole>? autoroles;
