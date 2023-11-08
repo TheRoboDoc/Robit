@@ -120,7 +120,7 @@ namespace Robit.TextAdventure
         /// <returns>A list of discord messages</returns>
         private async Task<List<DiscordMessage>> FetchMessages()
         {
-            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = await Channel.GetMessagesAsync();
+            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = Channel.GetMessagesAsync().ToBlockingEnumerable().ToList();
 
             List<DiscordMessage> discordMessages = new List<DiscordMessage>();
 
