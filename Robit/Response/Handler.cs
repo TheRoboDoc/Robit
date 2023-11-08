@@ -139,7 +139,7 @@ namespace Robit.Response
 
             _ = Task.Run(async () =>
             {
-                while(typing)
+                while (typing)
                 {
                     await replyIn.TriggerTypingAsync();
 
