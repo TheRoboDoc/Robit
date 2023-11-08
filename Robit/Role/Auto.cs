@@ -1,4 +1,5 @@
 ﻿using DSharpPlus.Entities;
+using Microsoft.Extensions.Logging;
 using static Robit.FileManager.AutoroleManager;
 
 namespace Robit.Role
@@ -21,7 +22,14 @@ namespace Robit.Role
                     break;
                 }
 
-                await member.GrantRoleAsync(guild.GetRole(id), "Automatic role");
+                try
+                {
+                    await member.GrantRoleAsync(guild.GetRole(id), "Automatic role");
+                }
+                catch
+                {
+                    Program.BotClient?.Logger.LogWarning("Failed to add role in {guild} ID: {ID}", guild.Name, guild.Id);
+                }
             }
         }
     }
