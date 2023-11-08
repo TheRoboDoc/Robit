@@ -1494,6 +1494,43 @@ namespace Robit.Command
 
                 await ctx.CreateResponseAsync($"Automatic role {role.Mention} has been removed", !visible);
             }
+
+            [SlashCommand("List", "List automatic roles on the server")]
+            public static async Task List(InteractionContext ctx,
+            [Option("Visible", "Sets the visibility", true)]
+            [DefaultValue(false)]
+            bool visible = false)
+            {
+                DiscordGuild guild = ctx.Guild;
+
+                List<AutoroleManager.Autorole>? roles = AutoroleManager.ReadEntries(guild.Id.ToString());
+
+                if (roles == null || !roles.Any())
+                {
+                    await ctx.CreateResponseAsync("Server has no autoroles");
+                    return;
+                }
+
+                string messageText = "";
+
+                foreach (AutoroleManager.Autorole autorole in roles)
+                {
+                    if (!ulong.TryParse(autorole.RoleID, out ulong id))
+                    {
+                        break;
+                    }
+
+                    messageText += $"{guild.GetRole(id).Mention}\n";
+                }
+
+                DiscordEmbedBuilder embded = new DiscordEmbedBuilder();
+
+                embded.WithColor(DiscordColor.Purple);
+                embded.WithTitle($"Autoroles in the {guild.Name} server");
+                embded.WithDescription(messageText);
+
+                await ctx.CreateResponseAsync(embded, !visible);
+            }
         }
         #endregion
     }
