@@ -6,32 +6,56 @@ using static Robit.FileManager.ResponseManager;
 namespace Robit.Response
 {
     /// <summary>
-    /// Handles autoresponses
+    ///     Handles autoresponses
     /// </summary>
     public static class Auto
     {
         /// <summary>
-        /// Checks for saved auto responses and generates an appropriate response
+        ///     Checks for saved auto responses and generates an appropriate response
         /// </summary>
-        /// <param name="messageArgs">Discord message creation arguments</param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Discord message creation arguments
+        /// </param>
+        /// 
         /// <returns>
-        /// <list type="table">
-        /// <listheader>A tuple containing response information</listheader>
-        /// <item>
-        /// <list type="table">
-        /// <listheader>Item1 (bool)</listheader>
-        /// <item>True: Generation succeeded</item>
-        /// <item>False: Generation failed</item>
-        /// </list>
-        /// </item>
-        /// <item>
-        /// <list type="table">
-        /// <listheader>Item2 (string)</listheader>
-        /// <item>Generation successful: Generation result</item>
-        /// <item>Generation failiure: Fail reason</item>
-        /// </list>
-        /// </item>
-        /// </list>
+        ///     <list type="table">
+        ///         <listheader>
+        ///             A tuple containing response information
+        ///         </listheader>
+        ///         
+        ///         <item>
+        ///             <list type="table">
+        ///                 <listheader>
+        ///                     Item1 (bool)
+        ///                 </listheader>
+        ///                 
+        ///                 <item>
+        ///                     True: Generation succeeded
+        ///                 </item>
+        ///                 
+        ///                 <item>
+        ///                     False: Generation failed
+        ///                 </item>
+        ///             </list>
+        ///         </item>
+        ///         
+        ///         <item>
+        ///             <list type="table">
+        ///                 <listheader>
+        ///                     Item2 (string)
+        ///                 </listheader>
+        ///                 
+        ///                 <item>
+        ///                     Generation successful: Generation result
+        ///                 </item>
+        ///                 
+        ///                 <item>
+        ///                     Generation failiure: Fail reason
+        ///                 </item>
+        ///             </list>
+        ///         </item>
+        ///     </list>
         /// </returns>
         public static async Task<Tuple<bool, string>> GenerateAutoResponse(MessageCreateEventArgs messageArgs)
         {
@@ -68,27 +92,51 @@ namespace Robit.Response
         }
 
         /// <summary>
-        /// Checks for saved auto reacts and generates an appropriate reaction response
+        ///     Checks for saved auto reacts and generates an appropriate reaction response
         /// </summary>
-        /// <param name="messageArgs">Discord message creation arguments</param>
+        /// 
+        /// <param name="messageArgs">
+        ///     Discord message creation arguments
+        /// </param>
+        /// 
         /// <returns>
-        /// <list type="table">
-        /// <listheader>A tuple containing react response information</listheader>
-        /// <item>
-        /// <list type="table">
-        /// <listheader>Item1 (bool)</listheader>
-        /// <item>True: Generation succeeded</item>
-        /// <item>False: Generation failed</item>
-        /// </list>
-        /// </item>
-        /// <item>
-        /// <list type="table">
-        /// <listheader>Item2 (string)</listheader>
-        /// <item>Generation successful: Generation result</item>
-        /// <item>Generation failiure: Fail reason</item>
-        /// </list>
-        /// </item>
-        /// </list>
+        ///     <list type="table">
+        ///         <listheader>
+        ///             A tuple containing react response information
+        ///         </listheader>
+        ///         
+        ///         <item>
+        ///             <list type="table">
+        ///                 <listheader>
+        ///                     Item1 (bool)
+        ///                 </listheader>
+        ///                 
+        ///                 <item>
+        ///                     True: Generation succeeded
+        ///                 </item>
+        ///                 
+        ///                 <item>
+        ///                     False: Generation failed
+        ///                 </item>
+        ///             </list>
+        ///         </item>
+        ///         
+        ///         <item>
+        ///             <list type="table">
+        ///                 <listheader>
+        ///                     Item2 (string)
+        ///                 </listheader>
+        ///                 
+        ///                 <item>
+        ///                     Generation successful: Generation result
+        ///                 </item>
+        ///                 
+        ///                 <item>
+        ///                     Generation failiure: Fail reason
+        ///                 </item>
+        ///             </list>
+        ///         </item>
+        ///     </list>
         /// </returns>
         public static async Task<Tuple<bool, string>> GenerateAutoReact(MessageCreateEventArgs messageArgs)
         {
