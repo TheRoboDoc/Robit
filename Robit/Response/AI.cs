@@ -24,6 +24,8 @@ namespace Robit.Response
         /// </summary>
         public static class Functions
         {
+            //OpenAI.Playground/TestHelpers/ChatCompletionTestHelper.cs
+
             public static readonly EventId AIFunctionEvent = new EventId(202, "AI Function Event");
 
             public static readonly List<string> DiceTypes = Enum.GetNames(typeof(Command.SlashCommands.RandomCommands.DiceTypes)).ToList();
@@ -35,7 +37,7 @@ namespace Robit.Response
             /// <returns>
             ///     A list of function definitions for the AI to use
             /// </returns>
-            public static List<FunctionDefinition> GetFunctions()
+            public static List<ToolDefinition> GetFunctions()
             {
                 List<FunctionDefinition> functionDefinitions = new()
                 {
@@ -65,7 +67,14 @@ namespace Robit.Response
                         .Build()
                 };
 
-                return functionDefinitions;
+                List<ToolDefinition> toolDefinitions = new();
+
+                foreach (FunctionDefinition functionDefinition in functionDefinitions)
+                {
+                    toolDefinitions.Add(ToolDefinition.DefineFunction(functionDefinition));
+                }
+
+                return toolDefinitions;
             }
 
             /// <summary>
@@ -720,7 +729,7 @@ namespace Robit.Response
                 Temperature = 1,
                 FrequencyPenalty = 1.1F,
                 PresencePenalty = 1,
-                Functions = Functions.GetFunctions()
+                Tools = Functions.GetFunctions()
             });
 
             string response;
@@ -730,54 +739,59 @@ namespace Robit.Response
             {
                 response = completionResult.Choices.First().Message.Content;
 
-                FunctionCall? function = completionResult.Choices.First().Message.FunctionCall;
+                List<ToolCall>? functions = (List<ToolCall>?)completionResult.Choices.First().Message.ToolCalls;
 
-                if (function != null)
+                if (functions != null)
                 {
-                    switch (function.Name)
+                    foreach (ToolCall? toolCall in functions)
                     {
-                        case "get_gif":
-                            string? gifLink = Functions.GetGif(function.ParseArguments().First().Value.ToString());
+                        FunctionCall? function = toolCall?.FunctionCall;
 
-                            response = string.Concat(response, gifLink, "\n`Powered Giphy`");
-                            break;
+                        switch (function?.Name)
+                        {
+                            case "get_gif":
+                                string? gifLink = Functions.GetGif(function.ParseArguments().First().Value.ToString());
 
-                        case "get_40k_quote_by_author":
-                            string? quotea = Functions.Get40kQuoteByAuthor(function.ParseArguments().First().Value.ToString());
+                                response = string.Concat(response, gifLink, "\n`Powered Giphy`");
+                                break;
 
-                            response = string.Concat(response, quotea);
-                            break;
+                            case "get_40k_quote_by_author":
+                                string? quotea = Functions.Get40kQuoteByAuthor(function.ParseArguments().First().Value.ToString());
 
-                        case "get_40k_quote_by_source":
-                            string? quotes = Functions.Get40kQuoteBySource(function.ParseArguments().First().Value.ToString());
+                                response = string.Concat(response, quotea);
+                                break;
 
-                            response = string.Concat(response, quotes);
-                            break;
+                            case "get_40k_quote_by_source":
+                                string? quotes = Functions.Get40kQuoteBySource(function.ParseArguments().First().Value.ToString());
 
-                        case "get_40k_quote_random":
-                            string? quoter = Functions.Get40kQuoteRandom();
+                                response = string.Concat(response, quotes);
+                                break;
 
-                            response = string.Concat(response, quoter);
-                            break;
+                            case "get_40k_quote_random":
+                                string? quoter = Functions.Get40kQuoteRandom();
 
-                        case "roll_dice":
-                            string? diceResult;
+                                response = string.Concat(response, quoter);
+                                break;
 
-                            try
-                            {
-                                diceResult = Functions.RollDice(function.ParseArguments().ElementAt(0).Value.ToString(),
-                                                                int.Parse(function.ParseArguments().ElementAt(1).Value.ToString() ?? "1"));
-                            }
-                            catch (FormatException e)
-                            {
-                                Program.BotClient?.Logger.LogWarning(Functions.AIFunctionEvent, "Failed to parse AI given values. Exception: \n{message}", e.Message);
+                            case "roll_dice":
+                                string? diceResult;
 
-                                diceResult = "**System:** Failed to parse AI given values to function call";
-                            }
+                                try
+                                {
+                                    diceResult = Functions.RollDice(function.ParseArguments().ElementAt(0).Value.ToString(),
+                                                                    int.Parse(function.ParseArguments().ElementAt(1).Value.ToString() ?? "1"));
+                                }
+                                catch (FormatException e)
+                                {
+                                    Program.BotClient?.Logger.LogWarning(Functions.AIFunctionEvent, "Failed to parse AI given values. Exception: \n{message}", e.Message);
+
+                                    diceResult = "**System:** Failed to parse AI given values to function call";
+                                }
 
 
-                            response = string.Concat(response, diceResult);
-                            break;
+                                response = string.Concat(response, diceResult);
+                                break;
+                        }
                     }
                 }
 
