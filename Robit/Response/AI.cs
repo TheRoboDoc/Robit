@@ -167,9 +167,9 @@ namespace Robit.Response
                 // Count the frequency of each number
                 foreach (int rolledValue in rolledValues)
                 {
-                    if (frequencyMap.ContainsKey(rolledValue))
+                    if (frequencyMap.TryGetValue(rolledValue, out int value))
                     {
-                        frequencyMap[rolledValue]++;
+                        frequencyMap[rolledValue] = ++value;
                     }
                     else
                     {
@@ -732,7 +732,7 @@ namespace Robit.Response
                 Tools = Functions.GetFunctions()
             });
 
-            string response;
+            string? response;
 
             //If we get a proper result from OpenAI
             if (completionResult.Successful)
@@ -825,6 +825,11 @@ namespace Robit.Response
                 Program.BotClient?.Logger.LogError(AIEvent, "{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
 
                 return Tuple.Create(false, $"OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}");
+            }
+
+            if (response == null)
+            {
+                throw new NullReferenceException("Null response message");
             }
 
             return Tuple.Create(true, response);
@@ -924,7 +929,7 @@ namespace Robit.Response
                 User = ctx.User.Id.ToString(),
             });
 
-            string response;
+            string? response;
 
             //If we get a proper result from OpenAI
             if (completionResult.Successful)
@@ -955,6 +960,11 @@ namespace Robit.Response
                 Program.BotClient?.Logger.LogError(AIEvent, "{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
 
                 return Tuple.Create(false, $"OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}");
+            }
+
+            if (response == null)
+            {
+                return Tuple.Create(false, "Failed to generate response");
             }
 
             return Tuple.Create(true, response);
