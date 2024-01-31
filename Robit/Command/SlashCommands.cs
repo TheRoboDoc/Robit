@@ -1545,14 +1545,15 @@ namespace Robit.Command
 
                 DiscordChannel? channel = ctx.Member.VoiceState?.Channel;
 
-                Program.BotClient?.Logger.LogDebug("{channelName}", channel.Name);
+                Program.BotClient?.Logger.LogDebug("{channelName}", channel?.Name);
 
-                if (ctx.Member.VoiceState.Equals(null))
+                if (ctx.Member.VoiceState == null)
                 {
                     await ctx.CreateResponseAsync("You are not in a voice channel", true);
                     return;
                 }
 
+#pragma warning disable CS8604 // Possible null reference argument.
                 if (Program.AudioPlayers.Where(player => player.Channel == channel).Any())
                 {
                     AudioPlayer oldAudioPlayer = Program.AudioPlayers.Where(player => player.Channel == channel).First();
@@ -1584,6 +1585,7 @@ namespace Robit.Command
             {
                 DiscordChannel? channel = ctx.Member.VoiceState?.Channel;
 
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
                 if (ctx.Member.VoiceState == null || channel == null)
                 {
                     await ctx.CreateResponseAsync("You are not in a voice channel", true);
@@ -1638,7 +1640,8 @@ namespace Robit.Command
                     await ctx.CreateResponseAsync("You are not in a voice channel", true);
                     return;
                 }
-
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+#pragma warning restore CS8604 // Possible null reference argument.
                 AudioPlayer audioPlayer = Program.AudioPlayers.Where(player => player.Channel == channel).First();
 
                 await audioPlayer.Pause();

@@ -122,10 +122,15 @@ namespace Robit
 
                 Program.BotClient?.Logger.LogDebug("Created stream");
 
-                transmit = connection.GetTransmitSink();
+                transmit = connection?.GetTransmitSink();
 
                 _ = Task.Run(async () =>
                 {
+                    if (transmit == null)
+                    {
+                        return;
+                    }
+
                     await pcm.CopyToAsync(transmit);
 
                     Skipping = true;
