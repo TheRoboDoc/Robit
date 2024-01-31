@@ -4,6 +4,7 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
+using DSharpPlus.VoiceNext;
 using GiphyDotNet.Manager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -42,6 +43,8 @@ namespace Robit
         ///     Game manager container containing all the text based adventure game instances managed by the bot
         /// </summary>
         public static GameManagerContainer? GameManagerContainer { get; private set; }
+
+        public static List<AudioPlayer> AudioPlayers = new();
 
         /// <summary>
         ///     Main Thread
@@ -83,7 +86,8 @@ namespace Robit
                 DiscordIntents.GuildPresences |
                 DiscordIntents.GuildVoiceStates |
                 DiscordIntents.GuildMessages |
-                DiscordIntents.GuildMembers,
+                DiscordIntents.GuildMembers |
+                DiscordIntents.GuildVoiceStates,
 
                 MinimumLogLevel = logLevel,
                 LogUnknownEvents = DebugStatus(),
