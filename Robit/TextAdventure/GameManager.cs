@@ -285,6 +285,11 @@ namespace Robit.TextAdventure
                 {
                     if (string.IsNullOrEmpty(discordMessage.Content)) continue;
 
+                    if (Program.BotClient == null)
+                    {
+                        continue;
+                    }
+
                     if (discordMessage.Author == Program.BotClient.CurrentUser)
                     {
                         messages.Add(ChatMessage.FromAssistant(discordMessage.Content));
