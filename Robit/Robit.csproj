@@ -73,6 +73,219 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Audio\Fallout New Vegas Radio - Aint that a kick in the head [Ly7625p29vA].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Aint that a kick in the head.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - American Swing [58MZ8ECtPTw].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - American Swing.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Big Iron [03dJCwg_ibg].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Big Iron.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Blues for you.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Cobwebs and Rainbows.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Concerto For 2 VI Str In D Minor.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Concerto Gross In B Minor Allegro 1.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Concerto In B Minor Allegro 2.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Flower Duet.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Four Seasons 4 The Winter.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Goin Under [e2vSaOCAp0M].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Goin Under.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Hallo Mister X [M_hUepNd52Q].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Hallo Mister X.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Happy Times [1Qye2uNicbY].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Happy Times.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Heartaches by the Numbers [YRECjIHIO5A].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Heartaches by the Numbers.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Home On The Wastes.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - I%27m Moving Out [DMjBnLN2_ME].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - I%27m Moving Out.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - I%27m So Blue [Kp9hIeC828o].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - I%27m So Blue.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - In The Shadow Of The Valley [9lrWx7-PiUM].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - In The Shadow Of The Valley.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - It%27s A Sin To Tell A Lie [eP9nD0TsqEI].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - It%27s A Sin To Tell A Lie.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Its A Sin.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Jazz Blues.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Jazz Club Blues.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Jingle Jangle Jingle.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Joe Cool.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Johnny Gitar.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Lazy Day Blues [DVzUAqbAaaw].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Lazy Day Blues.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Let%27s Ride Into The Sunset Together [OD4hSJybyCY].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Let%27s Ride Into The Sunset Together.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Lone Star [Op8T7MltzbU].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Lone Star.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Love Me As Though No Tomorrow [hvN3zMPn4fk].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Love Me As Though No Tomorrow.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Mad About The Boy [kgOkwV5xX8w].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Mad About The Boy.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - New Vegas Valley.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Piano Corcert No 21 Elvira Madigan.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Ride Of The Valkyries.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Roundhouse Rock [PemXuiZ0iAc].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Roundhouse Rock.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Sit And Dream [VcLk3fQ3Zwg].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Sit And Dream.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Sleepy Town Blues.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Slow Bounce [8gJv_NdTyZ0].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Slow Bounce.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Slow Sax.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Something Gotta Give [5K7Q409AWKk].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Something Gotta Give.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Spring Song.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Stars Of The Midnight Ranger [IXcZemHTOkk].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Stars Of The Midnight Ranger.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Strahlende Tropete [hXTT8ZkwJ_o].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Strahlende Tropete.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Streets Of New Reno.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Von Spanien Nach S Damerika [pHSD_SzOBHM].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Von Spanien Nach S Damerika.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Where Have You Been All My Life [7jKA8bKfIic].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Where Have You Been All My Life.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Why Don%27t You Do Right [gX89Y7AgoXw].webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Audio\Fallout New Vegas Radio - Why Don%27t You Do Right.webm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\RobitThink.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -91,6 +304,10 @@
     <None Update="Tokens\token.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Audio\" />
   </ItemGroup>
 
 </Project>
