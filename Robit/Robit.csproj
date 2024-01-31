@@ -39,10 +39,11 @@
 
   <ItemGroup>
     <PackageReference Include="Betalgo.OpenAI" Version="7.4.3" />
-    <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-01861" />
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="5.0.0-nightly-01861" />
-    <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-01861" />
-    <PackageReference Include="DSharpPlus.SlashCommands" Version="5.0.0-nightly-01861" />
+    <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-01886" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="5.0.0-nightly-01886" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-01886" />
+    <PackageReference Include="DSharpPlus.SlashCommands" Version="5.0.0-nightly-01886" />
+    <PackageReference Include="DSharpPlus.VoiceNext" Version="5.0.0-nightly-01886" />
     <PackageReference Include="GiphyDotNet" Version="2.4.0" />
     <PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
   </ItemGroup>
