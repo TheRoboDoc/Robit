@@ -6,14 +6,29 @@ using System.Text.RegularExpressions;
 
 namespace Robit
 {
+    /// <summary>
+    ///     Audio player for handling audio playing for each individual guild
+    /// </summary>
     public class AudioPlayer
     {
+        /// <summary>
+        ///     Channel where audio is playing
+        /// </summary>
         public DiscordChannel Channel { private set; get; }
 
+        /// <summary>
+        ///     Channel play was ordered from
+        /// </summary>
         public DiscordChannel TextChannel { private set; get; }
 
+        /// <summary>
+        ///     Folder with the audio files
+        /// </summary>
         public string FolderPath { private set; get; }
 
+        /// <summary>
+        ///     Current playing song
+        /// </summary>
         public string? CurrentSong { private set; get; } = null;
 
         private readonly bool Loop;
@@ -53,6 +68,10 @@ namespace Robit
             TextChannel = textChannel;
         }
 
+        /// <summary>
+        ///     Play music
+        /// </summary>
+        /// <exception cref="NullReferenceException">Failed to start ffmpeg</exception>
         public async Task Play()
         {
             Random rnd = new();
@@ -145,6 +164,9 @@ namespace Robit
             Program.BotClient?.Logger.LogDebug("The loop has been exited");
         }
 
+        /// <summary>
+        ///     Skip a song
+        /// </summary>
         public async Task Skip()
         {
             await Task.Run(() =>
@@ -153,6 +175,9 @@ namespace Robit
             });
         }
 
+        /// <summary>
+        ///     Disconnect from the channel and stop playback
+        /// </summary>
         public async Task Disconnect()
         {
             ffmpeg?.Kill();
@@ -182,6 +207,9 @@ namespace Robit
 
         private bool paused = false;
 
+        /// <summary>
+        ///     Toggle pause
+        /// </summary>
         public async Task Pause()
         {
             await Task.Run(() =>

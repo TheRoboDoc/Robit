@@ -44,6 +44,9 @@ namespace Robit
         /// </summary>
         public static GameManagerContainer? GameManagerContainer { get; private set; }
 
+        /// <summary>
+        ///     List of active audio players
+        /// </summary>
         public static List<AudioPlayer> AudioPlayers = new();
 
         /// <summary>
