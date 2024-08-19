@@ -660,8 +660,6 @@ namespace Robit.Response
                 discordMessages.Add(discordMessage);
             }
 
-            discordMessages.Reverse();
-
             //Feeding the AI request the latest 20 messages
             foreach (DiscordMessage discordMessage in discordMessages)
             {
