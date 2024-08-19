@@ -710,6 +710,13 @@ namespace Robit.Response
                 return Tuple.Create(false, "OpenAI service isn't on, if error presists contact RoboDoc");
             }
 
+            List<ToolDefinition> toolDefinitions = new List<ToolDefinition>();
+
+            foreach (FunctionDefinition function in Functions.GetFunctions())
+            {
+                toolDefinitions.Add(ToolDefinition.DefineFunction(function));
+            }
+
             //Sending OpenAI API request for chat reply
             ChatCompletionCreateResponse completionResult = await Program.OpenAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
             {
@@ -720,17 +727,17 @@ namespace Robit.Response
                 Temperature = 1,
                 FrequencyPenalty = 1.1F,
                 PresencePenalty = 1,
-                Functions = Functions.GetFunctions()
+                Tools = toolDefinitions
             });
 
-            string response;
+            string response = "";
 
             //If we get a proper result from OpenAI
             if (completionResult.Successful)
             {
-                response = completionResult.Choices.First().Message.Content;
+                response += completionResult.Choices.First().Message.Content;
 
-                FunctionCall? function = completionResult.Choices.First().Message.FunctionCall;
+                FunctionCall? function = completionResult.Choices.First().Message.ToolCalls?.FirstOrDefault()?.FunctionCall;
 
                 if (function != null)
                 {
@@ -910,12 +917,12 @@ namespace Robit.Response
                 User = ctx.User.Id.ToString(),
             });
 
-            string response;
+            string response = "";
 
             //If we get a proper result from OpenAI
             if (completionResult.Successful)
             {
-                response = completionResult.Choices.First().Message.Content;
+                response += completionResult.Choices.First().Message.Content;
 
                 if (AICheck(response).Result)
                 {
