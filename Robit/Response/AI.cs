@@ -666,7 +666,7 @@ namespace Robit.Response
             List<ChatMessage> messages = GetSetUpMessages(displayName, discriminator, userID, messageArgs).ToList();
 
             //Have to do it this way because otherwise it just doesn't work
-            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(15).ToBlockingEnumerable().ToList();
+            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(20).ToBlockingEnumerable().ToList();
 
             List<DiscordMessage> discordMessages = new List<DiscordMessage>();
 
