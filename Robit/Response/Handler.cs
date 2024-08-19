@@ -37,6 +37,28 @@ namespace Robit.Response
 
             // Checking if we need to respond at all depending on channel settings
             ChannelManager.Channel channelSettings = ChannelManager.ReadChannelInfo(messageArgs.Guild.Id.ToString(), messageArgs.Channel.Id.ToString());
+                                      //Hag Breeders Anonymous                      //Testing Server
+            if (messageArgs.Guild.Id == 884936240321929277 || messageArgs.Guild.Id == 766478619513585675)
+            {
+                string trigger = "give sauce";
+
+                Program.BotClient.Logger.LogDebug(messageArgs.Message.Content);
+                Program.BotClient.Logger.LogDebug(messageArgs.Message.Content.Length.ToString());
+                Program.BotClient.Logger.LogDebug(($"{Program.BotClient?.CurrentUser.Mention} {trigger}".Length + 5).ToString());
+
+                if (messageArgs.Message.Content.Contains(trigger) &&
+                    messageArgs.Message.Content.Length <= $"{Program.BotClient?.CurrentUser.Mention} {trigger}".Length + 5 &&
+                    await CheckBotMention(messageArgs))
+                {
+                    Random rnd = new Random();
+
+                    int number = rnd.Next(1, 60000);
+
+                    await messageArgs.Message.RespondAsync(number.ToString());
+
+                    return;
+                }
+            }
 
             bool responded = await AutoRespond(messageArgs, channelSettings);
 
