@@ -42,9 +42,27 @@ namespace Robit.Response
             {
                 string trigger = "give sauce";
 
-                Program.BotClient.Logger.LogDebug(messageArgs.Message.Content);
-                Program.BotClient.Logger.LogDebug(messageArgs.Message.Content.Length.ToString());
-                Program.BotClient.Logger.LogDebug(($"{Program.BotClient?.CurrentUser.Mention} {trigger}".Length + 5).ToString());
+                Program.BotClient?.Logger.LogDebug("{message}" ,messageArgs.Message.Content);
+                Program.BotClient?.Logger.LogDebug("{message}", messageArgs.Message.Content.Length.ToString());
+                Program.BotClient?.Logger.LogDebug("{message}", ($"{Program.BotClient?.CurrentUser.Mention} {trigger}".Length + 5).ToString());
+
+                if (messageArgs.Message.Content.Contains(trigger) &&
+                    messageArgs.Message.Content.Length <= $"{Program.BotClient?.CurrentUser.Mention} {trigger}".Length + 5 &&
+                    await CheckBotMention(messageArgs))
+                {
+                    Random rnd = new Random();
+
+                    int number = rnd.Next(1, 60000);
+
+                    await messageArgs.Message.RespondAsync(number.ToString());
+
+                    return;
+                }
+            }
+
+            if (messageArgs.Guild.Id == 884936240321929277 || messageArgs.Guild.Id == 766478619513585675)
+            {
+                string trigger = "give sauce";
 
                 if (messageArgs.Message.Content.Contains(trigger) &&
                     messageArgs.Message.Content.Length <= $"{Program.BotClient?.CurrentUser.Mention} {trigger}".Length + 5 &&
