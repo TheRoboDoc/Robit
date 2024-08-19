@@ -1025,9 +1025,9 @@ namespace Robit.Command
                 // Count the frequency of each number
                 foreach (int rolledValue in rolledValues)
                 {
-                    if (frequencyMap.ContainsKey(rolledValue))
+                    if (frequencyMap.TryGetValue(rolledValue, out int value))
                     {
-                        frequencyMap[rolledValue]++;
+                        frequencyMap[rolledValue] = ++value;
                     }
                     else
                     {

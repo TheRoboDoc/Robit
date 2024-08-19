@@ -9,27 +9,35 @@
     <Title>Robit</Title>
     <Authors>RoboDoc</Authors>
     <Platforms>AnyCPU;x64</Platforms>
+    <StartupObject>Robit.Program</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants></DefineConstants>
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DefineConstants />
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants></DefineConstants>
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DefineConstants />
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Audio\**" />
     <Compile Remove="Binaries\**" />
+    <EmbeddedResource Remove="Audio\**" />
     <EmbeddedResource Remove="Binaries\**" />
+    <None Remove="Audio\**" />
     <None Remove="Binaries\**" />
   </ItemGroup>
 
@@ -38,11 +46,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Betalgo.OpenAI" Version="7.3.1" />
-    <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-01861" />
-    <PackageReference Include="DSharpPlus.CommandsNext" Version="5.0.0-nightly-01861" />
-    <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-01861" />
-    <PackageReference Include="DSharpPlus.SlashCommands" Version="5.0.0-nightly-01861" />
+    <PackageReference Include="Betalgo.OpenAI" Version="8.6.1" />
+    <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-01886" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="5.0.0-nightly-01886" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-01886" />
+    <PackageReference Include="DSharpPlus.SlashCommands" Version="5.0.0-nightly-01886" />
+    <PackageReference Include="DSharpPlus.VoiceNext" Version="5.0.0-nightly-01886" />
     <PackageReference Include="GiphyDotNet" Version="2.4.0" />
     <PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
   </ItemGroup>

@@ -206,7 +206,7 @@ namespace Robit.TextAdventure
                 User = Players.First().Id.ToString(),
             });
 
-            string response;
+            string? response;
 
             if (completionResult.Successful)
             {
@@ -235,6 +235,11 @@ namespace Robit.TextAdventure
                     completionResult.Error.Code, completionResult.Error.Message);
 
                 return $"System: OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}";
+            }
+
+            if (response == null)
+            {
+                return "System: No response was generated. Sorry";
             }
 
             return response;
@@ -276,11 +281,16 @@ namespace Robit.TextAdventure
 
             await Task.Run(() =>
             {
-                foreach (DiscordMessage discordMessage in discordMessages)
+                foreach (DiscordMessage? discordMessage in discordMessages)
                 {
                     if (string.IsNullOrEmpty(discordMessage.Content)) continue;
 
-                    if (discordMessage.Author == Program.BotClient?.CurrentUser)
+                    if (Program.BotClient == null)
+                    {
+                        continue;
+                    }
+
+                    if (discordMessage.Author == Program.BotClient.CurrentUser)
                     {
                         messages.Add(ChatMessage.FromAssistant(discordMessage.Content));
                     }

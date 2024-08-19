@@ -4,6 +4,7 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
+using DSharpPlus.VoiceNext;
 using GiphyDotNet.Manager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -83,7 +84,8 @@ namespace Robit
                 DiscordIntents.GuildPresences |
                 DiscordIntents.GuildVoiceStates |
                 DiscordIntents.GuildMessages |
-                DiscordIntents.GuildMembers,
+                DiscordIntents.GuildMembers |
+                DiscordIntents.GuildVoiceStates,
 
                 MinimumLogLevel = logLevel,
                 LogUnknownEvents = DebugStatus(),
@@ -94,10 +96,14 @@ namespace Robit
             BotClient = new DiscordClient(config);
             #endregion
 
+            BotClient.Logger.LogInformation(LoggerEvents.Startup, "Setting up interactivity...");
+
             BotClient.UseInteractivity(new InteractivityConfiguration());
 
             ServiceProvider services = new ServiceCollection()
                 .BuildServiceProvider();
+
+            BotClient.Logger.LogInformation(LoggerEvents.Startup, "Registering slash commands...");
 
             #region Command setup
             SlashCommandsConfiguration slashCommandConfig = new SlashCommandsConfiguration()
@@ -109,9 +115,15 @@ namespace Robit
 
             slashCommands.RegisterCommands<SlashCommands>();
 
+            BotClient.Logger.LogInformation(LoggerEvents.Startup, "Slash commands registered");
+
+            BotClient.Logger.LogInformation(LoggerEvents.Startup, "Interactivity setup complete");
+
             #endregion
 
             List<string> dirsMissing = FileManager.DirCheck().Result.ToList();
+
+            BotClient.Logger.LogInformation(LoggerEvents.Startup, "Checking for missing directories...");
 
             //Logging missing directories
             if (dirsMissing.Count != 0)
@@ -127,14 +139,19 @@ namespace Robit
 
                 BotClient.Logger.LogWarning(LoggerEvents.Startup, "{message}", message);
             }
+            else
+            {
+                BotClient.Logger.LogInformation(LoggerEvents.Startup, "No missing directories");
+            }
 
             BotClient.SessionCreated += BotClient_Ready;
+
+            BotClient.Logger.LogInformation(LoggerEvents.Startup, "Connecting to Discord...");
 
             //Connecting the discord client
             await BotClient.ConnectAsync();
 
             BotClient.Logger.LogInformation(LoggerEvents.Startup, "Connected");
-            BotClient.Logger.LogInformation(LoggerEvents.Startup, "Bot is now operational");
 
             BotClient.MessageCreated += Handler.Run;
 
@@ -143,6 +160,10 @@ namespace Robit
             GameManagerContainer = new GameManagerContainer();
 
             BotClient.GuildMemberAdded += GuildMemberAdded;
+
+            BotClient.Logger.LogInformation(LoggerEvents.Startup, "Bot is now operational");
+
+            BotClient.UseVoiceNext();
 
             //Prevents the task from ending
             await Task.Delay(-1);
@@ -224,6 +245,8 @@ namespace Robit
             DiscordActivity activity = new DiscordActivity(ChosenStatus, ActivityType.Custom);
 
             await sender.UpdateStatusAsync(activity);
+
+            BotClient?.Logger.LogInformation(LoggerEvents.SessionUpdate, "Updating status to {status}", ChosenStatus);
         }
 
         /// <summary>

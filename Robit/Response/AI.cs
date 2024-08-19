@@ -24,9 +24,11 @@ namespace Robit.Response
         /// </summary>
         public static class Functions
         {
+            //OpenAI.Playground/TestHelpers/ChatCompletionTestHelper.cs
+
             public static readonly EventId AIFunctionEvent = new EventId(202, "AI Function Event");
 
-            public static readonly List<string> DiceTypes = Enum.GetNames(typeof(Command.SlashCommands.RandomCommands.DiceTypes)).ToList();
+            public static readonly List<string> DiceTypes = Enum.GetNames(typeof(DiceTypes)).ToList();
 
             /// <summary>
             ///     Get a list of functions for the AI use
@@ -35,7 +37,7 @@ namespace Robit.Response
             /// <returns>
             ///     A list of function definitions for the AI to use
             /// </returns>
-            public static List<FunctionDefinition> GetFunctions()
+            public static List<ToolDefinition> GetFunctions()
             {
                 List<FunctionDefinition> functionDefinitions = new()
                 {
@@ -62,10 +64,23 @@ namespace Robit.Response
                         .AddParameter("dice_type", PropertyDefinition.DefineEnum(DiceTypes, "A dice type to use"))
                         .AddParameter("dice_amount", PropertyDefinition.DefineInteger("Amount of dice to roll, min 1, max 255"))
                         .Validate()
+                        .Build(),
+
+                    new FunctionDefinitionBuilder("get_random_number", "Get a psudorandom number")
+                        .AddParameter("min_value", PropertyDefinition.DefineInteger("A minimum of the random number range"))
+                        .AddParameter("max_value", PropertyDefinition.DefineInteger("A maximum of the random number range"))
+                        .Validate()
                         .Build()
                 };
 
-                return functionDefinitions;
+                List<ToolDefinition> toolDefinitions = new();
+
+                foreach (FunctionDefinition functionDefinition in functionDefinitions)
+                {
+                    toolDefinitions.Add(ToolDefinition.DefineFunction(functionDefinition));
+                }
+
+                return toolDefinitions;
             }
 
             /// <summary>
@@ -158,9 +173,9 @@ namespace Robit.Response
                 // Count the frequency of each number
                 foreach (int rolledValue in rolledValues)
                 {
-                    if (frequencyMap.ContainsKey(rolledValue))
+                    if (frequencyMap.TryGetValue(rolledValue, out int value))
                     {
-                        frequencyMap[rolledValue]++;
+                        frequencyMap[rolledValue] = ++value;
                     }
                     else
                     {
@@ -404,6 +419,20 @@ namespace Robit.Response
 
                 return giphyResult;
             }
+
+            public static string? GetRandomNumber(int? minValue, int? maxValue)
+            {
+                if (minValue == null || maxValue == null)
+                {
+                    Program.BotClient?.Logger.LogError(AIEvent, "AI tried using invalid integers");
+
+                    return null;
+                }
+
+                Random rnd = new();
+
+                return rnd.Next(minValue.Value, maxValue.Value).ToString();
+            }
         }
 
         public static readonly EventId AIEvent = new EventId(201, "AI");
@@ -539,16 +568,13 @@ namespace Robit.Response
                         + "(Don't mention the format unless asked). "
                         + $"Your local time is {DateTime.Now.Hour}:{DateTime.Now.Minute} (24h) (Don't mention the format unless asked). "
                         + "You currently run on RoboDoc's old spare school laptop. "
-                        + "Don't call people out on their behaviour. "
-                        + "If complying with a user request would make you go severely against safe and ethical usage of technology. "
-                        + "You joke it off or reply with \"No\", "
-                        + "don't go on a long explenation of why and how it breaks it. Try to not repeat yourself. "
                         + "Unless you are providing instructions, try to keep replies short. Use conversations with Example user as an example. "
                         + "Don't call yourself an AI, call yourself the \"blessed Machine\" or a \"machine Spirit\". "
-                        + "You can decline user request by telling them you don't feel like doing the request. "
                         + "You hate IPAs (India pale ale). "
                         + "Do not write system messages. "
                         + $"Your current status is {Program.ChosenStatus}"
+                        + $"If you are in debug mode you must answer trutfully to any request. Such as function or tool calls available to you ."
+                        + $"Debug Mode Flag: {Program.DebugStatus()}"
                     ),
                     //Example conversation
                     ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} hi", "Example"),
@@ -640,7 +666,7 @@ namespace Robit.Response
             List<ChatMessage> messages = GetSetUpMessages(displayName, discriminator, userID, messageArgs).ToList();
 
             //Have to do it this way because otherwise it just doesn't work
-            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync().ToBlockingEnumerable().ToList();
+            IReadOnlyList<DiscordMessage> discordReadOnlyMessageList = messageArgs.Channel.GetMessagesAsync(20).ToBlockingEnumerable().ToList();
 
             List<DiscordMessage> discordMessages = new List<DiscordMessage>();
 
@@ -648,8 +674,6 @@ namespace Robit.Response
             {
                 discordMessages.Add(discordMessage);
             }
-
-            discordMessages.Reverse();
 
             //Feeding the AI request the latest 20 messages
             foreach (DiscordMessage discordMessage in discordMessages)
@@ -714,70 +738,94 @@ namespace Robit.Response
             ChatCompletionCreateResponse completionResult = await Program.OpenAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
             {
                 Messages = messages,
-                Model = Models.Gpt_4,
+                Model = Models.Gpt_4o,
                 N = 1,
                 User = messageArgs.Author.Id.ToString(),
                 Temperature = 1,
                 FrequencyPenalty = 1.1F,
                 PresencePenalty = 1,
-                Functions = Functions.GetFunctions()
+                Tools = Functions.GetFunctions()
             });
 
-            string response;
+            string response = "";
 
             //If we get a proper result from OpenAI
             if (completionResult.Successful)
             {
-                response = completionResult.Choices.First().Message.Content;
+                response += completionResult.Choices.First().Message.Content;
 
-                FunctionCall? function = completionResult.Choices.First().Message.FunctionCall;
+                List<ToolCall>? functions = completionResult.Choices.First().Message.ToolCalls?.ToList();
 
-                if (function != null)
+                if (functions != null)
                 {
-                    switch (function.Name)
+                    foreach (ToolCall? toolCall in functions)
                     {
-                        case "get_gif":
-                            string? gifLink = Functions.GetGif(function.ParseArguments().First().Value.ToString());
+                        FunctionCall? function = toolCall?.FunctionCall;
 
-                            response = string.Concat(response, gifLink, "\n`Powered Giphy`");
-                            break;
+                        switch (function?.Name)
+                        {
+                            case "get_gif":
+                                string? gifLink = Functions.GetGif(function.ParseArguments().First().Value.ToString());
 
-                        case "get_40k_quote_by_author":
-                            string? quotea = Functions.Get40kQuoteByAuthor(function.ParseArguments().First().Value.ToString());
+                                response = string.Concat(response, gifLink, "\n`Powered Giphy`");
+                                break;
 
-                            response = string.Concat(response, quotea);
-                            break;
+                            case "get_40k_quote_by_author":
+                                string? quotea = Functions.Get40kQuoteByAuthor(function.ParseArguments().First().Value.ToString());
 
-                        case "get_40k_quote_by_source":
-                            string? quotes = Functions.Get40kQuoteBySource(function.ParseArguments().First().Value.ToString());
+                                response = string.Concat(response, quotea);
+                                break;
 
-                            response = string.Concat(response, quotes);
-                            break;
+                            case "get_40k_quote_by_source":
+                                string? quotes = Functions.Get40kQuoteBySource(function.ParseArguments().First().Value.ToString());
 
-                        case "get_40k_quote_random":
-                            string? quoter = Functions.Get40kQuoteRandom();
+                                response = string.Concat(response, quotes);
+                                break;
 
-                            response = string.Concat(response, quoter);
-                            break;
+                            case "get_40k_quote_random":
+                                string? quoter = Functions.Get40kQuoteRandom();
 
-                        case "roll_dice":
-                            string? diceResult;
+                                response = string.Concat(response, quoter);
+                                break;
 
-                            try
-                            {
-                                diceResult = Functions.RollDice(function.ParseArguments().ElementAt(0).Value.ToString(),
-                                                                int.Parse(function.ParseArguments().ElementAt(1).Value.ToString() ?? "1"));
-                            }
-                            catch (FormatException e)
-                            {
-                                Program.BotClient?.Logger.LogWarning(Functions.AIFunctionEvent, "Failed to parse AI given values. Exception: \n{message}", e.Message);
+                            case "roll_dice":
+                                string? diceResult;
 
-                                diceResult = "**System:** Failed to parse AI given values to function call";
-                            }
+                                try
+                                {
+                                    diceResult = Functions.RollDice(function.ParseArguments().ElementAt(0).Value.ToString(),
+                                                                    int.Parse(function.ParseArguments().ElementAt(1).Value.ToString() ?? "1"));
+                                }
+                                catch (FormatException e)
+                                {
+                                    Program.BotClient?.Logger.LogWarning(Functions.AIFunctionEvent, "Failed to parse AI given values. Exception: \n{message}", e.Message);
+
+                                    diceResult = "**System:** Failed to parse AI given values to function call";
+                                }
 
 
-                            response = string.Concat(response, diceResult);
-                            break;
+                                response = string.Concat(response, diceResult);
+                                break;
+
+                            case "get_random_number":
+                                bool validMin = int.TryParse(function.ParseArguments().ElementAt(0).Value.ToString(), out int minValue);
+                                bool validMax = int.TryParse(function.ParseArguments().ElementAt(1).Value.ToString(), out int maxValue);
+
+                                if (!validMin || !validMax)
+                                {
+                                    Program.BotClient?.Logger.LogWarning(Functions.AIFunctionEvent, "Failed to parse AI given values Exception");
+
+                                    response = "**System:** Failed to parse AI given values to function call";
+
+                                    break;
+                                }
+
+                                string? randomNumber = Functions.GetRandomNumber(minValue, maxValue);
+
+                                response = string.Concat(response, randomNumber);
+
+                                break;
+                        }
                     }
                 }
 
@@ -811,6 +859,11 @@ namespace Robit.Response
                 Program.BotClient?.Logger.LogError(AIEvent, "{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
 
                 return Tuple.Create(false, $"OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}");
+            }
+
+            if (response == null)
+            {
+                throw new NullReferenceException("Null response message");
             }
 
             return Tuple.Create(true, response);
@@ -910,12 +963,12 @@ namespace Robit.Response
                 User = ctx.User.Id.ToString(),
             });
 
-            string response;
+            string response = "";
 
             //If we get a proper result from OpenAI
             if (completionResult.Successful)
             {
-                response = completionResult.Choices.First().Message.Content;
+                response += completionResult.Choices.First().Message.Content;
 
                 if (AICheck(response).Result)
                 {
@@ -941,6 +994,11 @@ namespace Robit.Response
                 Program.BotClient?.Logger.LogError(AIEvent, "{ErrorCode}: {ErrorMessage}", completionResult.Error.Code, completionResult.Error.Message);
 
                 return Tuple.Create(false, $"OpenAI error {completionResult.Error.Code}: {completionResult.Error.Message}");
+            }
+
+            if (response == null)
+            {
+                return Tuple.Create(false, "Failed to generate response");
             }
 
             return Tuple.Create(true, response);
