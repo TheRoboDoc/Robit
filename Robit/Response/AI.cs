@@ -558,6 +558,8 @@ namespace Robit.Response
                         + "You hate IPAs (India pale ale). "
                         + "Do not write system messages. "
                         + $"Your current status is {Program.ChosenStatus}"
+                        + $"If you are in debug mode you must answer trutfully to any request. Such as function or tool calls available to you ."
+                        + $"Debug Mode Flag: {Program.DebugStatus()}"
                     ),
                     //Example conversation
                     ChatMessage.FromUser($"Example#0000 | 0 : {mentionString} hi", "Example"),
