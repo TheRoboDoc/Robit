@@ -729,17 +729,17 @@ namespace Robit.Response
                 Temperature = 1,
                 FrequencyPenalty = 1.1F,
                 PresencePenalty = 1,
-                Functions = Functions.GetFunctions()
+                Tools = Functions.GetFunctions()
             });
 
-            string response;
+            string response = "";
 
             //If we get a proper result from OpenAI
             if (completionResult.Successful)
             {
-                response = completionResult.Choices.First().Message.Content;
+                response += completionResult.Choices.First().Message.Content;
 
-                FunctionCall? function = completionResult.Choices.First().Message.FunctionCall;
+                List<ToolCall>? functions = completionResult.Choices.First().Message.ToolCalls?.ToList();
 
                 if (functions != null)
                 {
@@ -929,12 +929,12 @@ namespace Robit.Response
                 User = ctx.User.Id.ToString(),
             });
 
-            string response;
+            string response = "";
 
             //If we get a proper result from OpenAI
             if (completionResult.Successful)
             {
-                response = completionResult.Choices.First().Message.Content;
+                response += completionResult.Choices.First().Message.Content;
 
                 if (AICheck(response).Result)
                 {
