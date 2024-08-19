@@ -46,7 +46,7 @@ namespace Robit.Response
                 Program.BotClient?.Logger.LogDebug("{message}", messageArgs.Message.Content.Length.ToString());
                 Program.BotClient?.Logger.LogDebug("{message}", ($"{Program.BotClient?.CurrentUser.Mention} {trigger}".Length + 5).ToString());
 
-                if (messageArgs.Message.Content.Contains(trigger) &&
+                if (messageArgs.Message.Content.ToLower().Contains(trigger) &&
                     messageArgs.Message.Content.Length <= $"{Program.BotClient?.CurrentUser.Mention} {trigger}".Length + 5 &&
                     await CheckBotMention(messageArgs))
                 {
