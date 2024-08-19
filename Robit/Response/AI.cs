@@ -721,7 +721,7 @@ namespace Robit.Response
             ChatCompletionCreateResponse completionResult = await Program.OpenAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
             {
                 Messages = messages,
-                Model = Models.Gpt_4,
+                Model = Models.Gpt_4o,
                 N = 1,
                 User = messageArgs.Author.Id.ToString(),
                 Temperature = 1,
