@@ -28,7 +28,7 @@ namespace Robit.Response
 
             public static readonly EventId AIFunctionEvent = new EventId(202, "AI Function Event");
 
-            public static readonly List<string> DiceTypes = Enum.GetNames(typeof(Command.SlashCommands.RandomCommands.DiceTypes)).ToList();
+            public static readonly List<string> DiceTypes = Enum.GetNames(typeof(DiceTypes)).ToList();
 
             /// <summary>
             ///     Get a list of functions for the AI use
@@ -63,6 +63,12 @@ namespace Robit.Response
                     new FunctionDefinitionBuilder("roll_dice", "Rolls a set of dice")
                         .AddParameter("dice_type", PropertyDefinition.DefineEnum(DiceTypes, "A dice type to use"))
                         .AddParameter("dice_amount", PropertyDefinition.DefineInteger("Amount of dice to roll, min 1, max 255"))
+                        .Validate()
+                        .Build(),
+
+                    new FunctionDefinitionBuilder("get_random_number", "Get a psudorandom number")
+                        .AddParameter("min_value", PropertyDefinition.DefineInteger("A minimum of the random number range"))
+                        .AddParameter("max_value", PropertyDefinition.DefineInteger("A maximum of the random number range"))
                         .Validate()
                         .Build()
                 };
@@ -412,6 +418,20 @@ namespace Robit.Response
                 string? giphyResult = Program.GiphyClient.GifSearch(searchParameter)?.Result?.Data?[0].Url;
 
                 return giphyResult;
+            }
+
+            public static string? GetRandomNumber(int? minValue, int? maxValue)
+            {
+                if (minValue == null || maxValue == null)
+                {
+                    Program.BotClient?.Logger.LogError(AIEvent, "AI tried using invalid integers");
+
+                    return null;
+                }
+
+                Random rnd = new();
+
+                return rnd.Next(minValue.Value, maxValue.Value).ToString();
             }
         }
 
@@ -785,6 +805,25 @@ namespace Robit.Response
 
 
                                 response = string.Concat(response, diceResult);
+                                break;
+
+                            case "get_random_number":
+                                bool validMin = int.TryParse(function.ParseArguments().ElementAt(0).Value.ToString(), out int minValue);
+                                bool validMax = int.TryParse(function.ParseArguments().ElementAt(1).Value.ToString(), out int maxValue);
+
+                                if (!validMin || !validMax)
+                                {
+                                    Program.BotClient?.Logger.LogWarning(Functions.AIFunctionEvent, "Failed to parse AI given values Exception");
+
+                                    response = "**System:** Failed to parse AI given values to function call";
+
+                                    break;
+                                }
+
+                                string? randomNumber = Functions.GetRandomNumber(minValue, maxValue);
+
+                                response = string.Concat(response, randomNumber);
+
                                 break;
                         }
                     }
